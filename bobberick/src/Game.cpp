@@ -4,6 +4,7 @@
 #include "services/RenderService.h"
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
+#include "entity/systems/DrawSystem.h"
 
 bool Game::running()
 {
@@ -36,6 +37,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     serviceManager->addService<TextureManager>();
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
+    drawSystem = new DrawSystem(serviceManager->getService<EntityManager>());
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
         window = SDL_CreateWindow(title, xPos, yPos, height, width, false);
@@ -62,6 +64,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     auto& player = entityManager.addEntity();
     player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
+    auto& enemy = entityManager.addEntity();
 
     isRunning = true;
     gameWidth = width;
@@ -74,7 +77,7 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
 
-    ServiceManager::Instance()->getService<EntityManager>().render();
+    drawSystem->update();
 
     SDL_RenderPresent(renderer);
 }

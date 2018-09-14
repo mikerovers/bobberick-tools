@@ -4,6 +4,11 @@
 
 #include "EntityManager.h"
 
+void EntityManager::init()
+{
+
+}
+
 void EntityManager::update()
 {
     for (auto& entity : entities) {
@@ -20,7 +25,7 @@ void EntityManager::render()
 
 void EntityManager::refresh()
 {
-    entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::unique_ptr<Entity> &mEntity) {
+    entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::shared_ptr<Entity> &mEntity) {
         return !mEntity->isActive();
     }),
         std::end(entities)
@@ -34,9 +39,4 @@ Entity &EntityManager::addEntity()
     entities.emplace_back(std::move(uPtr));
 
     return *e;
-}
-
-void EntityManager::init()
-{
-
 }

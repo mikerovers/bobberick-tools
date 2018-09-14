@@ -4,6 +4,7 @@
 #include "SDL2/SDL.h"
 #include "StateMachine.h"
 #include "services/ServiceManager.h"
+#include "entity/systems/DrawSystem.h"
 
 class Game
 {
@@ -32,6 +33,7 @@ private:
     bool isRunning;
 
     StateMachine* stateMachine;
+    DrawSystem* drawSystem;
 };
 
 

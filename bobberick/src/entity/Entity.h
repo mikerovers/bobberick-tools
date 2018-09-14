@@ -40,7 +40,7 @@ public:
 
 private:
     bool active = true;
-    std::vector<std::unique_ptr<Component>> components;
+    std::vector<std::shared_ptr<Component>> components;
 
     ComponentArray componentArray;
     ComponentBitSet componentBitSet;
