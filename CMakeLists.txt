@@ -11,4 +11,5 @@ if ( "${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG" )
     add_definitions(-D_DEBUG)
 endif()
 
-add_subdirectory(bobberick)
+add_subdirectory(bobberick-framework)
+add_subdirectory(bobberick-demo)
