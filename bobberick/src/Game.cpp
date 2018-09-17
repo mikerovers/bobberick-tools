@@ -65,6 +65,10 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
     auto& enemy = entityManager.addEntity();
+    enemy.addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
+
+    SDL_SetWindowInputFocus(window);
+    SDL_RaiseWindow(window);
 
     isRunning = true;
     gameWidth = width;

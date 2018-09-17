@@ -9,20 +9,6 @@ void EntityManager::init()
 
 }
 
-void EntityManager::update()
-{
-    for (auto& entity : entities) {
-        entity->update();
-    }
-}
-
-void EntityManager::render()
-{
-    for (auto& entity : entities) {
-        entity->render();
-    }
-}
-
 void EntityManager::refresh()
 {
     entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::shared_ptr<Entity> &mEntity) {

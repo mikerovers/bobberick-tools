@@ -6,8 +6,6 @@
 class Entity
 {
 public:
-    void update();
-    void render();
     bool isActive() const;
     void destroy();
 
