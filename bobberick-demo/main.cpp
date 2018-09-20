@@ -1,12 +1,12 @@
 #include <iostream>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "../bobberick-framework/src/Game.h"
 
 Game* game = 0;
 const int FPS = 60;
 const int DELAY_TIME = 1000.0f / FPS;
 
-int main()
+int main(int argc, char **argv)
 {
     Uint32 frameStart, frameTime;
 
