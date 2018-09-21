@@ -1,7 +1,7 @@
 #ifndef BOBBERICK_TOOLS_GAME_H
 #define BOBBERICK_TOOLS_GAME_H
 
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #include "StateMachine.h"
 #include "services/ServiceManager.h"
 #include "entity/systems/DrawSystem.h"

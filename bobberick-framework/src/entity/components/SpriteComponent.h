@@ -1,7 +1,7 @@
 #ifndef BOBBERICK_TOOLS_SPRITECOMPONENT_H
 #define BOBBERICK_TOOLS_SPRITECOMPONENT_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <string>
 #include "../Component.h"
 #include "TransformComponent.h"
