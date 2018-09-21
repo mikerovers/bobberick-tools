@@ -23,6 +23,7 @@ int main(int argc, char **argv) {
             frameTime = SDL_GetTicks() - frameStart;
 
             if (frameTime < DELAY_TIME) {
+                // todo: move this to game engine
                 SDL_Delay(static_cast<Uint32>(DELAY_TIME - frameTime));
             }
         }
