@@ -1,10 +1,9 @@
 #include <iostream>
-#include <SDL.h>
 #include "../bobberick-framework/src/Game.h"
 
-Game* game = 0;
+Game* game = nullptr;
 const int FPS = 60;
-const int DELAY_TIME = 1000.0f / FPS;
+float DELAY_TIME = 1000.0f / FPS;
 
 int main(int argc, char **argv)
 {
@@ -22,12 +21,11 @@ int main(int argc, char **argv)
             frameTime = SDL_GetTicks() - frameStart;
 
             if (frameTime < DELAY_TIME) {
-                SDL_Delay((int) (DELAY_TIME - frameTime));
+                SDL_Delay(static_cast<Uint32>((int) (DELAY_TIME - frameTime)));
             }
         }
     } else {
         std::cout << "game init failure - " << SDL_GetError() << " :( \n";
-
         return 1;
     }
 
