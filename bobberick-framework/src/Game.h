@@ -5,6 +5,7 @@
 #include "StateMachine.h"
 #include "services/ServiceManager.h"
 #include "entity/systems/DrawSystem.h"
+#include "util/SDL_Deleter.h"
 
 class Game
 {
@@ -23,8 +24,8 @@ public:
     int getGameHeight() const;
 
 private:
-    std::shared_ptr<SDL_Window> window;
-    std::shared_ptr<SDL_Renderer> renderer;
+    SDL_WindowPointer window;
+    SDL_RendererPointer renderer;
 
     int gameHeight;
     int gameWidth;
