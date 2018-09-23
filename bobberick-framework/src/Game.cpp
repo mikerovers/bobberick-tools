@@ -35,7 +35,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
-        window = SDL_WindowPointer(SDL_CreateWindow("Bobberick The Knight", xPos, yPos, width, height, flags));
+        window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
         if (window != nullptr) {
             serviceManager->getService<RenderService>().createRenderer(window);
