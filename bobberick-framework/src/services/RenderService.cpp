@@ -1,6 +1,6 @@
 #include "RenderService.h"
 
-SDL_Renderer *RenderService::getRenderer()
+std::shared_ptr<SDL_Renderer> RenderService::getRenderer()
 {
     return renderer;
 }
@@ -9,9 +9,9 @@ void RenderService::init()
 {
 }
 
-bool RenderService::createRenderer(SDL_Window* window)
+bool RenderService::createRenderer(std::shared_ptr<SDL_Window> window)
 {
-    renderer = SDL_CreateRenderer(window, -1, 0);
+    renderer = std::shared_ptr<SDL_Renderer>(SDL_CreateRenderer(window.get(), -1, 0), SDL_DestroyRenderer);
 
     return renderer != nullptr;
 }

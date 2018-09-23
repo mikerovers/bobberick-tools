@@ -17,23 +17,23 @@ public:
 
     bool running();
 
-    StateMachine* getStateMachine();
-    SDL_Renderer* getRenderer() const;
+    std::shared_ptr<StateMachine> getStateMachine();
 
     int getGameWidth() const;
     int getGameHeight() const;
 
 private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+    std::shared_ptr<SDL_Window> window;
+    std::shared_ptr<SDL_Renderer> renderer;
 
     int gameHeight;
     int gameWidth;
 
     bool isRunning;
 
-    StateMachine* stateMachine;
-    DrawSystem* drawSystem;
+    std::shared_ptr<StateMachine> stateMachine;
+    //TODO Make a interface for system registring. Maybe in the statemachine?
+    std::shared_ptr<DrawSystem> drawSystem;
 };
 
 

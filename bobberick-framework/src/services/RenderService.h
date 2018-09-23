@@ -3,6 +3,7 @@
 
 
 #include <SDL_system.h>
+#include <memory>
 #include "Service.h"
 
 class RenderService : public Service
@@ -11,9 +12,9 @@ public:
     RenderService();
 
     void init() override;
-    bool createRenderer(SDL_Window* window);
-    SDL_Renderer* getRenderer();
-    SDL_Renderer* renderer;
+    bool createRenderer(std::shared_ptr<SDL_Window> window);
+    std::shared_ptr<SDL_Renderer> getRenderer();
+    std::shared_ptr<SDL_Renderer> renderer;
 private:
 };
 

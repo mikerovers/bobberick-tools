@@ -11,8 +11,8 @@ class TextureManager : public Service
 {
 public:
     void init() override;
-    bool load(const char* fileName, std::string id, SDL_Renderer* renderer);
-    void draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, SDL_Renderer* renderer);
+    bool load(const char* fileName, std::string id, std::shared_ptr<SDL_Renderer> renderer);
+    void draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer);
 
     void clearTexture(std::string id);
 private:

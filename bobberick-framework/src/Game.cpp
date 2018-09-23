@@ -11,14 +11,9 @@ bool Game::running()
     return isRunning;
 }
 
-StateMachine *Game::getStateMachine()
+std::shared_ptr<StateMachine> Game::getStateMachine()
 {
     return stateMachine;
-}
-
-SDL_Renderer *Game::getRenderer() const
-{
-    return renderer;
 }
 
 int Game::getGameWidth() const
@@ -37,17 +32,17 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     serviceManager->addService<TextureManager>();
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
-    drawSystem = new DrawSystem(serviceManager->getService<EntityManager>());
+    drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
-        window = SDL_CreateWindow(title, xPos, yPos, height, width, false);
+        window = std::shared_ptr<SDL_Window>(SDL_CreateWindow(title, xPos, yPos, height, width, false), SDL_DestroyWindow);
 
         if (window != nullptr) {
             serviceManager->getService<RenderService>().createRenderer(window);
             renderer = serviceManager->getService<RenderService>().getRenderer();
 
             if (renderer != nullptr) {
-                SDL_SetRenderDrawColor(renderer, 75, 75, 255, 255);
+                SDL_SetRenderDrawColor(renderer.get(), 75, 75, 255, 255);
             } else {
                 return false;
             }
@@ -58,7 +53,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
         return false;
     }
 
-    stateMachine = new StateMachine();
+    stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
 
     auto& entityManager = serviceManager->getService<EntityManager>();
     auto& player = entityManager.addEntity();
@@ -67,8 +62,8 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     auto& enemy = entityManager.addEntity();
     enemy.addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
 
-    SDL_SetWindowInputFocus(window);
-    SDL_RaiseWindow(window);
+    SDL_SetWindowInputFocus(window.get());
+    SDL_RaiseWindow(window.get());
 
     isRunning = true;
     gameWidth = width;
@@ -79,17 +74,15 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
 void Game::render()
 {
-    SDL_RenderClear(renderer);
+    SDL_RenderClear(renderer.get());
 
     drawSystem->update();
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(renderer.get());
 }
 
 void Game::clean()
 {
-    SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(renderer);
     SDL_Quit();
 }
 
