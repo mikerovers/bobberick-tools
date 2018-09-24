@@ -46,3 +46,8 @@ SCENARIO( "vectors can be sized and resized", "[vector]" ) {
         }
     }
 }
+
+TEST_CASE( "Life, the universe and everything", "[42][theAnswer]" ) {
+    int theAnswer = 42;
+    REQUIRE( theAnswer == 42 );
+}
