@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "services/Service.h"
+#include "util/SDL_Deleter.h"
 #include <map>
 
 class TextureManager : public Service
@@ -16,7 +17,7 @@ public:
 
     void clearTexture(std::string id);
 private:
-    std::map<std::string, SDL_Texture*> textures;
+    std::map<std::string, SDL_TexturePointer> textures;
 };
 
 

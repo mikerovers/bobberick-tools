@@ -5,6 +5,7 @@
 #include <SDL_system.h>
 #include <memory>
 #include "Service.h"
+#include "../util/SDL_Deleter.h"
 
 class RenderService : public Service
 {
@@ -13,8 +14,8 @@ public:
 
     void init() override;
     bool createRenderer(std::shared_ptr<SDL_Window> window);
-    std::shared_ptr<SDL_Renderer> getRenderer();
-    std::shared_ptr<SDL_Renderer> renderer;
+    SDL_RendererPointer getRenderer();
+    SDL_RendererPointer renderer;
 private:
 };
 
