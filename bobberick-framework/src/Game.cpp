@@ -6,6 +6,11 @@
 #include "entity/components/SpriteComponent.h"
 #include "entity/systems/DrawSystem.h"
 
+Game::Game(): frameHandler(new FrameHandler(60))
+{
+
+}
+
 bool Game::running()
 {
     return isRunning;
@@ -74,11 +79,13 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
 void Game::render()
 {
+    frameHandler->updateTicks();
+
     SDL_RenderClear(renderer.get());
-
     drawSystem->update();
-
     SDL_RenderPresent(renderer.get());
+
+    frameHandler->handleFrame();
 }
 
 void Game::clean()
