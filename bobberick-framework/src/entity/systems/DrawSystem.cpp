@@ -1,6 +1,8 @@
 #include "DrawSystem.h"
 #include "../components/SpriteComponent.h"
+#include "../components/TextComponent.h"
 #include "../../TextureManager.h"
+#include "../../FontManager.h"
 #include "../../services/ServiceManager.h"
 
 DrawSystem::DrawSystem(EntityManager &entityManager) : System(entityManager)
@@ -15,4 +17,11 @@ void DrawSystem::update()
 
         spr.render();
     }
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
+		auto& tx = ServiceManager::Instance()->getService<FontManager>();
+		auto & spr = entity->getComponent<TextComponent>();
+
+		spr.render();
+	}
 }
