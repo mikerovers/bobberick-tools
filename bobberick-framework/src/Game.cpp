@@ -38,7 +38,6 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
-		IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 		TTF_Init();
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
