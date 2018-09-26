@@ -1,4 +1,6 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/bobberick-framework/cmake/modules/")
+enable_testing()
+add_subdirectory(tests)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
