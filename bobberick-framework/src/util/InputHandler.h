@@ -25,7 +25,7 @@
 #include "Vector2D.h"
 #include <stdio.h>
 #include <vector>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 enum mouse_buttons
 {
     LEFT = 0,
