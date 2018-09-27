@@ -16,6 +16,8 @@ enum sound_type
 class SoundManager : public Service
 {
 public:
+	void init() override;
+
 	static SoundManager* Instance()
 	{
 		if (s_pInstance == 0)
@@ -31,14 +33,14 @@ public:
 	void playSound(std::string id, int loop);
 	void playMusic(std::string id, int loop);
 
+	SoundManager();
+	~SoundManager();
+
 private:
 	static SoundManager* s_pInstance;
 
 	std::map<std::string, Mix_Chunk*> m_sfxs;
 	std::map<std::string, Mix_Music*> m_music;
-
-	SoundManager();
-	~SoundManager();
 
 	SoundManager(const SoundManager&);
 	SoundManager &operator=(const SoundManager&);

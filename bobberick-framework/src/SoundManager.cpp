@@ -51,6 +51,11 @@ void SoundManager::playSound(std::string id, int loop)
 	Mix_PlayChannel(-1, m_sfxs[id], loop);
 }
 
+void SoundManager::init()
+{
+
+}
+
 SoundManager::~SoundManager()
 {
 	Mix_CloseAudio();
