@@ -6,10 +6,12 @@
 #include "services/ServiceManager.h"
 #include "entity/systems/DrawSystem.h"
 #include "util/SDL_Deleter.h"
+#include "util/FrameHandler.h"
 
 class Game
 {
 public:
+    Game();
     bool init(const char* title, int xPos, int yPos, int height, int width, int flags);
     void render();
     void handleEvents();
@@ -33,6 +35,7 @@ private:
     bool isRunning;
 
     std::shared_ptr<StateMachine> stateMachine;
+    std::shared_ptr<FrameHandler> frameHandler;
     //TODO Make a interface for system registring. Maybe in the statemachine?
     std::shared_ptr<DrawSystem> drawSystem;
 };
