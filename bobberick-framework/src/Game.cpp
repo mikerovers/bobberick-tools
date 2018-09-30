@@ -5,6 +5,7 @@
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
 #include "entity/systems/DrawSystem.h"
+#include "SoundManager.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
 {
@@ -38,6 +39,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
     drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
+	serviceManager->addService<SoundManager>();
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
@@ -66,6 +68,12 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
     auto& enemy = entityManager.addEntity();
     enemy.addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
+	auto& soundManager = serviceManager->getService<SoundManager>();
+
+	soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
+	soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
+	soundManager.playMusic("testMusic", 0);
+	soundManager.playSound("testSound", 1);
 
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
