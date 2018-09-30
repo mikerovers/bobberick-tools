@@ -3,6 +3,7 @@
 
 
 #include "Entity.h"
+#include "SDL.h"
 #include "../services/Service.h"
 
 class EntityManager : public Service {
@@ -26,7 +27,8 @@ public:
         return temp;
     }
 
-    Entity& addEntity();
+    std::shared_ptr<Entity> addEntity();
+    bool removeEntity(std::shared_ptr<Entity> entity);
 private:
     std::vector<std::shared_ptr<Entity>> entities;
 };
