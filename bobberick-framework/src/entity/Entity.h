@@ -19,6 +19,14 @@ public:
         T *c(new T(std::forward<TArgs>(mArgs)...));
         c->entity = this;
         std::unique_ptr<Component> uPtr{c};
+
+        if (components.size() < getComponentTypeID<T>()) {
+            unsigned int difference = getComponentTypeID<T>() - components.size();
+            for (int i = 0 ; i < difference; i++) {
+                components.push_back(nullptr);
+            }
+        }
+
         components.emplace_back(std::move(uPtr));
 
         componentArray[getComponentTypeID<T>()] = c;
@@ -28,6 +36,15 @@ public:
 
         return *c;
     }
+
+    template <typename T> bool removeComponent()
+    {
+        auto typeID = getComponentTypeID<T>();
+        components[getComponentTypeID<T>()] = nullptr;
+        componentBitSet[typeID] = false;
+
+        return true;
+    };
 
     template <typename T> T& getComponent() const
     {
