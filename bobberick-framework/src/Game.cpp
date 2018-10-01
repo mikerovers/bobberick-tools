@@ -1,9 +1,11 @@
 #include "Game.h"
 #include "TextureManager.h"
+#include "FontManager.h"
 #include "entity/EntityManager.h"
 #include "services/RenderService.h"
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
+#include "entity/components/TextComponent.h"
 #include "entity/systems/DrawSystem.h"
 #include "SoundManager.h"
 
@@ -36,12 +38,14 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 {
     ServiceManager* serviceManager = ServiceManager::Instance();
     serviceManager->addService<TextureManager>();
+	serviceManager->addService<FontManager>();
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
     drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
+		TTF_Init();
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
         if (window != nullptr) {
@@ -66,6 +70,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     auto& player = entityManager.addEntity();
     player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
+	player.addComponent<TextComponent>("assets/font.ttf", "font", "text", 100);
     auto& enemy = entityManager.addEntity();
     enemy.addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
 	auto& soundManager = serviceManager->getService<SoundManager>();
