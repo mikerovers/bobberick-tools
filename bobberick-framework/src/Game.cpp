@@ -6,20 +6,21 @@
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
 #include "entity/systems/DrawSystem.h"
+#include "SoundManager.h"
+
+Game::Game(): frameHandler(new FrameHandler(60))
+{
+
+}
 
 bool Game::running()
 {
     return isRunning;
 }
 
-StateMachine *Game::getStateMachine()
+std::shared_ptr<StateMachine> Game::getStateMachine()
 {
     return stateMachine;
-}
-
-SDL_Renderer *Game::getRenderer() const
-{
-    return renderer;
 }
 
 int Game::getGameWidth() const
@@ -40,19 +41,22 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
 	serviceManager->addService<InputHandler>();
-    drawSystem = new DrawSystem(serviceManager->getService<EntityManager>());
+
+    drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
+	serviceManager->addService<SoundManager>();
+
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
-        window = SDL_CreateWindow(title, xPos, yPos, height, width, false);
+        window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
         if (window != nullptr) {
             serviceManager->getService<RenderService>().createRenderer(window);
             renderer = serviceManager->getService<RenderService>().getRenderer();
 
             if (renderer != nullptr) {
-                SDL_SetRenderDrawColor(renderer, 75, 75, 255, 255);
+                SDL_SetRenderDrawColor(renderer.get(), 75, 75, 255, 255);
             } else {
                 return false;
             }
@@ -63,7 +67,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
         return false;
     }
 
-    stateMachine = new StateMachine();
+    stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
 
     auto& entityManager = serviceManager->getService<EntityManager>();
     auto& player = entityManager.addEntity();
@@ -71,9 +75,15 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
     auto& enemy = entityManager.addEntity();
     enemy.addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
+	auto& soundManager = serviceManager->getService<SoundManager>();
 
-    SDL_SetWindowInputFocus(window);
-    SDL_RaiseWindow(window);
+	soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
+	soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
+	soundManager.playMusic("testMusic", 0);
+	soundManager.playSound("testSound", 1);
+
+    SDL_SetWindowInputFocus(window.get());
+    SDL_RaiseWindow(window.get());
 
     isRunning = true;
     gameWidth = width;
@@ -84,19 +94,21 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
 void Game::render()
 {
-    SDL_RenderClear(renderer);
-
+    frameHandler->updateTicks();
+	
 	ServiceManager::Instance()->getService<InputHandler>().update();
 
+    SDL_RenderClear(renderer.get());
     drawSystem->update();
+    SDL_RenderPresent(renderer.get());
 
-    SDL_RenderPresent(renderer);
-
+    frameHandler->handleFrame();
 }
 
 void Game::clean()
 {
 	ServiceManager::Instance()->getService<InputHandler>().clean();
+    SDL_Quit();
 }
 
 void Game::update()

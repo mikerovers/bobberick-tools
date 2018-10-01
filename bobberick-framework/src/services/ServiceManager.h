@@ -39,7 +39,7 @@ public:
     template <typename T, typename ... TArgs> T& addService(TArgs&&... mArgs)
     {
         T* s(new T(std::forward<TArgs>(mArgs)...));
-        std::unique_ptr<Service> uPtr{ s };
+        std::shared_ptr<Service> uPtr{ s };
         services.emplace_back(std::move(uPtr));
 
         serviceArray[getServiceTypeID<T>()] = s;
@@ -62,7 +62,7 @@ public:
 private:
     static ServiceManager* instance;
 
-    std::vector<std::unique_ptr<Service>> services;
+    std::vector<std::shared_ptr<Service>> services;
 
     ServiceArray serviceArray;
     ServiceBitSet serviceBitSet;
