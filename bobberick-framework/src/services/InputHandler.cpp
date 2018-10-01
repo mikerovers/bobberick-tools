@@ -214,7 +214,6 @@ void InputHandler::onJoyAxisMotion(SDL_Event & event) {
 	// left stick move left or right
 	if (event.jaxis.axis == 0)
 	{
-		std::cout << "moved left joystick";
 		if (event.jaxis.value > m_joystickDeadZone)
 		{
 			m_joystickValues[whichOne].first->setX(1);
@@ -231,7 +230,6 @@ void InputHandler::onJoyAxisMotion(SDL_Event & event) {
 	// left stick move up or down
 	if (event.jaxis.axis == 1)
 	{
-		std::cout << "moved left joystick";
 		if (event.jaxis.value > m_joystickDeadZone)
 		{
 			m_joystickValues[whichOne].first->setY(1);
@@ -248,7 +246,6 @@ void InputHandler::onJoyAxisMotion(SDL_Event & event) {
 	// right stick move left or right
 	if (event.jaxis.axis == 3)
 	{
-		std::cout << "moved right joystick";
 		if (event.jaxis.value > m_joystickDeadZone)
 		{
 			m_joystickValues[whichOne].second->setX(1);
@@ -265,7 +262,6 @@ void InputHandler::onJoyAxisMotion(SDL_Event & event) {
 	// right stick move up or down
 	if (event.jaxis.axis == 4)
 	{
-		std::cout << "moved right joystick";
 		if (event.jaxis.value > m_joystickDeadZone)
 		{
 			m_joystickValues[whichOne].second->setY(1);
@@ -279,7 +275,6 @@ void InputHandler::onJoyAxisMotion(SDL_Event & event) {
 			m_joystickValues[whichOne].second->setY(0);
 		}
 	}
-
 }
 
 void InputHandler::clean()

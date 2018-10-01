@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "entity/EntityManager.h"
+#include "services/InputHandler.h"
 #include "services/RenderService.h"
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
@@ -33,11 +34,15 @@ int Game::getGameHeight() const
 
 bool Game::init(const char *title, int xPos, int yPos, int height, int width, int flags)
 {
+	// TheInputHandler::Instance()->initialiseJoysticks();
     ServiceManager* serviceManager = ServiceManager::Instance();
     serviceManager->addService<TextureManager>();
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
+	serviceManager->addService<InputHandler>();
     drawSystem = new DrawSystem(serviceManager->getService<EntityManager>());
+
+	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
         window = SDL_CreateWindow(title, xPos, yPos, height, width, false);
@@ -81,14 +86,17 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
 
+	ServiceManager::Instance()->getService<InputHandler>().update();
+
     drawSystem->update();
 
     SDL_RenderPresent(renderer);
+
 }
 
 void Game::clean()
 {
-
+	ServiceManager::Instance()->getService<InputHandler>().clean();
 }
 
 void Game::update()
@@ -98,5 +106,5 @@ void Game::update()
 
 void Game::handleEvents()
 {
-
+	ServiceManager::Instance()->getService<InputHandler>().update();
 }
