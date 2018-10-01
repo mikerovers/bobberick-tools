@@ -8,11 +8,15 @@
 #include "util/SDL_Deleter.h"
 #include <map>
 
-class FontManager : public TextureManager
+class FontManager : public Service
 {
 public:
+	void init() override;
     bool load(const char* fileName, std::string id, const char* text, int size, std::shared_ptr<SDL_Renderer> renderer);
-	bool load(const char* fileName, std::string id, std::shared_ptr<SDL_Renderer> renderer) override;
+	void draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer);
+	void clearTexture(std::string id);
+protected:
+	std::map<std::string, SDL_TexturePointer> textures;
 };
 
 

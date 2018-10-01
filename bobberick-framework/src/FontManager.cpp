@@ -2,6 +2,12 @@
 
 #include "FontManager.h"
 
+void FontManager::clearTexture(std::string id)
+{
+	//TODO Does this work with RAII object?
+	textures.erase(id);
+}
+
 bool FontManager::load(const char* fileName, std::string id, const char* text, int size, std::shared_ptr<SDL_Renderer> renderer)
 {
 	TTF_Font* font = TTF_OpenFont(fileName, size);
@@ -30,7 +36,12 @@ bool FontManager::load(const char* fileName, std::string id, const char* text, i
     return false;
 }
 
-bool FontManager::load(const char* fileName, std::string id, std::shared_ptr<SDL_Renderer> renderer)
+void FontManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer)
 {
-	return false;
+	SDL_RenderCopyEx(renderer.get(), textures[id].get(), sourceRect, destinationRect, 0, nullptr, SDL_FLIP_NONE);
+}
+
+void FontManager::init()
+{
+
 }
