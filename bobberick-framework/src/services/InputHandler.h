@@ -28,9 +28,9 @@ public:
     void onMouseButtonDown(SDL_Event & event);
     void onMouseMove(SDL_Event & event);
     void onMouseButtonUp(SDL_Event & event);
-	void InputHandler::onJoyButtonDown(SDL_Event & event);
-	void InputHandler::onJoyButtonUp(SDL_Event & event);
-	void InputHandler::onJoyAxisMotion(SDL_Event & event);
+	void onJoyButtonDown(SDL_Event & event);
+	void onJoyButtonUp(SDL_Event & event);
+	void onJoyAxisMotion(SDL_Event & event);
     bool getMouseButtonState(int buttonNumber);
     Vector2D* getMousePosition();
 
