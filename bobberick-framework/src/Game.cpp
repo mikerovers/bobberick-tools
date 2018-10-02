@@ -109,7 +109,7 @@ void Game::render()
 
 void Game::clean()
 {
-	ServiceManager::Instance()->getService<InputHandler>().clean();
+	inputSystem->clean();
     SDL_Quit();
 }
 
@@ -120,5 +120,5 @@ void Game::update()
 
 void Game::handleEvents()
 {
-	ServiceManager::Instance()->getService<InputHandler>().update();
+
 }
