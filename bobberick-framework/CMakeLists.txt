@@ -4,9 +4,12 @@ add_subdirectory(tests)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_mixer REQUIRED)
+
 include_directories(${SDL2_INCLUDE_DIR})
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+include_directories(${SDL2_TTF_INCLUDE_DIRS})
 include_directories(${SDL2_MIXER_INCLUDE_DIR})
 
 set(
@@ -19,7 +22,9 @@ set(
 	src/util/Vector2D.h src/util/Vector2D.cpp
 	src/Game.cpp src/Game.h
 	src/entity/components/SpriteComponent.cpp src/entity/components/SpriteComponent.h
+	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
 	src/TextureManager.cpp src/TextureManager.h
+	src/FontManager.cpp src/FontManager.h
 	src/services/ServiceManager.cpp src/services/ServiceManager.h
 	src/services/Service.cpp src/services/Service.h
 	src/entity/Component.cpp src/entity/Component.h
@@ -35,4 +40,4 @@ set(
 
 add_library(bobberick-framework ${SOURCE_FILES})
 
-target_link_libraries(bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY})
+target_link_libraries(bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY})
