@@ -9,6 +9,7 @@ public:
 	InputSystem(EntityManager& entityManager);
 
     void update() override;
+    void clean();
 };
 
 

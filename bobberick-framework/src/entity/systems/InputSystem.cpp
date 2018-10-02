@@ -11,3 +11,9 @@ void InputSystem::update()
 	ServiceManager::Instance()->getService<InputHandler>().update();
 
 }
+
+void InputSystem::clean()
+{
+	ServiceManager::Instance()->getService<InputHandler>().clean();
+
+}
