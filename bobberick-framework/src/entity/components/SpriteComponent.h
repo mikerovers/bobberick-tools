@@ -11,7 +11,7 @@ class SpriteComponent : public Component
 public:
     SpriteComponent() = default;
 	SpriteComponent(const char * path, const char* textureID);
-    SpriteComponent(const char * path, const char* textureID, const int animCols, const int animRows, const int animRate);
+    SpriteComponent(const char * path, const char* textureID, const int animCols, const int animFrames, const int animRate);
 
     void init() override;
     void update() override;
