@@ -67,18 +67,20 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
 
     auto& entityManager = serviceManager->getService<EntityManager>();
-    auto& player = entityManager.addEntity();
-    player.addComponent<TransformComponent>();
-    player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
-	player.addComponent<TextComponent>("assets/font.ttf", "font", "text", 100);
-    auto& enemy = entityManager.addEntity();
-    enemy.addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
+    std::shared_ptr<Entity> player = entityManager.addEntity();
+    player->addComponent<TransformComponent>();
+    player->addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
+    std::shared_ptr<Entity> enemy = entityManager.addEntity();
+    enemy->addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
+
 	auto& soundManager = serviceManager->getService<SoundManager>();
 
-	soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
-	soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
-	soundManager.playMusic("testMusic", 0);
-	soundManager.playSound("testSound", 1);
+	entityManager.removeEntity(enemy);
+
+    soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
+    soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
+    soundManager.playMusic("testMusic", 0);
+    soundManager.playSound("testSound", 1);
 
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
