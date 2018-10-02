@@ -46,6 +46,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
 		TTF_Init();
+		IMG_Init(IMG_INIT_PNG);
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
         if (window != nullptr) {
@@ -68,10 +69,14 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
     auto& entityManager = serviceManager->getService<EntityManager>();
     auto& player = entityManager.addEntity();
-    player.addComponent<TransformComponent>();
-    player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
-	player.addComponent<TextComponent>("assets/font.ttf", "font", "text", 100);
+    player.addComponent<TransformComponent>(0, 0, 256, 256, 1);
+    player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip", 6, 6, 7);
+	player.addComponent<TextComponent>("assets/font.ttf", "font", "sample\ntext", 100);
+	auto& player2 = entityManager.addEntity();
+	player2.addComponent<TransformComponent>(256, 0, 150, 130, 1);
+	player2.addComponent<SpriteComponent>("assets/dude_animation_sheet.png", "spritestrip2", 7, 27, 3);
     auto& enemy = entityManager.addEntity();
+	enemy.addComponent<TransformComponent>(0, 256, 256, 256, 1);
     enemy.addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
 	auto& soundManager = serviceManager->getService<SoundManager>();
 

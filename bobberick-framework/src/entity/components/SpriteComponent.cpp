@@ -9,17 +9,30 @@ void SpriteComponent::init()
     transform = &entity->getComponent<TransformComponent>();
 
     sourceRect.x = sourceRect.y = 0;
-    sourceRect.w = sourceRect.h = 256;
-    destinationRect.x = destinationRect.y = 0;
-    destinationRect.w = destinationRect.h = 256;
+	destinationRect.w = sourceRect.w = transform->width;
+	destinationRect.h = sourceRect.h = transform->height;
+	destinationRect.x = transform->position.getX();
+	destinationRect.y = transform->position.getY();
 }
 
 void SpriteComponent::update()
 {
-    destinationRect.x = static_cast<int>(0);
-    destinationRect.y = static_cast<int>(0);
-    destinationRect.w = 256;
-    destinationRect.h = 256;
+	if (currentFrame >= 0) {
+		animTimer--;
+		if (animTimer == 0) {
+			animTimer = animRate;
+			currentFrame++;
+			if (currentFrame >= animFrames) {
+				currentFrame = 0;
+			}
+
+			int currentRow = currentFrame / animCols;
+			int currentCol = currentFrame % animCols;
+
+			sourceRect.x = transform->width * currentCol;
+			sourceRect.y = transform->height * currentRow;
+		}
+	}
 }
 
 void SpriteComponent::render()
@@ -34,4 +47,23 @@ SpriteComponent::SpriteComponent(const char *path, const char *textureID)
     } else {
         std::cout << SDL_GetError();
     }
+
+	currentFrame = -1;
+
+}
+
+SpriteComponent::SpriteComponent(const char *path, const char *textureID, const int animCols, const int animFrames, const int animRate)
+{
+	if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
+		texture = textureID;
+	}
+	else {
+		std::cout << SDL_GetError();
+	}
+
+	SpriteComponent::animCols = animCols;
+	SpriteComponent::animFrames = animFrames;
+	SpriteComponent::animRate = animRate;
+	animTimer = animRate;
+	currentFrame = 0;
 }

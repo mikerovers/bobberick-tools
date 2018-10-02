@@ -15,6 +15,7 @@ void DrawSystem::update()
         auto& tx = ServiceManager::Instance()->getService<TextureManager>();
         auto & spr = entity->getComponent<SpriteComponent>();
 
+		spr.update();
         spr.render();
     }
 
