@@ -6,6 +6,7 @@
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
 #include "entity/systems/DrawSystem.h"
+#include "entity/systems/InputSystem.h"
 #include "SoundManager.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
@@ -43,6 +44,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 	serviceManager->addService<InputHandler>();
 
     drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
+    inputSystem = std::shared_ptr<InputSystem>(new InputSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
 
 
@@ -96,7 +98,7 @@ void Game::render()
 {
     frameHandler->updateTicks();
 	
-	ServiceManager::Instance()->getService<InputHandler>().update();
+	inputSystem->update();
 
     SDL_RenderClear(renderer.get());
     drawSystem->update();

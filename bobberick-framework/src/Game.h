@@ -5,6 +5,7 @@
 #include "StateMachine.h"
 #include "services/ServiceManager.h"
 #include "entity/systems/DrawSystem.h"
+#include "entity/systems/InputSystem.h"
 #include "util/SDL_Deleter.h"
 #include "util/FrameHandler.h"
 
@@ -37,7 +38,8 @@ private:
     std::shared_ptr<StateMachine> stateMachine;
     std::shared_ptr<FrameHandler> frameHandler;
     //TODO Make a interface for system registring. Maybe in the statemachine?
-    std::shared_ptr<DrawSystem> drawSystem;
+	std::shared_ptr<DrawSystem> drawSystem;
+	std::shared_ptr<InputSystem> inputSystem;
 };
 
 
