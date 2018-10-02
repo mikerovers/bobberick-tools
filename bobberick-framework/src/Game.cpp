@@ -68,22 +68,25 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
 
     auto& entityManager = serviceManager->getService<EntityManager>();
-    auto& player = entityManager.addEntity();
-    player.addComponent<TransformComponent>(0, 0, 256, 256, 1);
-    player.addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip", 6, 6, 7);
-	player.addComponent<TextComponent>("assets/font.ttf", "font", "sample\ntext", 100);
-	auto& player2 = entityManager.addEntity();
-	player2.addComponent<TransformComponent>(256, 0, 150, 130, 1);
-	player2.addComponent<SpriteComponent>("assets/dude_animation_sheet.png", "spritestrip2", 7, 27, 3);
-    auto& enemy = entityManager.addEntity();
-	enemy.addComponent<TransformComponent>(0, 256, 256, 256, 1);
-    enemy.addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
+	std::shared_ptr<Entity> player = entityManager.addEntity();
+    player->addComponent<TransformComponent>(0, 0, 256, 256, 1);
+    player->addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip", 6, 6, 7);
+	player->addComponent<TextComponent>("assets/font.ttf", "font", "sample\ntext", 100);
+	std::shared_ptr<Entity> player2 = entityManager.addEntity();
+	player2->addComponent<TransformComponent>(256, 0, 150, 130, 1);
+	player2->addComponent<SpriteComponent>("assets/dude_animation_sheet.png", "spritestrip2", 7, 27, 3);
+	std::shared_ptr<Entity> enemy = entityManager.addEntity();
+	enemy->addComponent<TransformComponent>(0, 256, 256, 256, 1);
+    enemy->addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
+
 	auto& soundManager = serviceManager->getService<SoundManager>();
 
-	soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
-	soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
-	soundManager.playMusic("testMusic", 0);
-	soundManager.playSound("testSound", 1);
+	entityManager.removeEntity(enemy);
+
+    soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
+    soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
+    soundManager.playMusic("testMusic", 0);
+    soundManager.playSound("testSound", 1);
 
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());

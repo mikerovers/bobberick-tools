@@ -18,11 +18,23 @@ void EntityManager::refresh()
     );
 }
 
-Entity &EntityManager::addEntity()
+std::shared_ptr<Entity> EntityManager::addEntity()
 {
-    auto * e = new Entity();
-    std::unique_ptr<Entity> uPtr{ e };
-    entities.emplace_back(std::move(uPtr));
+    std::shared_ptr<Entity> uPtr{ new Entity };
+    entities.emplace_back(uPtr);
 
-    return *e;
+    return uPtr;
+}
+
+bool EntityManager::removeEntity(std::shared_ptr<Entity> entity)
+{
+    auto it = std::find(entities.begin(), entities.end(), entity);
+    if (it != entities.end()) {
+        entities.erase(it);
+    } else {
+        SDL_Log("An entity that would be deleted could not be found.");
+        return false;
+    }
+
+    return true;
 }
