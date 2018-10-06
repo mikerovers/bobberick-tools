@@ -13,6 +13,7 @@ public:
     RenderService();
 
     void init() override;
+    void clean() override;
     bool createRenderer(std::shared_ptr<SDL_Window> window);
     SDL_RendererPointer getRenderer();
     SDL_RendererPointer renderer;

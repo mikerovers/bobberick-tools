@@ -39,9 +39,3 @@ void StateMachine::update() {
         gameStates.back()->update();
     }
 }
-
-void StateMachine::render() {
-    if (!gameStates.empty()) {
-        gameStates.back()->render();
-    }
-}

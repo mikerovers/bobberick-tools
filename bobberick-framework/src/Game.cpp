@@ -86,7 +86,7 @@ void Game::render()
     frameHandler->updateTicks();
 
     SDL_RenderClear(renderer.get());
-    drawSystem->update();
+    stateMachine->update();
     SDL_RenderPresent(renderer.get());
 
     frameHandler->handleFrame();
