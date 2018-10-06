@@ -35,8 +35,9 @@ set(
 	src/SoundManager.cpp src/SoundManager.h
 	src/util/SDL_Deleter.h
     src/util/FrameHandler.cpp src/util/FrameHandler.h
+	src/services/InputHandler.cpp src/services/InputHandler.h
+	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
 )
-
 add_library(bobberick-framework ${SOURCE_FILES})
 
 target_link_libraries(bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY})

@@ -2,11 +2,13 @@
 #include "TextureManager.h"
 #include "FontManager.h"
 #include "entity/EntityManager.h"
+#include "services/InputHandler.h"
 #include "services/RenderService.h"
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
 #include "entity/components/TextComponent.h"
 #include "entity/systems/DrawSystem.h"
+#include "entity/systems/InputSystem.h"
 #include "SoundManager.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
@@ -36,6 +38,7 @@ int Game::getGameHeight() const
 
 bool Game::init(const char *title, int xPos, int yPos, int height, int width, int flags)
 {
+	// TheInputHandler::Instance()->initialiseJoysticks();
     ServiceManager* serviceManager = ServiceManager::Instance();
     serviceManager->addService<TextureManager>();
 	serviceManager->addService<FontManager>();
@@ -43,6 +46,14 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     serviceManager->addService<RenderService>();
     drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
+	serviceManager->addService<InputHandler>();
+
+    drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
+    inputSystem = std::shared_ptr<InputSystem>(new InputSystem(serviceManager->getService<EntityManager>()));
+	serviceManager->addService<SoundManager>();
+
+
+	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
 		TTF_Init();
@@ -95,6 +106,9 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 void Game::render()
 {
     frameHandler->updateTicks();
+    frameHandler->updateTicks();
+	
+	inputSystem->update();
 
     SDL_RenderClear(renderer.get());
     drawSystem->update();
@@ -105,6 +119,7 @@ void Game::render()
 
 void Game::clean()
 {
+	inputSystem->clean();
     SDL_Quit();
 }
 
