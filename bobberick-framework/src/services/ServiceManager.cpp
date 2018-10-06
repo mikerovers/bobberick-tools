@@ -10,3 +10,11 @@ ServiceManager *ServiceManager::Instance()
 
     return instance;
 }
+
+void ServiceManager::clean()
+{
+    for(const auto &service : services) {
+        service->clean();
+        //TODO Delete service from memory.
+    }
+}

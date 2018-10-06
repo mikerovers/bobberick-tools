@@ -57,6 +57,8 @@ public:
         return *static_cast<T*>(ptr);
     }
 
+    void clean();
+
     static ServiceManager* Instance();
 
 private:

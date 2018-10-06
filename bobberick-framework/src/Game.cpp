@@ -38,20 +38,14 @@ int Game::getGameHeight() const
 
 bool Game::init(const char *title, int xPos, int yPos, int height, int width, int flags)
 {
-	// TheInputHandler::Instance()->initialiseJoysticks();
     ServiceManager* serviceManager = ServiceManager::Instance();
     serviceManager->addService<TextureManager>();
 	serviceManager->addService<FontManager>();
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
-    drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
 	serviceManager->addService<InputHandler>();
-
-    drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
-    inputSystem = std::shared_ptr<InputSystem>(new InputSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
-
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
@@ -77,22 +71,6 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
 
-    auto& entityManager = serviceManager->getService<EntityManager>();
-    std::shared_ptr<Entity> player = entityManager.addEntity();
-    player->addComponent<TransformComponent>();
-    player->addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
-    std::shared_ptr<Entity> enemy = entityManager.addEntity();
-    enemy->addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
-
-	auto& soundManager = serviceManager->getService<SoundManager>();
-
-	entityManager.removeEntity(enemy);
-
-    soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
-    soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
-    soundManager.playMusic("testMusic", 0);
-    soundManager.playSound("testSound", 1);
-
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
 
@@ -106,9 +84,6 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 void Game::render()
 {
     frameHandler->updateTicks();
-    frameHandler->updateTicks();
-	
-	inputSystem->update();
 
     SDL_RenderClear(renderer.get());
     drawSystem->update();
@@ -119,7 +94,8 @@ void Game::render()
 
 void Game::clean()
 {
-	inputSystem->clean();
+    ServiceManager::Instance()->clean();
+
     SDL_Quit();
 }
 

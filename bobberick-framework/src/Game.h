@@ -38,8 +38,6 @@ private:
     std::shared_ptr<StateMachine> stateMachine;
     std::shared_ptr<FrameHandler> frameHandler;
     //TODO Make a interface for system registring. Maybe in the statemachine?
-	std::shared_ptr<DrawSystem> drawSystem;
-	std::shared_ptr<InputSystem> inputSystem;
 };
 
 
