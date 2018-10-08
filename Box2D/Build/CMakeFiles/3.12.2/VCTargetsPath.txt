@@ -1,0 +1,1 @@
+D:/Program Files/Microsoft Visual Studio/Enterprise 2017/Common7/IDE/VC/VCTargets
