@@ -2,11 +2,13 @@
 #include "TextureManager.h"
 #include "FontManager.h"
 #include "entity/EntityManager.h"
+#include "services/InputHandler.h"
 #include "services/RenderService.h"
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
 #include "entity/components/TextComponent.h"
 #include "entity/systems/DrawSystem.h"
+#include "entity/systems/InputSystem.h"
 #include "SoundManager.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
@@ -36,6 +38,7 @@ int Game::getGameHeight() const
 
 bool Game::init(const char *title, int xPos, int yPos, int height, int width, int flags)
 {
+	// TheInputHandler::Instance()->initialiseJoysticks();
     ServiceManager* serviceManager = ServiceManager::Instance();
     serviceManager->addService<TextureManager>();
 	serviceManager->addService<FontManager>();
@@ -43,9 +46,18 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     serviceManager->addService<RenderService>();
     drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
+	serviceManager->addService<InputHandler>();
+
+    drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
+    inputSystem = std::shared_ptr<InputSystem>(new InputSystem(serviceManager->getService<EntityManager>()));
+	serviceManager->addService<SoundManager>();
+
+
+	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
 		TTF_Init();
+		IMG_Init(IMG_INIT_PNG);
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
         if (window != nullptr) {
@@ -67,10 +79,15 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
 
     auto& entityManager = serviceManager->getService<EntityManager>();
-    std::shared_ptr<Entity> player = entityManager.addEntity();
-    player->addComponent<TransformComponent>();
-    player->addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip");
-    std::shared_ptr<Entity> enemy = entityManager.addEntity();
+	std::shared_ptr<Entity> player = entityManager.addEntity();
+    player->addComponent<TransformComponent>(0, 0, 256, 256, 1);
+    player->addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip", 6, 6, 7);
+	player->addComponent<TextComponent>("assets/font.ttf", "font", "sample\ntext", 100);
+	std::shared_ptr<Entity> player2 = entityManager.addEntity();
+	player2->addComponent<TransformComponent>(256, 0, 150, 130, 1);
+	player2->addComponent<SpriteComponent>("assets/dude_animation_sheet.png", "spritestrip2", 7, 27, 3);
+	std::shared_ptr<Entity> enemy = entityManager.addEntity();
+	enemy->addComponent<TransformComponent>(0, 256, 256, 256, 1);
     enemy->addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
 
 	auto& soundManager = serviceManager->getService<SoundManager>();
@@ -95,6 +112,9 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 void Game::render()
 {
     frameHandler->updateTicks();
+    frameHandler->updateTicks();
+	
+	inputSystem->update();
 
     SDL_RenderClear(renderer.get());
     drawSystem->update();
@@ -105,6 +125,7 @@ void Game::render()
 
 void Game::clean()
 {
+	inputSystem->clean();
     SDL_Quit();
 }
 

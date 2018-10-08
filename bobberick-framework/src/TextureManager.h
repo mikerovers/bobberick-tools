@@ -16,7 +16,7 @@ public:
     void draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer);
 
     void clearTexture(std::string id);
-protected:
+private:
     std::map<std::string, SDL_TexturePointer> textures;
 };
 

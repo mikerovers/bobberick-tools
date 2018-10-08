@@ -37,8 +37,9 @@ set(
 	src/SoundManager.cpp src/SoundManager.h
 	src/util/SDL_Deleter.h
     src/util/FrameHandler.cpp src/util/FrameHandler.h
+	src/services/InputHandler.cpp src/services/InputHandler.h
+	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
 )
-
 add_library(bobberick-framework ${SOURCE_FILES})
 add_library(Box2D ${SOURCE_FILES})
 

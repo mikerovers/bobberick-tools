@@ -10,16 +10,22 @@ class SpriteComponent : public Component
 {
 public:
     SpriteComponent() = default;
-    SpriteComponent(const char * path, const char* textureID);
+	SpriteComponent(const char * path, const char* textureID);
+    SpriteComponent(const char * path, const char* textureID, const int animCols, const int animFrames, const int animRate);
 
     void init() override;
     void update() override;
     void render() override;
 private:
-    TransformComponent* transform{};
+    TransformComponent* transform;
     std::string texture;
     SDL_Rect sourceRect{};
     SDL_Rect destinationRect{};
+	int animCols; // Amount of columns in spritesheet
+	int animFrames; // Amount of frames in spritesheet
+	int currentFrame; // Current frame number
+	int animRate; // Amount of ticks each frame
+	int animTimer; // Amount of ticks remaining to next frame
 };
 
 
