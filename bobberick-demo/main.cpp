@@ -1,12 +1,13 @@
 #include <iostream>
 #include "../bobberick-framework/src/Game.h"
+#include "BobberickGame.h"
 
-Game *game = nullptr;
+BobberickGame *game = nullptr;
 
 int main(int argc, char **argv) {
-    game = new Game();
+    game = new BobberickGame();
 
-    if (game->init("Chaptere 1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480,
+    if (game->init("Bobberick de Ridder", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480,
                    static_cast<Uint32>(false))) {
 
         while (game->running()) {
