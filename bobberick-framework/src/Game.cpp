@@ -81,21 +81,21 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     auto& entityManager = serviceManager->getService<EntityManager>();
 	std::shared_ptr<Entity> player = entityManager.addEntity();
     player->addComponent<TransformComponent>(0, 0, 256, 256, 1);
-    player->addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip", 6, 6, 7);
-	player->addComponent<TextComponent>("assets/font.ttf", "font", "sample\ntext", 100);
+    player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "spritestrip", 6, 6, 7);
+	player->addComponent<TextComponent>("assets/font/font.ttf", "font", "sample\ntext", 100);
 	std::shared_ptr<Entity> player2 = entityManager.addEntity();
 	player2->addComponent<TransformComponent>(256, 0, 150, 130, 1);
-	player2->addComponent<SpriteComponent>("assets/dude_animation_sheet.png", "spritestrip2", 7, 27, 3);
+	player2->addComponent<SpriteComponent>("assets/image/dude_animation_sheet.png", "spritestrip2", 7, 27, 3);
 	std::shared_ptr<Entity> enemy = entityManager.addEntity();
 	enemy->addComponent<TransformComponent>(0, 256, 256, 256, 1);
-    enemy->addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
+    enemy->addComponent<SpriteComponent>("assets/image/mountain_landscape.png", "mountains");
 
 	auto& soundManager = serviceManager->getService<SoundManager>();
 
 	entityManager.removeEntity(enemy);
 
-    soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
-    soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
+    soundManager.load("assets/music/soundtrack/main_theme.wav", "testMusic", SOUND_MUSIC);
+    soundManager.load("assets/music/soundtrack/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
     soundManager.playMusic("testMusic", 0);
     soundManager.playSound("testSound", 1);
 
