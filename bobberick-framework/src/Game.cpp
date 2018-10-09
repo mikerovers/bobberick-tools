@@ -81,7 +81,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     return true;
 }
 
-void Game::render()
+void Game::update()
 {
     frameHandler->updateTicks();
 
@@ -99,12 +99,21 @@ void Game::clean()
     SDL_Quit();
 }
 
-void Game::update()
+void Game::start()
 {
-
+    while (running()) {
+        update();
+    }
 }
 
-void Game::handleEvents()
+bool Game::setup()
 {
+    if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 480, 640,
+             static_cast<Uint32>(false))) {
+        return true;
+    } else {
+        std::cout << "Game initialization failure - " << SDL_GetError() << " :( \n";
 
+        return false;
+    }
 }
