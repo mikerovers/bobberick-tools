@@ -51,6 +51,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
 		TTF_Init();
+		IMG_Init(IMG_INIT_PNG);
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
         if (window != nullptr) {
@@ -70,7 +71,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
-
+  
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
 
