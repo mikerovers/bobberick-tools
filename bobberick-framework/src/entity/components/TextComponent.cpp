@@ -8,18 +8,16 @@ void TextComponent::init()
 {
     transform = &entity->getComponent<TransformComponent>();
 
-    sourceRect.x = sourceRect.y = 0;
-    sourceRect.w = sourceRect.h = 256;
-    destinationRect.x = destinationRect.y = 0;
-    destinationRect.w = destinationRect.h = 256;
+	sourceRect.x = sourceRect.y = 0;
+	destinationRect.w = sourceRect.w = transform->width;
+	destinationRect.h = sourceRect.h = transform->height;
+	destinationRect.x = transform->position.getX();
+	destinationRect.y = transform->position.getY();
 }
 
 void TextComponent::update()
 {
-    destinationRect.x = static_cast<int>(0);
-    destinationRect.y = static_cast<int>(0);
-    destinationRect.w = 256;
-    destinationRect.h = 256;
+    
 }
 
 void TextComponent::render()
