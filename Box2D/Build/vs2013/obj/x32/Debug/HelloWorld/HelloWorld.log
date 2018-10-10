@@ -1,2 +1,0 @@
-﻿  Helloworld.cpp
-LINK : fatal error LNK1104: cannot open file 'D:\Program Files\Box2D-2.3.1\Box2D\Build\vs2013\bin\x32\Debug\Box2D.lib'
