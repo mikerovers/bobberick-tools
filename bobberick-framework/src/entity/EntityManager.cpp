@@ -38,3 +38,8 @@ bool EntityManager::removeEntity(std::shared_ptr<Entity> entity)
 
     return true;
 }
+
+void EntityManager::clean()
+{
+
+}

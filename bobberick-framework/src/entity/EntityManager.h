@@ -12,6 +12,7 @@ public:
 
     void refresh();
     void init() override;
+    void clean() override;
 
     template <typename T>
     std::vector<std::shared_ptr<Entity>> getAllEntitiesWithComponent()

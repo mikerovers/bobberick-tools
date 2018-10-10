@@ -39,3 +39,8 @@ void TextureManager::init()
 {
 
 }
+
+void TextureManager::clean()
+{
+
+}

@@ -38,20 +38,14 @@ int Game::getGameHeight() const
 
 bool Game::init(const char *title, int xPos, int yPos, int height, int width, int flags)
 {
-	// TheInputHandler::Instance()->initialiseJoysticks();
     ServiceManager* serviceManager = ServiceManager::Instance();
     serviceManager->addService<TextureManager>();
 	serviceManager->addService<FontManager>();
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
-    drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
 	serviceManager->addService<InputHandler>();
-
-    drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
-    inputSystem = std::shared_ptr<InputSystem>(new InputSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
-
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
@@ -77,28 +71,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
-
-    auto& entityManager = serviceManager->getService<EntityManager>();
-	std::shared_ptr<Entity> player = entityManager.addEntity();
-    player->addComponent<TransformComponent>(0, 0, 256, 256, 1);
-    player->addComponent<SpriteComponent>("assets/spritestrip.bmp", "spritestrip", 6, 6, 7);
-	player->addComponent<TextComponent>("assets/font.ttf", "font", "sample\ntext", 100);
-	std::shared_ptr<Entity> player2 = entityManager.addEntity();
-	player2->addComponent<TransformComponent>(256, 0, 150, 130, 1);
-	player2->addComponent<SpriteComponent>("assets/dude_animation_sheet.png", "spritestrip2", 7, 27, 3);
-	std::shared_ptr<Entity> enemy = entityManager.addEntity();
-	enemy->addComponent<TransformComponent>(0, 256, 256, 256, 1);
-    enemy->addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
-
-	auto& soundManager = serviceManager->getService<SoundManager>();
-
-	entityManager.removeEntity(enemy);
-
-    soundManager.load("assets/test-background-music.wav", "testMusic", SOUND_MUSIC);
-    soundManager.load("assets/arrow-swoosh-2.ogg", "testSound", SOUND_SFX);
-    soundManager.playMusic("testMusic", 0);
-    soundManager.playSound("testSound", 1);
-
+  
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
 
@@ -109,15 +82,12 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     return true;
 }
 
-void Game::render()
+void Game::update()
 {
     frameHandler->updateTicks();
-    frameHandler->updateTicks();
-	
-	inputSystem->update();
 
     SDL_RenderClear(renderer.get());
-    drawSystem->update();
+    stateMachine->update();
     SDL_RenderPresent(renderer.get());
 
     frameHandler->handleFrame();
@@ -125,16 +95,26 @@ void Game::render()
 
 void Game::clean()
 {
-	inputSystem->clean();
+    ServiceManager::Instance()->clean();
+
     SDL_Quit();
 }
 
-void Game::update()
+void Game::start()
 {
-
+    while (running()) {
+        update();
+    }
 }
 
-void Game::handleEvents()
+bool Game::setup()
 {
+    if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 480, 640,
+             static_cast<Uint32>(false))) {
+        return true;
+    } else {
+        std::cout << "Game initialization failure - " << SDL_GetError() << " :( \n";
 
+        return false;
+    }
 }

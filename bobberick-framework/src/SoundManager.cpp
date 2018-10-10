@@ -61,3 +61,8 @@ SoundManager::~SoundManager()
 	Mix_CloseAudio();
 }
 
+void SoundManager::clean()
+{
+
+}
+

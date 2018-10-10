@@ -20,3 +20,8 @@ RenderService::RenderService()
 {
 
 }
+
+void RenderService::clean()
+{
+
+}

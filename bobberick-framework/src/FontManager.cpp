@@ -1,5 +1,3 @@
-
-
 #include "FontManager.h"
 
 void FontManager::clearTexture(std::string id)
@@ -42,6 +40,11 @@ void FontManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinati
 }
 
 void FontManager::init()
+{
+
+}
+
+void FontManager::clean()
 {
 
 }
