@@ -2,6 +2,8 @@
 #include "../Entity.h"
 #include "bobberick-framework/src/services/ServiceManager.h"
 #include "bobberick-framework/src/services/WorldService.h"
+#include "Dynamics/b2Body.h"
+#include "Collision/Shapes/b2Shape.h"
 
 void CollisionComponent::init()
 {
