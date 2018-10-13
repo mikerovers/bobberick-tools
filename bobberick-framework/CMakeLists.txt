@@ -39,6 +39,14 @@ set(
     src/util/FrameHandler.cpp src/util/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h
 	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
+	src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h
+	src/entity/components/shapes/ChainShapeComponent.cpp src/entity/components/shapes/ChainShapeComponent.h
+	src/entity/components/shapes/CircleShapeComponent.cpp src/entity/components/shapes/CircleShapeComponent.h
+	src/entity/components/shapes/EdgeShapeComponent.cpp src/entity/components/shapes/EdgeShapeComponent.h
+	src/entity/components/shapes/PolygonShapeComponent.cpp src/entity/components/shapes/PolygonShapeComponent.h
+	src/entity/components/shapes/RectangleShapeComponent.cpp src/entity/components/shapes/RectangleShapeComponent.h
+	src/entity/systems/CollisionSystem.cpp src/entity/systems/CollisionSystem.h
+	src/services/WorldService.cpp src/services/WorldService.h
 )
 add_library(bobberick-framework ${SOURCE_FILES})
 add_library(Box2D ${SOURCE_FILES})

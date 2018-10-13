@@ -8,6 +8,7 @@
 #include "entity/systems/InputSystem.h"
 #include "util/SDL_Deleter.h"
 #include "util/FrameHandler.h"
+#include "Dynamics/b2World.h"
 
 class Game
 {
@@ -29,6 +30,8 @@ public:
 private:
     SDL_WindowPointer window;
     SDL_RendererPointer renderer;
+
+	//b2World* world;
 
     int gameHeight;
     int gameWidth;

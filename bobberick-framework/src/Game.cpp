@@ -10,6 +10,11 @@
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
 #include "SoundManager.h"
+#include "Common/b2Math.h"
+#include "Dynamics/b2World.h"
+#include "entity/components/CollisionComponent.h"
+#include "entity/components/shapes/RectangleShapeComponent.h"
+#include "services/WorldService.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
 {
@@ -44,6 +49,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 	serviceManager->addService<FontManager>();
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
+    serviceManager->addService<WorldService>();
     drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 	serviceManager->addService<SoundManager>();
 	serviceManager->addService<InputHandler>();
@@ -59,6 +65,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 		TTF_Init();
 		IMG_Init(IMG_INIT_PNG);
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
+		//world = new b2World(b2Vec2(0, 0)); // No gravity
 
         if (window != nullptr) {
             serviceManager->getService<RenderService>().createRenderer(window);
@@ -86,6 +93,8 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 	std::shared_ptr<Entity> player2 = entityManager.addEntity();
 	player2->addComponent<TransformComponent>(256, 0, 150, 130, 1);
 	player2->addComponent<SpriteComponent>("assets/dude_animation_sheet.png", "spritestrip2", 7, 27, 3);
+	player2->addComponent<CollisionComponent>(/*&world, */b2_dynamicBody);
+	player2->addComponent<RectangleShapeComponent>(2, 2);
 	std::shared_ptr<Entity> enemy = entityManager.addEntity();
 	enemy->addComponent<TransformComponent>(0, 256, 256, 256, 1);
     enemy->addComponent<SpriteComponent>("assets/mountain_landscape.png", "mountains");
@@ -126,6 +135,7 @@ void Game::render()
 void Game::clean()
 {
 	inputSystem->clean();
+	//delete world;
     SDL_Quit();
 }
 

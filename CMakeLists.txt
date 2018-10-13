@@ -11,7 +11,7 @@ if ( "${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG" )
     add_definitions(-D_DEBUG)
 endif()
 
-include_directories("${CMAKE_SOURCE_DIR}/Box2D")
+include_directories("${CMAKE_SOURCE_DIR}" Box2D)
 
 add_subdirectory(bobberick-framework)
 add_subdirectory(bobberick-demo)
