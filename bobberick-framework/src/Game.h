@@ -14,10 +14,10 @@ class Game
 public:
     Game();
     bool init(const char* title, int xPos, int yPos, int height, int width, int flags);
-    void render();
-    void handleEvents();
-    void clean();
-    void update();
+    virtual bool setup();
+    virtual void start();
+    virtual void clean();
+    virtual void update();
 
     bool running();
 
@@ -38,8 +38,6 @@ private:
     std::shared_ptr<StateMachine> stateMachine;
     std::shared_ptr<FrameHandler> frameHandler;
     //TODO Make a interface for system registring. Maybe in the statemachine?
-	std::shared_ptr<DrawSystem> drawSystem;
-	std::shared_ptr<InputSystem> inputSystem;
 };
 
 

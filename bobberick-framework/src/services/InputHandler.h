@@ -21,7 +21,7 @@ public:
 	~InputHandler() {};
 
 	void update();
-	void clean();
+	void clean() override;
 
 	void init() override;
     /// Handling Mouse Event
@@ -59,8 +59,6 @@ private:
 	std::vector<std::pair<Vector2D*, Vector2D*>> m_joystickValues;
 	bool m_bJoysticksInitialised;
 	const int m_joystickDeadZone = 10000;
-
-
 };
 
 #endif /* defined(__SDL__InputHandler__) */
