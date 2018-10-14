@@ -10,6 +10,7 @@
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
 #include "SoundManager.h"
+#include "LevelFactory.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
 {
@@ -79,6 +80,11 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     gameWidth = width;
     gameHeight = height;
 
+    std::shared_ptr<Entity> level = serviceManager->getService<EntityManager>().addEntity();
+    auto* factory = new LevelFactory();
+    TileSetComponent* component = factory->Load("assets/map1.tmx", serviceManager->getService<RenderService>().getRenderer());
+    level->addExistingComponent<TileSetComponent>(component);
+
     return true;
 }
 
@@ -87,7 +93,8 @@ void Game::update()
     frameHandler->updateTicks();
 
     SDL_RenderClear(renderer.get());
-    stateMachine->update();
+    auto* d = new DrawSystem(ServiceManager::Instance()->getService<EntityManager>());
+    d->update();
     SDL_RenderPresent(renderer.get());
 
     frameHandler->handleFrame();

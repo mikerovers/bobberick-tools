@@ -7,6 +7,8 @@ find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 
+add_subdirectory(externals/tmxlite/tmxlite)
+
 include_directories(${SDL2_INCLUDE_DIR})
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 include_directories(${SDL2_TTF_INCLUDE_DIRS})
@@ -37,7 +39,9 @@ set(
     src/util/FrameHandler.cpp src/util/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h
 	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
-)
+        src/LevelFactory.cpp src/LevelFactory.h src/entity/components/TileSetComponent.cpp src/entity/components/TileSetComponent.h src/entity/components/Tile.cpp src/entity/components/Tile.h)
+
 add_library(bobberick-framework ${SOURCE_FILES})
 
 target_link_libraries(bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY})
+target_link_libraries(bobberick-framework tmxlite)

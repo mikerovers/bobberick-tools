@@ -44,3 +44,13 @@ void TextureManager::clean()
 {
 
 }
+
+SDL_TexturePointer TextureManager::getTexture(std::string id)
+{
+    return textures[id];
+}
+
+std::map<std::string, SDL_TexturePointer> TextureManager::getTextures()
+{
+    return textures;
+}
