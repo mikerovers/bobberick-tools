@@ -20,6 +20,7 @@ set(
 	src/StateMachine.cpp src/StateMachine.h
 	src/GameState.cpp src/GameState.h
 	src/util/Vector2D.h src/util/Vector2D.cpp
+	src/util/Timer.h src/util/Timer.cpp
 	src/Game.cpp src/Game.h
 	src/entity/components/SpriteComponent.cpp src/entity/components/SpriteComponent.h
 	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
