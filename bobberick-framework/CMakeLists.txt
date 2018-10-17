@@ -23,6 +23,7 @@ set(
 	src/Game.cpp src/Game.h
 	src/entity/components/SpriteComponent.cpp src/entity/components/SpriteComponent.h
 	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
+	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/TextureManager.cpp src/TextureManager.h
 	src/FontManager.cpp src/FontManager.h
 	src/services/ServiceManager.cpp src/services/ServiceManager.h
