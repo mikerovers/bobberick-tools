@@ -26,6 +26,7 @@ set(
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/TextureManager.cpp src/TextureManager.h
 	src/FontManager.cpp src/FontManager.h
+	src/SplashScreenState.cpp src/SplashScreenState.h
 	src/services/ServiceManager.cpp src/services/ServiceManager.h
 	src/services/Service.cpp src/services/Service.h
 	src/entity/Component.cpp src/entity/Component.h

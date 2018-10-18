@@ -16,7 +16,7 @@ public:
 
     virtual std::string getStateID() const = 0;
     void addSystem(std::shared_ptr<System> system);
-private:
+protected:
     std::vector<std::shared_ptr<System>> systems;
 };
 

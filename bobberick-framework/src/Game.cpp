@@ -4,12 +4,9 @@
 #include "entity/EntityManager.h"
 #include "services/InputHandler.h"
 #include "services/RenderService.h"
-#include "entity/components/TransformComponent.h"
-#include "entity/components/SpriteComponent.h"
-#include "entity/components/TextComponent.h"
-#include "entity/components/FadeComponent.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
+#include "SplashScreenState.h"
 #include "SoundManager.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
@@ -72,18 +69,9 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
-
-	drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
-
-	auto& entityManager = serviceManager->getService<EntityManager>();
-	std::shared_ptr<Entity> logo = entityManager.addEntity();
-	logo->addComponent<TransformComponent>(0, 0, 256, 256, 1);
-	logo->addComponent<SpriteComponent>("assets/teamcpp_logo.bmp", "logo");
-	logo->addComponent<FadeComponent>("logo", -100, 2, 300); // Starting the opacity value below 0 will delay the fade-in.
-	std::shared_ptr<Entity> logoText = entityManager.addEntity();
-	logoText->addComponent<TransformComponent>(0, 256, 80, 256, 1);
-	logoText->addComponent<TextComponent>("assets/font.ttf", "logoText", "Team C++", 56);
-	logoText->addComponent<FadeComponent>("logoText", 0, 2, 300);
+	SplashScreenState* splashScreen = new SplashScreenState();
+	splashScreen->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>())));
+	stateMachine->pushState(splashScreen);
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
@@ -101,7 +89,6 @@ void Game::update()
 
     SDL_RenderClear(renderer.get());
     stateMachine->update();
-	drawSystem->update();
     SDL_RenderPresent(renderer.get());
 
     frameHandler->handleFrame();
