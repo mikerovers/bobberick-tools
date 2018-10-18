@@ -7,6 +7,7 @@
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
 #include "entity/components/TextComponent.h"
+#include "entity/components/FadeComponent.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
 #include "SoundManager.h"
@@ -71,6 +72,13 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
+	drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
+
+	auto& entityManager = serviceManager->getService<EntityManager>();
+	std::shared_ptr<Entity> player = entityManager.addEntity();
+	player->addComponent<TransformComponent>(0, 0, 256, 256, 1);
+	player->addComponent<SpriteComponent>("assets/teamcpp_logo.bmp", "logo");
+	player->addComponent<FadeComponent>("logo", 0, 1.5, 200);
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
@@ -88,6 +96,7 @@ void Game::update()
 
     SDL_RenderClear(renderer.get());
     stateMachine->update();
+	drawSystem->update();
     SDL_RenderPresent(renderer.get());
 
     frameHandler->handleFrame();
