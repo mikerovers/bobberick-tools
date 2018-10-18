@@ -35,16 +35,6 @@ void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destin
     SDL_RenderCopyEx(renderer.get(), textures[id].get(), sourceRect, destinationRect, 0, nullptr, SDL_FLIP_NONE);
 }
 
-void TextureManager::setOpacity(std::string id, int opacity) {
-	if (opacity > 255) {
-		opacity = 255;
-	}
-	else if (opacity < 0) {
-		opacity = 0;
-	}
-	SDL_SetTextureAlphaMod(textures[id].get(), opacity);
-}
-
 void TextureManager::init()
 {
 
