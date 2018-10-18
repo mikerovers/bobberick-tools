@@ -16,6 +16,6 @@ public:
 	int reverseDelay; // The delay in ticks (on top of fadeDelay) before the object begins to fade out.
 	// When both fadeIn and fadeOut are true, the texture will start fading out right after it's done fading in.
 	double opacity; // The current opacity (0 = invisible, 255 = opaque).
-	int fadeFactor; // The value by which opacity changes every tick.
+	double fadeFactor; // The value by which opacity changes every tick.
 };
 #endif //BOBBERICK_TOOLS_FADECOMPONENT_H 

@@ -72,13 +72,18 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
+
 	drawSystem = std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>()));
 
 	auto& entityManager = serviceManager->getService<EntityManager>();
-	std::shared_ptr<Entity> player = entityManager.addEntity();
-	player->addComponent<TransformComponent>(0, 0, 256, 256, 1);
-	player->addComponent<SpriteComponent>("assets/teamcpp_logo.bmp", "logo");
-	player->addComponent<FadeComponent>("logo", 0, 1.5, 200);
+	std::shared_ptr<Entity> logo = entityManager.addEntity();
+	logo->addComponent<TransformComponent>(0, 0, 256, 256, 1);
+	logo->addComponent<SpriteComponent>("assets/teamcpp_logo.bmp", "logo");
+	logo->addComponent<FadeComponent>("logo", -100, 2, 300); // Starting the opacity value below 0 will delay the fade-in.
+	std::shared_ptr<Entity> logoText = entityManager.addEntity();
+	logoText->addComponent<TransformComponent>(0, 256, 80, 256, 1);
+	logoText->addComponent<TextComponent>("assets/font.ttf", "logoText", "Team C++", 56);
+	logoText->addComponent<FadeComponent>("logoText", 0, 2, 300);
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
