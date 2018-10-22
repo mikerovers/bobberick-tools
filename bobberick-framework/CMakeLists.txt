@@ -18,6 +18,7 @@ set(
 	src/entity/Entity.h src/entity/Entity.cpp
 	src/entity/EntityManager.cpp src/entity/EntityManager.h
 	src/StateMachine.cpp src/StateMachine.h
+	src/StateFactory.cpp src/StateFactory.h
 	src/GameState.cpp src/GameState.h
 	src/util/Vector2D.h src/util/Vector2D.cpp
 	src/Game.cpp src/Game.h

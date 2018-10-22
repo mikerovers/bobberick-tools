@@ -69,9 +69,9 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
-	SplashScreenState* splashScreen = new SplashScreenState();
-	splashScreen->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(serviceManager->getService<EntityManager>())));
-	stateMachine->pushState(splashScreen);
+	stateFactory = std::shared_ptr<StateFactory>(new StateFactory());
+
+	stateMachine->pushState(stateFactory->createState("SplashScreenState"));
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
