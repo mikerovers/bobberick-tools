@@ -37,5 +37,9 @@ void StateMachine::changeState(GameState *pState)
 void StateMachine::update() {
     if (!gameStates.empty()) {
         gameStates.back()->update();
+		if (gameStates.back()->shouldExit()) {
+			SDL_Log("Popping state.");
+			popState();
+		}
     }
 }
