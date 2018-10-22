@@ -14,9 +14,10 @@ public:
     virtual bool onEnter() = 0;
     virtual bool onExit() = 0;
 
+	virtual bool shouldExit() = 0; // Some states may know themselves when they're done. They need to be able to tell the state machine to pop them off.
     virtual std::string getStateID() const = 0;
     void addSystem(std::shared_ptr<System> system);
-private:
+protected:
     std::vector<std::shared_ptr<System>> systems;
 };
 
