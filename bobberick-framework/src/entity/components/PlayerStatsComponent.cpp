@@ -1,13 +1,13 @@
 #include "PlayerStatsComponent.h"
 #include "StatsComponent.h"
 
-PlayerStatsComponent::PlayerStatsComponent(StatsComponent& stats, const int shdHpMax, const int shdCoolMax, const int gold, const int xp) {
-	shdHp = this.shdHpMax = shdHpMax;
-	shdCool = this.shdCoolMax = shdCoolMax;
+PlayerStatsComponent::PlayerStatsComponent(StatsComponent* stats, const int shdHpMax, const int shdCoolMax, const int gold, const int xp) {
+	shdHp = PlayerStatsComponent::shdHpMax = shdHpMax;
+	shdCool = PlayerStatsComponent::shdCoolMax = shdCoolMax;
 	shdActive = false;
-	this.gold = gold;
-	this.xp = xp;
-	this.stats = stats;
+	PlayerStatsComponent::gold = gold;
+	PlayerStatsComponent::xp = xp;
+	PlayerStatsComponent::stats = stats;
 }
 
 void PlayerStatsComponent::update() {
@@ -33,6 +33,6 @@ void PlayerStatsComponent::getHit(int attack, const bool pierceDF) {
 			shdActive = false;
 		}
 	} else {
-		stats.getHit(attack, pierceDF); // Shield mode not active, get hit normally.
+		stats->getHit(attack, pierceDF); // Shield mode not active, get hit normally.
 	}
 }

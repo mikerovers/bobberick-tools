@@ -3,10 +3,6 @@
 
 #include "../Component.h"
 
-// StatsComponent represents the stats that both the player and all enemies have.
-// There will also be a class for all the extra stats the player has in-game
-// and a class for the experience/levels/upgrades/currency the player has out-of-game.
-// Perhaps the out-of-game stats class can generate the required in-game stats components.
 class StatsComponent : public Component
 {
 public:
@@ -15,7 +11,7 @@ public:
 	void healPoints(const int points); // Heal HP, up to X fixed points.
 	void healPercent(const int percentage); // Heal HP, up to X percent of HPmax.
 	void getHit(int attack, const bool pierceDF); // Mitigate attack with DF (unless pierceDF is true), then take the resulting damage.
-	int attack(); // Return a random number between ATmin and ATmax (when hitting an enemy or when generating a bullet).
+	int attack(int seed); // Return a random number between ATmin and ATmax (when hitting an enemy or when generating a bullet).
 	
 	// Get the value of a stat.
 	const int getHP();

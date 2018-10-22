@@ -40,10 +40,10 @@ void StatsComponent::getHit(int attack, const bool pierceDF) {
 	}
 }
 
-int StatsComponent::attack() {
+int StatsComponent::attack(int seed) {
 	std::default_random_engine generator;
-	generator.seed(time(0));
-	std::uniform_int_distribution<int> dist(atmin, atmax);
+	generator.seed(seed);
+	std::uniform_int_distribution<int> dist(atMin, atMax);
 	return dist(generator);
 }
 
@@ -78,8 +78,8 @@ void StatsComponent::changeATmin(const int amount) {
 	if (atMin < 0) {
 		atMin = 0;
 	}
-	if (atMin > atmax) {
-		atMin = atmax;
+	if (atMin > atMax) {
+		atMin = atMax;
 	}
 }
 
