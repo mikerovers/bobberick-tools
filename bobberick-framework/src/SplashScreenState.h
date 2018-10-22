@@ -4,12 +4,18 @@
 #include "GameState.h"
 
 class SplashScreenState : public GameState {
+public:
+	SplashScreenState() {};
 	~SplashScreenState();
 
 	void update() override;
 
 	bool onEnter() override;
 	bool onExit() override;
+
+	bool shouldExit() override;
+
+	std::vector<std::shared_ptr<Entity>> fadeEntities;
 
 	std::string getStateID() const override;
 };
