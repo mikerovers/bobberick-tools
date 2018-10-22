@@ -1,26 +1,26 @@
 #include "StatsComponent.h"
 #include <random>
 
-StatsComponent::StatsComponent(const int hp, const int hpmax, const int atmin, const int atmax, const int df) {
-	changeHPmax(hpmax);
+StatsComponent::StatsComponent(const int hp, const int hpMax, const int atMin, const int atMax, const int df) {
+	changeHPmax(hpMax);
 	healPoints(hp);
-	changeATmax(atmax);
-	changeATmin(atmin);
+	changeATmax(atMax);
+	changeATmin(atMin);
 	changeDF(df);
 }
 
 void StatsComponent::healPoints(const int points) {
 	if (points > 0) {
 		hp += points;
-		if (hp > hpmax) {
-			hp = hpmax;
+		if (hp > hpMax) {
+			hp = hpMax;
 		}
 	}
 }
 
 void StatsComponent::healPercent(const int percent) {
 	if (percent > 0) {
-		const int points = (double)((hpmax / 100) * percent);
+		const int points = (double)((hpMax / 100) * percent);
 		healPoints(points);
 	}
 }
@@ -51,45 +51,45 @@ const int StatsComponent::getHP() {
 	return hp;
 }
 const int StatsComponent::getHPmax() {
-	return hpmax;
+	return hpMax;
 }
 const int StatsComponent::getATmin() {
-	return atmin;
+	return atMin;
 }
 const int StatsComponent::getATmax() {
-	return atmax;
+	return atMax;
 }
 const int StatsComponent::getDF() {
 	return df;
 }
 
 void StatsComponent::changeHPmax(const int amount) {
-	hpmax += amount;
-	if (hpmax < 1) {
-		hpmax = 1;
+	hpMax += amount;
+	if (hpMax < 1) {
+		hpMax = 1;
 	}
-	if (hp > hpmax) {
-		hp = hpmax;
+	if (hp > hpMax) {
+		hp = hpMax;
 	}
 }
 
 void StatsComponent::changeATmin(const int amount) {
-	atmin += amount;
-	if (atmin < 0) {
-		atmin = 0;
+	atMin += amount;
+	if (atMin < 0) {
+		atMin = 0;
 	}
-	if (atmin > atmax) {
-		atmin = atmax;
+	if (atMin > atmax) {
+		atMin = atmax;
 	}
 }
 
 void StatsComponent::changeATmax(const int amount) {
-	atmax += amount;
-	if (atmax < 1) {
-		atmax = 1;
+	atMax += amount;
+	if (atMax < 1) {
+		atMax = 1;
 	}
-	if (atmin > atmax) {
-		atmin = atmax;
+	if (atMin > atMax) {
+		atMin = atMax;
 	}
 }
 

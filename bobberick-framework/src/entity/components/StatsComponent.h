@@ -10,7 +10,7 @@
 class StatsComponent : public Component
 {
 public:
-	StatsComponent(const int hp, const int hpmax, const int atmin, const int atmax, const int df);
+	StatsComponent(const int hp, const int hpMax, const int atMin, const int atMax, const int df);
 
 	void healPoints(const int points); // Heal HP, up to X fixed points.
 	void healPercent(const int percentage); // Heal HP, up to X percent of HPmax.
@@ -33,9 +33,9 @@ public:
 
 private:
 	int hp = 0; // current hit points
-	int hpmax = 0; // maximum hit points
-	int atmin = 0; // minimum attack
-	int atmax = 0; // maximum attack
+	int hpMax = 0; // maximum hit points
+	int atMin = 0; // minimum attack
+	int atMax = 0; // maximum attack
 	int df = 0; // natural defense (in offensive mode)
 };
 
