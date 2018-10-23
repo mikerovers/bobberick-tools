@@ -9,5 +9,4 @@ InputSystem::InputSystem(EntityManager &entityManager) : System(entityManager)
 void InputSystem::update()
 {
 	ServiceManager::Instance()->getService<InputHandler>().update();
-
 }

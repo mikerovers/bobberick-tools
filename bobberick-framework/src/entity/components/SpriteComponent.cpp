@@ -33,6 +33,9 @@ void SpriteComponent::update()
 			sourceRect.y = transform->height * currentRow;
 		}
 	}
+
+	destinationRect.x = transform->position.getX();
+	destinationRect.y = transform->position.getY();
 }
 
 void SpriteComponent::render()

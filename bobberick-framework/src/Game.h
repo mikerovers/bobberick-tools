@@ -28,7 +28,7 @@ public:
     int getGameWidth() const;
     int getGameHeight() const;
 
-private:
+protected:
     SDL_WindowPointer window;
     SDL_RendererPointer renderer;
 

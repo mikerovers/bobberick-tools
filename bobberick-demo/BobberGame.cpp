@@ -1,8 +1,13 @@
 #include "BobberGame.h"
+#include "state/PlayState.h"
 
 bool BobberGame::setup()
 {
-    return Game::setup();
+    Game::setup();
+
+    stateMachine->pushState(new PlayState());
+
+    return true;
 }
 
 void BobberGame::start()

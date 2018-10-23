@@ -7,7 +7,7 @@
 class System
 {
 public:
-    System(EntityManager& entityManager);
+    explicit System(EntityManager& entityManager);
     virtual void update() = 0;
 protected:
     EntityManager& entityManager;
