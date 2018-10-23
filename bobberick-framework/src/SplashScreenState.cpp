@@ -1,5 +1,5 @@
 #include "SplashScreenState.h"
-#include "services\ServiceManager.h"
+#include "services/ServiceManager.h"
 #include "entity/components/TransformComponent.h"
 #include "entity/components/SpriteComponent.h"
 #include "entity/components/TextComponent.h"
@@ -11,7 +11,7 @@ SplashScreenState::~SplashScreenState() {
 }
 
 void SplashScreenState::update() {
-	for each (std::shared_ptr<System> system in systems) {
+	for (const std::shared_ptr<System> &system : systems) {
 		system->update();
 	}
 }
@@ -35,9 +35,9 @@ bool SplashScreenState::onExit() {
 }
 
 bool SplashScreenState::shouldExit() {
-	for each (std::shared_ptr<Entity> entity in fadeEntities) {
+	for (const std::shared_ptr<Entity> &entity : fadeEntities) {
 		// We are only done when all of our FadeComponent entities are done fading out.
-		if (entity->getComponent<FadeComponent>().fadeOut == true) {
+		if (entity->getComponent<FadeComponent>().fadeOut) {
 			return false;
 			SDL_Log("Exiting.");
 		}
