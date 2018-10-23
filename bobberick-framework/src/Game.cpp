@@ -8,6 +8,7 @@
 #include "entity/systems/InputSystem.h"
 #include "SplashScreenState.h"
 #include "SoundManager.h"
+#include "EmptyState.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
 {
@@ -71,6 +72,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     stateMachine = std::make_shared<StateMachine>();
 	stateFactory = std::make_shared<StateFactory>();
 
+	stateMachine->pushState(new EmptyState());
 	stateMachine->pushState(stateFactory->createState("SplashScreenState"));
   
     SDL_SetWindowInputFocus(window.get());
