@@ -34,6 +34,8 @@ public:
     bool getMouseButtonState(int buttonNumber);
     Vector2D* getMousePosition();
 
+	std::vector<std::pair<Vector2D*, Vector2D*>> getJoystickValues();
+
     ///Handling Keyboard Event
     void onKeyDown();
     void onKeyUp();
