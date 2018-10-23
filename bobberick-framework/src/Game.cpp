@@ -14,12 +14,12 @@ Game::Game(): frameHandler(new FrameHandler(60))
 
 }
 
-bool Game::running()
+bool Game::running() const
 {
     return isRunning;
 }
 
-std::shared_ptr<StateMachine> Game::getStateMachine()
+std::shared_ptr<StateMachine> Game::getStateMachine() const
 {
     return stateMachine;
 }
@@ -68,8 +68,8 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
         return false;
     }
 
-    stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
-	stateFactory = std::shared_ptr<StateFactory>(new StateFactory());
+    stateMachine = std::make_shared<StateMachine>();
+	stateFactory = std::make_shared<StateFactory>();
 
 	stateMachine->pushState(stateFactory->createState("SplashScreenState"));
   
@@ -91,6 +91,8 @@ void Game::update()
     stateMachine->update();
     SDL_RenderPresent(renderer.get());
 
+	const auto frames = frameHandler->getCurrentFps();
+	std::cout << frames << "\n";
     frameHandler->handleFrame();
 }
 

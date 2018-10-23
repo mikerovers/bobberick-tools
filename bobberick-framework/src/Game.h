@@ -13,16 +13,17 @@
 class Game
 {
 public:
-    Game();
+	virtual ~Game() = default;
+	Game();
     bool init(const char* title, int xPos, int yPos, int height, int width, int flags);
     virtual bool setup();
     virtual void start();
     virtual void clean();
     virtual void update();
 
-    bool running();
+    bool running() const;
 
-    std::shared_ptr<StateMachine> getStateMachine();
+    std::shared_ptr<StateMachine> getStateMachine() const;
 
     int getGameWidth() const;
     int getGameHeight() const;
