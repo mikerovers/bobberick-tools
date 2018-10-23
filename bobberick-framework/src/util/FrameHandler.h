@@ -12,15 +12,16 @@ public:
 	void handleFrame();
 	void updateTicks();
 	void setTarget(int target);
-	float getAvgFps() const;
+	Uint32 getCurrentFps() const;
 
 private:
 	int target;
 	int delayTime;
 	Uint32 frameStart;
-	int countedFrames;
-	Timer fpsTimer;
-	float avgFps;
+
+	Uint32 startclock = 0;
+	Uint32 deltaclock = 0;
+	Uint32 currentFPS = 0;
 };
 
 

@@ -2,33 +2,36 @@
 
 FrameHandler::FrameHandler(const int target): target(target), delayTime(1000 / target)
 {
-	countedFrames = 0;
-	fpsTimer.start();
+	startclock = SDL_GetTicks();
 }
 
 void FrameHandler::handleFrame()
 {
-    int frameTime = SDL_GetTicks() - frameStart;
-    if (frameTime < delayTime) {
-        SDL_Delay(static_cast<Uint32>(delayTime - frameTime));
-    }
+	int frameTime = SDL_GetTicks() - frameStart;
+	if (frameTime < delayTime)
+	{
+		SDL_Delay(static_cast<Uint32>(delayTime - frameTime));
+	}
+	deltaclock = SDL_GetTicks() - startclock;
+	startclock = SDL_GetTicks();
+
+	if (deltaclock != 0) {
+		currentFPS = 1000 / deltaclock;
+	}
 }
 
 void FrameHandler::updateTicks()
 {
-    frameStart = SDL_GetTicks();
-	//Calculate and correct fps 
-	avgFps = countedFrames / ( fpsTimer.getTicks() / 1000.f ); 
-	countedFrames++;
+	frameStart = SDL_GetTicks();
 }
 
 void FrameHandler::setTarget(int targetFrames)
 {
-    target = targetFrames;
-    delayTime = 1000 / target;
+	target = targetFrames;
+	delayTime = 1000 / target;
 }
 
-float FrameHandler::getAvgFps() const
+Uint32 FrameHandler::getCurrentFps() const
 {
-	return avgFps;
+	return currentFPS;
 }
