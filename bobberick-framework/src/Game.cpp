@@ -4,11 +4,9 @@
 #include "entity/EntityManager.h"
 #include "services/InputHandler.h"
 #include "services/RenderService.h"
-#include "entity/components/TransformComponent.h"
-#include "entity/components/SpriteComponent.h"
-#include "entity/components/TextComponent.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
+#include "SplashScreenState.h"
 #include "SoundManager.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
@@ -70,7 +68,10 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
         return false;
     }
 
-    stateMachine = std::make_shared<StateMachine>();
+    stateMachine = std::shared_ptr<StateMachine>(new StateMachine());
+	stateFactory = std::shared_ptr<StateFactory>(new StateFactory());
+
+	stateMachine->pushState(stateFactory->createState("SplashScreenState"));
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
