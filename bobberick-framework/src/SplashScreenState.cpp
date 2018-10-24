@@ -11,7 +11,7 @@ SplashScreenState::~SplashScreenState() {
 }
 
 void SplashScreenState::update() {
-	for (const std::shared_ptr<System> &system : systems) {
+	for (const auto& system : systems) {
 		system->update();
 	}
 }

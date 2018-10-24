@@ -74,6 +74,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
 	stateMachine->pushState(new EmptyState());
 	stateMachine->pushState(stateFactory->createState("SplashScreenState"));
+	stateMachine->pushState(stateFactory->createState(""));
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());

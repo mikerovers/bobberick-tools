@@ -8,10 +8,11 @@
 class StateFactory {
 
 public:
-	GameState* createState(const std::string type);
+	GameState* createState(const std::string& type) const;
 
 private:
-	SplashScreenState* createSplashScreenState();
+	SplashScreenState* createSplashScreenState() const;
+    GameState* createCreditScreenState() const;
 
 };
 
