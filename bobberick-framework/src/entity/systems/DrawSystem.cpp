@@ -5,6 +5,8 @@
 #include "../../TextureManager.h"
 #include "../../FontManager.h"
 #include "../../services/ServiceManager.h"
+#include "../components/TilesetComponent.h"
+#include "../../services/RenderService.h"
 
 DrawSystem::DrawSystem(EntityManager &entityManager) : System(entityManager)
 {
@@ -12,14 +14,26 @@ DrawSystem::DrawSystem(EntityManager &entityManager) : System(entityManager)
 
 void DrawSystem::update()
 {
+	auto& tx = ServiceManager::Instance()->getService<TextureManager>();
+	auto& rs = ServiceManager::Instance()->getService<RenderService>();
+
+	for (auto& entity: entityManager.getAllEntitiesWithComponent<TilesetComponent>()) {
+		auto& tileSetComponent = entity->getComponent<TilesetComponent>();
+
+		for (auto& tile : tileSetComponent.tiles) {
+			std::unique_ptr<SDL_Rect> s = std::make_unique<SDL_Rect>(tile->getSourceRect());
+			std::unique_ptr<SDL_Rect> d = std::make_unique<SDL_Rect>(tile->getDestinationRect());
+
+			tx.draw("mountain_landscape", s.get(), d.get(), rs.getRenderer());
+		}
+	}
+
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<FadeComponent>()) {
-		auto& tx = ServiceManager::Instance()->getService<TextureManager>();
 		auto & fade = entity->getComponent<FadeComponent>();
 		fade.update();
 	}
 
     for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
-        auto& tx = ServiceManager::Instance()->getService<TextureManager>();
         auto & spr = entity->getComponent<SpriteComponent>();
 
 		spr.update();
