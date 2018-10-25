@@ -37,6 +37,21 @@ public:
         return *c;
     }
 
+    template <typename T, typename... TArgs> void addExistingComponent(Component* component)
+    {
+        component->entity = this;
+        std::unique_ptr<Component> uPtr{component};
+        if (components.size() < getComponentTypeID<T>()) {
+            unsigned int difference = getComponentTypeID<T>() - components.size();
+            for (int i = 0 ; i < difference; i++) {
+                components.push_back(nullptr);
+            }
+        }
+        components.emplace_back(std::move(uPtr));
+        componentArray[getComponentTypeID<T>()] = component;
+        componentBitSet[getComponentTypeID<T>()] = true;
+    }
+
     template <typename T> bool removeComponent()
     {
         auto typeID = getComponentTypeID<T>();

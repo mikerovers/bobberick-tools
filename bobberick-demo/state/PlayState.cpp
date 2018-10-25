@@ -4,6 +4,8 @@
 #include "../../bobberick-framework/src/entity/systems/DrawSystem.h"
 #include "../../bobberick-framework/src/entity/systems/InputSystem.h"
 #include "../components/PlayerMovementComponent.h"
+#include "../../bobberick-framework/src/LevelFactory.h"
+#include "../../bobberick-framework/src/services/RenderService.h"
 
 std::string PlayState::getStateID() const
 {
@@ -20,14 +22,18 @@ void PlayState::update()
 bool PlayState::onEnter()
 {
     std::cout << "Entered playstate" << std::endl;
-    this->addSystem(std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
-    this->addSystem(std::shared_ptr<PlayerInputSystem>(new PlayerInputSystem(ServiceManager::Instance()->getService<EntityManager>())));
-    this->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
     std::shared_ptr<Entity> player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     player->addComponent<TransformComponent>();
     player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character");
     player->addComponent<PlayerMovementComponent>();
+
+    std::shared_ptr<Entity> level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto* factory = new LevelFactory();
+    TilesetComponent* tilesetComponent = factory->Load("assets/maps/map1.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
+    level->addExistingComponent<TilesetComponent>(tilesetComponent);
+
+    delete factory;
 
     return true;
 }

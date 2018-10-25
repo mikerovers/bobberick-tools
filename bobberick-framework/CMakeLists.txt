@@ -1,6 +1,7 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/bobberick-framework/cmake/modules/")
 enable_testing()
 add_subdirectory(tests)
+add_subdirectory(externals/tmxlite)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
@@ -41,7 +42,8 @@ set(
     src/util/FrameHandler.cpp src/util/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h
 	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
-		src/EmptyState.cpp src/EmptyState.h)
+		src/EmptyState.cpp src/EmptyState.h src/LevelFactory.cpp src/LevelFactory.h src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h src/entity/components/Tile.cpp src/entity/components/Tile.h)
 add_library(bobberick-framework ${SOURCE_FILES})
+target_link_libraries(bobberick-framework tmxlite)
 
 target_link_libraries(bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY})
