@@ -2,7 +2,7 @@
 #define BOBBERICK_TOOLS_BOBBERGAME_H
 
 #include "../bobberick-framework/src/Game.h"
-#include "StateFactory.h"
+#include "state/StateFactory.h"
 
 class BobberGame : public Game
 {

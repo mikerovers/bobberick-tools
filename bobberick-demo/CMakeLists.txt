@@ -10,8 +10,8 @@ include_directories(${SDL2_TTF_INCLUDE_DIRS})
 include_directories(${SDL2_MIXER_INCLUDE_DIR})
 
 set(SOURCE_FILES main.cpp BobberGame.cpp BobberGame.h
-	StateFactory.cpp StateFactory.h
-	SplashScreenState.cpp SplashScreenState.h)
+		state/StateFactory.cpp state/StateFactory.h
+        state/SplashScreenState.cpp state/SplashScreenState.h)
 add_executable(bobberick-demo ${SOURCE_FILES})
 
 target_link_libraries(bobberick-demo bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY})

@@ -2,7 +2,7 @@
 #define BOBBERICK_TOOLS_STATEFACTORY_H
 
 #include <string>
-#include "../bobberick-framework/src/GameState.h"
+#include "../../bobberick-framework/src/GameState.h"
 #include "SplashScreenState.h"
 
 class StateFactory {

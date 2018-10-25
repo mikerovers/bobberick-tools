@@ -1,9 +1,9 @@
 #include "SplashScreenState.h"
-#include "../bobberick-framework/src/services/ServiceManager.h"
-#include "../bobberick-framework/src/entity/components/TransformComponent.h"
-#include "../bobberick-framework/src/entity/components/SpriteComponent.h"
-#include "../bobberick-framework/src/entity/components/TextComponent.h"
-#include "../bobberick-framework/src/entity/components/FadeComponent.h"
+#include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/entity/components/TransformComponent.h"
+#include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/TextComponent.h"
+#include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include <SDL.h>
 
 SplashScreenState::~SplashScreenState() {
