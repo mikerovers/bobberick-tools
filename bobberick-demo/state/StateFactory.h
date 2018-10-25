@@ -4,6 +4,7 @@
 #include <string>
 #include "../../bobberick-framework/src/GameState.h"
 #include "SplashScreenState.h"
+#include "PlayState.h"
 
 class StateFactory {
 
@@ -12,7 +13,7 @@ public:
 
 private:
 	SplashScreenState* createSplashScreenState();
-
+	PlayState* createPlayState();
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H

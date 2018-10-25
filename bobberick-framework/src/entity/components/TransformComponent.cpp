@@ -1,8 +1,6 @@
 #include "TransformComponent.h"
 
-TransformComponent::TransformComponent()
-{
-}
+TransformComponent::TransformComponent() = default;
 
 TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, int sc)
 {
@@ -22,8 +20,8 @@ TransformComponent::TransformComponent(int sc)
 
 void TransformComponent::update()
 {
-    position.setX(velocity.getX() * speed);
-    position.setY(velocity.getY() * speed);
+    position.setX(position.getX() + (velocity.getX() * speed));
+    position.setY(position.getY() + (velocity.getY() * speed));
 }
 
 void TransformComponent::init()

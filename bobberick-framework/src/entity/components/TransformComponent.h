@@ -11,8 +11,8 @@ public:
     Vector2D position = Vector2D(0, 0);
     Vector2D velocity = Vector2D(0, 0);
 
-    int height = 32;
-    int width = 32;
+    int height = 256;
+    int width = 256;
     int scale = 1;
 
     int speed = 3;

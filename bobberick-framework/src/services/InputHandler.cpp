@@ -165,30 +165,30 @@ void InputHandler::initialiseJoysticks()
 
 int InputHandler::xvalue(int joy, int stick)
 {
-	if (m_joystickValues.size() > 0)
+	if (!m_joystickValues.empty())
 	{
 		if (stick == 1)
 		{
-			return m_joystickValues[joy].first->getX();
+			return static_cast<int>(m_joystickValues[joy].first->getX());
 		}
 		else if (stick == 2)
 		{
-			return m_joystickValues[joy].second->getX();
+			return static_cast<int>(m_joystickValues[joy].second->getX());
 		}
 	}
 	return 0;
 }
 int InputHandler::yvalue(int joy, int stick)
 {
-	if (m_joystickValues.size() > 0)
+	if (!m_joystickValues.empty())
 	{
 		if (stick == 1)
 		{
-			return m_joystickValues[joy].first->getY();
+			return static_cast<int>(m_joystickValues[joy].first->getY());
 		}
 		else if (stick == 2)
 		{
-			return m_joystickValues[joy].second->getY();
+			return static_cast<int>(m_joystickValues[joy].second->getY());
 		}
 	}
 	return 0;
@@ -286,4 +286,9 @@ void InputHandler::clean()
 			SDL_JoystickClose(m_joysticks[i]);
 		}
 	}
+}
+
+std::vector<std::pair<Vector2D *, Vector2D *>> InputHandler::getJoystickValues()
+{
+	return m_joystickValues;
 }

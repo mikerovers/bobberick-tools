@@ -3,7 +3,6 @@
 void StateMachine::pushState(GameState *pState)
 {
     gameStates.push_back(pState);
-    gameStates.back()->onEnter();
 }
 
 void StateMachine::popState()
@@ -40,6 +39,16 @@ void StateMachine::update() {
 		if (gameStates.back()->shouldExit()) {
 			SDL_Log("Popping state.");
 			popState();
+			gameStates.back()->onEnter();
 		}
     }
+}
+
+GameState *StateMachine::peekState()
+{
+    if (!gameStates.empty()) {
+        return gameStates.back();
+    }
+
+    return nullptr;
 }

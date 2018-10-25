@@ -69,7 +69,6 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::make_shared<StateMachine>();
-	stateMachine->pushState(new EmptyState());
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
@@ -90,7 +89,7 @@ void Game::update()
     SDL_RenderPresent(renderer.get());
 
 	const auto frames = frameHandler->getCurrentFps();
-	std::cout << frames << "\n";
+//	std::cout << frames << "\n";
     frameHandler->handleFrame();
 }
 
