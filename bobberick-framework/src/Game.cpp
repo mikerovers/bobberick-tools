@@ -6,7 +6,6 @@
 #include "services/RenderService.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
-#include "SplashScreenState.h"
 #include "SoundManager.h"
 #include "EmptyState.h"
 
@@ -70,10 +69,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::make_shared<StateMachine>();
-	stateFactory = std::make_shared<StateFactory>();
-
 	stateMachine->pushState(new EmptyState());
-	stateMachine->pushState(stateFactory->createState("SplashScreenState"));
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());

@@ -18,7 +18,6 @@ set(
 	src/entity/Entity.h src/entity/Entity.cpp
 	src/entity/EntityManager.cpp src/entity/EntityManager.h
 	src/StateMachine.cpp src/StateMachine.h
-	src/StateFactory.cpp src/StateFactory.h
 	src/GameState.cpp src/GameState.h
 	src/util/Vector2D.h src/util/Vector2D.cpp
 	src/util/Timer.h src/util/Timer.cpp
@@ -30,7 +29,6 @@ set(
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/TextureManager.cpp src/TextureManager.h
 	src/FontManager.cpp src/FontManager.h
-	src/SplashScreenState.cpp src/SplashScreenState.h
 	src/services/ServiceManager.cpp src/services/ServiceManager.h
 	src/services/Service.cpp src/services/Service.h
 	src/entity/Component.cpp src/entity/Component.h

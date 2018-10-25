@@ -18,8 +18,8 @@ public:
     int speed = 3;
 
     TransformComponent();
-    TransformComponent(int sc);
-    TransformComponent(float xPos, float yPos, int h, int w, int sc);
+    explicit TransformComponent(int sc);
+    explicit TransformComponent(float xPos, float yPos, int h, int w, int sc);
 
     void update() override;
     void init() override;

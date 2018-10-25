@@ -1,6 +1,6 @@
 #include "StateFactory.h"
-#include "entity/systems/DrawSystem.h"
-#include "services/ServiceManager.h"
+#include "../../bobberick-framework/src/entity/systems/DrawSystem.h"
+#include "../../bobberick-framework/src/services/ServiceManager.h"
 
 GameState* StateFactory::createState(const std::string type) {
 	if (type == "SplashScreenState") {
