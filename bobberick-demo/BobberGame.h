@@ -2,12 +2,16 @@
 #define BOBBERICK_TOOLS_BOBBERGAME_H
 
 #include "../bobberick-framework/src/Game.h"
+#include "StateFactory.h"
 
 class BobberGame : public Game
 {
 public:
     bool setup() override;
     void start() override;
+
+private:
+	std::shared_ptr<StateFactory> stateFactory;
 };
 
 

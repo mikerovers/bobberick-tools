@@ -3,7 +3,6 @@
 
 #include "SDL.h"
 #include "StateMachine.h"
-#include "StateFactory.h"
 #include "services/ServiceManager.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
@@ -28,6 +27,8 @@ public:
     int getGameWidth() const;
     int getGameHeight() const;
 
+protected:
+	std::shared_ptr<StateMachine> stateMachine;
 private:
     SDL_WindowPointer window;
     SDL_RendererPointer renderer;
@@ -36,9 +37,7 @@ private:
     int gameWidth;
 
     bool isRunning;
-
-    std::shared_ptr<StateMachine> stateMachine;
-	std::shared_ptr<StateFactory> stateFactory;
+   	
     std::shared_ptr<FrameHandler> frameHandler;
 
     //TODO Make a interface for system registring. Maybe in the statemachine?

@@ -1,7 +1,7 @@
 #ifndef BOBBERICK_TOOLS_SPLASHSCREENSTATE_H
 #define BOBBERICK_TOOLS_SPLASHSCREENSTATE_H
 
-#include "GameState.h"
+#include "../bobberick-framework/src/GameState.h"
 
 class SplashScreenState : public GameState {
 public:

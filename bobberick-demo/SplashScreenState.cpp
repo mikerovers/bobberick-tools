@@ -1,9 +1,9 @@
 #include "SplashScreenState.h"
-#include "services/ServiceManager.h"
-#include "entity/components/TransformComponent.h"
-#include "entity/components/SpriteComponent.h"
-#include "entity/components/TextComponent.h"
-#include "entity/components/FadeComponent.h"
+#include "../bobberick-framework/src/services/ServiceManager.h"
+#include "../bobberick-framework/src/entity/components/TransformComponent.h"
+#include "../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../bobberick-framework/src/entity/components/TextComponent.h"
+#include "../bobberick-framework/src/entity/components/FadeComponent.h"
 #include <SDL.h>
 
 SplashScreenState::~SplashScreenState() {
@@ -39,7 +39,6 @@ bool SplashScreenState::shouldExit() {
 		// We are only done when all of our FadeComponent entities are done fading out.
 		if (entity->getComponent<FadeComponent>().fadeOut) {
 			return false;
-			SDL_Log("Exiting.");
 		}
 	}
 	return true;
