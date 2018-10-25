@@ -6,9 +6,7 @@
 #include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include <SDL.h>
 
-SplashScreenState::~SplashScreenState() {
-
-}
+SplashScreenState::~SplashScreenState() = default;
 
 void SplashScreenState::update() {
 	for (const std::shared_ptr<System> &system : systems) {
@@ -27,6 +25,7 @@ bool SplashScreenState::onEnter() {
 	logoText->addComponent<TextComponent>("assets/font.ttf", "logoText", "Team C++", 56);
 	logoText->addComponent<FadeComponent>("logoText", -50, 2, 300);
 	fadeEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<FadeComponent>();
+
 	return true;
 }
 
@@ -41,6 +40,7 @@ bool SplashScreenState::shouldExit() {
 			return false;
 		}
 	}
+
 	return true;
 }
 

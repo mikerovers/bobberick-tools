@@ -69,7 +69,6 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     }
 
     stateMachine = std::make_shared<StateMachine>();
-	stateFactory = std::make_shared<StateFactory>();
   
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
