@@ -26,9 +26,7 @@ public:
 
     int getGameWidth() const;
     int getGameHeight() const;
-
-protected:
-	std::shared_ptr<StateMachine> stateMachine;
+	
 private:
     SDL_WindowPointer window;
     SDL_RendererPointer renderer;
@@ -39,6 +37,7 @@ private:
     bool isRunning;
    	
     std::shared_ptr<FrameHandler> frameHandler;
+	std::shared_ptr<StateMachine> stateMachine;
 
     //TODO Make a interface for system registring. Maybe in the statemachine?
 };
