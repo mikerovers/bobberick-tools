@@ -14,7 +14,5 @@ void PlayerMovementSystem::update()
     for (auto& entity: entityManager->getAllEntitiesWithComponent<PlayerMovementComponent>()) {
         auto& transform = entity->getComponent<TransformComponent>();
         auto& inputService = ServiceManager::Instance()->getService<InputHandler>();
-
-
     }
 }

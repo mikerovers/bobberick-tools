@@ -19,7 +19,7 @@ void SpriteComponent::update()
 {
 	if (currentFrame >= 0) {
 		animTimer--;
-		if (animTimer == 0) {
+		if (animTimer == 0 || staticAnimation) {
 			animTimer = animRate;
 			currentFrame++;
 			if (currentFrame >= animFrames) {
@@ -43,7 +43,7 @@ void SpriteComponent::render()
     ServiceManager::Instance()->getService<TextureManager>().draw(texture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer());
 }
 
-SpriteComponent::SpriteComponent(const char *path, const char *textureID)
+SpriteComponent::SpriteComponent(const char *path, const char *textureID): staticAnimation(false)
 {
     if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
         texture = textureID;
@@ -55,7 +55,7 @@ SpriteComponent::SpriteComponent(const char *path, const char *textureID)
 
 }
 
-SpriteComponent::SpriteComponent(const char *path, const char *textureID, const int animCols, const int animFrames, const int animRate)
+SpriteComponent::SpriteComponent(const char *path, const char *textureID, const int animCols, const int animFrames, const int animRate): staticAnimation(false)
 {
 	if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
 		texture = textureID;
@@ -70,3 +70,19 @@ SpriteComponent::SpriteComponent(const char *path, const char *textureID, const 
 	animTimer = animRate;
 	currentFrame = 0;
 }
+
+void SpriteComponent::setCurrentFrame(const int frame)
+{
+	currentFrame = frame;
+}
+
+void SpriteComponent::setStaticAnimation(const bool stan)
+{
+	staticAnimation = stan;
+}
+
+SpriteComponent::SpriteComponent(): staticAnimation(false)
+{
+
+}
+
