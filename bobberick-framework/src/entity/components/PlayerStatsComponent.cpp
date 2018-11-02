@@ -1,9 +1,10 @@
 #include "PlayerStatsComponent.h"
 #include "StatsComponent.h"
 
-PlayerStatsComponent::PlayerStatsComponent(StatsComponent* stats, const int shdHpMax, const int shdCoolMax, const int gold, const int xp) {
-	shdHp = PlayerStatsComponent::shdHpMax = shdHpMax;
-	shdCool = PlayerStatsComponent::shdCoolMax = shdCoolMax;
+PlayerStatsComponent::PlayerStatsComponent(StatsComponent* stats, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp) {
+	PlayerStatsComponent::shdTime = shdTime;
+	PlayerStatsComponent::shdTimeMax = shdTimeMax;
+	PlayerStatsComponent::shdRecov = shdRecov;
 	shdActive = false;
 	PlayerStatsComponent::gold = gold;
 	PlayerStatsComponent::xp = xp;
@@ -12,27 +13,32 @@ PlayerStatsComponent::PlayerStatsComponent(StatsComponent* stats, const int shdH
 
 void PlayerStatsComponent::update() {
 	if (shdActive) {
-		shdCool = shdCoolMax;
-		if (shdHp <= 0) { // ShdHP reached 0, get kicked out of shield mode.
+		shdTime -= 1;
+		if (shdTime <= 0) {
 			shdActive = false;
 		}
-	} else if (shdHp < shdHpMax) { // The shield mode only recovers when inactive.
-		shdCool--;
-		if (shdCool == 0) { // Shield cooldown reached 0, replenish one Shield HP.
-			shdCool = shdCoolMax;
-			shdHp++;
+	} else { // The shield mode only recovers when inactive.
+		shdTime += shdRecov;
+		if (shdTime > shdTimeMax) {
+			shdTime = shdTimeMax;
 		}
 	}
 }
 
+void PlayerStatsComponent::toggleShield() {
+	if (!shdActive && shdTime / shdTimeMax >= 0.5) {
+		shdActive = true;
+	} else if (shdActive) {
+		shdActive = false;
+	}
+}
+
+const bool PlayerStatsComponent::shieldActive() const {
+	return shdActive;
+}
+
 void PlayerStatsComponent::getHit(int attack, const bool pierceDF) {
-	if (shdActive) {
-		shdHp--; // Block this attack in shield mode.
-		if (shdHp <= 0) {
-			shdHp = 0; // ShdHP reached 0, get kicked out of shield mode.
-			shdActive = false;
-		}
-	} else {
+	if (!shdActive) {
 		stats->getHit(attack, pierceDF); // Shield mode not active, get hit normally.
 	}
 }

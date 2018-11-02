@@ -45,12 +45,14 @@ void DrawSystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
 		auto & spr = entity->getComponent<TextComponent>();
 
+		spr.update();
 		spr.render();
 	}
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
 		auto & spr = entity->getComponent<RectangleComponent>();
 
+		spr.update();
 		spr.render();
 	}
 }

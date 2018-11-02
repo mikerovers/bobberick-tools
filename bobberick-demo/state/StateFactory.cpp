@@ -2,6 +2,7 @@
 #include "../../bobberick-framework/src/entity/systems/DrawSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/entity/systems/InputSystem.h"
+#include "../systems/HudSystem.h"
 #include "../systems/PlayerInputSystem.h"
 
 GameState* StateFactory::createState(const std::string type) {
@@ -27,6 +28,7 @@ PlayState *StateFactory::createPlayState()
 	playState->addSystem(std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
 	playState->addSystem(std::shared_ptr<PlayerInputSystem>(new PlayerInputSystem(ServiceManager::Instance()->getService<EntityManager>())));
 	playState->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(std::shared_ptr<HudSystem>(new HudSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return playState;
 }

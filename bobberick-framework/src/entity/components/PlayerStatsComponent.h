@@ -7,22 +7,23 @@
 class PlayerStatsComponent : public Component
 {
 public:
-	PlayerStatsComponent(StatsComponent* stats, const int shdHpMax, const int shdCoolMax, const int gold, const int xp);
-	~PlayerStatsComponent() { delete stats; }
+	PlayerStatsComponent(StatsComponent* stats, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp);
 
 	void update() override; // The shield is recovered in this function.
 
 	void getHit(int attack, const bool pierceDF); // Mitigate attack with DF in offensive mode or with ShdHP in shield mode.
 	// If an entity has a PlayerStatsComponent with a StatsComponent in it, call only the PlayerStatsComponent getHit() in your system.
+	void toggleShield(); // Activate the shield, if it's charged enough (currently must be at least 50% charged).
+	const bool shieldActive() const; // Returns true if the shield is currently active.
 
 	StatsComponent* stats; // The Component containing the player's basic stats.
-	int shdHp = 0; // Shield HP, the amount of hits the player can still absorb (in shield mode).
-	int shdHpMax = 0; // Amount of hits the player can absorb at most.
-	int shdCool = 0; // Amount of ticks it takes until the next ShdHP point is recovered.
-	int shdCoolMax = 0; // Amount of ticks to recover each ShdHP point.
-	bool shdActive = false; // Whether or not shield mode is active.
+	double shdTime; // The amount of ticks the shield can still be active.
+	double shdTimeMax; // The amount of ticks the shield can be active at most.
+	double shdRecov; // The amount of shdTime recovered every tick (when shield is inactive).
 	int gold;
 	int xp;
+private:
+	bool shdActive; // Whether or not shield mode is active.
 };
 
 #endif //BOBBERICK_TOOLS_PLAYERSTATSCOMPONENT_H

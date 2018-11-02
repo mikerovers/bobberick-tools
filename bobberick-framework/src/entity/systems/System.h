@@ -9,6 +9,7 @@ class System
 public:
     explicit System(EntityManager& entityManager);
     virtual void update() = 0;
+	virtual void init();
 protected:
     EntityManager& entityManager;
 };
