@@ -3,6 +3,7 @@
 
 #include "../Component.h"
 #include "Tile.h"
+#include "TileObject.h"
 #include <map>
 #include <vector>
 
@@ -17,6 +18,7 @@ public:
     int tileHeight;
     std::map<gid, std::string> tileSets;
     std::vector<Tile*> tiles;
+    std::vector<TileObject*> objects;
 };
 
 

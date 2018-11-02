@@ -42,7 +42,7 @@ set(
     src/util/FrameHandler.cpp src/util/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h
 	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
-		src/EmptyState.cpp src/EmptyState.h src/LevelFactory.cpp src/LevelFactory.h src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h src/entity/components/Tile.cpp src/entity/components/Tile.h)
+		src/EmptyState.cpp src/EmptyState.h src/LevelFactory.cpp src/LevelFactory.h src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h src/entity/components/Tile.cpp src/entity/components/Tile.h src/entity/components/TileObject.cpp src/entity/components/TileObject.h)
 add_library(bobberick-framework ${SOURCE_FILES})
 target_link_libraries(bobberick-framework tmxlite)
 
