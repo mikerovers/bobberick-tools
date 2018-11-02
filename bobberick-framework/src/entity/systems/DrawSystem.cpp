@@ -1,8 +1,10 @@
 #include "DrawSystem.h"
 #include "../components/SpriteComponent.h"
+#include "../components/RectangleComponent.h"
 #include "../components/TextComponent.h"
 #include "../components/FadeComponent.h"
 #include "../../TextureManager.h"
+#include "../../RectangleManager.h"
 #include "../../FontManager.h"
 #include "../../services/ServiceManager.h"
 #include "../components/TilesetComponent.h"
@@ -41,8 +43,13 @@ void DrawSystem::update()
     }
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
-		auto& tx = ServiceManager::Instance()->getService<FontManager>();
 		auto & spr = entity->getComponent<TextComponent>();
+
+		spr.render();
+	}
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
+		auto & spr = entity->getComponent<RectangleComponent>();
 
 		spr.render();
 	}

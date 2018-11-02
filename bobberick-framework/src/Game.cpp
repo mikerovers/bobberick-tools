@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "FontManager.h"
+#include "RectangleManager.h"
 #include "entity/EntityManager.h"
 #include "services/InputHandler.h"
 #include "services/RenderService.h"
@@ -39,6 +40,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
     ServiceManager* serviceManager = ServiceManager::Instance();
     serviceManager->addService<TextureManager>();
 	serviceManager->addService<FontManager>();
+	serviceManager->addService<RectangleManager>();
     serviceManager->addService<EntityManager>();
     serviceManager->addService<RenderService>();
 	serviceManager->addService<SoundManager>();
