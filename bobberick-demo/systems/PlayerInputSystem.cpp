@@ -3,6 +3,7 @@
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
+#include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 
 PlayerInputSystem::PlayerInputSystem(EntityManager &entityManager) : System(entityManager)
 {
@@ -19,8 +20,13 @@ void PlayerInputSystem::update()
 //        std::cout << "Joystick y: " << inputHandler.xvalue(0, 1) << std::endl;
 
         transform.velocity.setX(inputHandler.xvalue(0, 1));
-
         transform.velocity.setY(inputHandler.yvalue(0, 1));
+
+        auto& collisionComponent = entity->getComponent<CollisionComponent>();
+        collisionComponent.collider->x = transform.position.getX();
+        collisionComponent.collider->y = transform.position.getY();
+        collisionComponent.collider->w = transform.width;
+        collisionComponent.collider->h = transform.height;
 
         transform.update();
     }

@@ -6,6 +6,7 @@
 #include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../../bobberick-framework/src/services/RenderService.h"
+#include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 
 std::string PlayState::getStateID() const
 {
@@ -27,11 +28,16 @@ bool PlayState::onEnter()
     player->addComponent<TransformComponent>();
     player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character");
     player->addComponent<PlayerMovementComponent>();
+    player->addComponent<CollisionComponent>("player");
 
     std::shared_ptr<Entity> level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     auto* factory = new LevelFactory();
     TilesetComponent* tilesetComponent = factory->Load("assets/maps/map1.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
     level->addExistingComponent<TilesetComponent>(tilesetComponent);
+
+    std::shared_ptr<Entity> box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto* collisionComponent = new CollisionComponent("test", 0, 0, 40);
+    box->addExistingComponent<CollisionComponent>(collisionComponent);
 
     delete factory;
 

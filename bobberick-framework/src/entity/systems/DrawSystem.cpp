@@ -7,6 +7,7 @@
 #include "../../services/ServiceManager.h"
 #include "../components/TilesetComponent.h"
 #include "../../services/RenderService.h"
+#include "../../../../bobberick-framework/src/entity/components/CollisionComponent.h"
 
 DrawSystem::DrawSystem(EntityManager &entityManager) : System(entityManager)
 {
@@ -45,5 +46,24 @@ void DrawSystem::update()
 		auto & spr = entity->getComponent<TextComponent>();
 
 		spr.render();
+	}
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>()) {
+		auto& comp = entity->getComponent<CollisionComponent>();
+
+		auto* sourceRect = new SDL_Rect;
+		sourceRect->x = 0;
+		sourceRect->y = 0;
+		sourceRect->w = 32;
+		sourceRect->h = 32;
+		auto* destRect = new SDL_Rect;
+		destRect->x = comp.collider->x;
+		destRect->y = comp.collider->y;
+		destRect->w = comp.collider->w;
+		destRect->h = comp.collider->h;
+		tx.draw("collision", sourceRect, destRect, rs.getRenderer());
+
+		delete sourceRect;
+		delete destRect;
 	}
 }
