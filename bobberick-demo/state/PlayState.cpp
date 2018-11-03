@@ -27,7 +27,6 @@ bool PlayState::onEnter()
 	player->addComponent<TransformComponent>();
     player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character");
     player->addComponent<PlayerMovementComponent>();
-	player->getComponent<TransformComponent>().velocity.setX(1);
 
     std::shared_ptr<Entity> level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     auto* factory = new LevelFactory();

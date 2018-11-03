@@ -2,6 +2,7 @@
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../components/PlayerMovementComponent.h"
+#include "../components/BulletMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 PlayerInputSystem::PlayerInputSystem(EntityManager &entityManager) : System(entityManager)
@@ -45,14 +46,29 @@ void PlayerInputSystem::update()
 		if (inputHandler.getMouseButtonState(LEFT)) { // shoot
 			std::cout << "x: " << inputHandler.getMousePosition()->getX() << " y:" << inputHandler.getMousePosition()->getY();
 			std::shared_ptr<Entity> bullet = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-			bullet->addComponent<TransformComponent>();
+			auto& bulletTransform = bullet->addComponent<TransformComponent>();
+			//bullet->addComponent<SpriteComponent>("assets/image/Simple_Bullet.bmp", "bullet");
 			bullet->addComponent<SpriteComponent>("assets/teamcpp_logo.bmp", "bullet");
-			auto& bulletTransform = bullet->getComponent<TransformComponent>();
-			bulletTransform.height = 1;
-			bulletTransform.width = 1;
-			bulletTransform.scale = 0.1;
+			bullet->addComponent<BulletMovementComponent>();
+			double angle = std::atan2(inputHandler.getMousePosition()->getX() - transform.position.getX(), inputHandler.getMousePosition()->getY() - transform.position.getY());
+			double xVel = cos(angle);
+			double yVel = sin(angle);
+
+			double angleX = inputHandler.getMousePosition()->getX() - transform.position.getX();
+			double angleY = inputHandler.getMousePosition()->getY() - transform.position.getY();
+
+			float vectorLength = sqrt(angleX*angleX + angleY * angleY);
+			float dx = angleX / vectorLength;
+			float dy = angleY / vectorLength;
+
 			bulletTransform.position.setX(inputHandler.getMousePosition()->getX());
 			bulletTransform.position.setY(inputHandler.getMousePosition()->getY());
+
+			bulletTransform.height = 1;
+			bulletTransform.width = 1;
+			bulletTransform.velocity.setX(dx);
+			bulletTransform.velocity.setY(dy);
+
 		}
 
 
