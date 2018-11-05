@@ -41,6 +41,7 @@ void DrawSystem::update()
     }
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
+		auto& tx = ServiceManager::Instance()->getService<FontManager>();
 		auto & spr = entity->getComponent<TextComponent>();
 
 		spr.render();
