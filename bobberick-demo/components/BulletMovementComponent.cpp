@@ -7,6 +7,7 @@ void BulletMovementComponent::init()
 
 void BulletMovementComponent::update()
 {
+
 	Component::update();
 }
 

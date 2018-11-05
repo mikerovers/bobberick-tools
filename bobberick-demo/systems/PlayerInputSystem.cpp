@@ -1,10 +1,12 @@
 #include "PlayerInputSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
+#include "../../bobberick-framework/src/SoundManager.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../components/BulletMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/PlayerShootComponent.h"
 PlayerInputSystem::PlayerInputSystem(EntityManager &entityManager) : System(entityManager)
 {
 
@@ -14,6 +16,7 @@ void PlayerInputSystem::update()
 {
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerMovementComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
+		auto& playerShoot = entity->getComponent<PlayerShootComponent>();
 		auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 
 		//std::cout << "Joystick x: " << inputHandler.xvalue(0, 1) << std::endl;
@@ -44,31 +47,30 @@ void PlayerInputSystem::update()
 		}
 
 		if (inputHandler.getMouseButtonState(LEFT)) { // shoot
-			std::cout << "x: " << inputHandler.getMousePosition()->getX() << " y:" << inputHandler.getMousePosition()->getY();
-			std::shared_ptr<Entity> bullet = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-			auto& bulletTransform = bullet->addComponent<TransformComponent>();
-			//bullet->addComponent<SpriteComponent>("assets/image/Simple_Bullet.bmp", "bullet");
-			bullet->addComponent<SpriteComponent>("assets/teamcpp_logo.bmp", "bullet");
-			bullet->addComponent<BulletMovementComponent>();
-			double angle = std::atan2(inputHandler.getMousePosition()->getX() - transform.position.getX(), inputHandler.getMousePosition()->getY() - transform.position.getY());
-			double xVel = cos(angle);
-			double yVel = sin(angle);
+			if (playerShoot.canShoot()) {
+				double playerX = transform.position.getX();
+				double playerY = transform.position.getY();
 
-			double angleX = inputHandler.getMousePosition()->getX() - transform.position.getX();
-			double angleY = inputHandler.getMousePosition()->getY() - transform.position.getY();
+				double playerXCenter = playerX + transform.width / 2;
+				double playerYCenter = playerY + transform.height / 2;
 
-			float vectorLength = sqrt(angleX*angleX + angleY * angleY);
-			float dx = angleX / vectorLength;
-			float dy = angleY / vectorLength;
+				double angleX = inputHandler.getMousePosition()->getX() - playerXCenter;
+				double angleY = inputHandler.getMousePosition()->getY() - playerYCenter;
 
-			bulletTransform.position.setX(inputHandler.getMousePosition()->getX());
-			bulletTransform.position.setY(inputHandler.getMousePosition()->getY());
+				float vectorLength = sqrt(angleX*angleX + angleY * angleY);
+				float dx = angleX / vectorLength;
+				float dy = angleY / vectorLength;
 
-			bulletTransform.height = 1;
-			bulletTransform.width = 1;
-			bulletTransform.velocity.setX(dx);
-			bulletTransform.velocity.setY(dy);
+				std::shared_ptr<Entity> bullet = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+				ServiceManager::Instance()->getService<SoundManager>().playSound("1", 0);
+				auto& bulletTransform = bullet->addComponent<TransformComponent>(playerXCenter + (dx * 100), playerYCenter + (dy * 100), 5, 5, 1);
+				bullet->addComponent<SpriteComponent>("assets/image/bullet_ball_grey.png", "bullet");
+				bullet->addComponent<BulletMovementComponent>();
 
+				bulletTransform.velocity.setX(dx);
+				bulletTransform.velocity.setY(dy);
+				playerShoot.setShootTimer();
+			}
 		}
 
 
