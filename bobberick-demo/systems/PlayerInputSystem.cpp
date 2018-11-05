@@ -16,19 +16,27 @@ void PlayerInputSystem::update()
 {
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerMovementComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
+		auto& sprite = entity->getComponent<SpriteComponent>();
 		auto& playerShoot = entity->getComponent<PlayerShootComponent>();
 		auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 
 		//std::cout << "Joystick x: " << inputHandler.xvalue(0, 1) << std::endl;
 		//std::cout << "Joystick y: " << inputHandler.xvalue(0, 1) << std::endl;
 
+		bool notGoingX = true;
 
 		if (inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D))
 		{
 			transform.velocity.setX(1);
+			sprite.moving = true;
+			sprite.flip = false;
+			notGoingX = false;
 		}
 		else if (inputHandler.isKeyDown(SDL_SCANCODE_LEFT) || inputHandler.isKeyDown(SDL_SCANCODE_A)) {
 			transform.velocity.setX(-1);
+			sprite.moving = true;
+			sprite.flip = true;
+			notGoingX = false;
 		}
 		else {
 			transform.velocity.setX(0);
@@ -36,13 +44,18 @@ void PlayerInputSystem::update()
 		if (inputHandler.isKeyDown(SDL_SCANCODE_UP) || inputHandler.isKeyDown(SDL_SCANCODE_W))
 		{
 			transform.velocity.setY(-1);
+			sprite.moving = true;
 		}
 		else if (inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S))
 		{
 			transform.velocity.setY(1);
+			sprite.moving = true;
 		}
 		else
 		{
+			if (notGoingX) {
+				sprite.moving = false;
+			}
 			transform.velocity.setY(0);
 		}
 
@@ -69,19 +82,9 @@ void PlayerInputSystem::update()
 
 				bulletTransform.velocity.setX(dx);
 				bulletTransform.velocity.setY(dy);
-				playerShoot.setShootTimer();
+				playerShoot.setShootTimer(500);
 			}
 		}
-
-
-
-
-
-
-
-		//transform.velocity.setX(inputHandler.xvalue(0, 1));
-
-		//transform.velocity.setY(inputHandler.yvalue(0, 1));
 
 		transform.update();
 	}

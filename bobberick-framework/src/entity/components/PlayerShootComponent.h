@@ -7,9 +7,10 @@ class PlayerShootComponent : public Component
 {
 public:
 	bool canShoot();
-	void setShootTimer();
+	void setShootTimer(unsigned int timer);
 
 	unsigned int lastTime = 0;
+	unsigned int timerCount;
 };
 
 

@@ -27,8 +27,8 @@ bool PlayState::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "1", SOUND_SFX);
 
     std::shared_ptr<Entity> player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	player->addComponent<TransformComponent>();
-    player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character");
+	player->addComponent<TransformComponent>(10, 10, 256, 256, 2);
+    player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character", 6, 6, 5);
     player->addComponent<PlayerMovementComponent>();
     player->addComponent<PlayerShootComponent>();
 
