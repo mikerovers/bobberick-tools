@@ -2024,7 +2024,7 @@
   </data>
  </layer>
  <objectgroup name="health">
-  <object id="1" name="healthkit" x="138" y="565">
+  <object id="1" name="healthkit" x="222" y="342">
    <point/>
   </object>
  </objectgroup>
