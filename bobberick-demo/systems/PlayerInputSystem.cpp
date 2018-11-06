@@ -30,8 +30,8 @@ void PlayerInputSystem::update()
 
 		if (left || right || up || down) {
 			sprite.moving = true;
-			if (!ServiceManager::Instance()->getService<SoundManager>().isSoundPlaying()) {
-				ServiceManager::Instance()->getService<SoundManager>().playSound("footsteps", 0);
+			if (!ServiceManager::Instance()->getService<SoundManager>().isSoundPlaying(1)) {
+				ServiceManager::Instance()->getService<SoundManager>().playSound(1, "footsteps", 0);
 			}
 			if ((left && right) || (!left && !right)) {
 				transform.velocity.setX(0);
@@ -57,7 +57,7 @@ void PlayerInputSystem::update()
 			sprite.moving = false;
 			transform.velocity.setY(0);
 			transform.velocity.setX(0);
-			ServiceManager::Instance()->getService<SoundManager>().stopSound();
+			ServiceManager::Instance()->getService<SoundManager>().stopSound(1);
 		}
 
 		sprite.flip = left ? true : false;
@@ -78,7 +78,7 @@ void PlayerInputSystem::update()
 				float dy = angleY / vectorLength;
 
 				std::shared_ptr<Entity> bullet = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-				ServiceManager::Instance()->getService<SoundManager>().playSound("arrow", 0);
+				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				auto& bulletTransform = bullet->addComponent<TransformComponent>(playerXCenter + (dx * 100), playerYCenter + (dy * 100), 10, 10, 1);
 				bullet->addComponent<SpriteComponent>("assets/image/bullet_ball_grey.png", "bullet");
 				bullet->addComponent<BulletMovementComponent>();

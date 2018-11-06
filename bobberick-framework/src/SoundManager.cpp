@@ -47,9 +47,9 @@ void SoundManager::playMusic(std::string id, int loop)
 }
 
 
-void SoundManager::playSound(std::string id, int loop)
+void SoundManager::playSound(int const channel, std::string id, int loop)
 {
-	Mix_PlayChannel(-1, m_sfxs[id], loop);
+	Mix_PlayChannel(channel, m_sfxs[id], loop);
 }
 
 void SoundManager::stopMusic()
@@ -57,14 +57,14 @@ void SoundManager::stopMusic()
 	Mix_HaltMusic();
 }
 
-void SoundManager::stopSound()
+void SoundManager::stopSound(int const channel)
 {
-	Mix_HaltChannel(-1);
+	Mix_HaltChannel(channel);
 }
 
-bool SoundManager::isSoundPlaying() const
+bool SoundManager::isSoundPlaying(int const channel) const
 {
-	return Mix_Playing(-1);
+	return Mix_Playing(channel);
 }
 
 void SoundManager::init()
