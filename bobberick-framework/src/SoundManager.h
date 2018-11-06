@@ -33,6 +33,11 @@ public:
 	void playSound(const std::string& id, int loop);
 	void playMusic(const std::string& id, int loop);
 
+	void stopMusic();
+	void stopSound(int const channel);
+
+	bool isSoundPlaying(int const channel) const;
+
 	void clean() override;
 
 	SoundManager();

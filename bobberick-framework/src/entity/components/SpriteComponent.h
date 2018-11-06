@@ -26,6 +26,7 @@ public:
 private:
     TransformComponent* transform;
     std::string texture;
+
     SDL_Rect sourceRect{};
     SDL_Rect destinationRect{};
 	int animCols; // Amount of columns in spritesheet
