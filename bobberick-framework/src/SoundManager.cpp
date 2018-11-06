@@ -46,9 +46,25 @@ void SoundManager::playMusic(std::string id, int loop)
 	Mix_PlayMusic(m_music[id], loop);
 }
 
+
 void SoundManager::playSound(std::string id, int loop)
 {
 	Mix_PlayChannel(-1, m_sfxs[id], loop);
+}
+
+void SoundManager::stopMusic()
+{
+	Mix_HaltMusic();
+}
+
+void SoundManager::stopSound()
+{
+	Mix_HaltChannel(-1);
+}
+
+bool SoundManager::isSoundPlaying() const
+{
+	return Mix_Playing(-1);
 }
 
 void SoundManager::init()
