@@ -9,9 +9,12 @@
 class SpriteComponent : public Component
 {
 public:
-    SpriteComponent() = default;
+    SpriteComponent();
 	SpriteComponent(const char * path, const char* textureID);
     SpriteComponent(const char * path, const char* textureID, int animCols, int animFrames, int animRate);
+
+    void setCurrentFrame(const int frame);
+    void setStaticAnimation(const bool stan);
 
     void init() override;
     void update() override;
@@ -26,6 +29,7 @@ private:
 	int currentFrame; // Current frame number
 	int animRate; // Amount of ticks each frame
 	int animTimer; // Amount of ticks remaining to next frame
+	bool staticAnimation;
 };
 
 
