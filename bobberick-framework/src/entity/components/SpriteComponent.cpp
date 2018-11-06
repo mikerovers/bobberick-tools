@@ -83,7 +83,10 @@ void SpriteComponent::addTexture(const char * path, const char * textureID)
 
 void SpriteComponent::changeTexture(const char * textureID) 
 {
-	currentTexture = textureID;
+	if (currentTexture != textureID) {
+		currentTexture = textureID;
+
+	}
 }
 
 void SpriteComponent::setCurrentFrame(const int frame)
