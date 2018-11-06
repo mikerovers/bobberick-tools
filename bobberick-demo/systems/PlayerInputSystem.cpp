@@ -63,8 +63,8 @@ void PlayerInputSystem::update()
 		sprite.flip = inputHandler.getMousePosition()->getX() < transform.position.getX() ? true : false;
 		//sprite.flip = left ? true : false;
 			   
-		if (inputHandler.getMouseButtonState(LEFT)) { // shoot
-			sprite.changeTexture("character_casting");
+
+		if (inputHandler.getMouseButtonState(LEFT) || inputHandler.getMouseButtonState(RIGHT)) { // shoot
 			if (playerShoot.canShoot()) {
 				double playerX = transform.position.getX();
 				double playerY = transform.position.getY();
@@ -79,15 +79,25 @@ void PlayerInputSystem::update()
 				float dx = angleX / vectorLength;
 				float dy = angleY / vectorLength;
 
-				std::shared_ptr<Entity> bullet = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
-				auto& bulletTransform = bullet->addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
-				bullet->addComponent<SpriteComponent>("assets/image/bullet_ball_grey.png", "bullet");
-				bullet->addComponent<BulletMovementComponent>();
+				std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+				projectile->addComponent<BulletMovementComponent>();
+				auto& projectileTransform = projectile->addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
+				projectileTransform.velocity.setX(dx);
+				projectileTransform.velocity.setY(dy);
 
-				bulletTransform.velocity.setX(dx);
-				bulletTransform.velocity.setY(dy);
-				playerShoot.setShootTimer(500);
+
+				if (inputHandler.getMouseButtonState(LEFT)) {
+					sprite.changeTexture("character_shooting");
+					ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
+					projectile->addComponent<SpriteComponent>("assets/image/bullet_ball_grey.png", "arrow");
+					playerShoot.setShootTimer(500);
+				}
+				else {
+					sprite.changeTexture("character_casting");
+					ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
+					projectile->addComponent<SpriteComponent>("assets/image/bolt.png", "bolt");
+					playerShoot.setShootTimer(1000);
+				}
 			}
 		}
 		else {

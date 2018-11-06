@@ -85,7 +85,6 @@ void SpriteComponent::changeTexture(const char * textureID)
 {
 	if (currentTexture != textureID) {
 		currentTexture = textureID;
-
 	}
 }
 
