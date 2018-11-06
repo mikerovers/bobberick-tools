@@ -3,6 +3,7 @@
 #include "../../services/ServiceManager.h"
 #include "../../TextureManager.h"
 #include "../../services/RenderService.h"
+#include <map>
 
 void SpriteComponent::init()
 {
@@ -47,35 +48,42 @@ void SpriteComponent::update()
 
 void SpriteComponent::render()
 {
-    ServiceManager::Instance()->getService<TextureManager>().draw(texture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), flip);
+    ServiceManager::Instance()->getService<TextureManager>().draw(currentTexture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), flip);
 }
 
 SpriteComponent::SpriteComponent(const char *path, const char *textureID): staticAnimation(false)
 {
-    if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
-        texture = textureID;
-    } else {
-        std::cout << SDL_GetError();
-    }
-
+	addTexture(path, textureID);
+	currentTexture = textureID;
 	currentFrame = -1;
 
 }
 
 SpriteComponent::SpriteComponent(const char *path, const char *textureID, const int animCols, const int animFrames, const int animRate): staticAnimation(false)
 {
-	if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
-		texture = textureID;
-	}
-	else {
-		std::cout << SDL_GetError();
-	}
+	addTexture(path, textureID);
+	currentTexture = textureID;
 
 	SpriteComponent::animCols = animCols;
 	SpriteComponent::animFrames = animFrames;
 	SpriteComponent::animRate = animRate;
 	animTimer = animRate;
 	currentFrame = 0;
+}
+
+void SpriteComponent::addTexture(const char * path, const char * textureID)
+{
+	if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
+		// added
+	}
+	else {
+		std::cout << SDL_GetError();
+	}
+}
+
+void SpriteComponent::changeTexture(const char * textureID) 
+{
+	currentTexture = textureID;
 }
 
 void SpriteComponent::setCurrentFrame(const int frame)

@@ -64,6 +64,7 @@ void PlayerInputSystem::update()
 		//sprite.flip = left ? true : false;
 			   
 		if (inputHandler.getMouseButtonState(LEFT)) { // shoot
+			sprite.changeTexture("character_casting");
 			if (playerShoot.canShoot()) {
 				double playerX = transform.position.getX();
 				double playerY = transform.position.getY();
@@ -88,6 +89,9 @@ void PlayerInputSystem::update()
 				bulletTransform.velocity.setY(dy);
 				playerShoot.setShootTimer(500);
 			}
+		}
+		else {
+			sprite.changeTexture("character");
 		}
 
 		transform.update();
