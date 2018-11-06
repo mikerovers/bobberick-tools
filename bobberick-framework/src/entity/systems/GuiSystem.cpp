@@ -4,6 +4,7 @@
 #include "../../services/InputHandler.h"
 #include "../../TextureManager.h"
 #include "../components/SpriteComponent.h"
+#include "../components/ButtonSpriteComponent.h"
 
 GuiSystem::GuiSystem(EntityManager &entityManager) : System(entityManager)
 {
@@ -17,7 +18,7 @@ void GuiSystem::update()
         auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
         auto& tx = ServiceManager::Instance()->getService<TextureManager>();
         Vector2D* mousePosition = inputHandler.getMousePosition();
-        auto& spr = entity->getComponent<SpriteComponent>();
+        auto& spr = entity->getComponent<ButtonSpriteComponent>();
         auto& transformComponent = entity->getComponent<TransformComponent>();
 
         if (mousePosition->getX() < (transformComponent.position.getX() + transformComponent.width)

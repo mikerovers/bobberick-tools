@@ -27,7 +27,7 @@ public:
 	bool moving;
 	bool flip = false;
 
-private:
+protected:
     TransformComponent* transform;
     std::string currentTexture;
     SDL_Rect sourceRect{};
