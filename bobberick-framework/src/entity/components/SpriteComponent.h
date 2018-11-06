@@ -19,6 +19,10 @@ public:
     void init() override;
     void update() override;
     void render() override;
+
+	bool moving;
+	bool flip = false;
+
 private:
     TransformComponent* transform;
     std::string texture;

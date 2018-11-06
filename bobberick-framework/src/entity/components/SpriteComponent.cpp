@@ -17,30 +17,37 @@ void SpriteComponent::init()
 
 void SpriteComponent::update()
 {
-	if (currentFrame >= 0) {
-		animTimer--;
-		if (animTimer == 0 || staticAnimation) {
-			animTimer = animRate;
-			currentFrame++;
-			if (currentFrame >= animFrames) {
-				currentFrame = 0;
+	if (moving) {
+		if (currentFrame >= 0) {
+			animTimer--;
+			if (animTimer == 0) {
+				animTimer = animRate;
+				currentFrame++;
+				if (currentFrame >= animFrames) {
+					currentFrame = 0;
+				}
+
+				int currentRow = currentFrame / animCols;
+				int currentCol = currentFrame % animCols;
+
+				sourceRect.x = transform->width * currentCol;
+				sourceRect.y = transform->height * currentRow;
 			}
-
-			int currentRow = currentFrame / animCols;
-			int currentCol = currentFrame % animCols;
-
-			sourceRect.x = transform->width * currentCol;
-			sourceRect.y = transform->height * currentRow;
 		}
+		else {
+
+		}
+
 	}
 
 	destinationRect.x = transform->position.getX();
 	destinationRect.y = transform->position.getY();
+
 }
 
 void SpriteComponent::render()
 {
-    ServiceManager::Instance()->getService<TextureManager>().draw(texture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer());
+    ServiceManager::Instance()->getService<TextureManager>().draw(texture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), flip);
 }
 
 SpriteComponent::SpriteComponent(const char *path, const char *textureID): staticAnimation(false)

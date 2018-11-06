@@ -26,6 +26,7 @@ set(
 	src/entity/components/SpriteComponent.cpp src/entity/components/SpriteComponent.h
 	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
 	src/entity/components/StatsComponent.cpp src/entity/components/StatsComponent.h
+	src/entity/components/PlayerShootComponent.cpp src/entity/components/PlayerShootComponent.h
 	src/entity/components/PlayerStatsComponent.cpp src/entity/components/PlayerStatsComponent.h
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/TextureManager.cpp src/TextureManager.h
@@ -42,7 +43,7 @@ set(
     src/util/FrameHandler.cpp src/util/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h
 	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
-		src/EmptyState.cpp src/EmptyState.h src/LevelFactory.cpp src/LevelFactory.h src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h src/entity/components/Tile.cpp src/entity/components/Tile.h src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h)
+		src/EmptyState.cpp src/EmptyState.h src/LevelFactory.cpp src/LevelFactory.h src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h src/entity/components/Tile.cpp src/entity/components/Tile.h src/entity/components/TileObject.cpp src/entity/components/TileObject.h src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h)
 add_library(bobberick-framework ${SOURCE_FILES})
 target_link_libraries(bobberick-framework tmxlite)
 
