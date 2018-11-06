@@ -6,13 +6,13 @@ SoundManager::SoundManager()
 	Mix_OpenAudio(22050, AUDIO_S16, 2, 4096);
 }
 
-bool SoundManager::load(std::string fileName, std::string id, sound_type type)
+bool SoundManager::load(const std::string& file_name, const std::string& id, const sound_type type)
 {
 	if (type == SOUND_MUSIC)
 	{
-		Mix_Music* pMusic = Mix_LoadMUS(fileName.c_str());
+		const auto pMusic = Mix_LoadMUS(file_name.c_str());
 
-		if (pMusic == 0)
+		if (pMusic == nullptr)
 		{
 			std::cout << "Could not load music: ERROR - "
 				<< Mix_GetError() << std::endl;
@@ -22,18 +22,18 @@ bool SoundManager::load(std::string fileName, std::string id, sound_type type)
 		m_music[id] = pMusic;
 		return true;
 	}
-	else if (type == SOUND_SFX)
+	if (type == SOUND_SFX)
 	{
-		Mix_Chunk* pChunk = Mix_LoadWAV(fileName.c_str());
-
-		if (pChunk == 0)
+		const auto pChunk = Mix_LoadWAV("assets/music/effects/arrow-swoosh-2.ogg");
+		
+		if (pChunk == nullptr)
 		{
 			std::cout << "Could not load SFX: ERROR - "
 				<< Mix_GetError() << std::endl;
-
+		
 			return false;
 		}
-
+		
 		m_sfxs[id] = pChunk;
 		return true;
 	}
@@ -41,12 +41,12 @@ bool SoundManager::load(std::string fileName, std::string id, sound_type type)
 	return false;
 }
 
-void SoundManager::playMusic(std::string id, int loop)
+void SoundManager::playMusic(const std::string& id, int loop)
 {
 	Mix_PlayMusic(m_music[id], loop);
 }
 
-void SoundManager::playSound(std::string id, int loop)
+void SoundManager::playSound(const std::string& id, int loop)
 {
 	Mix_PlayChannel(-1, m_sfxs[id], loop);
 }
