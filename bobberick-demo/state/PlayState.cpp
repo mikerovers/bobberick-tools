@@ -26,7 +26,8 @@ void PlayState::update()
 bool PlayState::onEnter()
 {
     std::cout << "Entered playstate" << std::endl;
-	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "1", SOUND_SFX);
+	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "arrow", SOUND_SFX);
+	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg", "footsteps", SOUND_SFX);
 
     std::shared_ptr<Entity> player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	player->addComponent<TransformComponent>(10, 10, 256, 256, 2);

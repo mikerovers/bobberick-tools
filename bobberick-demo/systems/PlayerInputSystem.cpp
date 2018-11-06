@@ -23,42 +23,45 @@ void PlayerInputSystem::update()
 		//std::cout << "Joystick x: " << inputHandler.xvalue(0, 1) << std::endl;
 		//std::cout << "Joystick y: " << inputHandler.xvalue(0, 1) << std::endl;
 
-		bool notGoingX = true;
+		bool left = inputHandler.isKeyDown(SDL_SCANCODE_LEFT) || inputHandler.isKeyDown(SDL_SCANCODE_A),
+			right = inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D),
+			up = inputHandler.isKeyDown(SDL_SCANCODE_UP) || inputHandler.isKeyDown(SDL_SCANCODE_W),
+			down = inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S);
 
-		if (inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D))
-		{
-			transform.velocity.setX(1);
+		if (left || right || up || down) {
 			sprite.moving = true;
-			sprite.flip = false;
-			notGoingX = false;
-		}
-		else if (inputHandler.isKeyDown(SDL_SCANCODE_LEFT) || inputHandler.isKeyDown(SDL_SCANCODE_A)) {
-			transform.velocity.setX(-1);
-			sprite.moving = true;
-			sprite.flip = true;
-			notGoingX = false;
+			if (!ServiceManager::Instance()->getService<SoundManager>().isSoundPlaying()) {
+				ServiceManager::Instance()->getService<SoundManager>().playSound("footsteps", 0);
+			}
+			if ((left && right) || (!left && !right)) {
+				transform.velocity.setX(0);
+			}
+			else if (right) {
+				transform.velocity.setX(1);
+			}
+			else if (left) {
+				transform.velocity.setX(-1);
+			}
+
+			if ((up && down) || (!up && !down)) {
+				transform.velocity.setY(0);
+			}
+			else if (up) {
+				transform.velocity.setY(-1);
+			}
+			else if (down) {
+				transform.velocity.setY(1);
+			}
 		}
 		else {
-			transform.velocity.setX(0);
-		}
-		if (inputHandler.isKeyDown(SDL_SCANCODE_UP) || inputHandler.isKeyDown(SDL_SCANCODE_W))
-		{
-			transform.velocity.setY(-1);
-			sprite.moving = true;
-		}
-		else if (inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S))
-		{
-			transform.velocity.setY(1);
-			sprite.moving = true;
-		}
-		else
-		{
-			if (notGoingX) {
-				sprite.moving = false;
-			}
+			sprite.moving = false;
 			transform.velocity.setY(0);
+			transform.velocity.setX(0);
+			ServiceManager::Instance()->getService<SoundManager>().stopSound();
 		}
 
+		sprite.flip = left ? true : false;
+			   
 		if (inputHandler.getMouseButtonState(LEFT)) { // shoot
 			if (playerShoot.canShoot()) {
 				double playerX = transform.position.getX();
@@ -75,7 +78,7 @@ void PlayerInputSystem::update()
 				float dy = angleY / vectorLength;
 
 				std::shared_ptr<Entity> bullet = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-				ServiceManager::Instance()->getService<SoundManager>().playSound("1", 0);
+				ServiceManager::Instance()->getService<SoundManager>().playSound("arrow", 0);
 				auto& bulletTransform = bullet->addComponent<TransformComponent>(playerXCenter + (dx * 100), playerYCenter + (dy * 100), 10, 10, 1);
 				bullet->addComponent<SpriteComponent>("assets/image/bullet_ball_grey.png", "bullet");
 				bullet->addComponent<BulletMovementComponent>();
