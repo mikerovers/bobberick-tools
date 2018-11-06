@@ -28,9 +28,9 @@ public:
 		return  s_pInstance;
 	}
 
-	bool load(const std::string& fileName, const std::string& id, sound_type type);
+	bool load(const std::string& file_name, const std::string& id, const sound_type type);
 
-	void playSound(const std::string& id, int loop);
+	void playSound(int const channel, std::string id, int loop);
 	void playMusic(const std::string& id, int loop);
 
 	void stopMusic();
