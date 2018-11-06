@@ -57,6 +57,8 @@ bool PlayState::onEnter()
     });
     exitButton->addExistingComponent<ButtonComponent>(exitButtonComponent);
     auto* exitButtonTransformComponent = new TransformComponent();
+    exitButtonTransformComponent->position.setX(10);
+    exitButtonTransformComponent->position.setY(60);
     exitButtonTransformComponent->height = 64;
     exitButtonTransformComponent->width = 128;
     exitButton->addExistingComponent<TransformComponent>(exitButtonTransformComponent);
