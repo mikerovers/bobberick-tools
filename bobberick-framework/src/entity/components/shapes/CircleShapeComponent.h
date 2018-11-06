@@ -3,9 +3,9 @@
 
 #include "../../Component.h"
 #include "Collision/Shapes/b2CircleShape.h"
-#include "bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "Dynamics/b2Fixture.h"
 #include "Common/b2BlockAllocator.h"
+#include "../CollisionComponent.h"
 
 class CircleShapeComponent : public Component
 {

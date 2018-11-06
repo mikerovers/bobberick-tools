@@ -4,7 +4,7 @@
 #include "../../Component.h"
 #include "Collision/Shapes/b2EdgeShape.h"
 #include "Common/b2Math.h"
-#include "bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../CollisionComponent.h"
 #include "Dynamics/b2Fixture.h"
 
 class EdgeShapeComponent : public Component

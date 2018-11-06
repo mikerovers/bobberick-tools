@@ -8,7 +8,6 @@
 #include "entity/systems/InputSystem.h"
 #include "util/SDL_Deleter.h"
 #include "util/FrameHandler.h"
-#include "Dynamics/b2World.h"
 
 class Game
 {

@@ -3,7 +3,7 @@
 
 #include "../../Component.h"
 #include "Collision/Shapes/b2PolygonShape.h"
-#include "bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../CollisionComponent.h"
 #include "Dynamics/b2Fixture.h"
 #include "Common/b2BlockAllocator.h"
 

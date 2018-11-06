@@ -1,5 +1,6 @@
 #include "EdgeShapeComponent.h"
 #include "../../Entity.h"
+#include "../CollisionComponent.h"
 
 void EdgeShapeComponent::init()
 {

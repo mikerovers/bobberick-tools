@@ -5,7 +5,7 @@ find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 
-find_library(Box2D REQUIRED)
+#find_library(Box2D REQUIRED)
 
 include_directories(${SDL2_INCLUDE_DIR})
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
@@ -15,6 +15,7 @@ include_directories(${SDL2_MIXER_INCLUDE_DIR})
 set(SOURCE_FILES main.cpp)
 add_executable(bobberick-demo ${SOURCE_FILES})
 
-target_link_libraries(bobberick-demo bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY})
+include_directories(bobberick-demo Box2D .)
+target_link_libraries(bobberick-demo bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY} Box2D)
 
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR}/bobberick-demo)
