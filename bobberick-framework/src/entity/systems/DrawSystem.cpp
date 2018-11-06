@@ -24,7 +24,7 @@ void DrawSystem::update()
 			std::unique_ptr<SDL_Rect> s = std::make_unique<SDL_Rect>(tile->getSourceRect());
 			std::unique_ptr<SDL_Rect> d = std::make_unique<SDL_Rect>(tile->getDestinationRect());
 
-			tx.draw("mountain_landscape", s.get(), d.get(), rs.getRenderer());
+			tx.draw("mountain_landscape", s.get(), d.get(), rs.getRenderer(), false);
 		}
 	}
 

@@ -9,7 +9,8 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 include_directories(${SDL2_TTF_INCLUDE_DIRS})
 include_directories(${SDL2_MIXER_INCLUDE_DIR})
 
-set(SOURCE_FILES main.cpp BobberGame.cpp BobberGame.h systems/PlayerMovementSystem.cpp systems/PlayerMovementSystem.h components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h state/PlayState.cpp state/PlayState.h 		state/StateFactory.cpp state/StateFactory.h
+
+set(SOURCE_FILES main.cpp BobberGame.cpp BobberGame.h systems/PlayerMovementSystem.cpp systems/PlayerMovementSystem.h components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h components/BulletMovementComponent.cpp components/BulletMovementComponent.h systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h systems/BulletSystem.cpp systems/BulletSystem.h state/PlayState.cpp state/PlayState.h 		state/StateFactory.cpp state/StateFactory.h
         state/SplashScreenState.cpp state/SplashScreenState.h factory/ObjectFactory.cpp factory/ObjectFactory.h)
 
 add_executable(bobberick-demo ${SOURCE_FILES})
