@@ -30,8 +30,9 @@ bool PlayState::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg", "footsteps", SOUND_SFX);
 
     std::shared_ptr<Entity> player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	player->addComponent<TransformComponent>(10, 10, 256, 256, 2);
-    player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character", 6, 6, 5);
+	player->addComponent<TransformComponent>(10, 10, 64, 32, 2);
+    //player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character", 6, 6, 5);
+    player->addComponent<SpriteComponent>("assets/image/vector-sprites-hero-6.png", "character", 6, 4, 5);
     player->addComponent<PlayerMovementComponent>();
     player->addComponent<PlayerShootComponent>();
 

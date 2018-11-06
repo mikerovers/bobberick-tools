@@ -60,7 +60,8 @@ void PlayerInputSystem::update()
 			ServiceManager::Instance()->getService<SoundManager>().stopSound(1);
 		}
 
-		sprite.flip = left ? true : false;
+		sprite.flip = inputHandler.getMousePosition()->getX() < transform.position.getX() ? true : false;
+		//sprite.flip = left ? true : false;
 			   
 		if (inputHandler.getMouseButtonState(LEFT)) { // shoot
 			if (playerShoot.canShoot()) {
@@ -79,7 +80,7 @@ void PlayerInputSystem::update()
 
 				std::shared_ptr<Entity> bullet = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
-				auto& bulletTransform = bullet->addComponent<TransformComponent>(playerXCenter + (dx * 100), playerYCenter + (dy * 100), 10, 10, 1);
+				auto& bulletTransform = bullet->addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
 				bullet->addComponent<SpriteComponent>("assets/image/bullet_ball_grey.png", "bullet");
 				bullet->addComponent<BulletMovementComponent>();
 
