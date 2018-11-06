@@ -35,12 +35,22 @@ void DrawSystem::update()
 		fade.update();
 	}
 
+	// Draw in-game sprites under the GUI.
     for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
-        auto & spr = entity->getComponent<SpriteComponent>();
+		if (!entity->getComponent<SpriteComponent>().guiLayer) {
+			auto & spr = entity->getComponent<SpriteComponent>();
+
+			spr.update();
+			spr.render();
+		} 
+    }
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
+		auto & spr = entity->getComponent<RectangleComponent>();
 
 		spr.update();
-        spr.render();
-    }
+		spr.render();
+	}
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
 		auto & spr = entity->getComponent<TextComponent>();
@@ -49,10 +59,13 @@ void DrawSystem::update()
 		spr.render();
 	}
 
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
-		auto & spr = entity->getComponent<RectangleComponent>();
+	// Draw sprites on top of the GUI.
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
+		if (entity->getComponent<SpriteComponent>().guiLayer) {
+			auto & spr = entity->getComponent<SpriteComponent>();
 
-		spr.update();
-		spr.render();
+			spr.update();
+			spr.render();
+		}
 	}
 }

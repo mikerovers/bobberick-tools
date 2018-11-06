@@ -26,8 +26,6 @@ set(
 	src/entity/components/SpriteComponent.cpp src/entity/components/SpriteComponent.h
 	src/entity/components/RectangleComponent.cpp src/entity/components/RectangleComponent.h
 	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
-	src/entity/components/StatsComponent.cpp src/entity/components/StatsComponent.h
-	src/entity/components/PlayerStatsComponent.cpp src/entity/components/PlayerStatsComponent.h
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/TextureManager.cpp src/TextureManager.h
 	src/FontManager.cpp src/FontManager.h

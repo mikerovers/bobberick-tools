@@ -1,7 +1,7 @@
 #ifndef BOBBERICK_TOOLS_PLAYERSTATSCOMPONENT_H
 #define BOBBERICK_TOOLS_PLAYERSTATSCOMPONENT_H
 
-#include "../Component.h"
+#include "../../bobberick-framework/src/entity/Component.h"
 #include "StatsComponent.h"
 
 class PlayerStatsComponent : public Component

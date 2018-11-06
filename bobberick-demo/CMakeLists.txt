@@ -12,6 +12,8 @@ include_directories(${SDL2_MIXER_INCLUDE_DIR})
 set(SOURCE_FILES main.cpp BobberGame.cpp BobberGame.h 
 systems/PlayerMovementSystem.cpp systems/PlayerMovementSystem.h 
 components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h 
+components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h 
+components/StatsComponent.cpp components/StatsComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
 state/PlayState.cpp state/PlayState.h 		

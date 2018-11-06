@@ -43,7 +43,7 @@ void SpriteComponent::render()
     ServiceManager::Instance()->getService<TextureManager>().draw(texture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer());
 }
 
-SpriteComponent::SpriteComponent(const char *path, const char *textureID)
+SpriteComponent::SpriteComponent(const char *path, const char *textureID, const bool guiLayer)
 {
     if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
         texture = textureID;
@@ -51,6 +51,7 @@ SpriteComponent::SpriteComponent(const char *path, const char *textureID)
         std::cout << SDL_GetError();
     }
 
+	SpriteComponent::guiLayer = guiLayer;
 	currentFrame = -1;
 
 }

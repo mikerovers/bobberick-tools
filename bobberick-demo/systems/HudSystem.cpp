@@ -1,8 +1,11 @@
 #include "HudSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
-#include "../../bobberick-framework/src/entity/components/PlayerStatsComponent.h"
+#include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
+#include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
+#include <string>
 
 HudSystem::HudSystem(EntityManager &entityManager) : System(entityManager)
 {
@@ -13,27 +16,50 @@ void HudSystem::update()
 {
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
 		PlayerStatsComponent& playerStats = entity->getComponent<PlayerStatsComponent>();
+
+		playerStats.xp += 99; // For testing purposes
+		playerStats.gold += 89; // For testing purposes
+		playerStats.getHit(49, true); // For testing purposes
+
 		playerStats.update();
 		double healthWidth = ((double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax()) * barWidth;
 		double shieldWidth = (playerStats.shdTime / playerStats.shdTimeMax) * barWidth;
-		if (playerStats.shieldActive()) { // Brighter blue bar if shield is currently active.
+		if (playerStats.shieldActive()) { // Bright blue bar if shield is currently active.
 			shieldBox->getComponent<RectangleComponent>().red = 102;
-			shieldBox->getComponent<RectangleComponent>().blue = 255;
 			shieldBox->getComponent<RectangleComponent>().green = 255;
-		} else if (playerStats.shdTime / playerStats.shdTimeMax < 0.5) { // Darker blue bar if shield is not ready to activate.
+			shieldBox->getComponent<RectangleComponent>().blue = 255;
+		} else if (playerStats.shdTime / playerStats.shdTimeMax < 0.5) { // Dark blue bar if shield is not yet ready to activate.
 			shieldBox->getComponent<RectangleComponent>().red = 0;
-			shieldBox->getComponent<RectangleComponent>().blue = 153;
 			shieldBox->getComponent<RectangleComponent>().green = 51;
+			shieldBox->getComponent<RectangleComponent>().blue = 153;
 		} else { // Blue bar if shield is ready to activate.
 			shieldBox->getComponent<RectangleComponent>().red = 0;
-			shieldBox->getComponent<RectangleComponent>().blue = 255;
 			shieldBox->getComponent<RectangleComponent>().green = 204;
+			shieldBox->getComponent<RectangleComponent>().blue = 255;
 		}
-		if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes, delete this!
+
+		if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
 			playerStats.toggleShield();
 		}
+
 		healthBox->getComponent<TransformComponent>().width = healthWidth;
 		shieldBox->getComponent<TransformComponent>().width = shieldWidth;
+
+		entityManager.removeEntity(healthText);
+		entityManager.removeEntity(coinText);
+		entityManager.removeEntity(xpText);
+
+		healthText = entityManager.addEntity();
+		healthText->addComponent<TransformComponent>(20, 10, 30, 280, 1);
+		healthText->addComponent<TextComponent>("assets/font/mono.ttf", "healthText", addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + addSpaces(std::to_string(playerStats.stats->getHPmax()), 6, false), 30);
+
+		coinText = entityManager.addEntity();
+		coinText->addComponent<TransformComponent>(barWidth + 67, 10, 30, 110, 1);
+		coinText->addComponent<TextComponent>("assets/font/mono.ttf", "coinText", addSpaces(std::to_string(playerStats.gold), 6, false), 30);
+
+		xpText = entityManager.addEntity();
+		xpText->addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
+		xpText->addComponent<TextComponent>("assets/font/mono.ttf", "xpText", addSpaces(std::to_string(playerStats.xp), 6, false), 30);
     }
 }
 
@@ -58,4 +84,28 @@ void HudSystem::init()
 	shieldBox = entityManager.addEntity();
 	shieldBox->addComponent<TransformComponent>(10, 35, 5, barWidth, 1);
 	shieldBox->addComponent<RectangleComponent>(0, 255, 255, true);
+
+	coinImage = entityManager.addEntity();
+	coinImage->addComponent<TransformComponent>(barWidth + 17, 1, 48, 48, 1);
+	coinImage->addComponent<SpriteComponent>("assets/image/hud_gold.png", "coinImage", true);
+
+	xpImage = entityManager.addEntity();
+	xpImage->addComponent<TransformComponent>(barWidth + 177, 1, 48, 48, 1);
+	xpImage->addComponent<SpriteComponent>("assets/image/hud_xp.png", "xpImage", true);
+
+	healthText = entityManager.addEntity();
+	coinText = entityManager.addEntity();
+	xpText = entityManager.addEntity();
+}
+
+std::string HudSystem::addSpaces(std::string string, const int goalChars, const bool leading) {
+	std::string spaces = "";
+	for (int i = string.length(); i < goalChars; i++) {
+		spaces += " ";
+	}
+	if (leading) {
+		return spaces + string;
+	} else {
+		return string + spaces;
+	}
 }

@@ -5,8 +5,8 @@
 #include "../../bobberick-framework/src/entity/systems/InputSystem.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
-#include "../../bobberick-framework/src/entity/components/StatsComponent.h"
-#include "../../bobberick-framework/src/entity/components/PlayerStatsComponent.h"
+#include "../components/StatsComponent.h"
+#include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../../bobberick-framework/src/services/RenderService.h"
 
@@ -34,8 +34,8 @@ bool PlayState::onEnter()
     player->addComponent<TransformComponent>();
     player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character");
     player->addComponent<PlayerMovementComponent>();
-	// 2 seconds of shield mode, 2/10ths of a second recovered per second
-	player->addComponent<PlayerStatsComponent>(new StatsComponent(60, 100, 1, 3, 1), 120, 120, 0.2, 0, 0);
+	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
+	player->addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1), 180, 180, 0.3, 0, 0);
 	player->getComponent<PlayerStatsComponent>().toggleShield();
 
     std::shared_ptr<Entity> level = ServiceManager::Instance()->getService<EntityManager>().addEntity();

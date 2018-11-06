@@ -12,16 +12,20 @@ PlayerStatsComponent::PlayerStatsComponent(StatsComponent* stats, const double s
 }
 
 void PlayerStatsComponent::update() {
-	if (shdActive) {
-		shdTime -= 1;
-		if (shdTime <= 0) {
-			shdActive = false;
+	if (stats->getHP() > 0) { // Shield recovery freezes when the player is dead.
+		if (shdActive) {
+			shdTime -= 1;
+			if (shdTime <= 0) {
+				shdActive = false;
+			}
+		} else { // The shield mode only recovers when inactive.
+			shdTime += shdRecov;
+			if (shdTime > shdTimeMax) {
+				shdTime = shdTimeMax;
+			}
 		}
-	} else { // The shield mode only recovers when inactive.
-		shdTime += shdRecov;
-		if (shdTime > shdTimeMax) {
-			shdTime = shdTimeMax;
-		}
+	} else {
+		shdActive = false;
 	}
 }
 

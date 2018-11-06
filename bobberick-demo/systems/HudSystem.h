@@ -18,10 +18,14 @@ private:
 	std::shared_ptr<Entity> healthBox; // The remaining health bar itself.
 	std::shared_ptr<Entity> shieldBox; // The shield bar, inside the health bar.
 
-	std::shared_ptr<Entity> coinImage; // The image representing the amount of gold.
-	std::shared_ptr<Entity> coinText; // The text representing the amount of gold.
-	std::shared_ptr<Entity> xpImage; // The image representing the amount of XP.
-	std::shared_ptr<Entity> xpText; // The text representing the amount of XP.
+	std::shared_ptr<Entity> healthText;
+	std::shared_ptr<Entity> coinImage;
+	std::shared_ptr<Entity> coinText;
+	std::shared_ptr<Entity> xpImage;
+	std::shared_ptr<Entity> xpText;
+
+	// Add spaces to the specified string until its length equals the specified goal amount. If leading is false, the spaces are trailing.
+	std::string addSpaces(std::string string, const int goalChars, const bool leading);
 };
 
 
