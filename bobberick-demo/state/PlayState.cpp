@@ -32,7 +32,8 @@ bool PlayState::onEnter()
     std::shared_ptr<Entity> player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	player->addComponent<TransformComponent>(10, 10, 64, 32, 2);
     //player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character", 6, 6, 5);
-    player->addComponent<SpriteComponent>("assets/image/vector-sprites-hero-6.png", "character", 6, 4, 5);
+    auto& spriteComponent = player->addComponent<SpriteComponent>("assets/image/character.png", "character", 6, 4, 5);
+	spriteComponent.addTexture("assets/image/character_casting.png", "character_casting");
     player->addComponent<PlayerMovementComponent>();
     player->addComponent<PlayerShootComponent>();
 
