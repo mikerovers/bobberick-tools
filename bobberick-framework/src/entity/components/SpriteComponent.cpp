@@ -51,12 +51,12 @@ void SpriteComponent::render()
     ServiceManager::Instance()->getService<TextureManager>().draw(currentTexture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), flip);
 }
 
-SpriteComponent::SpriteComponent(const char *path, const char *textureID): staticAnimation(false)
+SpriteComponent::SpriteComponent(const char *path, const char *textureID, const bool guiLayer): staticAnimation(false)
 {
 	addTexture(path, textureID);
 	currentTexture = textureID;
 	currentFrame = -1;
-
+	SpriteComponent::guiLayer = guiLayer;
 }
 
 SpriteComponent::SpriteComponent(const char *path, const char *textureID, const int animCols, const int animFrames, const int animRate): staticAnimation(false)

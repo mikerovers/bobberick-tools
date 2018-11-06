@@ -6,7 +6,7 @@ void FontManager::clearTexture(std::string id)
 	textures.erase(id);
 }
 
-bool FontManager::load(const char* fileName, std::string id, const char* text, int size, std::shared_ptr<SDL_Renderer> renderer)
+bool FontManager::load(const char* fileName, std::string id, std::string text, int size, std::shared_ptr<SDL_Renderer> renderer)
 {
 	TTF_Font* font = TTF_OpenFont(fileName, size);
 
@@ -14,7 +14,7 @@ bool FontManager::load(const char* fileName, std::string id, const char* text, i
 		return false;
 	}
 
-	SDL_SurfacePointer pTempSurface = SDL_SurfacePointer(TTF_RenderText_Blended(font, text, SDL_Color{0,0,0}));
+	SDL_SurfacePointer pTempSurface = SDL_SurfacePointer(TTF_RenderText_Blended(font, text.c_str(), SDL_Color{0,0,0}));
 
     if (pTempSurface == nullptr) {
         return false;
