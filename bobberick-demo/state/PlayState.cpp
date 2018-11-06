@@ -9,6 +9,7 @@
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../../bobberick-framework/src/services/RenderService.h"
+#include "../factory/ObjectFactory.h"
 
 std::string PlayState::getStateID() const
 {
@@ -34,23 +35,17 @@ bool PlayState::onEnter()
     player->addComponent<PlayerShootComponent>();
 
     std::shared_ptr<Entity> level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* factory = new LevelFactory();
-    TilesetComponent* tilesetComponent = factory->Load("assets/maps/map1.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
+    auto* levelFactory = new LevelFactory();
+    TilesetComponent* tilesetComponent = levelFactory->Load("assets/maps/map1.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
     level->addExistingComponent<TilesetComponent>(tilesetComponent);
+    delete levelFactory;
 
-    std::shared_ptr<Entity> exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* buttonComponent = new ButtonComponent([]() {
-        std::cout << "hoi";
-    });
-    buttonComponent->setCallback([](){
-        std::cout << "doei";
-    });
-    exitButton->addExistingComponent<ButtonComponent>(buttonComponent);
-    exitButton->addComponent<TransformComponent>();
-    exitButton->addComponent<SpriteComponent>("assets/image/playbutton.bmp", "playbutton", 3, 3, 0);
-    exitButton->getComponent<SpriteComponent>().setStaticAnimation(true);
+    auto* objectFactory = new ObjectFactory();
+    for(auto* object : tilesetComponent->objects) {
+        objectFactory->getObject(object);
+    }
 
-    delete factory;
+    delete objectFactory;
 
     return true;
 }
