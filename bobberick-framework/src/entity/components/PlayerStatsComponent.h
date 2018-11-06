@@ -8,7 +8,7 @@ class PlayerStatsComponent : public Component
 {
 public:
 	PlayerStatsComponent(StatsComponent* stats, const int shdHpMax, const int shdCoolMax, const int gold, const int xp);
-	~PlayerStatsComponent() { delete stats; }
+	~PlayerStatsComponent() override { delete stats; }
 
 	void update() override; // The shield is recovered in this function.
 
