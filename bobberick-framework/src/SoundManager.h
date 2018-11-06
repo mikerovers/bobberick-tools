@@ -30,8 +30,13 @@ public:
 
 	bool load(std::string fileName, std::string id, sound_type type);
 
-	void playSound(std::string id, int loop);
+	void playSound(int const channel, std::string id, int loop);
 	void playMusic(std::string id, int loop);
+
+	void stopMusic();
+	void stopSound(int const channel);
+
+	bool isSoundPlaying(int const channel) const;
 
 	void clean() override;
 

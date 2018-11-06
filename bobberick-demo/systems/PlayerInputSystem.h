@@ -6,6 +6,7 @@
 
 class PlayerInputSystem : public System
 {
+
 public:
     explicit PlayerInputSystem(EntityManager& entityManager);
     void update() override;
