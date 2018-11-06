@@ -21,7 +21,7 @@ public:
     void render() override;
 
 	bool moving;
-	bool flip;
+	bool flip = false;
 
 private:
     TransformComponent* transform;

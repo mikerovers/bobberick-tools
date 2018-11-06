@@ -76,7 +76,7 @@ void PlayerInputSystem::update()
 
 				std::shared_ptr<Entity> bullet = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 				ServiceManager::Instance()->getService<SoundManager>().playSound("1", 0);
-				auto& bulletTransform = bullet->addComponent<TransformComponent>(playerXCenter + (dx * 100), playerYCenter + (dy * 100), 5, 5, 1);
+				auto& bulletTransform = bullet->addComponent<TransformComponent>(playerXCenter + (dx * 100), playerYCenter + (dy * 100), 10, 10, 1);
 				bullet->addComponent<SpriteComponent>("assets/image/bullet_ball_grey.png", "bullet");
 				bullet->addComponent<BulletMovementComponent>();
 
