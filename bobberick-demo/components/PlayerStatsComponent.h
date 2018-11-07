@@ -23,7 +23,7 @@ public:
 	int gold;
 	int xp;
 private:
-	bool shdActive; // Whether or not shield mode is active.
+	bool shdActive = false; // Whether or not shield mode is active.
 };
 
 #endif //BOBBERICK_TOOLS_PLAYERSTATSCOMPONENT_H

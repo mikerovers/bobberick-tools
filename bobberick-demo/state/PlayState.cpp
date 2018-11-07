@@ -45,10 +45,11 @@ bool PlayState::onEnter()
     auto& spriteComponent = player->addComponent<SpriteComponent>("assets/image/character.png", "character", 6, 4, 5);
 	spriteComponent.addTexture("assets/image/character_casting.png", "character_casting");
 	spriteComponent.addTexture("assets/image/character_shooting.png", "character_shooting");
+	spriteComponent.addTexture("assets/image/character_shield.png", "character_shield");
     player->addComponent<PlayerMovementComponent>();
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
 	player->addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1), 180, 180, 0.3, 0, 0);
-	player->getComponent<PlayerStatsComponent>().toggleShield(); // For testing purposes
+	//player->getComponent<PlayerStatsComponent>().toggleShield(); // For testing purposes
     player->addComponent<PlayerShootComponent>();
     player->addComponent<CollisionComponent>("player");
 

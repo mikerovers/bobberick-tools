@@ -4,6 +4,7 @@
 #include "../../bobberick-framework/src/SoundManager.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../components/BulletMovementComponent.h"
+#include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/PlayerShootComponent.h"
@@ -21,9 +22,17 @@ void PlayerInputSystem::update()
 		auto& sprite = entity->getComponent<SpriteComponent>();
 		auto& playerShoot = entity->getComponent<PlayerShootComponent>();
 		auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
+		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
+
+		double speedModifier = playerStats.shieldActive() ? 0.5 : 1;
 
 		//std::cout << "Joystick x: " << inputHandler.xvalue(0, 1) << std::endl;
 		//std::cout << "Joystick y: " << inputHandler.xvalue(0, 1) << std::endl;
+		if (inputHandler.isKeyDown(SDL_SCANCODE_SPACE)) {
+			if (!playerStats.shieldActive()) {
+				playerStats.toggleShield();
+			}
+		}
 
 		bool left = inputHandler.isKeyDown(SDL_SCANCODE_LEFT) || inputHandler.isKeyDown(SDL_SCANCODE_A),
 			right = inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D),
@@ -39,20 +48,20 @@ void PlayerInputSystem::update()
 				transform.velocity.setX(0);
 			}
 			else if (right) {
-				transform.velocity.setX(1);
+				transform.velocity.setX(1 * speedModifier);
 			}
 			else if (left) {
-				transform.velocity.setX(-1);
+				transform.velocity.setX(-1 * speedModifier);
 			}
 
 			if ((up && down) || (!up && !down)) {
 				transform.velocity.setY(0);
 			}
 			else if (up) {
-				transform.velocity.setY(-1);
+				transform.velocity.setY(-1 * speedModifier);
 			}
 			else if (down) {
-				transform.velocity.setY(1);
+				transform.velocity.setY(1 * speedModifier);
 			}
 		}
 		else {
@@ -67,7 +76,7 @@ void PlayerInputSystem::update()
 			   
 
 		if (inputHandler.getMouseButtonState(LEFT) || inputHandler.getMouseButtonState(RIGHT)) { // shoot
-			if (playerShoot.canShoot()) {
+			if (playerShoot.canShoot() && !playerStats.shieldActive()) {
 				double playerX = transform.position.getX();
 				double playerY = transform.position.getY();
 

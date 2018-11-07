@@ -38,9 +38,9 @@ void HudSystem::update()
 			shieldBox->getComponent<RectangleComponent>().blue = 255;
 		}
 
-		if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
-			playerStats.toggleShield();
-		}
+		//if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
+		//	playerStats.toggleShield();
+		//}
 
 		healthBox->getComponent<TransformComponent>().width = healthWidth;
 		shieldBox->getComponent<TransformComponent>().width = shieldWidth;
