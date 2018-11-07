@@ -10,6 +10,9 @@ void TextureManager::clearTexture(std::string id)
 
 bool TextureManager::load(const char* fileName, std::string id, std::shared_ptr<SDL_Renderer> renderer)
 {
+	if (textures[id] != nullptr) { // this one already exists
+		return false;
+	}
     SDL_SurfacePointer pTempSurface = SDL_SurfacePointer(IMG_Load(fileName));
 
     if (pTempSurface == nullptr) {
