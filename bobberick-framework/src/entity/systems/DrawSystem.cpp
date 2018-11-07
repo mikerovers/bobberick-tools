@@ -73,7 +73,7 @@ void DrawSystem::update()
 		destRect->y = comp.collider->y;
 		destRect->w = comp.collider->w;
 		destRect->h = comp.collider->h;
-		tx.draw("collision", sourceRect, destRect, rs.getRenderer());
+		tx.draw("collision", sourceRect, destRect, rs.getRenderer(), false);
 
 		delete sourceRect;
 		delete destRect;
