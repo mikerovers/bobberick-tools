@@ -74,10 +74,10 @@ SpriteComponent::SpriteComponent(const char *path, const char *textureID, const 
 void SpriteComponent::addTexture(const char * path, const char * textureID)
 {
 	if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
-		// added
+		// added	
 	}
 	else {
-		std::cout << SDL_GetError();
+		//std::cout << SDL_GetError();
 	}
 }
 
