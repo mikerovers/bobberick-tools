@@ -10,6 +10,7 @@
 #include "../components/StatsComponent.h"
 #include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
+#include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../../bobberick-framework/src/services/RenderService.h"
 #include "../factory/ObjectFactory.h"
@@ -61,6 +62,21 @@ bool PlayState::onEnter()
     }
 
     delete objectFactory;
+
+    std::shared_ptr<Entity> exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto* exitButtonComponent = new ButtonComponent([](){
+        std::cout << "Exit button clicked." << std::endl;
+    });
+    exitButton->addExistingComponent<ButtonComponent>(exitButtonComponent);
+    auto* exitButtonTransformComponent = new TransformComponent();
+    exitButtonTransformComponent->position.setX(10);
+    exitButtonTransformComponent->position.setY(60);
+    exitButtonTransformComponent->height = 64;
+    exitButtonTransformComponent->width = 128;
+    exitButton->addExistingComponent<TransformComponent>(exitButtonTransformComponent);
+    exitButton->addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
+    exitButton->getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+
 
     return true;
 }
