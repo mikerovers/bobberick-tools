@@ -18,6 +18,7 @@ components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h
 components/StatsComponent.cpp components/StatsComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
+systems/ShieldSystem.cpp systems/ShieldSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
 state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
