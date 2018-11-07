@@ -77,6 +77,8 @@ bool PlayState::onEnter()
     exitButton->addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
     exitButton->getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
+    ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1", SOUND_MUSIC);
+    ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", true);
 
     return true;
 }
