@@ -59,7 +59,7 @@ bool PlayState::onEnter()
     delete levelFactory;
 
     std::shared_ptr<Entity> box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* collisionComponent = new CollisionComponent("test", 0, 0, 40);
+    auto* collisionComponent = new CollisionComponent("test", 140, 175, 40);
     box->addExistingComponent<CollisionComponent>(collisionComponent);
     
     auto* objectFactory = new ObjectFactory();
