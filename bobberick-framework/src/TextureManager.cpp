@@ -30,9 +30,9 @@ bool TextureManager::load(const char* fileName, std::string id, std::shared_ptr<
     return false;
 }
 
-void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer)
+void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip)
 {
-    SDL_RenderCopyEx(renderer.get(), textures[id].get(), sourceRect, destinationRect, 0, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer.get(), textures[id].get(), sourceRect, destinationRect, 0, nullptr, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
 void TextureManager::setOpacity(std::string id, int opacity) {
@@ -53,4 +53,14 @@ void TextureManager::init()
 void TextureManager::clean()
 {
 
+}
+
+SDL_TexturePointer TextureManager::getTexture(std::string id)
+{
+    return textures[id];
+}
+
+std::map<std::string, SDL_TexturePointer> TextureManager::getTextures()
+{
+    return textures;
 }

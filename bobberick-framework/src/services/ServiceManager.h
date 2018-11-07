@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <bitset>
-#include <array>
+#include <map>
 #include "Service.h"
 
 using ServiceID = std::size_t ;
@@ -26,7 +26,6 @@ template <typename T> inline ServiceID getServiceTypeID() noexcept
 constexpr std::size_t maxServices = 32;
 
 using ServiceBitSet = std::bitset<maxServices>;
-using ServiceArray = std::array<Service*, maxServices>;
 
 class ServiceManager
 {
@@ -36,23 +35,20 @@ public:
         return serviceBitSet[getServiceTypeID<T>()];
     }
 
-    template <typename T, typename ... TArgs> T& addService(TArgs&&... mArgs)
+    template <typename T, typename ... TArgs> void addService(TArgs&&... mArgs)
     {
-        T* s(new T(std::forward<TArgs>(mArgs)...));
-        std::shared_ptr<Service> uPtr{ s };
-        services.emplace_back(std::move(uPtr));
-
-        serviceArray[getServiceTypeID<T>()] = s;
-        serviceBitSet[getServiceTypeID<T>()] = true;
-
-        s->init();
-
-        return *s;
+        std::unique_ptr<T> nPtr = std::make_unique<T>(std::forward<TArgs>(mArgs)...);
+        ServiceID serviceID = getServiceTypeID<T>();
+        if (servicesMap.find(serviceID) == servicesMap.end()) {
+            servicesMap[serviceID] = std::move(nPtr);
+            serviceBitSet[getServiceTypeID<T>()] = true;
+        }
     }
 
     template <typename T> T& getService() const
     {
-        auto ptr(serviceArray[getServiceTypeID<T>()]);
+        const ServiceID serviceID = getServiceTypeID<T>();
+        auto ptr = servicesMap.find(serviceID)->second.get();
 
         return *static_cast<T*>(ptr);
     }
@@ -63,10 +59,7 @@ public:
 
 private:
     static ServiceManager* instance;
-
-    std::vector<std::shared_ptr<Service>> services;
-
-    ServiceArray serviceArray;
+    std::map<ServiceID, std::unique_ptr<Service>> servicesMap;
     ServiceBitSet serviceBitSet;
 };
 

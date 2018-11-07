@@ -1,6 +1,7 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/bobberick-framework/cmake/modules/")
 enable_testing()
 add_subdirectory(tests)
+add_subdirectory(externals/tmxlite)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
@@ -18,19 +19,18 @@ set(
 	src/entity/Entity.h src/entity/Entity.cpp
 	src/entity/EntityManager.cpp src/entity/EntityManager.h
 	src/StateMachine.cpp src/StateMachine.h
-	src/StateFactory.cpp src/StateFactory.h
 	src/GameState.cpp src/GameState.h
 	src/util/Vector2D.h src/util/Vector2D.cpp
 	src/util/Timer.h src/util/Timer.cpp
 	src/Game.cpp src/Game.h
 	src/entity/components/SpriteComponent.cpp src/entity/components/SpriteComponent.h
+	src/entity/components/RectangleComponent.cpp src/entity/components/RectangleComponent.h
 	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
-	src/entity/components/StatsComponent.cpp src/entity/components/StatsComponent.h
-	src/entity/components/PlayerStatsComponent.cpp src/entity/components/PlayerStatsComponent.h
+	src/entity/components/PlayerShootComponent.cpp src/entity/components/PlayerShootComponent.h
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/TextureManager.cpp src/TextureManager.h
 	src/FontManager.cpp src/FontManager.h
-	src/SplashScreenState.cpp src/SplashScreenState.h
+	src/RectangleManager.cpp src/RectangleManager.h
 	src/services/ServiceManager.cpp src/services/ServiceManager.h
 	src/services/Service.cpp src/services/Service.h
 	src/entity/Component.cpp src/entity/Component.h
@@ -40,10 +40,18 @@ set(
 	src/entity/systems/DrawSystem.cpp src/entity/systems/DrawSystem.h
 	src/SoundManager.cpp src/SoundManager.h
 	src/util/SDL_Deleter.h
-    src/util/FrameHandler.cpp src/util/FrameHandler.h
+  src/util/FrameHandler.cpp src/util/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h
 	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
-		src/EmptyState.cpp src/EmptyState.h)
+  src/entity/components/ButtonSpriteComponent.cpp src/entity/components/ButtonSpriteComponent.h
+	src/EmptyState.cpp src/EmptyState.h 
+	src/LevelFactory.cpp src/LevelFactory.h 
+	src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h 
+	src/entity/components/Tile.cpp src/entity/components/Tile.h 
+	src/entity/components/TileObject.cpp src/entity/components/TileObject.h 
+	src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h 
+	src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h src/entity/systems/CollisionSystem.cpp src/entity/systems/CollisionSystem.h src/entity/CollisionHelper.cpp src/entity/CollisionHelper.h)
 add_library(bobberick-framework ${SOURCE_FILES})
+target_link_libraries(bobberick-framework tmxlite)
 
 target_link_libraries(bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY})

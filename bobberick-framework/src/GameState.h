@@ -1,7 +1,6 @@
 #ifndef BOBBERICK_TOOLS_GAMESTATE_H
 #define BOBBERICK_TOOLS_GAMESTATE_H
 
-
 #include <string>
 #include "entity/systems/System.h"
 

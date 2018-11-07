@@ -10,7 +10,7 @@ class TextComponent : public Component
 {
 public:
     TextComponent() = default;
-    TextComponent(const char * path, const char* textureID, const char* text, int size);
+    TextComponent(const char * path, const char* textureID, const std::string text, int size);
 
     void init() override;
     void update() override;

@@ -12,7 +12,7 @@ public:
     virtual void update() {};
     virtual void render() {};
 
-    virtual ~Component() {};
+    virtual ~Component() = default;
 };
 
 
