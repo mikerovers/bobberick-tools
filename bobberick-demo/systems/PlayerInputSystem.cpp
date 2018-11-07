@@ -7,6 +7,8 @@
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/PlayerShootComponent.h"
+#include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
+
 PlayerInputSystem::PlayerInputSystem(EntityManager &entityManager) : System(entityManager)
 {
 
@@ -85,7 +87,6 @@ void PlayerInputSystem::update()
 				projectileTransform.velocity.setX(dx);
 				projectileTransform.velocity.setY(dy);
 
-
 				if (inputHandler.getMouseButtonState(LEFT)) {
 					sprite.changeTexture("character_shooting");
 					ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
@@ -104,6 +105,12 @@ void PlayerInputSystem::update()
 			sprite.changeTexture("character");
 		}
 
-		transform.update();
-	}
+        auto& collisionComponent = entity->getComponent<CollisionComponent>();
+        collisionComponent.collider->x = transform.position.getX();
+        collisionComponent.collider->y = transform.position.getY();
+        collisionComponent.collider->w = transform.width;
+        collisionComponent.collider->h = transform.height;
+
+        transform.update();
+    }
 }

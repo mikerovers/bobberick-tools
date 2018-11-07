@@ -13,6 +13,7 @@
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../../bobberick-framework/src/services/RenderService.h"
+#include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../factory/ObjectFactory.h"
 
 std::string PlayState::getStateID() const
@@ -49,6 +50,7 @@ bool PlayState::onEnter()
 	player->addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1), 180, 180, 0.3, 0, 0);
 	player->getComponent<PlayerStatsComponent>().toggleShield(); // For testing purposes
     player->addComponent<PlayerShootComponent>();
+    player->addComponent<CollisionComponent>("player");
 
     std::shared_ptr<Entity> level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     auto* levelFactory = new LevelFactory();
@@ -56,6 +58,10 @@ bool PlayState::onEnter()
     level->addExistingComponent<TilesetComponent>(tilesetComponent);
     delete levelFactory;
 
+    std::shared_ptr<Entity> box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto* collisionComponent = new CollisionComponent("test", 140, 175, 40);
+    box->addExistingComponent<CollisionComponent>(collisionComponent);
+    
     auto* objectFactory = new ObjectFactory();
     for(auto* object : tilesetComponent->objects) {
         objectFactory->getObject(object);
