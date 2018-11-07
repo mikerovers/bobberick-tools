@@ -24,7 +24,7 @@ bool SoundManager::load(const std::string& file_name, const std::string& id, con
 	}
 	if (type == SOUND_SFX)
 	{
-		const auto pChunk = Mix_LoadWAV("assets/music/effects/arrow-swoosh-2.ogg");
+		const auto pChunk = Mix_LoadWAV(file_name.c_str());
 		
 		if (pChunk == nullptr)
 		{
