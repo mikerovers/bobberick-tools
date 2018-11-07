@@ -8,35 +8,64 @@
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
 #include "../systems/ShieldSystem.h"
+#include "../src/states/CreditScreenState.h"
 
-GameState* StateFactory::createState(const std::string type) {
-	if (type == "SplashScreenState") {
+
+GameState* StateFactory::createState(const std::string& type)
+{
+	if (type == "SplashScreenState")
+	{
 		return createSplashScreenState();
-	} else if (type == "PlayState") {
+	}
+	if (type == "PlayState")
+	{
 		return createPlayState();
+	}
+	if (type == "CreditScreenState")
+	{
+		return createCreditScreenState();
 	}
 
 	return nullptr;
 }
 
-SplashScreenState* StateFactory::createSplashScreenState() {
+SplashScreenState* StateFactory::createSplashScreenState()
+{
 	SplashScreenState* splashScreen = new SplashScreenState();
-	splashScreen->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	splashScreen->addSystem(
+		std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return splashScreen;
 }
 
-PlayState *StateFactory::createPlayState()
+PlayState* StateFactory::createPlayState()
 {
 	PlayState* playState = new PlayState();
-	playState->addSystem(std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	playState->addSystem(std::shared_ptr<PlayerInputSystem>(new PlayerInputSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	playState->addSystem(std::shared_ptr<BulletSystem>(new BulletSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	playState->addSystem(std::shared_ptr<ShieldSystem>(new ShieldSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	playState->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	playState->addSystem(std::shared_ptr<CollisionSystem>(new CollisionSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	playState->addSystem(std::shared_ptr<HudSystem>(new HudSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	playState->addSystem(std::shared_ptr<GuiSystem>(new GuiSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(
+		std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(
+		std::shared_ptr<PlayerInputSystem>(
+			new PlayerInputSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(
+		std::shared_ptr<BulletSystem>(new BulletSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(
+		std::shared_ptr<ShieldSystem>(new ShieldSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(
+		std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(
+		std::shared_ptr<CollisionSystem>(new CollisionSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(
+		std::shared_ptr<HudSystem>(new HudSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(
+		std::shared_ptr<GuiSystem>(new GuiSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return playState;
+}
+
+CreditScreenState* StateFactory::createCreditScreenState() const
+{
+	auto creditScreen = new CreditScreenState();
+	creditScreen->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return creditScreen;
 }
