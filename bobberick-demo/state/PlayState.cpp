@@ -70,8 +70,9 @@ bool PlayState::onEnter()
     delete objectFactory;
 
     std::shared_ptr<Entity> exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* exitButtonComponent = new ButtonComponent([](){
+    auto* exitButtonComponent = new ButtonComponent([this](){
         std::cout << "Exit button clicked." << std::endl;
+		_exitPressed = true;
     });
     exitButton->addExistingComponent<ButtonComponent>(exitButtonComponent);
     auto* exitButtonTransformComponent = new TransformComponent();
@@ -98,5 +99,5 @@ bool PlayState::onExit()
 
 bool PlayState::shouldExit()
 {
-    return false;
+	return _exitPressed;
 }
