@@ -15,7 +15,7 @@ bool FontManager::load(const char* fileName, std::string id, std::string text, i
 	}
 
 	SDL_SurfacePointer pTempSurface = SDL_SurfacePointer(TTF_RenderText_Blended(font, text.c_str(), SDL_Color{0,0,0}));
-
+	TTF_CloseFont(font);
     if (pTempSurface == nullptr) {
         return false;
     }
