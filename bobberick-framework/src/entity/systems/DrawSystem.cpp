@@ -1,8 +1,10 @@
 #include "DrawSystem.h"
 #include "../components/SpriteComponent.h"
+#include "../components/RectangleComponent.h"
 #include "../components/TextComponent.h"
 #include "../components/FadeComponent.h"
 #include "../../TextureManager.h"
+#include "../../RectangleManager.h"
 #include "../../FontManager.h"
 #include "../../services/ServiceManager.h"
 #include "../components/TilesetComponent.h"
@@ -33,17 +35,37 @@ void DrawSystem::update()
 		fade.update();
 	}
 
+	// Draw in-game sprites under the GUI.
     for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
-        auto & spr = entity->getComponent<SpriteComponent>();
+		if (!entity->getComponent<SpriteComponent>().guiLayer) {
+			auto & spr = entity->getComponent<SpriteComponent>();
 
-		spr.update();
-        spr.render();
+			spr.update();
+			spr.render();
+		} 
     }
 
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
+		auto & spr = entity->getComponent<RectangleComponent>();
+
+		spr.update();
+		spr.render();
+	}
+
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
-		auto& tx = ServiceManager::Instance()->getService<FontManager>();
 		auto & spr = entity->getComponent<TextComponent>();
 
+		spr.update();
 		spr.render();
+	}
+
+	// Draw sprites on top of the GUI.
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
+		if (entity->getComponent<SpriteComponent>().guiLayer) {
+			auto & spr = entity->getComponent<SpriteComponent>();
+
+			spr.update();
+			spr.render();
+		}
 	}
 }

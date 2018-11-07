@@ -1,7 +1,7 @@
 #ifndef BOBBERICK_TOOLS_STATSCOMPONENT_H
 #define BOBBERICK_TOOLS_STATSCOMPONENT_H
 
-#include "../Component.h"
+#include "../../bobberick-framework/src/entity/Component.h"
 
 class StatsComponent : public Component
 {
