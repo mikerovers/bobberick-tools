@@ -18,8 +18,5 @@ void ShieldSystem::update()
 		if (playerStats.shieldActive()) {
 			sprite.changeTexture("character_shield");
 		}
-		else {
-			sprite.changeTexture("character");
-		}
 	}
 }
