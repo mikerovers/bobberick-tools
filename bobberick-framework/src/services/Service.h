@@ -5,6 +5,7 @@
 class Service
 {
 public:
+    virtual ~Service() = default;
     virtual void init() = 0;
     virtual void clean() = 0;
 };
