@@ -14,6 +14,7 @@
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../../bobberick-framework/src/services/RenderService.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../factory/ObjectFactory.h"
 
 std::string PlayState::getStateID() const
@@ -46,6 +47,7 @@ bool PlayState::onEnter()
 	spriteComponent.addTexture("assets/image/character_casting.png", "character_casting");
 	spriteComponent.addTexture("assets/image/character_shooting.png", "character_shooting");
     player->addComponent<PlayerMovementComponent>();
+    player->addComponent<CollisionComponent>("player");
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
 	player->addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1), 180, 180, 0.3, 0, 0);
 	player->getComponent<PlayerStatsComponent>().toggleShield(); // For testing purposes
@@ -61,7 +63,7 @@ bool PlayState::onEnter()
     std::shared_ptr<Entity> box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     auto* collisionComponent = new CollisionComponent("test", 0, 0, 40);
     box->addExistingComponent<CollisionComponent>(collisionComponent);
-    
+
     auto* objectFactory = new ObjectFactory();
     for(auto* object : tilesetComponent->objects) {
         objectFactory->getObject(object);

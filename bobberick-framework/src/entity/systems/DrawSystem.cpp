@@ -88,4 +88,23 @@ void DrawSystem::update()
 			spr.render();
 		}
 	}
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>()) {
+		auto& comp = entity->getComponent<CollisionComponent>();
+
+		auto* sourceRect = new SDL_Rect;
+		sourceRect->x = 0;
+		sourceRect->y = 0;
+		sourceRect->w = 32;
+		sourceRect->h = 32;
+		auto* destRect = new SDL_Rect;
+		destRect->x = comp.collider->x;
+		destRect->y = comp.collider->y;
+		destRect->w = comp.collider->w;
+		destRect->h = comp.collider->h;
+		tx.draw("collision", sourceRect, destRect, rs.getRenderer(), false);
+
+		delete sourceRect;
+		delete destRect;
+	}
 }

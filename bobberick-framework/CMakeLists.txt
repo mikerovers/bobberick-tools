@@ -50,7 +50,9 @@ set(
 	src/entity/components/Tile.cpp src/entity/components/Tile.h 
 	src/entity/components/TileObject.cpp src/entity/components/TileObject.h 
 	src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h 
-	src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h src/entity/systems/CollisionSystem.cpp src/entity/systems/CollisionSystem.h src/entity/CollisionHelper.cpp src/entity/CollisionHelper.h)
+	src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h src/entity/systems/CollisionSystem.cpp src/entity/systems/CollisionSystem.h src/entity/CollisionHelper.cpp src/entity/CollisionHelper.h
+	src/EmptyState.cpp src/EmptyState.h
+	src/LevelFactory.cpp src/LevelFactory.h src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h src/entity/components/Tile.cpp src/entity/components/Tile.h)
 add_library(bobberick-framework ${SOURCE_FILES})
 target_link_libraries(bobberick-framework tmxlite)
 
