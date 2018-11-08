@@ -40,7 +40,7 @@ bool PlayState::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt", SOUND_SFX);
 
     std::shared_ptr<Entity> player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	player->addComponent<TransformComponent>(10, 200, 64, 32, 2);
+	player->addComponent<TransformComponent>(200, 200, 64, 32, 2);
     //player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character", 6, 6, 5);
     auto& spriteComponent = player->addComponent<SpriteComponent>("assets/image/character.png", "character", 6, 4, 5);
 	spriteComponent.addTexture("assets/image/character_casting.png", "character_casting");

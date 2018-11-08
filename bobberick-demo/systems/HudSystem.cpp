@@ -17,8 +17,8 @@ void HudSystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
 		PlayerStatsComponent& playerStats = entity->getComponent<PlayerStatsComponent>();
 
-		playerStats.xp += 99; // For testing purposes
-		playerStats.gold += 89; // For testing purposes
+//		playerStats.xp += 99; // For testing purposes
+//		playerStats.gold += 89; // For testing purposes
 		playerStats.getHit(49, true); // For testing purposes
 
 		playerStats.update();
