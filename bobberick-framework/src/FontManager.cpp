@@ -1,57 +1,51 @@
 #include "FontManager.h"
+#include "services\ServiceManager.h"
+#include <iostream>
 
-void FontManager::clearTexture(std::string id)
+void FontManager::clearFont(std::string fontId)
 {
 	//TODO Does this work with RAII object?
-	textures.erase(id);
+	fonts.erase(fontId);
 }
 
-bool FontManager::load(const char* fileName, std::string id, std::string text, int size, std::shared_ptr<SDL_Renderer> renderer)
+bool FontManager::loadFont(const char* fileName, const std::string fontId, const int size)
 {
 	TTF_Font* font = TTF_OpenFont(fileName, size);
 
 	if (font == nullptr) {
 		return false;
+	} else {
+		if (fonts[fontId] != nullptr) {
+			fonts.erase(fontId);
+		}
+		fonts[fontId] = font;
+		return true;
 	}
-
-	SDL_SurfacePointer pTempSurface = SDL_SurfacePointer(TTF_RenderText_Blended(font, text.c_str(), SDL_Color{0,0,0}));
-	TTF_CloseFont(font);
-    if (pTempSurface == nullptr) {
-        return false;
-    }
-
-    SDL_TexturePointer pTexture = SDL_TexturePointer(SDL_CreateTextureFromSurface(renderer.get(), pTempSurface.get()));
-
-    //TODO Does this now clean up?
-//    pTempSurface = nullptr;
-
-    if (pTexture != nullptr) {
-        textures[id] = pTexture;
-
-        return true;
-    }
-
-    return false;
 }
 
-void FontManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer)
-{
-	SDL_RenderCopyEx(renderer.get(), textures[id].get(), sourceRect, destinationRect, 0, nullptr, SDL_FLIP_NONE);
+bool FontManager::createText(std::string fontId, std::string textureId, std::string text, std::shared_ptr<SDL_Renderer> renderer) {
+	SDL_Color color { 0, 0, 0 };
+	if (fonts[fontId] != nullptr) {
+		SDL_SurfacePointer pTempSurface = SDL_SurfacePointer(TTF_RenderText_Blended(fonts[fontId], text.c_str(), color));
+		if (pTempSurface != nullptr) {
+			return ServiceManager::Instance()->getService<TextureManager>().addTextureFromSurface(pTempSurface, textureId, renderer);
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
 }
 
-void FontManager::setOpacity(std::string id, int opacity) {
-	if (opacity > 255) {
-		opacity = 255;
-	}
-	else if (opacity < 0) {
-		opacity = 0;
-	}
-	SDL_SetTextureAlphaMod(textures[id].get(), opacity);
-}
-
+// For now, I'll use this space to load in all font-size combinations we need. But you can also use loadFont() from outside, of course.
 void FontManager::init()
 {
-
+	if (!loadFont("assets/font/mono.ttf", "monoMedium", 30)) {
+		std::cout << SDL_GetError();
+	}
+	if (!loadFont("assets/font/font.ttf", "defaultLarge", 56)) {
+		std::cout << SDL_GetError();
+	}
 }
 
 void FontManager::clean()

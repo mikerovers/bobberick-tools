@@ -17,8 +17,8 @@ void HudSystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
 		PlayerStatsComponent& playerStats = entity->getComponent<PlayerStatsComponent>();
 
-//		playerStats.xp += 99; // For testing purposes
-//		playerStats.gold += 89; // For testing purposes
+		//playerStats.xp += 99; // For testing purposes
+		//playerStats.gold += 89; // For testing purposes
 		playerStats.getHit(49, true); // For testing purposes
 
 		playerStats.update();
@@ -45,21 +45,9 @@ void HudSystem::update()
 		healthBox->getComponent<TransformComponent>().width = healthWidth;
 		shieldBox->getComponent<TransformComponent>().width = shieldWidth;
 
-		entityManager.removeEntity(healthText);
-		entityManager.removeEntity(coinText);
-		entityManager.removeEntity(xpText);
-
-		healthText = entityManager.addEntity();
-		healthText->addComponent<TransformComponent>(20, 10, 30, 280, 1);
-		healthText->addComponent<TextComponent>("assets/font/mono.ttf", "healthText", addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + addSpaces(std::to_string(playerStats.stats->getHPmax()), 6, false), 30);
-
-		coinText = entityManager.addEntity();
-		coinText->addComponent<TransformComponent>(barWidth + 67, 10, 30, 110, 1);
-		coinText->addComponent<TextComponent>("assets/font/mono.ttf", "coinText", addSpaces(std::to_string(playerStats.gold), 6, false), 30);
-
-		xpText = entityManager.addEntity();
-		xpText->addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
-		xpText->addComponent<TextComponent>("assets/font/mono.ttf", "xpText", addSpaces(std::to_string(playerStats.xp), 6, false), 30);
+		healthText->getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + addSpaces(std::to_string(playerStats.stats->getHPmax()), 6, false));
+		coinText->getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.gold), 6, false));
+		xpText->getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.xp), 6, false));
     }
 }
 
@@ -94,8 +82,16 @@ void HudSystem::init()
 	xpImage->addComponent<SpriteComponent>("assets/image/hud_xp.png", "xpImage", true);
 
 	healthText = entityManager.addEntity();
+	healthText->addComponent<TransformComponent>(20, 10, 30, 280, 1);
+	healthText->addComponent<TextComponent>("monoMedium", "healthText", " ");
+
 	coinText = entityManager.addEntity();
+	coinText->addComponent<TransformComponent>(barWidth + 67, 10, 30, 110, 1);
+	coinText->addComponent<TextComponent>("monoMedium", "coinText", " ");
+
 	xpText = entityManager.addEntity();
+	xpText->addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
+	xpText->addComponent<TextComponent>("monoMedium", "xpText", " ");
 }
 
 std::string HudSystem::addSpaces(std::string string, const int goalChars, const bool leading) {

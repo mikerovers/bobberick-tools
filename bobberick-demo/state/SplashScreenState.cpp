@@ -22,7 +22,7 @@ bool SplashScreenState::onEnter() {
 	logo->addComponent<FadeComponent>("logo", -150, 2, 300); // Starting the opacity value below 0 will delay the fade-in.
 	std::shared_ptr<Entity> logoText = entityManager.addEntity();
 	logoText->addComponent<TransformComponent>(192, 328, 80, 256, 1);
-	logoText->addComponent<TextComponent>("assets/font.ttf", "logoText", "Team C++", 56);
+	logoText->addComponent<TextComponent>("defaultLarge", "logoText", "Team C++");
 	logoText->addComponent<FadeComponent>("logoText", -50, 2, 300);
 	fadeEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<FadeComponent>();
 

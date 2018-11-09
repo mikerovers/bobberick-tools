@@ -13,12 +13,11 @@ class FontManager : public Service
 public:
 	void init() override;
 	void clean() override;
-    bool load(const char* fileName, std::string id, std::string text, int size, std::shared_ptr<SDL_Renderer> renderer);
-	void draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer);
-	void setOpacity(std::string id, int opacity);
-	void clearTexture(std::string id);
+    bool loadFont(const char* fileName, std::string fontId, const int size);
+	bool createText(std::string fontId, std::string textureId, std::string text, std::shared_ptr<SDL_Renderer> renderer);
+	void clearFont(std::string fontId);
 protected:
-	std::map<std::string, SDL_TexturePointer> textures;
+	std::map<std::string, TTF_Font*> fonts;
 };
 
 

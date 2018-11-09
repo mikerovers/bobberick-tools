@@ -51,6 +51,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
 		TTF_Init();
+		serviceManager->getService<FontManager>().init(); // Load in our fonts.
 		IMG_Init(IMG_INIT_PNG);
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 

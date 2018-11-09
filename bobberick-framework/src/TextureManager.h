@@ -14,6 +14,7 @@ public:
     void init() override;
     void clean() override;
     bool load(const char* fileName, std::string id, std::shared_ptr<SDL_Renderer> renderer);
+	bool addTextureFromSurface(SDL_SurfacePointer surface, std::string id, std::shared_ptr<SDL_Renderer> renderer); // FontManager's SDL_TTF creates a surface from text.
     void draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip);
 	void setOpacity(std::string id, int opacity);
 	SDL_TexturePointer getTexture(std::string id);
