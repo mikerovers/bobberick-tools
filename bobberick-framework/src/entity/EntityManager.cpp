@@ -21,31 +21,17 @@ void EntityManager::refresh()
             }), std::end(g));
     }
 
-    // TODO remove shared pointer.
-    entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::shared_ptr<Entity> &entity) {
+    entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::unique_ptr<Entity> &entity) {
         return entity->isDeleted();
     }), std::end(entities));
 }
 
-std::shared_ptr<Entity> EntityManager::addEntity()
+Entity* EntityManager::addEntity()
 {
-    std::shared_ptr<Entity> uPtr{ new Entity };
-    entities.emplace_back(uPtr);
+    std::unique_ptr<Entity> uPtr = std::make_unique<Entity>();
+    entities.emplace_back(std::move(uPtr));
 
-    return uPtr;
-}
-
-bool EntityManager::removeEntity(const std::shared_ptr<Entity> entity)
-{
-    auto it = std::find(entities.begin(), entities.end(), entity);
-    if (it != entities.end()) {
-        entities.erase(it);
-    } else {
-        SDL_Log("An entity that would be deleted could not be found.");
-        return false;
-    }
-
-    return true;
+    return entities.back().get();
 }
 
 void EntityManager::clean()

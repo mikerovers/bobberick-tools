@@ -15,7 +15,7 @@ public:
 
 	bool shouldExit() override;
 
-	std::vector<std::shared_ptr<Entity>> fadeEntities;
+	std::vector<Entity*> fadeEntities;
 
 	std::string getStateID() const override;
 };

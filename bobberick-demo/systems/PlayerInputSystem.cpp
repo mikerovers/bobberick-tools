@@ -99,6 +99,11 @@ void PlayerInputSystem::handleMouseInput(std::shared_ptr<Entity> entity) {
 			double playerX = transform.position.getX();
 			double playerY = transform.position.getY();
 
+			Entity* projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+			projectile->addComponent<BulletMovementComponent>();
+			auto& projectileTransform = projectile->addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
+			projectileTransform.velocity.setX(dx);
+			projectileTransform.velocity.setY(dy);
 			double playerXCenter = playerX + transform.width / 2;
 			double playerYCenter = playerY + transform.height / 2;
 
