@@ -6,8 +6,15 @@
 class Entity
 {
 public:
+    Entity();
     bool isActive() const;
+    void setActive(const bool isActive);
+    bool isDeleted() const;
     void destroy();
+
+    void addGroup(const Group group);
+    bool hasGroup(const Group group) const;
+    void removeGroup(const Group group);
 
     template <typename T> bool hasComponent() const
     {
@@ -69,7 +76,9 @@ public:
     }
 
 private:
-    bool active = true;
+    bool active;
+    bool deleted;
+    std::vector<Group> groups;
     std::vector<std::shared_ptr<Component>> components;
 
     ComponentArray componentArray;

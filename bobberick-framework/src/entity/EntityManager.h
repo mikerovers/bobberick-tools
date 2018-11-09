@@ -1,7 +1,7 @@
 #ifndef BOBBERICK_TOOLS_MANAGER_H
 #define BOBBERICK_TOOLS_MANAGER_H
 
-
+#include <map>
 #include "Entity.h"
 #include "SDL.h"
 #include "../services/Service.h"
@@ -29,9 +29,12 @@ public:
     }
 
     std::shared_ptr<Entity> addEntity();
-    bool removeEntity(std::shared_ptr<Entity> entity);
+    bool removeEntity(const std::shared_ptr<Entity> entity);
+    void addEntityToGroup(const Entity* entity, const Group group);
+    std::vector<Entity*>& getGroup(const Group group) const;
 private:
     std::vector<std::shared_ptr<Entity>> entities;
+    std::map<Group, std::vector<Entity*>> groupedEntities;
 };
 
 
