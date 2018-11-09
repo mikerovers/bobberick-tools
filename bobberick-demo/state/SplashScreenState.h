@@ -5,8 +5,8 @@
 
 class SplashScreenState : public GameState {
 public:
-	SplashScreenState() {};
-	~SplashScreenState();
+	SplashScreenState() = default;;
+	~SplashScreenState() override;
 
 	void update() override;
 

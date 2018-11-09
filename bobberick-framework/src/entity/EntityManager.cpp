@@ -11,11 +11,20 @@ void EntityManager::init()
 
 void EntityManager::refresh()
 {
-    entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::shared_ptr<Entity> &mEntity) {
-        return !mEntity->isActive();
-    }),
-        std::end(entities)
-    );
+
+    for(auto& group : groupedEntities) {
+        auto& g(group.second);
+
+        g.erase(
+               std::remove_if(std::begin(g), std::end(g), [group](Entity* entity) {
+              return entity->isDeleted() || !entity->hasGroup(group.first);
+            }), std::end(g));
+    }
+
+    // TODO remove shared pointer.
+    entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::shared_ptr<Entity> &entity) {
+        return entity->isDeleted();
+    }), std::end(entities));
 }
 
 std::shared_ptr<Entity> EntityManager::addEntity()
@@ -41,27 +50,18 @@ bool EntityManager::removeEntity(const std::shared_ptr<Entity> entity)
 
 void EntityManager::clean()
 {
-    for(auto& group : groupedEntities) {
-        auto& groupVector = group.second;
-        groupVector.erase(
-            std::remove_if(std::begin(groupVector), std::end(groupVector), [group](Entity* entity) {
-                return entity->isDeleted() || entity->hasGroup(group.first);
-            }), std::end(groupVector)
-            );
-    }
 
-    entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-        [](const std::unique_ptr<Entity> &uEntity) {
-            return uEntity->isDeleted();
-        }), std::end(entities));
 }
 
-void EntityManager::addEntityToGroup(const Entity *entity, const Group group)
+void EntityManager::addEntityToGroup(Entity *entity, const Group group)
 {
-    groupedEntities[group].emplace_back(entity);
+    auto& vectorOfEntities = groupedEntities[group];
+    vectorOfEntities.push_back(entity);
+    entity->addGroup(group);
 }
 
-std::vector<Entity *> &EntityManager::getGroup(const Group group) const
+std::vector<Entity*> &EntityManager::getEntitiesFromGroup(const Group group)
 {
-    return groupedEntities[group];
+    auto& a = groupedEntities[group];
+    return groupedEntities.find(group)->second;
 }

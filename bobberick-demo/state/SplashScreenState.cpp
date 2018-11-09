@@ -26,6 +26,9 @@ bool SplashScreenState::onEnter() {
 	logoText->addComponent<FadeComponent>("logoText", -50, 2, 300);
 	fadeEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<FadeComponent>();
 
+	entityManager.addEntityToGroup(logo.get(), getStateID());
+	entityManager.addEntityToGroup(logoText.get(), getStateID());
+
 	return true;
 }
 
@@ -40,7 +43,7 @@ bool SplashScreenState::shouldExit() {
 			return false;
 		}
 	}
-
+	
 	return true;
 }
 
