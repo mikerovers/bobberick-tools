@@ -92,8 +92,11 @@ bool PlayState::onEnter()
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
 			Entity* enemy;
-			if (i < 5) {
+			if (i < 3) {
 				enemy = enemyFactory.getRandomEnemy(1, "orc");
+			}
+			if (i < 7) {
+				enemy = enemyFactory.getRandomEnemy(1, "fireWizard");
 			}
 			else {
 				enemy = enemyFactory.getRandomEnemy(1, "zombie");
@@ -104,7 +107,6 @@ bool PlayState::onEnter()
 			enemyTransform.position.setY(50 * j);
 		}
 	}
-
 
     return true;
 }

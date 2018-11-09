@@ -15,6 +15,10 @@ void AISystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
 		auto& sprite = entity->getComponent<SpriteComponent>();
+		auto& collision = entity->getComponent<CollisionComponent>();
+
+		// check which directions are clear
+		// adjust possible movements accordingly 
 
 		double const speed = 0.2 * transform.speed;
 

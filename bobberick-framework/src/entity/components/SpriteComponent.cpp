@@ -18,7 +18,7 @@ void SpriteComponent::init()
 
 void SpriteComponent::update()
 {
-	if (moving) {
+	if (moving) { // TODO double code
 		if (currentFrame >= 0) {
 			animTimer--;
 			if (animTimer == 0) {
@@ -35,13 +35,14 @@ void SpriteComponent::update()
 				sourceRect.y = transform->height * currentRow;
 			}
 		}
-		else {
-
-		}
-
 	}
 	else {
 		currentFrame = 0;
+		int currentRow = currentFrame / animCols;
+		int currentCol = currentFrame % animCols;
+
+		sourceRect.x = transform->width * currentCol;
+		sourceRect.y = transform->height * currentRow;
 	}
 
 	destinationRect.x = transform->position.getX();
