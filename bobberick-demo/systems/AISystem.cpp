@@ -9,6 +9,9 @@
 #include "../../bobberick-demo/components/AIComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
+
+#include <thread>
+#include <chrono>
 AISystem::AISystem(EntityManager &entityManager) : System(entityManager)
 {
 
@@ -16,6 +19,7 @@ AISystem::AISystem(EntityManager &entityManager) : System(entityManager)
 
 void AISystem::update()
 {
+	int channelCounter = 0;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
 		auto& sprite = entity->getComponent<SpriteComponent>();
@@ -24,9 +28,14 @@ void AISystem::update()
 		// check which directions are clear
 		// adjust possible movements accordingly 
 
+
+		double speed = 0.2 * transform.speed;
+
 		if (entity->hasComponent<ShootComponent>()) {
 			if (shoot.canShoot()) {
+
 				for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
+					channelCounter++;
 					auto& playerTransform = player->getComponent<TransformComponent>();
 					double enemyX = transform.position.getX();
 					double enemyY = transform.position.getY();
@@ -38,7 +47,13 @@ void AISystem::update()
 					double angleY = playerTransform.position.getY() - enemyYCenter;
 
 					if ((angleX < 300 && angleX > -300) && (angleY < 300 && angleY > -300)) {
-
+						if (angleX < 300) {
+							sprite.flip = true;
+						}
+						else if (angleX > -300) {
+							sprite.flip = false;
+						}
+						// TODO change flip wether the player is in front or back from the enemy
 						float vectorLength = sqrt(angleX*angleX + angleY * angleY);
 						float dx = angleX / vectorLength;
 						float dy = angleY / vectorLength;
@@ -49,20 +64,23 @@ void AISystem::update()
 						projectileTransform.velocity.setX(dx);
 						projectileTransform.velocity.setY(dy);
 
-						//sprite.changeTexture("character_shooting");
-						ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
+						sprite.changeTexture("fire_wizard_casting"); // change to set entity to casting state (and change sprite accordingly)
+
+						transform.velocity.setX(0);
+						transform.velocity.setY(0);
+
+						ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
 						projectile->addComponent<SpriteComponent>("assets/image/bolt.png", "bolt");
-						shoot.setShootTimer(1500);
+						shoot.setShootTimer(980);
+
 					}
-
+					else {
+						sprite.changeTexture("fire_wizard");
+					}
 				}
-
 			}
-		
+
 		}
-
-
-		double const speed = 0.2 * transform.speed;
 
 		int move = rand() % 60;
 		if (move == 0) {

@@ -9,6 +9,7 @@ class AISystem : public System
 public:
 	explicit AISystem(EntityManager& entityManager);
 	void update() override;
+	void stopMoving();
 };
 
 
