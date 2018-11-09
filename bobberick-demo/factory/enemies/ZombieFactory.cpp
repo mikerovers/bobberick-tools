@@ -18,12 +18,13 @@ Entity * ZombieFactory::getEnemy(const int level)
 
 	transformComponent.speed = 0.8;
 
-	int randMutator = (rand() % 50) / 100;
+	double random = (rand() % 50);
+	double randMutator = (random + 50) / 100;
 
-	int hp = 75 * level * (randMutator + 50),
-		maxHp = 100 * level * (randMutator + 50),
-		atkMin = 2 * level * (randMutator + 50),
-		atkMax = 4 * level * (randMutator + 50),
+	int hp = 175 * level * (randMutator),
+		maxHp = 200 * level * (randMutator),
+		atkMin = 1 * level * (randMutator),
+		atkMax = 3 * level * (randMutator),
 		df = 1;
 
 	zombie->addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
