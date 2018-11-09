@@ -42,7 +42,43 @@ void AISystem::init() {
 	}
 }
 
-void AISystem::executeShoot(std::shared_ptr<Entity> entity) {
+
+void AISystem::update()
+{
+	int channelCounter = 0;
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
+		auto& transform = entity->getComponent<TransformComponent>();
+
+		// todo
+		// check which directions are clear
+		// adjust possible movements accordingly 
+		// delete properly
+		// make shooting dependant on enemy type (cast/shoot/change of sprite)
+		// make smoother
+
+		executeShoot(entity, channelCounter);
+		applyHealthBar(entity);
+		applyMovement(entity);
+
+		double maxWidth = 640.00; //change this
+		double maxHeight = 480.00; //change this
+		//std::cout << transform.position.getX() << "\n";
+		if (transform.position.getX() > 640 || transform.position.getY() > 480) {
+
+			//entity->destroy();
+			//delete &entity;
+			//entity.reset();
+			//entity = nullptr;
+
+		}
+		else {
+			transform.update();
+
+		}
+	}
+}
+
+void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter) {
 	if (entity->hasComponent<ShootComponent>()) {
 		auto& shoot = entity->getComponent<ShootComponent>();
 		if (shoot.canShoot()) {
@@ -56,7 +92,6 @@ void AISystem::executeShoot(std::shared_ptr<Entity> entity) {
 			double enemyX = transform.position.getX();
 			double enemyY = transform.position.getY();
 
-			int channelCounter = 0;
 			for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
 				channelCounter++;
 				auto& playerTransform = player->getComponent<TransformComponent>();
@@ -208,52 +243,6 @@ void AISystem::applyMovement(std::shared_ptr<Entity> entity) {
 	collisionComponent.collider->y = transform.position.getY();
 	collisionComponent.collider->w = transform.width;
 	collisionComponent.collider->h = transform.height;
-}
-
-void AISystem::update()
-{
-	int channelCounter = 0;
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
-		auto& transform = entity->getComponent<TransformComponent>();
-		auto& sprite = entity->getComponent<SpriteComponent>();
-		auto& collision = entity->getComponent<CollisionComponent>();
-		auto& shoot = entity->getComponent<ShootComponent>();
-		auto& stats = entity->getComponent<StatsComponent>();
-		auto& healthBar = entity->getComponent<HealthBarComponent>();
-
-		double enemyX = transform.position.getX();
-		double enemyY = transform.position.getY();
-
-		// todo
-		// check which directions are clear
-		// adjust possible movements accordingly 
-		// delete properly
-		// make shooting dependant on enemy type (cast/shoot/change of sprite)
-		// make smoother
-
-
-
-		executeShoot(entity);
-		applyHealthBar(entity);
-		applyMovement(entity);
-		
-
-		double maxWidth = 640.00; //change this
-		double maxHeight = 480.00; //change this
-		//std::cout << transform.position.getX() << "\n";
-		if (transform.position.getX() > 640 || transform.position.getY() > 480) {
-
-			//entity->destroy();
-			//delete &entity;
-			//entity.reset();
-			//entity = nullptr;
-
-		}
-		else {
-			transform.update();
-
-		}
-	}
 }
 
 std::string AISystem::addSpaces(std::string string, const int goalChars, const bool leading) {
