@@ -17,6 +17,7 @@ components/BulletMovementComponent.cpp components/BulletMovementComponent.h
 components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h 
 components/StatsComponent.cpp components/StatsComponent.h
 components/AIComponent.cpp components/AIComponent.h
+components/HealthBarComponent.cpp components/HealthBarComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
@@ -27,6 +28,7 @@ state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
 factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
+factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
 factory/enemies/ZombieFactory.cpp factory/enemies/ZombieFactory.h
 factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h)

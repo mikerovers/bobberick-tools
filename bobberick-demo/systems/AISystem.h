@@ -9,7 +9,11 @@ class AISystem : public System
 public:
 	explicit AISystem(EntityManager& entityManager);
 	void update() override;
+	void init() override;
 	void stopMoving();
+private:
+	std::string addSpaces(std::string string, const int goalChars, const bool leading);
+
 };
 
 

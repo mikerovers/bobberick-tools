@@ -2,8 +2,9 @@
 #define BOBBERICK_TOOLS_ZOMBIEFACTORY_H
 
 #include "../../../bobberick-framework/src/entity/Entity.h"
+#include "../../../bobberick-demo/factory/enemies/BaseEnemyFactory.h"
 
-class ZombieFactory
+class ZombieFactory : public BaseEnemyFactory
 {
 public:
     Entity* getEnemy(const int level);

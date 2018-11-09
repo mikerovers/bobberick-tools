@@ -2,7 +2,8 @@
 #define BOBBERICK_TOOLS_FIREWIZARDFACTORY_H
 
 #include "../../../bobberick-framework/src/entity/Entity.h"
-class FireWizardFactory
+#include "../../../bobberick-demo/factory/enemies/BaseEnemyFactory.h"
+class FireWizardFactory : public BaseEnemyFactory
 {
 public:
     Entity* getEnemy(const int level);

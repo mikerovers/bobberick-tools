@@ -5,15 +5,43 @@
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/ShootComponent.h"
+#include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../../bobberick-demo/components/AIComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
+#include "../../bobberick-demo/components/HealthBarComponent.h"
 
 #include <thread>
 #include <chrono>
 AISystem::AISystem(EntityManager &entityManager) : System(entityManager)
 {
+
+}
+
+void AISystem::init() {
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
+		auto& healthBar = entity->getComponent<HealthBarComponent>();
+		auto& transform = entity->getComponent<TransformComponent>();
+		if (entity->hasComponent<HealthBarComponent>()) {
+			int width = transform.width / 2;
+			healthBar.outerBox = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+			healthBar.innerBox = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+			healthBar.healthBox = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+
+			healthBar.outerBox->addComponent<TransformComponent>(-1, -1, 12, width + 2, 1);
+			healthBar.outerBox->addComponent<RectangleComponent>(0, 0, 0, false);
+
+			healthBar.innerBox->addComponent<TransformComponent>(-1, -1, 10, width, 1);
+			healthBar.innerBox->addComponent<RectangleComponent>(128, 128, 128, true);
+
+			healthBar.healthBox->addComponent<TransformComponent>(-1, -1, 10, width, 1);
+			healthBar.healthBox->addComponent<RectangleComponent>(255, 0, 0, true);
+		}
+
+	}
+
 
 }
 
@@ -25,6 +53,42 @@ void AISystem::update()
 		auto& sprite = entity->getComponent<SpriteComponent>();
 		auto& collision = entity->getComponent<CollisionComponent>();
 		auto& shoot = entity->getComponent<ShootComponent>();
+		auto& stats = entity->getComponent<StatsComponent>();
+		auto& healthBar = entity->getComponent<HealthBarComponent>();
+
+		double enemyX = transform.position.getX();
+		double enemyY = transform.position.getY();
+
+		if (entity->hasComponent<HealthBarComponent>()) {
+			auto& outBox = healthBar.outerBox->getComponent<TransformComponent>();
+			auto& inBox = healthBar.innerBox->getComponent<TransformComponent>();
+			auto& healBox = healthBar.healthBox->getComponent<TransformComponent>();
+
+			if (stats.getHP() != stats.getHPmax()) {
+				outBox.visible = true;
+				inBox.visible = true;
+				healBox.visible = true;
+
+				auto& x = healthBar.outerBox;
+				outBox.position.setY(enemyY - 10);
+				outBox.position.setX(enemyX + 15);
+
+				inBox.position.setY(enemyY - 9);
+				inBox.position.setX(enemyX + 16);
+
+				healBox.position.setY(enemyY - 9);
+				healBox.position.setX(enemyX + 16);
+
+				double healthWidth = ((double)stats.getHP() / (double)stats.getHPmax()) * 30;
+				healthBar.healthBox->getComponent<TransformComponent>().width = healthWidth;
+
+			}
+			else {
+				outBox.visible = false;
+				inBox.visible = false;
+				healBox.visible = false;
+			}
+		}
 
 		// todo
 		// check which directions are clear
@@ -32,6 +96,7 @@ void AISystem::update()
 		// delete properly
 		// make shooting dependant on enemy type (cast/shoot/change of sprite)
 		// make smoother
+
 
 		double speed = 0.2 * transform.speed;
 
@@ -41,8 +106,6 @@ void AISystem::update()
 				for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
 					channelCounter++;
 					auto& playerTransform = player->getComponent<TransformComponent>();
-					double enemyX = transform.position.getX();
-					double enemyY = transform.position.getY();
 
 					double enemyXCenter = enemyX + transform.width / 2;
 					double enemyYCenter = enemyY + transform.height / 2;
@@ -158,5 +221,18 @@ void AISystem::update()
 			transform.update();
 
 		}
+	}
+}
+
+std::string AISystem::addSpaces(std::string string, const int goalChars, const bool leading) {
+	std::string spaces = "";
+	for (int i = string.length(); i < goalChars; i++) {
+		spaces += " ";
+	}
+	if (leading) {
+		return spaces + string;
+	}
+	else {
+		return string + spaces;
 	}
 }

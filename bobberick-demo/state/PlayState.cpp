@@ -31,6 +31,17 @@ void PlayState::update()
 
 bool PlayState::onEnter()
 {
+	EnemyFactory enemyFactory = EnemyFactory{};
+	for (int x = 0; x < 3; x++) {
+		for (int y = 0; y < 10; y++) {
+			Entity* enemy = enemyFactory.getRandomEnemy(1, 4);
+
+			auto& enemyTransform = enemy->getComponent<TransformComponent>();
+			enemyTransform.position.setX(450 + 50 * x);
+			enemyTransform.position.setY(50 * y);
+		}
+	}
+
 	for (const auto &system : systems) {
 		system->init();
 	}
@@ -88,16 +99,7 @@ bool PlayState::onEnter()
     ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1", SOUND_MUSIC);
     ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
 
-	EnemyFactory enemyFactory = EnemyFactory{};
-	for (int x = 0; x < 3; x++) {
-		for (int y = 0; y < 10; y++) {
-			Entity* enemy = enemyFactory.getRandomEnemy(1, 4);
-			
-			auto& enemyTransform = enemy->getComponent<TransformComponent>();
-			enemyTransform.position.setX(450 + 50 * x);
-			enemyTransform.position.setY(50 * y);
-		}
-	}
+
 
     return true;
 }

@@ -17,6 +17,8 @@ public:
 
     double speed = 3;
 
+	bool visible = true;
+
     TransformComponent();
     explicit TransformComponent(int sc);
     explicit TransformComponent(float xPos, float yPos, int h, int w, int sc);
