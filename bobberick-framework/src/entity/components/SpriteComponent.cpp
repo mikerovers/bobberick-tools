@@ -40,6 +40,9 @@ void SpriteComponent::update()
 		}
 
 	}
+	else {
+		currentFrame = 0;
+	}
 
 	destinationRect.x = transform->position.getX();
 	destinationRect.y = transform->position.getY();

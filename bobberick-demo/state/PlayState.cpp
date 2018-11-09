@@ -15,6 +15,7 @@
 #include "../../bobberick-framework/src/services/RenderService.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../factory/ObjectFactory.h"
+#include "../factory/enemies/EnemyFactory.h"
 
 std::string PlayState::getStateID() const
 {
@@ -86,6 +87,24 @@ bool PlayState::onEnter()
 
     ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1", SOUND_MUSIC);
     ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
+
+	EnemyFactory enemyFactory = EnemyFactory{};
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			Entity* enemy;
+			if (i < 5) {
+				enemy = enemyFactory.getRandomEnemy(1, "orc");
+			}
+			else {
+				enemy = enemyFactory.getRandomEnemy(1, "zombie");
+			}
+			
+			auto& enemyTransform = enemy->getComponent<TransformComponent>();
+			enemyTransform.position.setX(50 * i);
+			enemyTransform.position.setY(50 * j);
+		}
+	}
+
 
     return true;
 }
