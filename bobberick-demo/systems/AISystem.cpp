@@ -42,50 +42,172 @@ void AISystem::init() {
 	}
 }
 
-void AISystem::executeShoot(TransformComponent& transform, SpriteComponent& sprite, ShootComponent& shoot, int enemyX, int enemyY) {
-	int channelCounter = 0;
-	for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
-		channelCounter++;
-		auto& playerTransform = player->getComponent<TransformComponent>();
+void AISystem::executeShoot(std::shared_ptr<Entity> entity) {
+	if (entity->hasComponent<ShootComponent>()) {
+		auto& shoot = entity->getComponent<ShootComponent>();
+		if (shoot.canShoot()) {
+			auto& transform = entity->getComponent<TransformComponent>();
+			auto& sprite = entity->getComponent<SpriteComponent>();
+			auto& collision = entity->getComponent<CollisionComponent>();
 
-		double enemyXCenter = enemyX + transform.width / 2;
-		double enemyYCenter = enemyY + transform.height / 2;
+			auto& stats = entity->getComponent<StatsComponent>();
+			auto& healthBar = entity->getComponent<HealthBarComponent>();
 
-		double angleX = playerTransform.position.getX() - enemyXCenter;
-		double angleY = playerTransform.position.getY() - enemyYCenter;
+			double enemyX = transform.position.getX();
+			double enemyY = transform.position.getY();
 
-		if ((angleX < 300 && angleX > -300) && (angleY < 300 && angleY > -300)) {
-			if (angleX < 0) {
-				sprite.flip = true;
+			int channelCounter = 0;
+			for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
+				channelCounter++;
+				auto& playerTransform = player->getComponent<TransformComponent>();
+
+				double enemyXCenter = enemyX + transform.width / 2;
+				double enemyYCenter = enemyY + transform.height / 2;
+
+				double angleX = playerTransform.position.getX() - enemyXCenter;
+				double angleY = playerTransform.position.getY() - enemyYCenter;
+
+				if ((angleX < 300 && angleX > -300) && (angleY < 300 && angleY > -300)) {
+					if (angleX < 0) {
+						sprite.flip = true;
+					}
+					else if (angleX > 0) {
+						sprite.flip = false;
+					}
+
+					float vectorLength = sqrt(angleX*angleX + angleY * angleY);
+					float dx = angleX / vectorLength;
+					float dy = angleY / vectorLength;
+
+					std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+					projectile->addComponent<BulletMovementComponent>();
+					auto& projectileTransform = projectile->addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
+					projectileTransform.velocity.setX(dx);
+					projectileTransform.velocity.setY(dy);
+
+					sprite.changeTexture("fire_wizard_casting"); // change to set entity to casting state (and change sprite accordingly)
+
+					transform.velocity.setX(0);
+					transform.velocity.setY(0);
+
+					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
+					projectile->addComponent<SpriteComponent>("assets/image/bolt.png", "bolt");
+					shoot.setShootTimer(980);
+
+				}
+				else {
+					sprite.changeTexture("fire_wizard");
+				}
 			}
-			else if (angleX > 0) {
-				sprite.flip = false;
-			}
+		}
+	}
+}
 
-			float vectorLength = sqrt(angleX*angleX + angleY * angleY);
-			float dx = angleX / vectorLength;
-			float dy = angleY / vectorLength;
+void AISystem::applyHealthBar(std::shared_ptr<Entity> entity) {
+	auto& transform = entity->getComponent<TransformComponent>();
+	auto& stats = entity->getComponent<StatsComponent>();
+	auto& healthBar = entity->getComponent<HealthBarComponent>();
 
-			std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-			projectile->addComponent<BulletMovementComponent>();
-			auto& projectileTransform = projectile->addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
-			projectileTransform.velocity.setX(dx);
-			projectileTransform.velocity.setY(dy);
+	double enemyX = transform.position.getX();
+	double enemyY = transform.position.getY();
 
-			sprite.changeTexture("fire_wizard_casting"); // change to set entity to casting state (and change sprite accordingly)
+	if (entity->hasComponent<HealthBarComponent>()) {
+		auto& outBox = healthBar.outerBox->getComponent<TransformComponent>();
+		auto& inBox = healthBar.innerBox->getComponent<TransformComponent>();
+		auto& healBox = healthBar.healthBox->getComponent<TransformComponent>();
 
-			transform.velocity.setX(0);
-			transform.velocity.setY(0);
+		if (stats.getHP() != stats.getHPmax()) {
+			outBox.visible = true;
+			inBox.visible = true;
+			healBox.visible = true;
 
-			ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
-			projectile->addComponent<SpriteComponent>("assets/image/bolt.png", "bolt");
-			shoot.setShootTimer(980);
+			auto& x = healthBar.outerBox;
+			outBox.position.setY(enemyY - 10);
+			outBox.position.setX(enemyX + 15);
+
+			inBox.position.setY(enemyY - 9);
+			inBox.position.setX(enemyX + 16);
+
+			healBox.position.setY(enemyY - 9);
+			healBox.position.setX(enemyX + 16);
+
+			double healthWidth = ((double)stats.getHP() / (double)stats.getHPmax()) * 30;
+			healthBar.healthBox->getComponent<TransformComponent>().width = healthWidth;
 
 		}
 		else {
-			sprite.changeTexture("fire_wizard");
+			outBox.visible = false;
+			inBox.visible = false;
+			healBox.visible = false;
 		}
 	}
+}
+
+void AISystem::applyMovement(std::shared_ptr<Entity> entity) {
+	auto& transform = entity->getComponent<TransformComponent>();
+	auto& sprite = entity->getComponent<SpriteComponent>();
+
+
+	double speed = 0.2 * transform.speed;
+	int move = rand() % 60;
+
+	if (move == 0) {
+		int v1 = rand() % 9;
+
+		switch (v1) {
+		case 0: {
+			transform.velocity.setX(speed);
+			transform.velocity.setY(0);
+			sprite.flip = false;
+		}break;
+		case 1: {
+			transform.velocity.setX(-speed);
+			transform.velocity.setY(0);
+			sprite.flip = true;
+		}break;
+		case 2: {
+			transform.velocity.setY(speed);
+			transform.velocity.setX(0);
+		}break;
+		case 3: {
+			transform.velocity.setY(-speed);
+			transform.velocity.setX(0);
+		}break;
+		case 4: {
+			transform.velocity.setX(speed);
+			transform.velocity.setY(speed);
+			sprite.flip = false;
+		}break;
+		case 5: {
+			transform.velocity.setX(-speed);
+			transform.velocity.setY(-speed);
+			sprite.flip = true;
+		}break;
+		case 6: {
+			transform.velocity.setX(-speed);
+			transform.velocity.setY(speed);
+			sprite.flip = true;
+		}break;
+		case 7: {
+			transform.velocity.setX(speed);
+			transform.velocity.setY(-speed);
+			sprite.flip = false;
+		}break;
+		case 8: {
+			transform.velocity.setX(0);
+			transform.velocity.setY(0);
+			sprite.flip = false;
+		}break;
+		}
+	}
+
+	sprite.moving = (transform.velocity.getX() == 0 && transform.velocity.getY() == 0) ? false : true;
+
+	auto& collisionComponent = entity->getComponent<CollisionComponent>();
+	collisionComponent.collider->x = transform.position.getX();
+	collisionComponent.collider->y = transform.position.getY();
+	collisionComponent.collider->w = transform.width;
+	collisionComponent.collider->h = transform.height;
 }
 
 void AISystem::update()
@@ -102,37 +224,6 @@ void AISystem::update()
 		double enemyX = transform.position.getX();
 		double enemyY = transform.position.getY();
 
-		if (entity->hasComponent<HealthBarComponent>()) {
-			auto& outBox = healthBar.outerBox->getComponent<TransformComponent>();
-			auto& inBox = healthBar.innerBox->getComponent<TransformComponent>();
-			auto& healBox = healthBar.healthBox->getComponent<TransformComponent>();
-
-			if (stats.getHP() != stats.getHPmax()) {
-				outBox.visible = true;
-				inBox.visible = true;
-				healBox.visible = true;
-
-				auto& x = healthBar.outerBox;
-				outBox.position.setY(enemyY - 10);
-				outBox.position.setX(enemyX + 15);
-
-				inBox.position.setY(enemyY - 9);
-				inBox.position.setX(enemyX + 16);
-
-				healBox.position.setY(enemyY - 9);
-				healBox.position.setX(enemyX + 16);
-
-				double healthWidth = ((double)stats.getHP() / (double)stats.getHPmax()) * 30;
-				healthBar.healthBox->getComponent<TransformComponent>().width = healthWidth;
-
-			}
-			else {
-				outBox.visible = false;
-				inBox.visible = false;
-				healBox.visible = false;
-			}
-		}
-
 		// todo
 		// check which directions are clear
 		// adjust possible movements accordingly 
@@ -141,71 +232,11 @@ void AISystem::update()
 		// make smoother
 
 
-		double speed = 0.2 * transform.speed;
 
-		if (entity->hasComponent<ShootComponent>()) {
-			if (shoot.canShoot()) {
-				executeShoot(transform, sprite, shoot, enemyX, enemyY);
-			}
-		}
-
-		int move = rand() % 60;
-		if (move == 0) {
-			int v1 = rand() % 9;
-			switch (v1) {
-			case 0: {
-				transform.velocity.setX(speed);
-				transform.velocity.setY(0);
-				sprite.flip = false;
-			}break;
-			case 1: {
-				transform.velocity.setX(-speed);
-				transform.velocity.setY(0);
-				sprite.flip = true;
-			}break;
-			case 2: {
-				transform.velocity.setY(speed);
-				transform.velocity.setX(0);
-			}break;
-			case 3: {
-				transform.velocity.setY(-speed);
-				transform.velocity.setX(0);
-			}break;
-			case 4: {
-				transform.velocity.setX(speed);
-				transform.velocity.setY(speed);
-				sprite.flip = false;
-			}break;
-			case 5: {
-				transform.velocity.setX(-speed);
-				transform.velocity.setY(-speed);
-				sprite.flip = true;
-			}break;
-			case 6: {
-				transform.velocity.setX(-speed);
-				transform.velocity.setY(speed);
-				sprite.flip = true;
-			}break;
-			case 7: {
-				transform.velocity.setX(speed);
-				transform.velocity.setY(-speed);
-				sprite.flip = false;
-			}break;
-			case 8: {
-				transform.velocity.setX(0);
-				transform.velocity.setY(0);
-				sprite.flip = false;
-			}break;
-			}
-		}
+		executeShoot(entity);
+		applyHealthBar(entity);
+		applyMovement(entity);
 		
-		sprite.moving = (transform.velocity.getX() == 0 && transform.velocity.getY() == 0) ? false : true;
-
-		auto& collisionComponent = entity->getComponent<CollisionComponent>();
-		collisionComponent.collider->x = transform.position.getX();
-		collisionComponent.collider->y = transform.position.getY();
-		collisionComponent.collider->w = transform.width;
-		collisionComponent.collider->h = transform.height;
 
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this

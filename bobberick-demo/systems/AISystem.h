@@ -16,7 +16,9 @@ public:
 
 private:
 	std::string addSpaces(std::string string, const int goalChars, const bool leading);
-	void executeShoot(TransformComponent& transform, SpriteComponent& sprite, ShootComponent& shoot, int enemyX, int enemyY);
+	void executeShoot(std::shared_ptr<Entity> entity);
+	void applyHealthBar(std::shared_ptr<Entity> entity);
+	void applyMovement(std::shared_ptr<Entity> entity);
 };
 
 
