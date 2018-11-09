@@ -18,13 +18,13 @@ void SpriteComponent::init()
 
 void SpriteComponent::update()
 {
-	//if (moving) { // TODO double code
+	if (moving) { // TODO double code
 		if (currentFrame >= 0) {
 			animTimer--;
 			if (animTimer == 0) {
 				animTimer = animRate;
 				currentFrame++;
-				if (currentFrame >= animFrames || moving) {
+				if (currentFrame >= animFrames) {
 					currentFrame = 0;
 				}
 
@@ -35,7 +35,15 @@ void SpriteComponent::update()
 				sourceRect.y = transform->height * currentRow;
 			}
 		}
-	
+	}
+	else {
+		currentFrame = 1;
+		int currentRow = currentFrame / animCols;
+		int currentCol = currentFrame % animCols;
+
+		sourceRect.x = transform->width * currentCol;
+		sourceRect.y = transform->height * currentRow;
+	}
 
 	destinationRect.x = transform->position.getX();
 	destinationRect.y = transform->position.getY();
