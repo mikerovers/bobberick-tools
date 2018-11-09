@@ -35,11 +35,11 @@ void SpriteComponent::update()
 				sourceRect.y = transform->height * currentRow;
 			}
 		}
-	}
+	}	
 	else {
 		currentFrame = 1;
-		int currentRow = currentFrame / animCols;
-		int currentCol = currentFrame % animCols;
+		auto currentRow = currentFrame / animCols;
+		auto currentCol = currentFrame % animCols;
 
 		sourceRect.x = transform->width * currentCol;
 		sourceRect.y = transform->height * currentRow;
