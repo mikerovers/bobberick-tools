@@ -111,6 +111,15 @@ void PlayerInputSystem::handleMouseInput(std::shared_ptr<Entity> entity) {
 
 			std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 			projectile->addComponent<BulletMovementComponent>();
+
+			auto* collisionComponent = new CollisionComponent("test", 140, 175, 40);
+			projectile->addExistingComponent<CollisionComponent>(collisionComponent);
+
+			collisionComponent->collider->x = transform.position.getX();
+			collisionComponent->collider->y = transform.position.getY();
+			collisionComponent->collider->w = transform.width;
+			collisionComponent->collider->h = transform.height;
+
 			auto& projectileTransform = projectile->addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
 			projectileTransform.velocity.setX(dx);
 			projectileTransform.velocity.setY(dy);

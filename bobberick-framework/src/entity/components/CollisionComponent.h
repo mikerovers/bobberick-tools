@@ -7,6 +7,8 @@
 #include <SDL_system.h>
 #include "TransformComponent.h"
 #include "../Entity.h"
+#include <vector>
+
 
 class CollisionComponent : public Component
 {
@@ -20,6 +22,8 @@ public:
 
     CollisionComponent(std::string tag);
     CollisionComponent(std::string tag, int xPos, int yPos, int size);
+
+	std::vector<Entity*> collidingWith;
 
     void init() override;
 };

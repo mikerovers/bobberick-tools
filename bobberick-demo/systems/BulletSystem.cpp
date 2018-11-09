@@ -2,8 +2,10 @@
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
+#include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
+#include "../../bobberick-demo/components/PlayerStatsComponent.h"
 BulletSystem::BulletSystem(EntityManager &entityManager) : System(entityManager)
 {
 
@@ -13,6 +15,15 @@ void BulletSystem::update()
 {
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<BulletMovementComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
+		auto& collision = entity->getComponent<CollisionComponent>();
+
+		if (entity->hasComponent<CollisionComponent>()) {
+			for (auto &i : collision.collidingWith) {
+				if (!i->hasComponent<PlayerStatsComponent>()) {
+					std::cout << "colliding \n";
+				}
+			}
+		}
 
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this

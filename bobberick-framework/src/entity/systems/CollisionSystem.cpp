@@ -12,12 +12,13 @@ void CollisionSystem::update()
 
     for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>()) {
         auto& colliderA = entity->getComponent<CollisionComponent>();
-
+		colliderA.collidingWith.clear();
         for (auto& otherEntity : entityManager.getAllEntitiesWithComponent<CollisionComponent>()) {
             auto& colliderB = otherEntity->getComponent<CollisionComponent>();
             if (colliderA.tag != colliderB.tag && helper->AABB(colliderA, colliderB)) {
-                std::cout << "Collision has happened!" << std::endl;
-            }
+				colliderA.collidingWith.push_back(colliderB.entity);
+                //std::cout << "Collision has happened!" << std::endl;
+			}
         }
 
 
