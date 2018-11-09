@@ -15,7 +15,7 @@ public:
     int width = 256;
     int scale = 1;
 
-    int speed = 3;
+    double speed = 3;
 
     TransformComponent();
     explicit TransformComponent(int sc);

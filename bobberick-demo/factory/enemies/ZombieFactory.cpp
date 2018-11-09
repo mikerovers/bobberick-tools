@@ -14,7 +14,7 @@ Entity * ZombieFactory::getEnemy(const int level)
 	zombie->addComponent<AIComponent>();
 	zombie->addComponent<CollisionComponent>("zombie");
 
-	transformComponent.speed = 1;
+	transformComponent.speed = 0.8;
 
 	int randMutator = (rand() % 50) / 100;
 

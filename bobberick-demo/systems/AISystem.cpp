@@ -1,10 +1,14 @@
 #include "AISystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/SoundManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-demo/components/AIComponent.h"
+#include "../../bobberick-demo/components/BulletMovementComponent.h"
+#include "../../bobberick-demo/components/PlayerStatsComponent.h"
 AISystem::AISystem(EntityManager &entityManager) : System(entityManager)
 {
 
@@ -16,9 +20,47 @@ void AISystem::update()
 		auto& transform = entity->getComponent<TransformComponent>();
 		auto& sprite = entity->getComponent<SpriteComponent>();
 		auto& collision = entity->getComponent<CollisionComponent>();
-
+		auto& shoot = entity->getComponent<ShootComponent>();
 		// check which directions are clear
 		// adjust possible movements accordingly 
+
+		if (entity->hasComponent<ShootComponent>()) {
+			if (shoot.canShoot()) {
+				for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
+					auto& playerTransform = player->getComponent<TransformComponent>();
+					double enemyX = transform.position.getX();
+					double enemyY = transform.position.getY();
+
+					double enemyXCenter = enemyX + transform.width / 2;
+					double enemyYCenter = enemyY + transform.height / 2;
+
+					double angleX = playerTransform.position.getX() - enemyXCenter;
+					double angleY = playerTransform.position.getY() - enemyYCenter;
+
+					if ((angleX < 300 && angleX > -300) && (angleY < 300 && angleY > -300)) {
+
+						float vectorLength = sqrt(angleX*angleX + angleY * angleY);
+						float dx = angleX / vectorLength;
+						float dy = angleY / vectorLength;
+
+						std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+						projectile->addComponent<BulletMovementComponent>();
+						auto& projectileTransform = projectile->addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
+						projectileTransform.velocity.setX(dx);
+						projectileTransform.velocity.setY(dy);
+
+						//sprite.changeTexture("character_shooting");
+						ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
+						projectile->addComponent<SpriteComponent>("assets/image/bolt.png", "bolt");
+						shoot.setShootTimer(1500);
+					}
+
+				}
+
+			}
+		
+		}
+
 
 		double const speed = 0.2 * transform.speed;
 

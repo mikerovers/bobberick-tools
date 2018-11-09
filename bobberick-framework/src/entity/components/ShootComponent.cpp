@@ -1,8 +1,8 @@
-#include "PlayerShootComponent.h"
+#include "ShootComponent.h"
 #include "SDL.h"
 
 
-bool PlayerShootComponent::canShoot()
+bool ShootComponent::canShoot()
 {
 	unsigned int currentTime = SDL_GetTicks();
 	if (currentTime > lastTime + timerCount) {
@@ -11,7 +11,7 @@ bool PlayerShootComponent::canShoot()
 	return false;
 }
 
-void PlayerShootComponent::setShootTimer(unsigned int timer)
+void ShootComponent::setShootTimer(unsigned int timer)
 {
 	timerCount = timer;
 	lastTime = SDL_GetTicks();

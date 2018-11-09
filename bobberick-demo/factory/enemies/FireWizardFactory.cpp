@@ -3,6 +3,7 @@
 #include "../../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../components/StatsComponent.h"
 #include "../../components/AIComponent.h"
 
@@ -12,9 +13,10 @@ Entity * FireWizardFactory::getEnemy(const int level)
 	auto& transformComponent = fireWizard->addComponent<TransformComponent>(-1, -1, 59, 54, 1);
 	auto& spriteComponent = fireWizard->addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fireWizard", 5, 5, 8);
 	fireWizard->addComponent<AIComponent>();
+	fireWizard->addComponent<ShootComponent>();
 	fireWizard->addComponent<CollisionComponent>("fireWizard");
 
-	transformComponent.speed = 1;
+	transformComponent.speed = 1.5;
 
 	int randMutator = (rand() % 50) / 100;
 

@@ -7,7 +7,7 @@
 #include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
-#include "../../bobberick-framework/src/entity/components/PlayerShootComponent.h"
+#include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 
 PlayerInputSystem::PlayerInputSystem(EntityManager &entityManager) : System(entityManager)
@@ -20,7 +20,7 @@ void PlayerInputSystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerMovementComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
 		auto& sprite = entity->getComponent<SpriteComponent>();
-		auto& playerShoot = entity->getComponent<PlayerShootComponent>();
+		auto& playerShoot = entity->getComponent<ShootComponent>();
 		auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
 
