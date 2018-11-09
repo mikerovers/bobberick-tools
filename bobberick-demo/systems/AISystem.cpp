@@ -25,9 +25,13 @@ void AISystem::update()
 		auto& sprite = entity->getComponent<SpriteComponent>();
 		auto& collision = entity->getComponent<CollisionComponent>();
 		auto& shoot = entity->getComponent<ShootComponent>();
+
+		// todo
 		// check which directions are clear
 		// adjust possible movements accordingly 
-
+		// delete properly
+		// make shooting dependant on enemy type (cast/shoot/change of sprite)
+		// make smoother
 
 		double speed = 0.2 * transform.speed;
 
@@ -47,13 +51,13 @@ void AISystem::update()
 					double angleY = playerTransform.position.getY() - enemyYCenter;
 
 					if ((angleX < 300 && angleX > -300) && (angleY < 300 && angleY > -300)) {
-						if (angleX < 300) {
+						if (angleX < 0) {
 							sprite.flip = true;
 						}
-						else if (angleX > -300) {
+						else if (angleX > 0) {
 							sprite.flip = false;
 						}
-						// TODO change flip wether the player is in front or back from the enemy
+
 						float vectorLength = sqrt(angleX*angleX + angleY * angleY);
 						float dx = angleX / vectorLength;
 						float dy = angleY / vectorLength;
@@ -79,7 +83,6 @@ void AISystem::update()
 					}
 				}
 			}
-
 		}
 
 		int move = rand() % 60;
