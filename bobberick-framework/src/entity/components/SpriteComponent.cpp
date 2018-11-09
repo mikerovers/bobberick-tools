@@ -37,12 +37,7 @@ void SpriteComponent::update()
 		}
 	}	
 	else {
-		currentFrame = 1;
-		auto currentRow = currentFrame / animCols;
-		auto currentCol = currentFrame % animCols;
-
-		sourceRect.x = transform->width * currentCol;
-		sourceRect.y = transform->height * currentRow;
+		currentFrame = 0;
 	}
 
 	destinationRect.x = transform->position.getX();
