@@ -4,8 +4,8 @@ TransformComponent::TransformComponent() = default;
 
 TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, int sc)
 {
-    position.setX(xPos);
-    position.setY(yPos);
+    if (xPos > 0) position.setX(xPos);
+	if (yPos > 0) position.setY(yPos);
     height = h;
     width = w;
     scale = sc;

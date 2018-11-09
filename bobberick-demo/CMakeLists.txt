@@ -16,14 +16,20 @@ components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h
 components/BulletMovementComponent.cpp components/BulletMovementComponent.h
 components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h 
 components/StatsComponent.cpp components/StatsComponent.h
+components/AIComponent.cpp components/AIComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
+systems/AISystem.cpp systems/AISystem.h 
 state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
-factory/ObjectFactory.cpp factory/ObjectFactory.h)
+factory/ObjectFactory.cpp factory/ObjectFactory.h
+factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
+factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
+factory/enemies/ZombieFactory.cpp factory/enemies/ZombieFactory.h
+factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h)
 
 add_executable(bobberick-demo ${SOURCE_FILES})
 

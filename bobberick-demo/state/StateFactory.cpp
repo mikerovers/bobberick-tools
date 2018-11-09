@@ -8,6 +8,7 @@
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
 #include "../systems/ShieldSystem.h"
+#include "../systems/AISystem.h"
 
 GameState* StateFactory::createState(const std::string type) {
 	if (type == "SplashScreenState") {
@@ -37,6 +38,7 @@ PlayState *StateFactory::createPlayState()
 	playState->addSystem(std::shared_ptr<CollisionSystem>(new CollisionSystem(ServiceManager::Instance()->getService<EntityManager>())));
 	playState->addSystem(std::shared_ptr<HudSystem>(new HudSystem(ServiceManager::Instance()->getService<EntityManager>())));
 	playState->addSystem(std::shared_ptr<GuiSystem>(new GuiSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	playState->addSystem(std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return playState;
 }
