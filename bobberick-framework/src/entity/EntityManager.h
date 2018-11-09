@@ -30,8 +30,8 @@ public:
 
     std::shared_ptr<Entity> addEntity();
     bool removeEntity(const std::shared_ptr<Entity> entity);
-    void addEntityToGroup(const Entity* entity, const Group group);
-    std::vector<Entity*>& getGroup(const Group group) const;
+    void addEntityToGroup(Entity* entity, const Group group);
+    std::vector<Entity*> &getEntitiesFromGroup(const Group group);
 private:
     std::vector<std::shared_ptr<Entity>> entities;
     std::map<Group, std::vector<Entity*>> groupedEntities;

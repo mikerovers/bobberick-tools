@@ -1,5 +1,14 @@
 #include "Entity.h"
 
+Entity::Entity() : active(true), deleted(false)
+{
+}
+
+Entity::~Entity()
+{
+    // TODO Implement destructor
+}
+
 bool Entity::isActive() const
 {
     return active;
@@ -7,7 +16,7 @@ bool Entity::isActive() const
 
 void Entity::destroy()
 {
-    deleted = false;
+    deleted = true;
 }
 
 bool Entity::isDeleted() const
@@ -22,12 +31,14 @@ void Entity::setActive(const bool isActive)
 
 void Entity::addGroup(const Group group)
 {
-    groups.emplace_back(group);
+    if(std::find(groups.begin(), groups.end(), group) == groups.end()) {
+        groups.emplace_back(group);
+    }
 }
 
 bool Entity::hasGroup(const Group group) const
 {
-    return std::find(groups.begin(), groups.end(), group) != groups.end() || false;
+    return std::find(groups.begin(), groups.end(), group) != groups.end();
 }
 
 void Entity::removeGroup(const Group group)
