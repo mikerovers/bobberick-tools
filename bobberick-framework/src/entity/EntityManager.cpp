@@ -26,7 +26,7 @@ std::shared_ptr<Entity> EntityManager::addEntity()
     return uPtr;
 }
 
-bool EntityManager::removeEntity(std::shared_ptr<Entity> entity)
+bool EntityManager::removeEntity(const std::shared_ptr<Entity> entity)
 {
     auto it = std::find(entities.begin(), entities.end(), entity);
     if (it != entities.end()) {
@@ -41,5 +41,27 @@ bool EntityManager::removeEntity(std::shared_ptr<Entity> entity)
 
 void EntityManager::clean()
 {
+    for(auto& group : groupedEntities) {
+        auto& groupVector = group.second;
+        groupVector.erase(
+            std::remove_if(std::begin(groupVector), std::end(groupVector), [group](Entity* entity) {
+                return entity->isDeleted() || entity->hasGroup(group.first);
+            }), std::end(groupVector)
+            );
+    }
 
+    entities.erase(std::remove_if(std::begin(entities), std::end(entities),
+        [](const std::unique_ptr<Entity> &uEntity) {
+            return uEntity->isDeleted();
+        }), std::end(entities));
+}
+
+void EntityManager::addEntityToGroup(const Entity *entity, const Group group)
+{
+    groupedEntities[group].emplace_back(entity);
+}
+
+std::vector<Entity *> &EntityManager::getGroup(const Group group) const
+{
+    return groupedEntities[group];
 }
