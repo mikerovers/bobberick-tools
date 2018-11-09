@@ -90,7 +90,7 @@ void PlayerInputSystem::update()
 				float dx = angleX / vectorLength;
 				float dy = angleY / vectorLength;
 
-				std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+				Entity* projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 				projectile->addComponent<BulletMovementComponent>();
 				auto& projectileTransform = projectile->addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
 				projectileTransform.velocity.setX(dx);

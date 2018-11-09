@@ -15,25 +15,24 @@ public:
     void clean() override;
 
     template <typename T>
-    std::vector<std::shared_ptr<Entity>> getAllEntitiesWithComponent()
+    std::vector<Entity*> getAllEntitiesWithComponent()
     {
-        std::vector<std::shared_ptr<Entity>> temp;
+        std::vector<Entity*> temp;
 
         for (auto& entity : entities) {
-            if (entity->hasComponent<T>()) {
-                temp.push_back(entity);
+            if (entity->isActive() && entity->hasComponent<T>()) {
+                temp.push_back(entity.get());
             }
         }
 
         return temp;
     }
 
-    std::shared_ptr<Entity> addEntity();
-    bool removeEntity(const std::shared_ptr<Entity> entity);
+    Entity* addEntity();
     void addEntityToGroup(Entity* entity, const Group group);
     std::vector<Entity*> &getEntitiesFromGroup(const Group group);
 private:
-    std::vector<std::shared_ptr<Entity>> entities;
+    std::vector<std::unique_ptr<Entity>> entities;
     std::map<Group, std::vector<Entity*>> groupedEntities;
 };
 
