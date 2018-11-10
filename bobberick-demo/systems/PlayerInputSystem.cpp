@@ -118,13 +118,13 @@ void PlayerInputSystem::handleMouseInput(std::shared_ptr<Entity> entity) {
 			if (inputHandler.getMouseButtonState(LEFT)) {
 				sprite.changeTexture("character_shooting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
-				projectile->addComponent<SpriteComponent>("assets/image/bullet_ball_grey.png", "arrow");
+				projectile->addComponent<SpriteComponent>("assets/image/projectiles/bullet_ball_grey.png", "arrow");
 				playerShoot.setShootTimer(500);
 			}
 			else {
 				sprite.changeTexture("character_casting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
-				projectile->addComponent<SpriteComponent>("assets/image/bolt.png", "bolt");
+				projectile->addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
 				playerShoot.setShootTimer(1000);
 			}
 		}

@@ -126,7 +126,7 @@ void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter)
 					transform.velocity.setY(0);
 
 					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
-					projectile->addComponent<SpriteComponent>("assets/image/bolt.png", "bolt");
+					projectile->addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
 					shoot.setShootTimer(980);
 
 				}
