@@ -51,3 +51,10 @@ std::vector<Entity*> &EntityManager::getEntitiesFromGroup(const Group group)
     auto& a = groupedEntities[group];
     return groupedEntities.find(group)->second;
 }
+
+void EntityManager::activateEntitiesFromGroup(const Group group, const bool active)
+{
+    for(auto* entity : getEntitiesFromGroup(group)) {
+        entity->setActive(active);
+    }
+}

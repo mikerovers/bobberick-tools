@@ -31,6 +31,7 @@ public:
     Entity* addEntity();
     void addEntityToGroup(Entity* entity, const Group group);
     std::vector<Entity*> &getEntitiesFromGroup(const Group group);
+    void activateEntitiesFromGroup(const Group group, const bool active);
 private:
     std::vector<std::unique_ptr<Entity>> entities;
     std::map<Group, std::vector<Entity*>> groupedEntities;
