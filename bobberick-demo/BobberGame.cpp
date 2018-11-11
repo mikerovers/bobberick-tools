@@ -8,6 +8,8 @@ bool BobberGame::setup()
 
 		getStateMachine()->pushState(stateFactory->createState("PlayState"));
 		getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
+        getStateMachine()->peekState()->onEnter();
+		getStateMachine()->pushState(stateFactory->createState("TestState"));
 		getStateMachine()->peekState()->onEnter();
 
 		return true;

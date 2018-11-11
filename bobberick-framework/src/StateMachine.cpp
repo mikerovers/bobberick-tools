@@ -3,6 +3,12 @@
 
 void StateMachine::pushState(GameState *pState)
 {
+    // Make previous state inactive.
+    auto& entityManager = ServiceManager::Instance()->getService<EntityManager>();
+    if(peekState() != nullptr) {
+        entityManager.activateEntitiesFromGroup(peekState()->getStateID(), false);
+    }
+
     gameStates.push_back(pState);
 }
 
@@ -10,7 +16,6 @@ void StateMachine::popState()
 {
     if (!gameStates.empty()) {
         if (gameStates.back()->onExit()) {
-
             auto name = gameStates.back()->getStateID();
             auto& entityManager = ServiceManager::Instance()->getService<EntityManager>();
             std::vector<Entity*> entities = entityManager.getEntitiesFromGroup(name);
@@ -20,6 +25,11 @@ void StateMachine::popState()
 
             delete gameStates.back();
             gameStates.pop_back();
+
+            // Make previous state active.
+            if(peekState() != nullptr) {
+                entityManager.activateEntitiesFromGroup(peekState()->getStateID(), true);
+            }
         }
     }
 }

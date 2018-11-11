@@ -23,7 +23,7 @@ systems/HudSystem.cpp systems/HudSystem.h
 state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
-factory/ObjectFactory.cpp factory/ObjectFactory.h)
+factory/ObjectFactory.cpp factory/ObjectFactory.h state/TestState.cpp state/TestState.h)
 
 add_executable(bobberick-demo ${SOURCE_FILES})
 
