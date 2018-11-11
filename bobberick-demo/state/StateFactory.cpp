@@ -9,14 +9,10 @@
 #include "../systems/BulletSystem.h"
 #include "../systems/ShieldSystem.h"
 #include "../systems/AISystem.h"
-#include "MainMenuState.h"
 
 GameState* StateFactory::createState(const std::string type) {
 	if (type == "SplashScreenState") {
 		return createSplashScreenState();
-	}
-	else if (type == "MainMenuState") {
-		return createMainMenuState();
 	} else if (type == "PlayState") {
 		return createPlayState();
 	}
@@ -29,15 +25,6 @@ SplashScreenState* StateFactory::createSplashScreenState() {
 	splashScreen->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return splashScreen;
-}
-
-MainMenuState* StateFactory::createMainMenuState()
-{
-	MainMenuState* mainMenuState = new MainMenuState();
-	mainMenuState->addSystem(std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	mainMenuState->addSystem(std::shared_ptr<GuiSystem>(new GuiSystem(ServiceManager::Instance()->getService<EntityManager>())));
-
-	return mainMenuState;
 }
 
 PlayState *StateFactory::createPlayState()
