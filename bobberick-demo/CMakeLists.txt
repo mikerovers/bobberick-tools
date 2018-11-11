@@ -18,6 +18,9 @@ components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h
 components/StatsComponent.cpp components/StatsComponent.h
 components/AIComponent.cpp components/AIComponent.h
 components/HealthBarComponent.cpp components/HealthBarComponent.h
+components/ItemComponent.h
+components/WeaponComponent.cpp components/WeaponComponent.h
+components/InventoryComponent.cpp components/InventoryComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
