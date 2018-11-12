@@ -32,9 +32,9 @@ void PlayState::update()
 bool PlayState::onEnter()
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
-	for (int x = 0; x < 3; x++) {
-		for (int y = 0; y < 10; y++) {
-			Entity* enemy = enemyFactory.getRandomEnemy(1, 4);
+	for (auto x = 0; x < 1; x++) {
+		for (auto y = 0; y < 1; y++) {
+			const auto enemy = enemyFactory.getRandomEnemy(1, 4);
 
 			auto& enemyTransform = enemy->getComponent<TransformComponent>();
 			enemyTransform.position.setX(450 + 50 * x);
@@ -72,7 +72,7 @@ bool PlayState::onEnter()
     delete levelFactory;
 
     std::shared_ptr<Entity> box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* collisionComponent = new CollisionComponent("test", 140, 175, 40);
+    auto* collisionComponent = new CollisionComponent("fire", 140, 175, 40);
     box->addExistingComponent<CollisionComponent>(collisionComponent);
     
     auto* objectFactory = new ObjectFactory();

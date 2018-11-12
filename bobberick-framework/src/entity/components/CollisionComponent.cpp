@@ -1,15 +1,16 @@
 #include "CollisionComponent.h"
+#include <utility>
 #include "../../services/ServiceManager.h"
 #include "../../TextureManager.h"
 #include "../../services/RenderService.h"
 
-CollisionComponent::CollisionComponent(std::string tag) : tag(tag)
+CollisionComponent::CollisionComponent(std::string tag) : tag(std::move(tag))
 {
     collider = new SDL_Rect();
     collider-> x = collider->y = collider->h = collider->w = 0;
 }
 
-CollisionComponent::CollisionComponent(std::string tag, int xPos, int yPos, int size) : tag(tag)
+CollisionComponent::CollisionComponent(std::string tag, int xPos, int yPos, int size) : tag(std::move(tag))
 {
     collider = new SDL_Rect();
     collider->x = xPos;

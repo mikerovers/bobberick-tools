@@ -15,8 +15,8 @@ public:
     std::string tag;
 
     std::string texture;
-    SDL_Rect sourceRect;
-    SDL_Rect destinationRect;
+    SDL_Rect sourceRect{};
+    SDL_Rect destinationRect{};
 
     CollisionComponent(std::string tag);
     CollisionComponent(std::string tag, int xPos, int yPos, int size);
