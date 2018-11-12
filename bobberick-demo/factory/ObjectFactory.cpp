@@ -2,6 +2,7 @@
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 
 Entity* ObjectFactory::getObject(const TileObject* object)
 {
@@ -9,6 +10,7 @@ Entity* ObjectFactory::getObject(const TileObject* object)
         std::shared_ptr<Entity> entity = ServiceManager::Instance()->getService<EntityManager>().addEntity();
         entity->addComponent<TransformComponent>(object->position->getX(), object->position->getY(), 48, 32, 1);
         entity->addComponent<SpriteComponent>("assets/image/items/potion.png", "potion");
+		entity->addComponent<CollisionComponent>(object->name, object->position->getX(), object->position->getY(), 48, 32);
 
         return entity.get();
     }

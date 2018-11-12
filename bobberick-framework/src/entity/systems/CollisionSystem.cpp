@@ -24,6 +24,22 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 			stats.getHit(500, false);
 		}
 	}
+
+	if (colliderA.tag == "healthkit")
+	{
+		if (colliderB.entity->hasComponent<StatsComponent>())
+		{
+			std::cout << "Healing: " << colliderB.tag << std::endl;
+			auto stats = colliderB.entity->getComponent<StatsComponent>();
+			stats.healPercent(100);
+		}
+		else if (colliderB.entity->hasComponent<PlayerStatsComponent>())
+		{
+			std::cout << "Healing: " << colliderB.tag << std::endl;
+			auto stats = colliderB.entity->getComponent<PlayerStatsComponent>();
+			stats.getHit(-100, true);
+		}
+	}
 }
 
 void CollisionSystem::update()

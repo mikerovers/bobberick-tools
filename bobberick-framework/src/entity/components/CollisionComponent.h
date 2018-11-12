@@ -20,6 +20,7 @@ public:
 
     CollisionComponent(std::string tag);
     CollisionComponent(std::string tag, int xPos, int yPos, int size);
+    CollisionComponent(std::string tag, int xPos, int yPos, int height, int width);
 
     void init() override;
 };
