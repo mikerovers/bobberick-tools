@@ -45,7 +45,7 @@ void AISystem::init() {
 
 void AISystem::update()
 {
-	int channelCounter = 0;
+	int channelCounter = 2;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
 
@@ -63,9 +63,9 @@ void AISystem::update()
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this
 		//std::cout << transform.position.getX() << "\n";
-		if (transform.position.getX() > 640 || transform.position.getY() > 480) {
+		if (transform.position.getX() > 640 || transform.position.getY() > 480 || transform.position.getX() < 0 || transform.position.getY() < 0) {
 
-			//entity->destroy();
+			entity->destroy();
 			//delete &entity;
 			//entity.reset();
 			//entity = nullptr;
@@ -238,11 +238,14 @@ void AISystem::applyMovement(Entity* entity) {
 
 	sprite.moving = (transform.velocity.getX() == 0 && transform.velocity.getY() == 0) ? false : true;
 
-	auto& collisionComponent = entity->getComponent<CollisionComponent>();
-	collisionComponent.collider->x = transform.position.getX();
-	collisionComponent.collider->y = transform.position.getY();
-	collisionComponent.collider->w = transform.width;
-	collisionComponent.collider->h = transform.height;
+	if (entity->hasComponent<CollisionComponent>()) {
+		auto& collisionComponent = entity->getComponent<CollisionComponent>();
+		collisionComponent.collider->x = transform.position.getX();
+		collisionComponent.collider->y = transform.position.getY();
+		collisionComponent.collider->w = transform.width;
+		collisionComponent.collider->h = transform.height;
+	}
+
 }
 
 std::string AISystem::addSpaces(std::string string, const int goalChars, const bool leading) {
