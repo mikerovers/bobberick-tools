@@ -23,7 +23,7 @@ void CollisionComponent::init()
         entity->addComponent<TransformComponent>();
     }
 
-    ServiceManager::Instance()->getService<TextureManager>().load("assets/image/collision.png", "collision", ServiceManager::Instance()->getService<RenderService>().getRenderer());
+    //ServiceManager::Instance()->getService<TextureManager>().load("assets/image/collision.png", "collision", ServiceManager::Instance()->getService<RenderService>().getRenderer());
     texture = "collision";
 
     sourceRect = { 0, 0, 32, 32};

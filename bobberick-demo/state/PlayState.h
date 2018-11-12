@@ -13,6 +13,9 @@ public:
     bool shouldExit() override;
 
     std::string getStateID() const override;
+
+private:
+	bool _exitPressed = false;
 };
 
 
