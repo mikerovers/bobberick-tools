@@ -29,3 +29,8 @@ void CollisionComponent::init()
     sourceRect = { 0, 0, 32, 32};
     destinationRect = { collider->x, collider->y, collider->w, collider->h };
 }
+
+CollisionComponent::~CollisionComponent()
+{
+    delete collider;
+}
