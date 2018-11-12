@@ -8,7 +8,7 @@
 
 Entity * EnemyFactory::getRandomEnemy(const int level)
 {
-	int type = rand() % 3;
+	const int const type = rand() % 3;
 	switch (type) {
 		case 0: {
 			OrcFactory factory = OrcFactory{};
@@ -28,8 +28,8 @@ Entity * EnemyFactory::getRandomEnemy(const int level)
 
 Entity * EnemyFactory::getRandomEnemy(const int minLevel, const int maxLevel)
 {
-	int type = rand() % 3;
-	int level = rand() % (maxLevel-minLevel) + minLevel;
+	const int const type = rand() % 3;
+	const int const level = rand() % (maxLevel-minLevel) + minLevel;
 	switch (type) {
 	case 0: {
 		OrcFactory factory = OrcFactory{};

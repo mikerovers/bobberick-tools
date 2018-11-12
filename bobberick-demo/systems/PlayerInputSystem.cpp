@@ -32,7 +32,7 @@ void PlayerInputSystem::update()
 	}
 }
 
-void PlayerInputSystem::handleKeyInput(std::shared_ptr<Entity> entity) {
+void PlayerInputSystem::handleKeyInput(Entity* entity) {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
@@ -92,7 +92,7 @@ void PlayerInputSystem::handleKeyInput(std::shared_ptr<Entity> entity) {
 	collisionComponent.collider->h = transform.height;
 }
 
-void PlayerInputSystem::handleMouseInput(std::shared_ptr<Entity> entity) {
+void PlayerInputSystem::handleMouseInput(Entity* entity) {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& playerShoot = entity->getComponent<ShootComponent>();
@@ -114,7 +114,7 @@ void PlayerInputSystem::handleMouseInput(std::shared_ptr<Entity> entity) {
 			float dx = angleX / vectorLength;
 			float dy = angleY / vectorLength;
 
-			std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+			Entity* projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 			projectile->addComponent<BulletMovementComponent>();
 			auto& projectileTransform = projectile->addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
 			projectileTransform.velocity.setX(dx);

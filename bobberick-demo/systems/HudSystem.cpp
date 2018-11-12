@@ -53,9 +53,9 @@ void HudSystem::update()
 		healthBox->getComponent<TransformComponent>().width = healthWidth;
 		shieldBox->getComponent<TransformComponent>().width = shieldWidth;
 
-		entityManager.removeEntity(healthText);
-		entityManager.removeEntity(coinText);
-		entityManager.removeEntity(xpText);
+		healthText->destroy();
+		coinText->destroy();
+		xpText->destroy();
 
 		healthText = entityManager.addEntity();
 		healthText->addComponent<TransformComponent>(20, 10, 30, 280, 1);

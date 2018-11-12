@@ -11,6 +11,13 @@
 
 using ComponentID = std::size_t;
 
+constexpr std::size_t maxComponents = 32;
+constexpr std::size_t maxGroups = 32;
+using ComponentBitSet = std::bitset<maxComponents>;
+using ComponentArray = std::array<Component*, maxComponents>;
+using GroupSet = std::vector<int>;
+using Group = std::string;
+
 inline ComponentID getComponentID()
 {
     static ComponentID lastID = 0;
@@ -24,10 +31,5 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept
 
     return typeID;
 }
-
-constexpr std::size_t maxComponents = 32;
-
-using ComponentBitSet = std::bitset<maxComponents>;
-using ComponentArray = std::array<Component*, maxComponents>;
 
 #endif //BOBBERICK_TOOLS_ECS_H
