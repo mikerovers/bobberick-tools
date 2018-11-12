@@ -21,11 +21,11 @@ Entity * OrcFactory::getEnemy(const int level)
 	double random = (rand() % 50);
 	double randMutator = (random + 50) / 100;
 
-	int hp = 100 * level * (randMutator),
-		maxHp = 100 * level * (randMutator),
-		atkMin = 2 * level * (randMutator),
-		atkMax = 4 * level * (randMutator),
-		df = 1;
+	const int const hp = 100 * level * (randMutator),
+		const maxHp = 100 * level * (randMutator),
+		const atkMin = 2 * level * (randMutator),
+		const atkMax = 4 * level * (randMutator),
+		const df = 1;
 
 	orc->addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
 
