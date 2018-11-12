@@ -80,7 +80,7 @@ private:
     bool active;
     bool deleted;
     std::vector<Group> groups;
-    std::vector<std::shared_ptr<Component>> components;
+    std::vector<std::unique_ptr<Component>> components;
 
     ComponentArray componentArray;
     ComponentBitSet componentBitSet;

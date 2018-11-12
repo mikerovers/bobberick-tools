@@ -4,3 +4,8 @@ TileObject::TileObject(Vector2D *position, const std::string name) : position(po
 {
 
 }
+
+TileObject::~TileObject()
+{
+    delete position;
+}

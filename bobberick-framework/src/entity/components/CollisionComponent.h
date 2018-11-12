@@ -18,8 +18,9 @@ public:
     SDL_Rect sourceRect;
     SDL_Rect destinationRect;
 
-    CollisionComponent(std::string tag);
+    explicit CollisionComponent(std::string tag);
     CollisionComponent(std::string tag, int xPos, int yPos, int size);
+    ~CollisionComponent() override;
 
     void init() override;
 };
