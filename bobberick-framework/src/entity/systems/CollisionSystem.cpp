@@ -11,11 +11,17 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 {
 	if (colliderA.tag == "fire")
 	{
-		if (colliderB.entity->hasComponent<PlayerStatsComponent>())
+		if (colliderB.entity->hasComponent<StatsComponent>())
 		{
 			std::cout << "Burning his buttocks: " << colliderB.tag << std::endl;
-			auto playerStats = colliderB.entity->getComponent<PlayerStatsComponent>();
-			playerStats.getHit(5000, false);
+			auto stats = colliderB.entity->getComponent<StatsComponent>();
+			stats.getHit(500, false);
+		}
+		else if (colliderB.entity->hasComponent<PlayerStatsComponent>())
+		{
+			std::cout << "Burning his buttocks: " << colliderB.tag << std::endl;
+			auto stats = colliderB.entity->getComponent<PlayerStatsComponent>();
+			stats.getHit(500, false);
 		}
 	}
 }
