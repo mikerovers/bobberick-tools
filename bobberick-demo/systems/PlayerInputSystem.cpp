@@ -1,7 +1,7 @@
 #include "PlayerInputSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
-#include "../../bobberick-framework/src/SoundManager.h"
+#include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../components/BulletMovementComponent.h"
 #include "../components/PlayerStatsComponent.h"

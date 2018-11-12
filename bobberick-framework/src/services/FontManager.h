@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <SDL_TTF.h>
 #include "TextureManager.h"
-#include "util/SDL_Deleter.h"
+#include "../util/SDL_Deleter.h"
 #include <map>
 
 class FontManager : public Service

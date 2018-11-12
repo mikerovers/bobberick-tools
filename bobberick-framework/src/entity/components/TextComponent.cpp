@@ -1,7 +1,7 @@
 #include "TextComponent.h"
 #include "../Entity.h"
 #include "../../services/ServiceManager.h"
-#include "../../FontManager.h"
+#include "../../services/FontManager.h"
 #include "../../services/RenderService.h"
 
 void TextComponent::setText(std::string newText) {

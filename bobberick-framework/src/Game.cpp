@@ -1,13 +1,13 @@
 #include "Game.h"
-#include "TextureManager.h"
-#include "FontManager.h"
-#include "RectangleManager.h"
+#include "services/TextureManager.h"
+#include "services/FontManager.h"
+#include "services/RectangleManager.h"
 #include "entity/EntityManager.h"
 #include "services/InputHandler.h"
 #include "services/RenderService.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
-#include "SoundManager.h"
+#include "services/SoundManager.h"
 #include "EmptyState.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))

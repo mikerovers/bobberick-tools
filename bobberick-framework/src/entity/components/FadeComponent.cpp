@@ -1,7 +1,7 @@
 #include "FadeComponent.h"
 #include "../../services/ServiceManager.h"
-#include "../../TextureManager.h"
-#include "../../FontManager.h"
+#include "../../services/TextureManager.h"
+#include "../../services/FontManager.h"
 
 FadeComponent::FadeComponent(std::string textureID, double opacity, double fadeFactor, bool fadeIn, bool fadeOut) {
 	FadeComponent::textureID = textureID;
