@@ -9,18 +9,14 @@ CollisionSystem::CollisionSystem(EntityManager& entityManager) : System(entityMa
 
 void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, CollisionComponent& colliderB)
 {
-	std::cout << "Collision has happened! " << colliderA.tag << " : " << colliderB.tag << std::endl;
-
-
 	if (colliderA.tag == "fire")
 	{
-		if (colliderB.entity->hasComponent<HealthBarComponent>())
+		if (colliderB.entity->hasComponent<PlayerStatsComponent>())
 		{
 			std::cout << "Burning his buttocks: " << colliderB.tag << std::endl;
 			auto playerStats = colliderB.entity->getComponent<PlayerStatsComponent>();
-			playerStats.getHit(50000, false);
+			playerStats.getHit(5000, false);
 		}
-		SDL_Delay(100000000000);
 	}
 }
 
