@@ -75,11 +75,11 @@ void HudSystem::init()
 
 	coinImage = entityManager.addEntity();
 	coinImage->addComponent<TransformComponent>(barWidth + 17, 1, 48, 48, 1);
-	coinImage->addComponent<SpriteComponent>("assets/image/hud_gold.png", "coinImage", true);
+	coinImage->addComponent<SpriteComponent>("assets/image/gui/hud_gold.png", "coinImage", true);
 
 	xpImage = entityManager.addEntity();
 	xpImage->addComponent<TransformComponent>(barWidth + 177, 1, 48, 48, 1);
-	xpImage->addComponent<SpriteComponent>("assets/image/hud_xp.png", "xpImage", true);
+	xpImage->addComponent<SpriteComponent>("assets/image/gui/hud_xp.png", "xpImage", true);
 
 	healthText = entityManager.addEntity();
 	healthText->addComponent<TransformComponent>(20, 10, 30, 280, 1);
