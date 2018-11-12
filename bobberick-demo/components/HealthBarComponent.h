@@ -12,9 +12,9 @@ class HealthBarComponent : public Component
 public:
     Entity* entity{};
 	void init() override;
-	std::shared_ptr<Entity> outerBox; // The outline for the health bar.
-	std::shared_ptr<Entity> innerBox; // The background for the health bar.
-	std::shared_ptr<Entity> healthBox; // The remaining health bar itself.
+	Entity* outerBox; // The outline for the health bar.
+	Entity* innerBox; // The background for the health bar.
+	Entity* healthBox; // The remaining health bar itself.
 private:
 
 };

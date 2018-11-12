@@ -78,7 +78,7 @@ void AISystem::update()
 	}
 }
 
-void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter) {
+void AISystem::executeShoot(Entity* entity, int &channelCounter) {
 	if (entity->hasComponent<ShootComponent>()) {
 		auto& shoot = entity->getComponent<ShootComponent>();
 		if (shoot.canShoot()) {
@@ -114,7 +114,7 @@ void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter)
 					float dx = angleX / vectorLength;
 					float dy = angleY / vectorLength;
 
-					std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+					Entity* projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 					projectile->addComponent<BulletMovementComponent>();
 					auto& projectileTransform = projectile->addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
 					projectileTransform.velocity.setX(dx);
@@ -138,7 +138,7 @@ void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter)
 	}
 }
 
-void AISystem::applyHealthBar(std::shared_ptr<Entity> entity) {
+void AISystem::applyHealthBar(Entity* entity) {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& stats = entity->getComponent<StatsComponent>();
 	auto& healthBar = entity->getComponent<HealthBarComponent>();
@@ -178,7 +178,7 @@ void AISystem::applyHealthBar(std::shared_ptr<Entity> entity) {
 	}
 }
 
-void AISystem::applyMovement(std::shared_ptr<Entity> entity) {
+void AISystem::applyMovement(Entity* entity) {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
 

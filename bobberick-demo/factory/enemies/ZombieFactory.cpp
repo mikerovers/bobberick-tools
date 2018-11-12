@@ -9,7 +9,7 @@
 
 Entity * ZombieFactory::getEnemy(const int level)
 {
-	std::shared_ptr<Entity> zombie = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	Entity* zombie = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = zombie->addComponent<TransformComponent>(-1, -1, 51, 51, 1);
 	auto& spriteComponent = zombie->addComponent<SpriteComponent>("assets/image/enemies/zombie.png", "zombie", 6, 4, 10);
 	zombie->addComponent<HealthBarComponent>();
@@ -29,5 +29,5 @@ Entity * ZombieFactory::getEnemy(const int level)
 
 	zombie->addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
 
-	return zombie.get();
+	return zombie;
 }
