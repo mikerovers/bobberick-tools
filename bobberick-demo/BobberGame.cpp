@@ -1,5 +1,4 @@
 #include "BobberGame.h"
-#include "state/PlayState.h"
 
 bool BobberGame::setup()
 {
@@ -7,6 +6,8 @@ bool BobberGame::setup()
 		stateFactory = std::make_shared<StateFactory>();
 
 		getStateMachine()->pushState(stateFactory->createState("PlayState"));
+		getStateMachine()->pushState(stateFactory->createState("MainMenuState"));
+		// getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
 		getStateMachine()->peekState()->onEnter();
 
 		return true;
