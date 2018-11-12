@@ -1,6 +1,8 @@
 #ifndef BOBBERICK_TOOLS_COMPONENT_H
 #define BOBBERICK_TOOLS_COMPONENT_H
 
+#include <iostream>
+
 class Entity;
 
 class Component
