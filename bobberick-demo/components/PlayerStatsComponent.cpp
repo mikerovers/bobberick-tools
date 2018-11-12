@@ -49,5 +49,5 @@ void PlayerStatsComponent::getHit(int attack, const bool pierceDF) {
 
 PlayerStatsComponent::~PlayerStatsComponent()
 {
-	delete stats;
+	//delete stats;
 }

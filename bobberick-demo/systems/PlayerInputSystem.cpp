@@ -18,6 +18,11 @@ PlayerInputSystem::PlayerInputSystem(EntityManager &entityManager) : System(enti
 void PlayerInputSystem::update()
 {
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerMovementComponent>()) {
+		if (!entity->hasComponent<TransformComponent>())
+		{
+			continue;
+		}
+		
 		auto& transform = entity->getComponent<TransformComponent>();
 
 		handleKeyInput(entity);

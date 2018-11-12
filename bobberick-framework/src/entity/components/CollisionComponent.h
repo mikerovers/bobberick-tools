@@ -15,11 +15,12 @@ public:
     std::string tag;
 
     std::string texture;
-    SDL_Rect sourceRect;
-    SDL_Rect destinationRect;
+    SDL_Rect sourceRect{};
+    SDL_Rect destinationRect{};
 
     explicit CollisionComponent(std::string tag);
     CollisionComponent(std::string tag, int xPos, int yPos, int size);
+    CollisionComponent(std::string tag, int xPos, int yPos, int height, int width);
     ~CollisionComponent() override;
 
     void init() override;
