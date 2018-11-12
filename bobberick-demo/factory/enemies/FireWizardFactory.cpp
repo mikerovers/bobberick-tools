@@ -17,7 +17,7 @@ Entity * FireWizardFactory::getEnemy(const int level)
 	fireWizard->addComponent<HealthBarComponent>();
 	fireWizard->addComponent<AIComponent>();
 	fireWizard->addComponent<ShootComponent>();
-	fireWizard->addComponent<CollisionComponent>("fireWizard");
+	//fireWizard->addComponent<CollisionComponent>("fireWizard");
 
 	transformComponent.speed = 1.5;
 

@@ -71,9 +71,6 @@ bool PlayState::onEnter()
     level->addExistingComponent<TilesetComponent>(tilesetComponent);
     delete levelFactory;
 
-    std::shared_ptr<Entity> box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* collisionComponent = new CollisionComponent("test", 140, 175, 40);
-    box->addExistingComponent<CollisionComponent>(collisionComponent);
     
     auto* objectFactory = new ObjectFactory();
     for(auto* object : tilesetComponent->objects) {

@@ -19,7 +19,7 @@ void HudSystem::update()
 
 //		playerStats.xp += 99; // For testing purposes
 //		playerStats.gold += 89; // For testing purposes
-		playerStats.getHit(49, true); // For testing purposes
+		//playerStats.getHit(49, true); // For testing purposes
 
 		playerStats.update();
 		double healthWidth = ((double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax()) * barWidth;

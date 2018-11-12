@@ -13,11 +13,12 @@ set(SOURCE_FILES main.cpp
 BobberGame.cpp BobberGame.h 
 systems/PlayerMovementSystem.cpp systems/PlayerMovementSystem.h 
 components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h
-components/BulletMovementComponent.cpp components/BulletMovementComponent.h
+components/BulletComponent.cpp components/BulletComponent.h
 components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h 
 components/StatsComponent.cpp components/StatsComponent.h
 components/AIComponent.cpp components/AIComponent.h
 components/HealthBarComponent.cpp components/HealthBarComponent.h
+systems/CollisionHandlingSystem.cpp systems/CollisionHandlingSystem.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h

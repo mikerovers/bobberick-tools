@@ -14,7 +14,7 @@ Entity * ZombieFactory::getEnemy(const int level)
 	auto& spriteComponent = zombie->addComponent<SpriteComponent>("assets/image/enemies/zombie.png", "zombie", 6, 4, 10);
 	zombie->addComponent<HealthBarComponent>();
 	zombie->addComponent<AIComponent>();
-	zombie->addComponent<CollisionComponent>("zombie");
+	//zombie->addComponent<CollisionComponent>("zombie");
 
 	transformComponent.speed = 0.8;
 

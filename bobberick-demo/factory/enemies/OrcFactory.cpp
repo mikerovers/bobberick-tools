@@ -14,7 +14,11 @@ Entity * OrcFactory::getEnemy(const int level)
 	auto& spriteComponent = orc->addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
 	orc->addComponent<HealthBarComponent>();
 	orc->addComponent<AIComponent>();
-	orc->addComponent<CollisionComponent>("orc");
+	auto& collisionComponent = orc->addComponent<CollisionComponent>("orc");
+	//collisionComponent.collider->x = transformComponent.position.getX();
+	//collisionComponent.collider->y = transformComponent.position.getY();
+	//collisionComponent.collider->w = transformComponent.width;
+	//collisionComponent.collider->h = transformComponent.height;
 
 	transformComponent.speed = 2;
 

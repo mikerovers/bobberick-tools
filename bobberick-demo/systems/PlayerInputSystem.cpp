@@ -3,7 +3,7 @@
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/SoundManager.h"
 #include "../components/PlayerMovementComponent.h"
-#include "../components/BulletMovementComponent.h"
+#include "../components/BulletComponent.h"
 #include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -110,9 +110,9 @@ void PlayerInputSystem::handleMouseInput(std::shared_ptr<Entity> entity) {
 			float dy = angleY / vectorLength;
 
 			std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-			projectile->addComponent<BulletMovementComponent>();
+			projectile->addComponent<BulletComponent>(10);
 
-			auto* collisionComponent = new CollisionComponent("test", 140, 175, 40);
+			auto* collisionComponent = new CollisionComponent("playerBullet");
 			projectile->addExistingComponent<CollisionComponent>(collisionComponent);
 
 			collisionComponent->collider->x = transform.position.getX();

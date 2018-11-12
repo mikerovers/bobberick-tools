@@ -9,7 +9,7 @@
 #include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../../bobberick-demo/components/AIComponent.h"
-#include "../../bobberick-demo/components/BulletMovementComponent.h"
+#include "../../bobberick-demo/components/BulletComponent.h"
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 
@@ -48,6 +48,7 @@ void AISystem::update()
 	int channelCounter = 0;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
+
 
 		// todo
 		// check which directions are clear
@@ -115,10 +116,19 @@ void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter)
 					float dy = angleY / vectorLength;
 
 					std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-					projectile->addComponent<BulletMovementComponent>();
+					projectile->addComponent<BulletComponent>(10);
+
+
+
 					auto& projectileTransform = projectile->addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
 					projectileTransform.velocity.setX(dx);
 					projectileTransform.velocity.setY(dy);
+
+					auto& collisionComponent = projectile->addComponent<CollisionComponent>("enemyBullet");
+					collisionComponent.collider->x = projectileTransform.position.getX();
+					collisionComponent.collider->y = projectileTransform.position.getY();
+					collisionComponent.collider->w = projectileTransform.width;
+					collisionComponent.collider->h = projectileTransform.height;
 
 					sprite.changeTexture("fire_wizard_casting"); // change to set entity to casting state (and change sprite accordingly)
 
@@ -238,11 +248,14 @@ void AISystem::applyMovement(std::shared_ptr<Entity> entity) {
 
 	sprite.moving = (transform.velocity.getX() == 0 && transform.velocity.getY() == 0) ? false : true;
 
-	auto& collisionComponent = entity->getComponent<CollisionComponent>();
-	collisionComponent.collider->x = transform.position.getX();
-	collisionComponent.collider->y = transform.position.getY();
-	collisionComponent.collider->w = transform.width;
-	collisionComponent.collider->h = transform.height;
+	if (entity->hasComponent<CollisionComponent>()) {
+		auto& collisionComponent = entity->getComponent<CollisionComponent>();
+		collisionComponent.collider->x = transform.position.getX();
+		collisionComponent.collider->y = transform.position.getY();
+		collisionComponent.collider->w = transform.width;
+		collisionComponent.collider->h = transform.height;
+	}
+
 }
 
 std::string AISystem::addSpaces(std::string string, const int goalChars, const bool leading) {
