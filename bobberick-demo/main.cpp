@@ -2,9 +2,9 @@
 #include "../bobberick-framework/src/Game.h"
 #include "./BobberGame.h"
 
-#define _CRTDBG_MAP_ALLOC  
-#include <cstdlib>
-#include <crtdbg.h>
+//#define _CRTDBG_MAP_ALLOC
+//#include <cstdlib>
+//#include <crtdbg.h>
 
 std::unique_ptr<Game> game = nullptr;
 
@@ -17,6 +17,6 @@ int main(int argc, char** argv)
 
 	atexit(SDL_Quit);
 
-	_CrtDumpMemoryLeaks();
+//	_CrtDumpMemoryLeaks();
 	return 0;
 }

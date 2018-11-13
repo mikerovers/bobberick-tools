@@ -11,8 +11,8 @@ public:
     explicit PlayerInputSystem(EntityManager& entityManager);
     void update() override;
 private: 
-	void handleKeyInput(std::shared_ptr<Entity> entity);
-	void handleMouseInput(std::shared_ptr<Entity> entity);
+	void handleKeyInput(Entity*entity);
+	void handleMouseInput(Entity* entity);
 };
 
 

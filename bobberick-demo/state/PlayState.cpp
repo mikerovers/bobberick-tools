@@ -32,9 +32,9 @@ void PlayState::update()
 bool PlayState::onEnter()
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
-	for (int x = 0; x < 3; x++) {
-		for (int y = 0; y < 10; y++) {
-			Entity* enemy = enemyFactory.getRandomEnemy(1, 4);
+	for (auto x = 0; x < 3; x++) {
+		for (auto y = 0; y < 10; y++) {
+			const auto enemy = enemyFactory.getRandomEnemy(1, 4);
 
 			auto& enemyTransform = enemy->getComponent<TransformComponent>();
 			enemyTransform.position.setX(450 + 50 * x);
@@ -51,7 +51,7 @@ bool PlayState::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg", "footsteps", SOUND_SFX);
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt", SOUND_SFX);
 
-    std::shared_ptr<Entity> player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto* player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	player->addComponent<TransformComponent>(200, 200, 64, 32, 2);
     //player->addComponent<SpriteComponent>("assets/image/spritestrip.png", "character", 6, 6, 5);
     auto& spriteComponent = player->addComponent<SpriteComponent>("assets/image/character/character.png", "character", 6, 4, 5);
@@ -65,14 +65,14 @@ bool PlayState::onEnter()
     player->addComponent<ShootComponent>();
     player->addComponent<CollisionComponent>("player");
 
-    std::shared_ptr<Entity> level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto* level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     auto* levelFactory = new LevelFactory();
     TilesetComponent* tilesetComponent = levelFactory->Load("assets/maps/map1.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
     level->addExistingComponent<TilesetComponent>(tilesetComponent);
     delete levelFactory;
 
-    std::shared_ptr<Entity> box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* collisionComponent = new CollisionComponent("test", 140, 175, 40);
+    auto box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto* collisionComponent = new CollisionComponent("fire", 140, 175, 40);
     box->addExistingComponent<CollisionComponent>(collisionComponent);
     
     auto* objectFactory = new ObjectFactory();
@@ -82,11 +82,13 @@ bool PlayState::onEnter()
 
     delete objectFactory;
 
-    std::shared_ptr<Entity> exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto* exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+
     auto* exitButtonComponent = new ButtonComponent([this](){
         std::cout << "Exit button clicked." << std::endl;
 		_exitPressed = true;
     });
+
     exitButton->addExistingComponent<ButtonComponent>(exitButtonComponent);
     auto* exitButtonTransformComponent = new TransformComponent();
     exitButtonTransformComponent->position.setX(10);

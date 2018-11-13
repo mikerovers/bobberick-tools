@@ -45,7 +45,7 @@ void AISystem::init() {
 
 void AISystem::update()
 {
-	int channelCounter = 0;
+	int channelCounter = 2;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
 
@@ -63,9 +63,9 @@ void AISystem::update()
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this
 		//std::cout << transform.position.getX() << "\n";
-		if (transform.position.getX() > 640 || transform.position.getY() > 480) {
+		if (transform.position.getX() > 640 || transform.position.getY() > 480 || transform.position.getX() < 0 || transform.position.getY() < 0) {
 
-			//entity->destroy();
+			entity->destroy();
 			//delete &entity;
 			//entity.reset();
 			//entity = nullptr;
@@ -78,7 +78,7 @@ void AISystem::update()
 	}
 }
 
-void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter) {
+void AISystem::executeShoot(Entity* entity, int &channelCounter) {
 	if (entity->hasComponent<ShootComponent>()) {
 		auto& shoot = entity->getComponent<ShootComponent>();
 		if (shoot.canShoot()) {
@@ -114,7 +114,7 @@ void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter)
 					float dx = angleX / vectorLength;
 					float dy = angleY / vectorLength;
 
-					std::shared_ptr<Entity> projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+					Entity* projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 					projectile->addComponent<BulletMovementComponent>();
 					auto& projectileTransform = projectile->addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
 					projectileTransform.velocity.setX(dx);
@@ -138,7 +138,7 @@ void AISystem::executeShoot(std::shared_ptr<Entity> entity, int &channelCounter)
 	}
 }
 
-void AISystem::applyHealthBar(std::shared_ptr<Entity> entity) {
+void AISystem::applyHealthBar(Entity* entity) {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& stats = entity->getComponent<StatsComponent>();
 	auto& healthBar = entity->getComponent<HealthBarComponent>();
@@ -178,7 +178,7 @@ void AISystem::applyHealthBar(std::shared_ptr<Entity> entity) {
 	}
 }
 
-void AISystem::applyMovement(std::shared_ptr<Entity> entity) {
+void AISystem::applyMovement(Entity* entity) {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
 
@@ -238,11 +238,14 @@ void AISystem::applyMovement(std::shared_ptr<Entity> entity) {
 
 	sprite.moving = (transform.velocity.getX() == 0 && transform.velocity.getY() == 0) ? false : true;
 
-	auto& collisionComponent = entity->getComponent<CollisionComponent>();
-	collisionComponent.collider->x = transform.position.getX();
-	collisionComponent.collider->y = transform.position.getY();
-	collisionComponent.collider->w = transform.width;
-	collisionComponent.collider->h = transform.height;
+	if (entity->hasComponent<CollisionComponent>()) {
+		auto& collisionComponent = entity->getComponent<CollisionComponent>();
+		collisionComponent.collider->x = transform.position.getX();
+		collisionComponent.collider->y = transform.position.getY();
+		collisionComponent.collider->w = transform.width;
+		collisionComponent.collider->h = transform.height;
+	}
+
 }
 
 std::string AISystem::addSpaces(std::string string, const int goalChars, const bool leading) {

@@ -7,6 +7,7 @@
 #include "../../bobberick-framework/src/entity/systems/CollisionSystem.h"
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
+#include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
@@ -18,6 +19,8 @@ GameState* StateFactory::createState(const std::string type) {
 		return createMainMenuState();
 	} else if (type == "PlayState") {
 		return createPlayState();
+	} else if (type == "TestState") {
+		return new TestState();
 	}
 
 	return nullptr;
