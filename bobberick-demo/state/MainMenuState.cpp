@@ -43,8 +43,18 @@ bool MainMenuState::onExit()
 {
 	std::cout << "Exited MainMenuState" << std::endl;
 
-	delete[] buttons;
-	delete[] entities;
+	// for (auto button : buttons)
+	// {
+	// 	delete button;
+	// }
+	
+	// for (auto entity : entities)
+	// {
+	// 	delete entity;
+	// }
+	
+	// delete[] buttons;
+	// delete[] entities;
 
 	return true;
 }
@@ -56,7 +66,7 @@ bool MainMenuState::shouldExit()
 
 void MainMenuState::createAnimatedBackground()
 {
-	std::shared_ptr<Entity> fireWizard = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* fireWizard = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& fireWizardTransformComponent = fireWizard->addComponent<TransformComponent>(-1, 20, 59, 54, 2);
 	fireWizard->addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
 	fireWizard->addComponent<CollisionComponent>("fireWizard");
@@ -64,7 +74,7 @@ void MainMenuState::createAnimatedBackground()
 	fireWizardTransformComponent.speed = 1.5;
 	entities[0] = fireWizard;
 
-	std::shared_ptr<Entity> zombie = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* zombie = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& zombieTransformComponent = zombie->addComponent<TransformComponent>(-1, 140, 51, 51, 2);
 	zombie->addComponent<SpriteComponent>("assets/image/enemies/zombie.png", "zombie", 6, 4, 10);
 	zombie->addComponent<CollisionComponent>("fireWizard");
@@ -72,7 +82,7 @@ void MainMenuState::createAnimatedBackground()
 	zombieTransformComponent.speed = 1.5;
 	entities[1] = zombie;
 
-	std::shared_ptr<Entity> orc = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* orc = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& OrcTransformComponent = orc->addComponent<TransformComponent>(-1, 260, 49, 64, 2);
 	orc->addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
 	orc->addComponent<CollisionComponent>("fireWizard");
@@ -80,7 +90,7 @@ void MainMenuState::createAnimatedBackground()
 	OrcTransformComponent.speed = 1.5;
 	entities[2] = orc;
 
-	std::shared_ptr<Entity> player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& playerTransformComponent = player->addComponent<TransformComponent>(-1, 380, 64, 32, 2);
 	player->addComponent<SpriteComponent>("assets/image/character.png", "character", 6, 4, 5);
 	player->addComponent<CollisionComponent>("fireWizard");
@@ -91,7 +101,7 @@ void MainMenuState::createAnimatedBackground()
 
 void MainMenuState::makeStartGameButton()
 {
-	std::shared_ptr<Entity> playGameButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* playGameButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto* playGameButtonComponent = new ButtonComponent([this]() {
 		std::cout << "Play button clicked" << std::endl;
 		_playGamePressed = true;
@@ -107,12 +117,12 @@ void MainMenuState::makeStartGameButton()
 	playGameButton->addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1, 3, 0);
 	playGameButton->getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
-	buttons[0] = playGameButton;
+	// buttons[0] = playGameButton;
 }
 
 void MainMenuState::makeOptionsButton()
 {
-	std::shared_ptr<Entity> optionsButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* optionsButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto* optionsButtonComponent = new ButtonComponent([this]() {
 		std::cout << "Options button clicked" << std::endl;
 		_playGamePressed = true;
@@ -128,12 +138,12 @@ void MainMenuState::makeOptionsButton()
 	optionsButton->addComponent<ButtonSpriteComponent>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
 	optionsButton->getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	
-	buttons[1] = optionsButton;
+	// buttons[1] = optionsButton;
 }
 
 void MainMenuState::makeExitButton()
 {
-	std::shared_ptr<Entity> exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto* exitButtonComponent = new ButtonComponent([this]() {
 		std::cout << "Exit button clicked" << std::endl;
 		_playGamePressed = true;
@@ -149,18 +159,71 @@ void MainMenuState::makeExitButton()
 	exitButton->addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
 	exitButton->getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	
-	buttons[3] = exitButton;
+	// buttons[2] = exitButton;
 }
 
 void MainMenuState::determineMovementDirection()
 {
+	// if (player->getComponent<TransformComponent>().position.getX() < 150) {
+	// 	player->getComponent<TransformComponent>().velocity.setX(0.2 * player->getComponent<TransformComponent>().speed);
+	// 	player->getComponent<TransformComponent>().velocity.setY(0);
+	// 	player->getComponent<SpriteComponent>().flip = false;
+	// }
+	// else if (player->getComponent<TransformComponent>().position.getX() > 500) { // TODO: find a better way to get the window width
+	// 	player->getComponent<TransformComponent>().velocity.setX(-(0.2 * player->getComponent<TransformComponent>().speed));
+	// 	player->getComponent<TransformComponent>().velocity.setY(0);
+	// 	player->getComponent<SpriteComponent>().flip = true;
+	// }
+	//
+	//
+	//
+	//
+	// if (orc->getComponent<TransformComponent>().position.getX() < 150) {
+	// 	orc->getComponent<TransformComponent>().velocity.setX(0.2 * orc->getComponent<TransformComponent>().speed);
+	// 	orc->getComponent<TransformComponent>().velocity.setY(0);
+	// 	orc->getComponent<SpriteComponent>().flip = false;
+	// }
+	// else if (orc->getComponent<TransformComponent>().position.getX() > 500) { // TODO: find a better way to get the window width
+	// 	orc->getComponent<TransformComponent>().velocity.setX(-(0.2 * orc->getComponent<TransformComponent>().speed));
+	// 	orc->getComponent<TransformComponent>().velocity.setY(0);
+	// 	orc->getComponent<SpriteComponent>().flip = true;
+	// }
+	//
+	//
+	//
+	//
+	// if (zombie->getComponent<TransformComponent>().position.getX() < 150) {
+	// 	zombie->getComponent<TransformComponent>().velocity.setX(0.2 * zombie->getComponent<TransformComponent>().speed);
+	// 	zombie->getComponent<TransformComponent>().velocity.setY(0);
+	// 	zombie->getComponent<SpriteComponent>().flip = false;
+	// }
+	// else if (zombie->getComponent<TransformComponent>().position.getX() > 500) { // TODO: find a better way to get the window width
+	// 	zombie->getComponent<TransformComponent>().velocity.setX(-(0.2 * zombie->getComponent<TransformComponent>().speed));
+	// 	zombie->getComponent<TransformComponent>().velocity.setY(0);
+	// 	zombie->getComponent<SpriteComponent>().flip = true;
+	// }
+	//
+	//
+	//
+	//
+	// if (fireWizard->getComponent<TransformComponent>().position.getX() < 150) {
+	// 	fireWizard->getComponent<TransformComponent>().velocity.setX(0.2 * fireWizard->getComponent<TransformComponent>().speed);
+	// 	fireWizard->getComponent<TransformComponent>().velocity.setY(0);
+	// 	fireWizard->getComponent<SpriteComponent>().flip = false;
+	// }
+	// else if (fireWizard->getComponent<TransformComponent>().position.getX() > 500) { // TODO: find a better way to get the window width
+	// 	fireWizard->getComponent<TransformComponent>().velocity.setX(-(0.2 * fireWizard->getComponent<TransformComponent>().speed));
+	// 	fireWizard->getComponent<TransformComponent>().velocity.setY(0);
+	// 	fireWizard->getComponent<SpriteComponent>().flip = true;
+	// }
+
 	for (const auto& entity : entities)
 	{
 		auto& transform = entity->getComponent<TransformComponent>();
 		auto& sprite = entity->getComponent<SpriteComponent>();
 		const double speed = 0.2 * transform.speed;
 		transform.velocity.setY(0);
-
+	
 		if (transform.position.getX() < 150) {
 			transform.velocity.setX(speed);
 			sprite.flip = false;

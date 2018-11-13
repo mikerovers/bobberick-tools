@@ -12,9 +12,13 @@ public:
 	bool shouldExit() override;
 
 private:
-	bool _playGamePressed;
-	std::shared_ptr<Entity> entities[4];
-	std::shared_ptr<Entity> buttons[3];
+	bool _playGamePressed = false;
+	Entity* entities[4] = {};
+	// Entity* buttons[3] = {};
+	// Entity* player;
+	// Entity* orc;
+	// Entity* zombie;
+	// Entity* fireWizard;
 
 	void createAnimatedBackground();
 
