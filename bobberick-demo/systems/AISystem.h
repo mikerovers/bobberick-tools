@@ -15,7 +15,7 @@ public:
 	void init() override;
 
 private:
-	std::string addSpaces(std::string string, const int goalChars, const bool leading);
+	std::string addSpaces(const std::string& string, const int goalChars, const bool leading);
 	void executeShoot(Entity* entity, int &channelCounter);
 	void applyHealthBar(Entity* entity);
 	void applyMovement(Entity* entity);

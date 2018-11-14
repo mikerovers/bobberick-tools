@@ -40,6 +40,12 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 			stats.getHit(-100, true);
 		}
 	}
+
+	if (colliderA.tag == "monster_projectile" || colliderB.tag == "monster_projectile")
+	{
+		std::cout << "Is shot: " << colliderB.tag << std::endl;
+		SDL_Delay(10000000);
+	}
 }
 
 void CollisionSystem::update()
