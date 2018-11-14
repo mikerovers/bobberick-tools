@@ -35,7 +35,6 @@ set(
 	src/services/Service.cpp src/services/Service.h
 	src/entity/Component.cpp src/entity/Component.h
 	src/entity/components/TransformComponent.cpp src/entity/components/TransformComponent.h
-	src/entity/components/PlayerTransformComponent.cpp src/entity/components/PlayerTransformComponent.h
 	src/services/RenderService.cpp src/services/RenderService.h
 	src/entity/systems/System.cpp src/entity/systems/System.h
 	src/entity/systems/DrawSystem.cpp src/entity/systems/DrawSystem.h
@@ -52,6 +51,7 @@ set(
 	src/entity/components/TileObject.cpp src/entity/components/TileObject.h 
 	src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h 
 	src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h src/entity/systems/CollisionSystem.cpp src/entity/systems/CollisionSystem.h src/entity/CollisionHelper.cpp src/entity/CollisionHelper.h)
+
 add_library(bobberick-framework ${SOURCE_FILES})
 target_link_libraries(bobberick-framework tmxlite)
 
