@@ -2,6 +2,7 @@
 #include "../CollisionHelper.h"
 #include "../../../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../../../bobberick-demo/components/PlayerStatsComponent.h"
+#include "../../../../bobberick-demo/components/BulletMovementComponent.h"
 
 CollisionSystem::CollisionSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -50,6 +51,20 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 void CollisionSystem::update()
 {
 	auto* helper = new CollisionHelper();
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<BulletMovementComponent>())
+	{
+		auto& tC = entity->getComponent<TransformComponent>();
+		auto& cC = entity->getComponent<CollisionComponent>();
+		SDL_Rect* r;
+
+		r->x = tC.position.getX();
+		r->y = tC.position.getY();
+		r->w = tC.width;
+		r->h = tC.height;
+
+		cC.collider = r;
+	}
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
 	{
