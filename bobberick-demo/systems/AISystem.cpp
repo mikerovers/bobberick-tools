@@ -75,63 +75,63 @@ void AISystem::update()
 }
 
 void AISystem::executeShoot(Entity& entity, int &channelCounter) {
-//	if (entity.hasComponent<ShootComponent>()) {
-//		auto& shoot = entity.getComponent<ShootComponent>();
-//		if (shoot.canShoot()) {
-//			auto& transform = entity.getComponent<TransformComponent>();
-//			auto& sprite = entity.getComponent<SpriteComponent>();
-//			auto& collision = entity.getComponent<CollisionComponent>();
-//
-//			auto& stats = entity.getComponent<StatsComponent>();
-//			auto& healthBar = entity.getComponent<HealthBarComponent>();
-//
-//			double enemyX = transform.position.getX();
-//			double enemyY = transform.position.getY();
-//
-//			for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
-//				channelCounter++;
-//				auto& playerTransform = player->getComponent<TransformComponent>();
-//
-//				double enemyXCenter = enemyX + transform.width / 2;
-//				double enemyYCenter = enemyY + transform.height / 2;
-//
-//				double angleX = playerTransform.position.getX() - enemyXCenter;
-//				double angleY = playerTransform.position.getY() - enemyYCenter;
-//
-//				if ((angleX < 300 && angleX > -300) && (angleY < 300 && angleY > -300)) {
-//					if (angleX < 0) {
-//						sprite.flip = true;
-//					}
-//					else if (angleX > 0) {
-//						sprite.flip = false;
-//					}
-//
-//					float vectorLength = sqrt(angleX*angleX + angleY * angleY);
-//					float dx = angleX / vectorLength;
-//					float dy = angleY / vectorLength;
-//
-//					auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-//					projectile.addComponent<BulletMovementComponent>();
-//					auto& projectileTransform = projectile.addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
-//					projectileTransform.velocity.setX(dx);
-//					projectileTransform.velocity.setY(dy);
-//
-//					sprite.changeTexture("fire_wizard_casting"); // change to set entity to casting state (and change sprite accordingly)
-//
-//					transform.velocity.setX(0);
-//					transform.velocity.setY(0);
-//
-//					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
-//					projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
-//					shoot.setShootTimer(980);
-//
-//				}
-//				else {
-//					sprite.changeTexture("fire_wizard");
-//				}
-//			}
-//		}
-//	}
+	if (entity.hasComponent<ShootComponent>()) {
+		auto& shoot = entity.getComponent<ShootComponent>();
+		if (shoot.canShoot()) {
+			auto& transform = entity.getComponent<TransformComponent>();
+			auto& sprite = entity.getComponent<SpriteComponent>();
+			auto& collision = entity.getComponent<CollisionComponent>();
+
+			auto& stats = entity.getComponent<StatsComponent>();
+			auto& healthBar = entity.getComponent<HealthBarComponent>();
+
+			double enemyX = transform.position.getX();
+			double enemyY = transform.position.getY();
+
+			for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
+				channelCounter++;
+				auto& playerTransform = player->getComponent<TransformComponent>();
+
+				double enemyXCenter = enemyX + transform.width / 2;
+				double enemyYCenter = enemyY + transform.height / 2;
+
+				double angleX = playerTransform.position.getX() - enemyXCenter;
+				double angleY = playerTransform.position.getY() - enemyYCenter;
+
+				if ((angleX < 300 && angleX > -300) && (angleY < 300 && angleY > -300)) {
+					if (angleX < 0) {
+						sprite.flip = true;
+					}
+					else if (angleX > 0) {
+						sprite.flip = false;
+					}
+
+					float vectorLength = sqrt(angleX*angleX + angleY * angleY);
+					float dx = angleX / vectorLength;
+					float dy = angleY / vectorLength;
+
+					auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+					projectile.addComponent<BulletMovementComponent>();
+					auto& projectileTransform = projectile.addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
+					projectileTransform.velocity.setX(dx);
+					projectileTransform.velocity.setY(dy);
+
+					sprite.changeTexture("fire_wizard_casting"); // change to set entity to casting state (and change sprite accordingly)
+
+					transform.velocity.setX(0);
+					transform.velocity.setY(0);
+
+					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
+					projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
+					shoot.setShootTimer(980);
+
+				}
+				else {
+					sprite.changeTexture("fire_wizard");
+				}
+			}
+		}
+	}
 }
 
 void AISystem::applyHealthBar(Entity& entity) {
