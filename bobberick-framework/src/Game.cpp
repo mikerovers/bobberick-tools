@@ -88,6 +88,7 @@ void Game::update()
     frameHandler->updateTicks();
 
     SDL_RenderClear(renderer.get());
+    ServiceManager::Instance()->getService<EntityManager>().refresh();
     stateMachine->update();
     SDL_RenderPresent(renderer.get());
 

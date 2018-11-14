@@ -10,7 +10,7 @@
 
 Entity * FireWizardFactory::getEnemy(const int level)
 {
-	std::shared_ptr<Entity> fireWizard = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	Entity* fireWizard = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = fireWizard->addComponent<TransformComponent>(-1, -1, 59, 54, 1);
 	auto& spriteComponent = fireWizard->addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
 	spriteComponent.addTexture("assets/image/enemies/fire_wizard_casting.png", "fire_wizard_casting");
@@ -32,5 +32,5 @@ Entity * FireWizardFactory::getEnemy(const int level)
 
 	fireWizard->addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
 
-	return fireWizard.get();
+	return fireWizard;
 }

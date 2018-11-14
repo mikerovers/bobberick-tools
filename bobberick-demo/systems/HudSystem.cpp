@@ -7,32 +7,40 @@
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include <string>
 
-HudSystem::HudSystem(EntityManager &entityManager) : System(entityManager)
+HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager)
 {
-	
 }
 
 void HudSystem::update()
 {
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>())
+	{
 		PlayerStatsComponent& playerStats = entity->getComponent<PlayerStatsComponent>();
 
-		//playerStats.xp += 99; // For testing purposes
-		//playerStats.gold += 89; // For testing purposes
-		playerStats.getHit(49, true); // For testing purposes
+		//		playerStats.xp += 99; // For testing purposes
+		//		playerStats.gold += 89; // For testing purposes
+		// playerStats.getHit(49, true); // For testing purposes
 
 		playerStats.update();
 		double healthWidth = ((double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax()) * barWidth;
 		double shieldWidth = (playerStats.shdTime / playerStats.shdTimeMax) * barWidth;
-		if (playerStats.shieldActive()) { // Bright blue bar if shield is currently active.
+		if (playerStats.shieldActive())
+		{
+			// Bright blue bar if shield is currently active.
 			shieldBox->getComponent<RectangleComponent>().red = 102;
 			shieldBox->getComponent<RectangleComponent>().green = 255;
 			shieldBox->getComponent<RectangleComponent>().blue = 255;
-		} else if (playerStats.shdTime / playerStats.shdTimeMax < 0.5) { // Dark blue bar if shield is not yet ready to activate.
+		}
+		else if (playerStats.shdTime / playerStats.shdTimeMax < 0.5)
+		{
+			// Dark blue bar if shield is not yet ready to activate.
 			shieldBox->getComponent<RectangleComponent>().red = 0;
 			shieldBox->getComponent<RectangleComponent>().green = 51;
 			shieldBox->getComponent<RectangleComponent>().blue = 153;
-		} else { // Blue bar if shield is ready to activate.
+		}
+		else
+		{
+			// Blue bar if shield is ready to activate.
 			shieldBox->getComponent<RectangleComponent>().red = 0;
 			shieldBox->getComponent<RectangleComponent>().green = 204;
 			shieldBox->getComponent<RectangleComponent>().blue = 255;
@@ -51,14 +59,14 @@ void HudSystem::update()
     }
 }
 
-void HudSystem::init() 
+void HudSystem::init()
 {
 	hudBox = entityManager.addEntity();
 	hudBox->addComponent<TransformComponent>(0, 0, 50, 640, 1);
 	hudBox->addComponent<RectangleComponent>(51, 51, 204, true);
 
 	outerBox = entityManager.addEntity();
-	outerBox->addComponent<TransformComponent>(9, 9, 32, barWidth+2, 1);
+	outerBox->addComponent<TransformComponent>(9, 9, 32, barWidth + 2, 1);
 	outerBox->addComponent<RectangleComponent>(0, 0, 0, false);
 
 	innerBox = entityManager.addEntity();
@@ -94,14 +102,19 @@ void HudSystem::init()
 	xpText->addComponent<TextComponent>("monoMedium", "xpText", " ");
 }
 
-std::string HudSystem::addSpaces(std::string string, const int goalChars, const bool leading) {
+std::string HudSystem::addSpaces(std::string string, const int goalChars, const bool leading)
+{
 	std::string spaces = "";
-	for (int i = string.length(); i < goalChars; i++) {
+	for (int i = string.length(); i < goalChars; i++)
+	{
 		spaces += " ";
 	}
-	if (leading) {
+	if (leading)
+	{
 		return spaces + string;
-	} else {
+	}
+	else
+	{
 		return string + spaces;
 	}
 }

@@ -17,9 +17,9 @@ void BulletSystem::update()
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this
 		//std::cout << transform.position.getX() << "\n";
-		if (transform.position.getX() > 640 || transform.position.getY() > 480) {
+		if (transform.position.getX() > 640 || transform.position.getY() > 480 || transform.position.getX() < 0 || transform.position.getY() < 0) {
 
-			//entity->destroy();
+			entity->destroy();
 			//delete &entity;
 			//entity.reset();
 			//entity = nullptr;
@@ -30,4 +30,5 @@ void BulletSystem::update()
 
 		}
 	}
+	std::cout << entityManager.getAllEntitiesWithComponent<BulletMovementComponent>().size() << "\n";
 }

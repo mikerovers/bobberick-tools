@@ -85,8 +85,8 @@ void LevelFactory::handleObjectLayer(const tmx::ObjectGroup *objectGroup, Tilese
 {
     auto& objects = objectGroup->getObjects();
     for (auto& object : objects) {
-       auto* position = new Vector2D(object.getPosition().x, object.getPosition().y);
-       component->objects.push_back(new TileObject(position, object.getName()));
+		Vector2D* position = new Vector2D(object.getPosition().x, object.getPosition().y);
+		component->objects.push_back(new TileObject(position, object.getName()));
 	   return;
     }
 }
