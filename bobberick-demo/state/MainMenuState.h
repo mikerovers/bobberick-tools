@@ -1,6 +1,7 @@
 #ifndef BOBBERICK_TOOLS_MAINMENUSTATE_H
 #define BOBBERICK_TOOLS_MAINMENUSTATE_H
 #include "../../bobberick-framework/src/GameState.h"
+#include "../../bobberick-framework/src/services/ServiceManager.h"
 
 class MainMenuState : public GameState
 {
@@ -12,13 +13,9 @@ public:
 	bool shouldExit() override;
 
 private:
+	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	bool _playGamePressed = false;
 	Entity* entities[4] = {};
-	// Entity* buttons[3] = {};
-	// Entity* player;
-	// Entity* orc;
-	// Entity* zombie;
-	// Entity* fireWizard;
 
 	void createAnimatedBackground();
 
