@@ -7,8 +7,10 @@
 
 void SpriteComponent::init()
 {
-    transform = &entity->getComponent<TransformComponent>();
-
+	if (entity->hasComponent<TransformComponent>())
+	{
+		transform = &entity->getComponent<TransformComponent>();
+	}
     sourceRect.x = sourceRect.y = 0;
 	destinationRect.w = sourceRect.w = transform->width;
 	destinationRect.h = sourceRect.h = transform->height;
