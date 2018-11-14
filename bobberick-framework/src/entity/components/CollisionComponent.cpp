@@ -29,6 +29,11 @@ CollisionComponent::CollisionComponent(std::string tag, int xPos, int yPos, int 
 
 void CollisionComponent::init()
 {
+	if (tag == "monster_projectile")
+	{
+		std::cout << "init aangeroepen" << std::endl;
+	}
+
 	if (!entity->hasComponent<TransformComponent>())
 	{
 		entity->addComponent<TransformComponent>();
@@ -43,5 +48,5 @@ void CollisionComponent::init()
 
 CollisionComponent::~CollisionComponent()
 {
-    delete collider;
+	delete collider;
 }

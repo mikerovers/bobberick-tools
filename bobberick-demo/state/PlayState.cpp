@@ -33,17 +33,22 @@ void PlayState::update()
 bool PlayState::onEnter()
 {
 	EnemyFactory enemyFactory;
-	for (auto x = 0; x < 3; x++)
-	{
-		for (auto y = 0; y < 10; y++)
-		{
-			const auto enemy = enemyFactory.getRandomEnemy(1, 4);
+	// for (auto x = 0; x < 3; x++)
+	// {
+	// 	for (auto y = 0; y < 10; y++)
+	// 	{
+	// 		const auto enemy = enemyFactory.getRandomEnemy(1, 4);
+	//
+	// 		auto& enemyTransform = enemy->getComponent<TransformComponent>();
+	// 		enemyTransform.position.setX(450 + 50 * x);
+	// 		enemyTransform.position.setY(50 * y);
+	// 	}
+	// }
+	const auto enemy = enemyFactory.getEnemy(3, "fireWizard");
+	auto& enemyTransform = enemy->getComponent<TransformComponent>();
+	enemyTransform.position.setX(300);
+	enemyTransform.position.setY(300);
 
-			auto& enemyTransform = enemy->getComponent<TransformComponent>();
-			enemyTransform.position.setX(450 + 50 * x);
-			enemyTransform.position.setY(50 * y);
-		}
-	}
 
 	for (const auto& system : systems)
 	{

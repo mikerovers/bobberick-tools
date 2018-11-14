@@ -41,10 +41,9 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		}
 	}
 
-	if (colliderA.tag == "monster_projectile" || colliderB.tag == "monster_projectile")
+	if (colliderA.tag == "monster_projectile")
 	{
 		std::cout << "Is shot: " << colliderB.tag << std::endl;
-		SDL_Delay(10000000);
 	}
 }
 
@@ -55,6 +54,12 @@ void CollisionSystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
 	{
 		auto& colliderA = entity->getComponent<CollisionComponent>();
+
+		if (colliderA.tag == "monster_projectile")
+		{
+					std::cout << "TAG: " << colliderA.tag << std::endl;
+					std::cout << "X: " << colliderA.collider->x << " Y: " << colliderA.collider->y << " sizeH: " << colliderA.collider->h << " sizeW:" << colliderA.collider->w << std::endl;
+		}
 
 		for (auto& otherEntity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
 		{

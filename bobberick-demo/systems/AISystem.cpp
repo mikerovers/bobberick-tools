@@ -138,6 +138,7 @@ void AISystem::executeShoot(Entity* entity, int& channelCounter)
 					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
 					projectile->addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
 					projectile->addComponent<CollisionComponent>("monster_projectile");
+					// projectile->addComponent<CollisionComponent>("monster_projectile", projectileTransform.position.getX(), projectileTransform.position.getY(), projectileTransform.height, projectileTransform.width);
 
 					shoot.setShootTimer(980);
 				}
