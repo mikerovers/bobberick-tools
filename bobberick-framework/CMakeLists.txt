@@ -35,7 +35,6 @@ set(
 	src/services/Service.cpp src/services/Service.h
 	src/entity/Component.cpp src/entity/Component.h
 	src/entity/components/TransformComponent.cpp src/entity/components/TransformComponent.h
-	src/entity/components/PlayerTransformComponent.cpp src/entity/components/PlayerTransformComponent.h
 	src/services/RenderService.cpp src/services/RenderService.h
 	src/entity/systems/System.cpp src/entity/systems/System.h
 	src/entity/systems/DrawSystem.cpp src/entity/systems/DrawSystem.h
