@@ -1,7 +1,7 @@
 #include "CollisionComponent.h"
 #include <utility>
 #include "../../services/ServiceManager.h"
-#include "../../TextureManager.h"
+#include "../../services/TextureManager.h"
 #include "../../services/RenderService.h"
 
 CollisionComponent::CollisionComponent(std::string tag) : tag(std::move(tag))

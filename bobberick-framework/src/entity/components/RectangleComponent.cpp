@@ -1,7 +1,7 @@
 #include "RectangleComponent.h"
 #include "../Entity.h"
 #include "../../services/ServiceManager.h"
-#include "../../RectangleManager.h"
+#include "../../services/RectangleManager.h"
 #include "../../services/RenderService.h"
 
 void RectangleComponent::init()

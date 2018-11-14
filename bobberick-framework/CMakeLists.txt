@@ -28,9 +28,9 @@ set(
 	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
 	src/entity/components/ShootComponent.cpp src/entity/components/ShootComponent.h
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
-	src/TextureManager.cpp src/TextureManager.h
-	src/FontManager.cpp src/FontManager.h
-	src/RectangleManager.cpp src/RectangleManager.h
+	src/services/TextureManager.cpp src/services/TextureManager.h
+	src/services/FontManager.cpp src/services/FontManager.h
+	src/services/RectangleManager.cpp src/services/RectangleManager.h
 	src/services/ServiceManager.cpp src/services/ServiceManager.h
 	src/services/Service.cpp src/services/Service.h
 	src/entity/Component.cpp src/entity/Component.h
@@ -38,7 +38,7 @@ set(
 	src/services/RenderService.cpp src/services/RenderService.h
 	src/entity/systems/System.cpp src/entity/systems/System.h
 	src/entity/systems/DrawSystem.cpp src/entity/systems/DrawSystem.h
-	src/SoundManager.cpp src/SoundManager.h
+	src/services/SoundManager.cpp src/services/SoundManager.h
 	src/util/SDL_Deleter.h
   src/util/FrameHandler.cpp src/util/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h

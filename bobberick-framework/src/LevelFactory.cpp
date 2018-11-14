@@ -1,7 +1,7 @@
 #include <tmxlite/Map.hpp>
 #include <tmxlite/TileLayer.hpp>
 #include "LevelFactory.h"
-#include "TextureManager.h"
+#include "services/TextureManager.h"
 #include "services/ServiceManager.h"
 #include "util/Vector2D.h"
 #include "entity/components/TileObject.h"

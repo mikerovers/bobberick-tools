@@ -1,7 +1,7 @@
 #include "SpriteComponent.h"
 #include "../Entity.h"
 #include "../../services/ServiceManager.h"
-#include "../../TextureManager.h"
+#include "../../services/TextureManager.h"
 #include "../../services/RenderService.h"
 #include <map>
 

@@ -1,7 +1,7 @@
 #include "PlayState.h"
 #include "../systems/PlayerInputSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
-#include "../../bobberick-framework/src/SoundManager.h"
+#include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/entity/systems/DrawSystem.h"
 #include "../../bobberick-framework/src/entity/systems/InputSystem.h"
 #include "../../bobberick-framework/src/entity/components/ShootComponent.h"

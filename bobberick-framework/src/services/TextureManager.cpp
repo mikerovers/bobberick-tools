@@ -21,18 +21,18 @@ bool TextureManager::load(const char* fileName, std::string id, std::shared_ptr<
         return false;
     }
 
-    SDL_TexturePointer pTexture = SDL_TexturePointer(SDL_CreateTextureFromSurface(renderer.get(), pTempSurface.get()));
+	return addTextureFromSurface(pTempSurface, id, renderer);
 
-    //TODO Does this now clean up?
-//    pTempSurface = nullptr;
+}
 
-    if (pTexture != nullptr) {
-        textures[id] = pTexture;
-
-        return true;
-    }
-
-    return false;
+bool TextureManager::addTextureFromSurface(SDL_SurfacePointer surface, std::string id, std::shared_ptr<SDL_Renderer> renderer) {
+	SDL_TexturePointer pTexture = SDL_TexturePointer(SDL_CreateTextureFromSurface(renderer.get(), surface.get()));
+	if (pTexture != nullptr) {
+		textures[id] = pTexture;
+		return true;
+	} else {
+		return false;
+	}
 }
 
 void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip)

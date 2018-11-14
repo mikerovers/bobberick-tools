@@ -1,6 +1,6 @@
 #include "AISystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
-#include "../../bobberick-framework/src/SoundManager.h"
+#include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
