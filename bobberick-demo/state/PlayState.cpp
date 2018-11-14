@@ -40,9 +40,9 @@ bool PlayState::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg", "footsteps", SOUND_SFX);
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt", SOUND_SFX);
 
-    auto box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto& box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     auto* collisionComponent = new CollisionComponent("fire", 140, 175, 40);
-    box->addExistingComponent<CollisionComponent>(collisionComponent);
+    box.addExistingComponent<CollisionComponent>(collisionComponent);
 
     ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1", SOUND_MUSIC);
     ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
@@ -66,7 +66,7 @@ bool PlayState::shouldExit()
 
 Entity &PlayState::makeTileMap() const
 {
-    auto& level = *ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 
     // Use LevelFactory to load and create tilemap components.
     auto* levelFactory = new LevelFactory();
@@ -85,7 +85,7 @@ Entity &PlayState::makeTileMap() const
 
 Entity &PlayState::makePlayer() const
 {
-    auto& player = *ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     player.addComponent<TransformComponent>(200, 200, 64, 32, 2);
     auto& spriteComponent = player.addComponent<SpriteComponent>("assets/image/character/character.png", "character", 6, 4, 5);
     spriteComponent.addTexture("assets/image/character/character_casting.png", "character_casting");
@@ -114,9 +114,9 @@ void PlayState::makeEnemies() const
     EnemyFactory enemyFactory = EnemyFactory{};
     for (auto x = 0; x < 3; x++) {
         for (auto y = 0; y < 10; y++) {
-            const auto enemy = enemyFactory.getRandomEnemy(1, 4);
+            const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 
-            auto& enemyTransform = enemy->getComponent<TransformComponent>();
+            auto& enemyTransform = enemy.getComponent<TransformComponent>();
             enemyTransform.position.setX(450 + 50 * x);
             enemyTransform.position.setY(50 * y);
         }
@@ -125,7 +125,7 @@ void PlayState::makeEnemies() const
 
 void PlayState::makeGui()
 {
-    auto& exitButton = *ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 
     auto* exitButtonComponent = new ButtonComponent([this](){
         std::cout << "Exit button clicked." << std::endl;
