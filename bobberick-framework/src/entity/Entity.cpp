@@ -4,11 +4,6 @@ Entity::Entity() : active(true), deleted(false)
 {
 }
 
-Entity::~Entity()
-{
-    // TODO Implement destructor
-}
-
 bool Entity::isActive() const
 {
     return active;
@@ -43,7 +38,7 @@ bool Entity::hasGroup(const Group group) const
 
 void Entity::removeGroup(const Group group)
 {
-    std::vector<Group>::iterator it = std::find(groups.begin(), groups.end(), group);;
+	const auto it = std::find(groups.begin(), groups.end(), group);;
     if(it != groups.end()) {
         groups.erase(it);
     }

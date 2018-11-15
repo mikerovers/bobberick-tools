@@ -70,10 +70,10 @@ void DrawSystem::update()
 		sourceRect->w = 32;
 		sourceRect->h = 32;
 		auto* destRect = new SDL_Rect;
-		destRect->x = comp.collider->x;
-		destRect->y = comp.collider->y;
-		destRect->w = comp.collider->w;
-		destRect->h = comp.collider->h;
+		destRect->x = comp.collider.x;
+		destRect->y = comp.collider.y;
+		destRect->w = comp.collider.w;
+		destRect->h = comp.collider.h;
 		tx.draw("collision", sourceRect, destRect, rs.getRenderer(), false);
 
 		delete sourceRect;

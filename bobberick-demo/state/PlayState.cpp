@@ -19,14 +19,15 @@
 
 std::string PlayState::getStateID() const
 {
-    return "playing";
+	return "playing";
 }
 
 void PlayState::update()
 {
-    for (const auto &system : systems) {
-        system->update();
-    }
+	for (const auto& system : systems)
+	{
+		system->update();
+	}
 }
 
 bool PlayState::onEnter()
