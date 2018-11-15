@@ -140,16 +140,16 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 			{
 				sprite.changeTexture("character_shooting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
-				projectile->addComponent<SpriteComponent>("assets/image/projectiles/bullet_ball_grey.png", "arrow");
-				projectile->addComponent<CollisionComponent>("arrow");
+				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bullet_ball_grey.png", "arrow");
+				projectile.addComponent<CollisionComponent>("arrow");
 				playerShoot.setShootTimer(500);
 			}
 			else
 			{
 				sprite.changeTexture("character_casting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
-				projectile->addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
-				projectile->addComponent<CollisionComponent>("bolt");
+				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
+				projectile.addComponent<CollisionComponent>("bolt");
 				playerShoot.setShootTimer(1000);
 			}
 		}
