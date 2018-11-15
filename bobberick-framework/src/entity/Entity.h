@@ -30,7 +30,7 @@ public:
         if (components.size() < getComponentTypeID<T>()) {
             unsigned int difference = getComponentTypeID<T>() - components.size();
             for (int i = 0 ; i < difference; i++) {
-                components.push_back(nullptr);
+//                components.push_back(nullptr);
             }
         }
 

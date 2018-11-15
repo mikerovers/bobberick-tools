@@ -130,10 +130,9 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 			float dx = angleX / vectorLength;
 			float dy = angleY / vectorLength;
 
-			Entity* projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-			projectile->addComponent<BulletMovementComponent>();
-			auto& projectileTransform = projectile->addComponent<TransformComponent>(
-				playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
+			Entity& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+			projectile.addComponent<BulletMovementComponent>();
+			auto& projectileTransform = projectile.addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
 			projectileTransform.velocity.setX(dx);
 			projectileTransform.velocity.setY(dy);
 

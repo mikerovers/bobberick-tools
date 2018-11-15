@@ -35,9 +35,18 @@ bool TextureManager::addTextureFromSurface(SDL_SurfacePointer surface, std::stri
 	}
 }
 
-void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip)
+void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip, int nScale)
 {
-    SDL_RenderCopyEx(renderer.get(), textures[id].get(), sourceRect, destinationRect, 0, nullptr, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+	auto scaledDest = SDL_Rect{};
+	int width = destinationRect->w;
+	int height = destinationRect->h;
+	width *= nScale;
+	height *= nScale;
+	scaledDest.w = width;
+	scaledDest.h = height;
+	scaledDest.x = destinationRect->x;
+	scaledDest.y = destinationRect->y;
+    SDL_RenderCopyEx(renderer.get(), textures[id].get(), sourceRect, &scaledDest, 0, nullptr, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
 void TextureManager::setOpacity(std::string id, int opacity) {

@@ -15,10 +15,13 @@ public:
 	void init() override;
 
 private:
-	std::string addSpaces(const std::string& string, const int goalChars, const bool leading);
-	void executeShoot(Entity* entity, int &channelCounter);
-	void applyHealthBar(Entity* entity);
-	void applyMovement(Entity* entity);
+	std::string addSpaces(std::string string, const int goalChars, const bool leading);
+	void executeShoot(Entity& entity, int &channelCounter);
+	void executeSpell(Entity& entity);
+	void initHealthBar(Entity* entity);
+	void applyHealthBar(Entity& entity);
+	void applyMovement(Entity& entity);
+	void kill(Entity& entity);
 };
 
 

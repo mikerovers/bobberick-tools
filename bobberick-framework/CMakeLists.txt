@@ -27,6 +27,7 @@ set(
 	src/entity/components/RectangleComponent.cpp src/entity/components/RectangleComponent.h
 	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
 	src/entity/components/ShootComponent.cpp src/entity/components/ShootComponent.h
+	src/entity/components/TimerComponent.cpp src/entity/components/TimerComponent.h
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/services/TextureManager.cpp src/services/TextureManager.h
 	src/services/FontManager.cpp src/services/FontManager.h
@@ -36,7 +37,7 @@ set(
 	src/entity/Component.cpp src/entity/Component.h
 	src/entity/components/TransformComponent.cpp src/entity/components/TransformComponent.h
 	src/services/RenderService.cpp src/services/RenderService.h
-	src/entity/systems/System.cpp src/entity/systems/System.h
+	src/entity/systems/System.cpp	 src/entity/systems/System.h
 	src/entity/systems/DrawSystem.cpp src/entity/systems/DrawSystem.h
 	src/services/SoundManager.cpp src/services/SoundManager.h
 	src/util/SDL_Deleter.h
@@ -51,6 +52,7 @@ set(
 	src/entity/components/TileObject.cpp src/entity/components/TileObject.h 
 	src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h 
 	src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h src/entity/systems/CollisionSystem.cpp src/entity/systems/CollisionSystem.h src/entity/CollisionHelper.cpp src/entity/CollisionHelper.h)
+
 add_library(bobberick-framework ${SOURCE_FILES})
 target_link_libraries(bobberick-framework tmxlite)
 

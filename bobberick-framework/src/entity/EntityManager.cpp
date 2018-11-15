@@ -11,7 +11,6 @@ void EntityManager::init()
 
 void EntityManager::refresh()
 {
-
     for(auto& group : groupedEntities) {
         auto& g(group.second);
 
@@ -26,12 +25,12 @@ void EntityManager::refresh()
     }), std::end(entities));
 }
 
-Entity* EntityManager::addEntity()
+Entity& EntityManager::addEntity()
 {
     std::unique_ptr<Entity> uPtr = std::make_unique<Entity>();
     entities.emplace_back(std::move(uPtr));
 
-    return entities.back().get();
+    return *entities.back().get();
 }
 
 void EntityManager::clean()
@@ -39,11 +38,11 @@ void EntityManager::clean()
 
 }
 
-void EntityManager::addEntityToGroup(Entity *entity, const Group group)
+void EntityManager::addEntityToGroup(Entity &entity, const Group group)
 {
     auto& vectorOfEntities = groupedEntities[group];
-    vectorOfEntities.push_back(entity);
-    entity->addGroup(group);
+    vectorOfEntities.push_back(&entity);
+    entity.addGroup(group);
 }
 
 std::vector<Entity*> &EntityManager::getEntitiesFromGroup(const Group group)
