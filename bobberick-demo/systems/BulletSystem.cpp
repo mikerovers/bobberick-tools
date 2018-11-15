@@ -30,5 +30,4 @@ void BulletSystem::update()
 
 		}
 	}
-	std::cout << entityManager.getAllEntitiesWithComponent<BulletMovementComponent>().size() << "\n";
 }

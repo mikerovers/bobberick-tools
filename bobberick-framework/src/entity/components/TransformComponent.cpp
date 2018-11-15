@@ -10,7 +10,7 @@ TransformComponent::TransformComponent(int sc)
 	scale = sc;
 }
 
-TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, int sc)
+TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, double sc)
 {
 	if (xPos >= 0) position.setX(xPos);
 	if (yPos >= 0) position.setY(yPos);
@@ -30,12 +30,12 @@ void TransformComponent::init()
     velocity.Zero();
 }
 
-int TransformComponent::getScale() const
+double TransformComponent::getScale() const
 {
 	return scale;
 }
 
-void TransformComponent::setScale(const int nScale)
+void TransformComponent::setScale(const double nScale)
 {
 	scale = nScale;
 }
