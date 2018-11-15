@@ -13,6 +13,7 @@
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
+#include "../../bobberick-demo/components/EndBossComponent.h"
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
@@ -25,7 +26,7 @@ AISystem::AISystem(EntityManager& entityManager) : System(entityManager)
 
 void AISystem::init() {
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
-		initHealthBar(entity);
+		initHealthBar(*entity);
 	}
 }
 
@@ -53,10 +54,10 @@ void AISystem::update()
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this
 		//std::cout << transform.position.getX() << "\n";
-		if (transform.position.getX() > 640 || transform.position.getY() > 480 || transform.position.getX() < 0 ||
-			transform.position.getY() < 0)
+		if (transform.position.getX() > 640 - (transform.width / 2) || transform.position.getY() > 480 - (transform.width / 2) || transform.position.getX() < 0 - (transform.height) ||
+			transform.position.getY() < 0 - (transform.height / 2))
 		{
-			entity->destroy();
+			kill(*entity);
 			//delete &entity;
 			//entity.reset();
 			//entity = nullptr;
@@ -107,7 +108,7 @@ void AISystem::executeSpell(Entity& entity) {
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
 					enemyTransform.position.setX(enemyX - 50);
 					enemyTransform.position.setY(enemyY - 50 + (i * 50));
-					initHealthBar(&enemy);
+					initHealthBar(enemy);
 					spellComponent.minionCount++;
 				}
 
@@ -185,10 +186,10 @@ void AISystem::executeShoot(Entity& entity, int &channelCounter) {
 	}
 }
 
-void AISystem::initHealthBar(Entity* entity) {
-	auto& healthBar = entity->getComponent<HealthBarComponent>();
-	auto& transform = entity->getComponent<TransformComponent>();
-	if (entity->hasComponent<HealthBarComponent>()) {
+void AISystem::initHealthBar(Entity& entity) {
+	auto& healthBar = entity.getComponent<HealthBarComponent>();
+	auto& transform = entity.getComponent<TransformComponent>();
+	if (entity.hasComponent<HealthBarComponent>()) {
 		int width = transform.width / 2;
 		//int width = 50;
 		healthBar.outerBox.addComponent<TransformComponent>(-1, -1, 12, width + 2, 1);
@@ -203,6 +204,9 @@ void AISystem::initHealthBar(Entity* entity) {
 }
 
 void AISystem::kill(Entity& entity) {
+	if (entity.hasComponent<EndBossComponent>()) {
+		// win
+	}
 	// animate destruction
 	auto& healthBar = entity.getComponent<HealthBarComponent>();
 	healthBar.healthBox.destroy();
