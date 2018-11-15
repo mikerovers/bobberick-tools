@@ -41,7 +41,7 @@ set(
 	src/entity/systems/DrawSystem.cpp src/entity/systems/DrawSystem.h
 	src/services/SoundManager.cpp src/services/SoundManager.h
 	src/util/SDL_Deleter.h
-  src/util/FrameHandler.cpp src/util/FrameHandler.h
+        src/services/FrameHandler.cpp src/services/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h
 	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
   src/entity/components/ButtonSpriteComponent.cpp src/entity/components/ButtonSpriteComponent.h

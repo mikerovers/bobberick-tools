@@ -9,6 +9,7 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../../bobberick-framework/src/services/FrameHandler.h"
 
 PlayerInputSystem::PlayerInputSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -52,9 +53,12 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	bool left = inputHandler.isKeyDown(SDL_SCANCODE_LEFT) || inputHandler.isKeyDown(SDL_SCANCODE_A),
 	     right = inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D),
 	     up = inputHandler.isKeyDown(SDL_SCANCODE_UP) || inputHandler.isKeyDown(SDL_SCANCODE_W),
-	     down = inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S);
+	     down = inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S),
+		 z = inputHandler.isKeyDown(SDL_SCANCODE_X),
+		 x = inputHandler.isKeyDown(SDL_SCANCODE_Z),
+		 c = inputHandler.isKeyDown(SDL_SCANCODE_C);
 
-	if (left || right || up || down)
+	if (left || right || up || down || z || x || c)
 	{
 		sprite.moving = true;
 		if (!ServiceManager::Instance()->getService<SoundManager>().isSoundPlaying(1))
@@ -85,6 +89,14 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		else if (down)
 		{
 			transform.velocity.setY(1 * speedModifier);
+		}
+
+		if (z) {
+			ServiceManager::Instance()->getService<FrameHandler>().setTarget(ServiceManager::Instance()->getService<FrameHandler>().getTarget() - 10);
+		} else if (x) {
+			ServiceManager::Instance()->getService<FrameHandler>().setTarget(ServiceManager::Instance()->getService<FrameHandler>().getTarget() + 10);
+		} else if (c) {
+			ServiceManager::Instance()->getService<FrameHandler>().setTarget(60);
 		}
 	}
 	else

@@ -27,6 +27,9 @@ void FrameHandler::updateTicks()
 
 void FrameHandler::setTarget(int targetFrames)
 {
+	if (targetFrames < 10) {
+		targetFrames = 10;
+	}
 	target = targetFrames;
 	delayTime = 1000 / target;
 }
@@ -34,4 +37,24 @@ void FrameHandler::setTarget(int targetFrames)
 Uint32 FrameHandler::getCurrentFps() const
 {
 	return currentFPS;
+}
+
+void FrameHandler::init()
+{
+
+}
+
+void FrameHandler::clean()
+{
+
+}
+
+int FrameHandler::getDeltaClock() const
+{
+	return deltaclock;
+}
+
+int FrameHandler::getTarget() const
+{
+	return target;
 }
