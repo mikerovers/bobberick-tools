@@ -6,7 +6,7 @@
 class FireWizardFactory : public BaseEnemyFactory
 {
 public:
-    Entity* getEnemy(const int level);
+    Entity& getEnemy(const int level);
 };
 
 

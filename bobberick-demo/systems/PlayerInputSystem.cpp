@@ -114,22 +114,22 @@ void PlayerInputSystem::handleMouseInput(Entity* entity) {
 			float dx = angleX / vectorLength;
 			float dy = angleY / vectorLength;
 
-			Entity* projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-			projectile->addComponent<BulletMovementComponent>();
-			auto& projectileTransform = projectile->addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
+			Entity& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+			projectile.addComponent<BulletMovementComponent>();
+			auto& projectileTransform = projectile.addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
 			projectileTransform.velocity.setX(dx);
 			projectileTransform.velocity.setY(dy);
 
 			if (inputHandler.getMouseButtonState(LEFT)) {
 				sprite.changeTexture("character_shooting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
-				projectile->addComponent<SpriteComponent>("assets/image/projectiles/bullet_ball_grey.png", "arrow");
+				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bullet_ball_grey.png", "arrow");
 				playerShoot.setShootTimer(500);
 			}
 			else {
 				sprite.changeTexture("character_casting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
-				projectile->addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
+				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
 				playerShoot.setShootTimer(1000);
 			}
 		}

@@ -16,9 +16,9 @@ public:
 
 private:
 	std::string addSpaces(std::string string, const int goalChars, const bool leading);
-	void executeShoot(Entity* entity, int &channelCounter);
-	void applyHealthBar(Entity* entity);
-	void applyMovement(Entity* entity);
+	void executeShoot(Entity& entity, int &channelCounter);
+	void applyHealthBar(Entity& entity);
+	void applyMovement(Entity& entity);
 };
 
 
