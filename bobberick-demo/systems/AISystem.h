@@ -21,6 +21,7 @@ private:
 	void initHealthBar(Entity* entity);
 	void applyHealthBar(Entity& entity);
 	void applyMovement(Entity& entity);
+	void kill(Entity& entity);
 };
 
 
