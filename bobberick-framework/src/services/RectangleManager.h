@@ -3,8 +3,8 @@
 
 #include <string>
 #include <SDL.h>
-#include "services/Service.h"
-#include "util/SDL_Deleter.h"
+#include "Service.h"
+#include "../util/SDL_Deleter.h"
 #include <map>
 
 class RectangleManager : public Service

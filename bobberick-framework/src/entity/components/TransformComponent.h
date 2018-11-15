@@ -17,7 +17,6 @@ public:
 
     int height = 256;
     int width = 256;
-    int scale = 1;
 
     double speed = 3;
 
@@ -25,6 +24,12 @@ public:
 
     void update() override;
     void init() override;
+
+    int getScale() const;
+    void setScale(const int nScale);
+
+protected:
+	int scale;
 };
 
 

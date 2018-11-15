@@ -9,31 +9,43 @@
 #include "../systems/BulletSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
+#include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
 
-GameState* StateFactory::createState(const std::string type) {
-	if (type == "SplashScreenState") {
+GameState* StateFactory::createState(const std::string& type)
+{
+	if (type == "SplashScreenState")
+	{
 		return createSplashScreenState();
 	} else if (type == "MainMenuState") {
 		return createMainMenuState();
-	} else if (type == "PlayState") {
+	}
+	else if (type == "PlayState")
+	{
 		return createPlayState();
-	} else if (type == "TestState") {
+	}
+	else if (type == "TestState") {
 		return new TestState();
+	}
+	if (type == "CreditScreenState")
+	{
+		return createCreditScreenState();
 	}
 
 	return nullptr;
 }
 
-SplashScreenState* StateFactory::createSplashScreenState() {
+SplashScreenState* StateFactory::createSplashScreenState()
+{
 	SplashScreenState* splashScreen = new SplashScreenState();
-	splashScreen->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	splashScreen->addSystem(
+		std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return splashScreen;
 }
 
-PlayState *StateFactory::createPlayState()
+PlayState* StateFactory::createPlayState()
 {
 	PlayState* playState = new PlayState();
 	playState->addSystem(std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
@@ -51,12 +63,25 @@ PlayState *StateFactory::createPlayState()
 
 MainMenuState* StateFactory::createMainMenuState()
 {
-	MainMenuState* mainMenuState = new MainMenuState();
-	mainMenuState->addSystem(std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	mainMenuState->addSystem(std::shared_ptr<GuiSystem>(new GuiSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	mainMenuState->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	mainMenuState->addSystem(std::shared_ptr<CollisionSystem>(new CollisionSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	mainMenuState->addSystem(std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
+    MainMenuState * mainMenuState = new MainMenuState();
+    mainMenuState->addSystem(
+            std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
+    mainMenuState->addSystem(
+            std::shared_ptr<GuiSystem>(new GuiSystem(ServiceManager::Instance()->getService<EntityManager>())));
+    mainMenuState->addSystem(
+            std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
+    mainMenuState->addSystem(std::shared_ptr<CollisionSystem>(
+            new CollisionSystem(ServiceManager::Instance()->getService<EntityManager>())));
+    mainMenuState->addSystem(
+            std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
 
-	return mainMenuState;
+    return mainMenuState;
+}
+
+CreditScreenState* StateFactory::createCreditScreenState() const
+{
+	auto creditScreen = new CreditScreenState();
+	creditScreen->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return creditScreen;
 }

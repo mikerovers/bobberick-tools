@@ -21,15 +21,15 @@ public:
 
         for (auto& entity : entities) {
             if (entity->isActive() && entity->hasComponent<T>()) {
-                temp.push_back(entity.get());
+                temp.emplace_back(entity.get());
             }
         }
 
         return temp;
     }
 
-    Entity* addEntity();
-    void addEntityToGroup(Entity* entity, const Group group);
+    Entity& addEntity();
+    void addEntityToGroup(Entity& entity, const Group group);
     std::vector<Entity*> &getEntitiesFromGroup(const Group group);
     void activateEntitiesFromGroup(const Group group, const bool active);
 private:

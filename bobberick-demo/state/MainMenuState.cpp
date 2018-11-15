@@ -53,100 +53,100 @@ bool MainMenuState::shouldExit()
 
 void MainMenuState::createAnimatedBackground()
 {
-	auto* fireWizard = entityManager.addEntity();
-	auto& fireWizardTransformComponent = fireWizard->addComponent<TransformComponent>(-1, 20, 59, 54, 2);
-	fireWizard->addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
-	fireWizard->addComponent<CollisionComponent>("fireWizard");
-	fireWizard->addComponent<AIComponent>();
+	auto& fireWizard = entityManager.addEntity();
+	auto& fireWizardTransformComponent = fireWizard.addComponent<TransformComponent>(-1, 20, 59, 54, 2);
+	fireWizard.addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
+	fireWizard.addComponent<CollisionComponent>("fireWizard");
+	fireWizard.addComponent<AIComponent>();
 	fireWizardTransformComponent.speed = 1.5;
 	entityManager.addEntityToGroup(fireWizard, getStateID());
-	entities[0] = fireWizard;
+	entities.push_back(&fireWizard);
 
-	auto* zombie = entityManager.addEntity();
-	auto& zombieTransformComponent = zombie->addComponent<TransformComponent>(560, 140, 51, 51, 2);
-	zombie->addComponent<SpriteComponent>("assets/image/enemies/zombie.png", "zombie", 6, 4, 10);
-	zombie->addComponent<CollisionComponent>("fireWizard");
-	zombie->addComponent<AIComponent>();
+	auto& zombie = entityManager.addEntity();
+	auto& zombieTransformComponent = zombie.addComponent<TransformComponent>(560, 140, 51, 51, 2);
+	zombie.addComponent<SpriteComponent>("assets/image/enemies/zombie.png", "zombie", 6, 4, 10);
+	zombie.addComponent<CollisionComponent>("fireWizard");
+	zombie.addComponent<AIComponent>();
 	zombieTransformComponent.speed = -1.5;
 	entityManager.addEntityToGroup(zombie, getStateID());
-	entities[1] = zombie;
+	entities.push_back(&zombie);
 
-	auto* orc = entityManager.addEntity();
-	auto& OrcTransformComponent = orc->addComponent<TransformComponent>(-1, 260, 49, 64, 2);
-	orc->addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
-	orc->addComponent<CollisionComponent>("fireWizard");
-	orc->addComponent<AIComponent>();
+	auto& orc = entityManager.addEntity();
+	auto& OrcTransformComponent = orc.addComponent<TransformComponent>(-1, 260, 49, 64, 2);
+	orc.addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
+	orc.addComponent<CollisionComponent>("fireWizard");
+	orc.addComponent<AIComponent>();
 	OrcTransformComponent.speed = 1.5;
 	entityManager.addEntityToGroup(orc, getStateID());
-	entities[2] = orc;
+	entities.push_back(&orc);
 
-	auto* player = entityManager.addEntity();
-	auto& playerTransformComponent = player->addComponent<TransformComponent>(560, 380, 64, 32, 2);
-	player->addComponent<SpriteComponent>("assets/image/character.png", "character", 6, 4, 5);
-	player->addComponent<CollisionComponent>("fireWizard");
-	player->addComponent<AIComponent>();
+	auto& player = entityManager.addEntity();
+	auto& playerTransformComponent = player.addComponent<TransformComponent>(560, 380, 64, 32, 2);
+	player.addComponent<SpriteComponent>("assets/image/character.png", "character", 6, 4, 5);
+	player.addComponent<CollisionComponent>("fireWizard");
+	player.addComponent<AIComponent>();
 	playerTransformComponent.speed = -1.5;
 	entityManager.addEntityToGroup(player, getStateID());
-	entities[3] = player;
+	entities.push_back(&player);
 }
 
 void MainMenuState::makeStartGameButton()
 {
-	auto* playGameButton = entityManager.addEntity();
+	auto& playGameButton = entityManager.addEntity();
 	auto* playGameButtonComponent = new ButtonComponent([this]() {
 		std::cout << "Play button clicked" << std::endl;
 		_playGamePressed = true;
 	});
 
-	playGameButton->addExistingComponent<ButtonComponent>(playGameButtonComponent);
+	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
 	auto* playGameButtonTransformComponent = new TransformComponent();
 	playGameButtonTransformComponent->position.setX(260);
 	playGameButtonTransformComponent->position.setY(60);
 	playGameButtonTransformComponent->height = 64;
 	playGameButtonTransformComponent->width = 128;
-	playGameButton->addExistingComponent<TransformComponent>(playGameButtonTransformComponent);
-	playGameButton->addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1, 3, 0);
-	playGameButton->getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	playGameButton.addExistingComponent<TransformComponent>(playGameButtonTransformComponent);
+	playGameButton.addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1, 3, 0);
+	playGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(playGameButton, getStateID());
 }
 
 void MainMenuState::makeOptionsButton()
 {
-	auto* optionsButton = entityManager.addEntity();
+	auto& optionsButton = entityManager.addEntity();
 	auto* optionsButtonComponent = new ButtonComponent([this]() {
 		std::cout << "Options button clicked" << std::endl;
 		_playGamePressed = true;
 	});
 
-	optionsButton->addExistingComponent<ButtonComponent>(optionsButtonComponent);
+	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
 	auto* optionsButtonTransformComponent = new TransformComponent();
 	optionsButtonTransformComponent->position.setX(260);
 	optionsButtonTransformComponent->position.setY(140);
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
-	optionsButton->addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
-	optionsButton->addComponent<ButtonSpriteComponent>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
-	optionsButton->getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
+	optionsButton.addComponent<ButtonSpriteComponent>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
+	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
 
 void MainMenuState::makeExitButton()
 {
-	auto* exitButton = entityManager.addEntity();
+	auto& exitButton = entityManager.addEntity();
 	auto* exitButtonComponent = new ButtonComponent([this]() {
 		std::cout << "Exit button clicked" << std::endl;
 		_playGamePressed = true;
 	});
 
-	exitButton->addExistingComponent<ButtonComponent>(exitButtonComponent);
+	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	auto* exitButtonTransformComponent = new TransformComponent();
 	exitButtonTransformComponent->position.setX(260);
 	exitButtonTransformComponent->position.setY(220);
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
-	exitButton->addExistingComponent<TransformComponent>(exitButtonTransformComponent);
-	exitButton->addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
-	exitButton->getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
+	exitButton.addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
+	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(exitButton, getStateID());
 }
 

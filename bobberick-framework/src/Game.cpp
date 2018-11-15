@@ -1,13 +1,13 @@
 #include "Game.h"
-#include "TextureManager.h"
-#include "FontManager.h"
-#include "RectangleManager.h"
+#include "services/TextureManager.h"
+#include "services/FontManager.h"
+#include "services/RectangleManager.h"
 #include "entity/EntityManager.h"
 #include "services/InputHandler.h"
 #include "services/RenderService.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
-#include "SoundManager.h"
+#include "services/SoundManager.h"
 #include "EmptyState.h"
 
 Game::Game(): frameHandler(new FrameHandler(60))
@@ -51,6 +51,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
 		TTF_Init();
+		serviceManager->getService<FontManager>().init(); // Load in our fonts.
 		IMG_Init(IMG_INIT_PNG);
         window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 

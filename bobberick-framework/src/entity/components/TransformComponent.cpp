@@ -1,6 +1,9 @@
 #include "TransformComponent.h"
 
-TransformComponent::TransformComponent() = default;
+TransformComponent::TransformComponent(): scale(1)
+{
+
+}
 
 TransformComponent::TransformComponent(int sc)
 {
@@ -25,4 +28,14 @@ void TransformComponent::update()
 void TransformComponent::init()
 {
     velocity.Zero();
+}
+
+int TransformComponent::getScale() const
+{
+	return scale;
+}
+
+void TransformComponent::setScale(const int nScale)
+{
+	scale = nScale;
 }

@@ -15,7 +15,7 @@ public:
 private:
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	bool _playGamePressed = false;
-	Entity* entities[4] = {};
+	std::vector<Entity*> entities;
 
 	void createAnimatedBackground();
 
