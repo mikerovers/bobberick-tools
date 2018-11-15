@@ -39,10 +39,11 @@ void DrawSystem::update()
 	// Draw in-game sprites under the GUI.
     for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
 		if (!entity->getComponent<SpriteComponent>().guiLayer) {
-			auto & spr = entity->getComponent<SpriteComponent>();
+			auto &spr = entity->getComponent<SpriteComponent>();
+			auto &transform = entity->getComponent<TransformComponent>();
 
 			spr.update();
-			spr.render();
+			ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
 		} 
     }
 

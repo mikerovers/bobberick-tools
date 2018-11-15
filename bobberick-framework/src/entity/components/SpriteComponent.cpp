@@ -44,7 +44,6 @@ void SpriteComponent::update()
 
 	destinationRect.x = transform->position.getX();
 	destinationRect.y = transform->position.getY();
-
 }
 
 void SpriteComponent::render()
@@ -102,5 +101,26 @@ void SpriteComponent::setStaticAnimation(const bool stan)
 SpriteComponent::SpriteComponent(): staticAnimation(false)
 {
 
+}
+
+void SpriteComponent::processScale(const int scale)
+{
+	destinationRect.w = destinationRect.w * scale;
+	destinationRect.h = destinationRect.h * scale;
+}
+
+SDL_Rect &SpriteComponent::getSourceRect()
+{
+	return sourceRect;
+}
+
+SDL_Rect &SpriteComponent::getDestinationRect()
+{
+	return destinationRect;
+}
+
+std::string &SpriteComponent::getTexture()
+{
+	return currentTexture;
 }
 

@@ -86,7 +86,7 @@ Entity &PlayState::makeTileMap() const
 Entity &PlayState::makePlayer() const
 {
     auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    player.addComponent<TransformComponent>(200, 200, 64, 32, 2);
+    player.addComponent<TransformComponent>(200, 200, 64, 32, 1);
     auto& spriteComponent = player.addComponent<SpriteComponent>("assets/image/character/character.png", "character", 6, 4, 5);
     spriteComponent.addTexture("assets/image/character/character_casting.png", "character_casting");
     spriteComponent.addTexture("assets/image/character/character_shooting.png", "character_shooting");
