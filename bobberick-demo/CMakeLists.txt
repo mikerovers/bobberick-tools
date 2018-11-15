@@ -26,7 +26,8 @@ systems/AISystem.cpp systems/AISystem.h
 state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
-factory/ObjectFactory.cpp factory/ObjectFactory.h 
+state/CreditScreenState.cpp state/CreditScreenState.h
+factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
 factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
