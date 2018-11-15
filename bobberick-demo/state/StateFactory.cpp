@@ -9,28 +9,39 @@
 #include "../systems/BulletSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
+#include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 
-GameState* StateFactory::createState(const std::string type) {
-	if (type == "SplashScreenState") {
+GameState* StateFactory::createState(const std::string& type)
+{
+	if (type == "SplashScreenState")
+	{
 		return createSplashScreenState();
-	} else if (type == "PlayState") {
+	}
+	if (type == "PlayState")
+	{
 		return createPlayState();
 	} else if (type == "TestState") {
 		return new TestState();
+	}
+	if (type == "CreditScreenState")
+	{
+		return createCreditScreenState();
 	}
 
 	return nullptr;
 }
 
-SplashScreenState* StateFactory::createSplashScreenState() {
+SplashScreenState* StateFactory::createSplashScreenState()
+{
 	SplashScreenState* splashScreen = new SplashScreenState();
-	splashScreen->addSystem(std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	splashScreen->addSystem(
+		std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return splashScreen;
 }
 
-PlayState *StateFactory::createPlayState()
+PlayState* StateFactory::createPlayState()
 {
 	PlayState* playState = new PlayState();
 	playState->addSystem(std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
@@ -44,4 +55,12 @@ PlayState *StateFactory::createPlayState()
 	playState->addSystem(std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return playState;
+}
+
+CreditScreenState* StateFactory::createCreditScreenState() const
+{
+	auto creditScreen = new CreditScreenState();
+	creditScreen->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return creditScreen;
 }
