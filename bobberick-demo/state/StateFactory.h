@@ -5,7 +5,7 @@
 #include "../../bobberick-framework/src/GameState.h"
 #include "SplashScreenState.h"
 #include "PlayState.h"
-#include "../src/states/CreditScreenState.h"
+#include "../state/CreditScreenState.h"
 
 class StateFactory {
 

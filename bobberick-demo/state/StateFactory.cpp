@@ -8,7 +8,7 @@
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
 #include "../systems/ShieldSystem.h"
-#include "../src/states/CreditScreenState.h"
+#include "../state/CreditScreenState.h"
 
 
 GameState* StateFactory::createState(const std::string& type)

@@ -1,9 +1,9 @@
 #include "CreditScreenState.h"
-#include "../../../bobberick-framework/src/services/ServiceManager.h"
-#include "../../../bobberick-framework/src/entity/components/TransformComponent.h"
-#include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
-#include "../../../bobberick-framework/src/entity/components/FadeComponent.h"
-#include "../../../bobberick-framework/src/entity/components/TextComponent.h"
+#include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/entity/components/TransformComponent.h"
+#include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/FadeComponent.h"
+#include "../../bobberick-framework/src/entity/components/TextComponent.h"
 
 CreditScreenState::CreditScreenState() = default;
 
@@ -21,9 +21,13 @@ bool CreditScreenState::onEnter()
 	auto logo = entityManager.addEntity();
 	auto logoText = entityManager.addEntity();
 	logoText->addComponent<TransformComponent>(192, 328, 80, 256, 1);
-	logoText->addComponent<TextComponent>("assets/font.ttf", "TitleText", "Credits", 56);
+	logoText->addComponent<TextComponent>("assets/font/font.ttf", "TitleText", "Credits", 56);
 	logoText->addComponent<FadeComponent>("logoText", -50, 2, 300);
 	fadeEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<FadeComponent>();
+
+	//entityManager.addEntityToGroup(logo, getStateID());
+	//entityManager.addEntityToGroup(logoText, getStateID());
+
 	return true;
 }
 

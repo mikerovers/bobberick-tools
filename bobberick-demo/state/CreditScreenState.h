@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../bobberick-framework/src/GameState.h"
+#include "../../bobberick-framework/src/GameState.h"
 
 class CreditScreenState : public GameState
 {
