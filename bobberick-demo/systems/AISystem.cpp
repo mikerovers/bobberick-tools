@@ -212,12 +212,9 @@ void AISystem::applyHealthBar(Entity& entity) {
 	double enemyY = transform.position.getY();
 
 	if (entity.hasComponent<HealthBarComponent>()) {
-		int hp = stats.getHP();
+		int const hp = stats.getHP();
 		if (hp < 1) {
 			kill(entity);
-		}
-		else {
-			stats.getHit(1, 1);
 		}
 
 		auto& outBox = healthBar.outerBox.getComponent<TransformComponent>();
