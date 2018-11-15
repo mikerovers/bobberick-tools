@@ -11,35 +11,49 @@ void EntityManager::init()
 
 void EntityManager::refresh()
 {
-    entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::shared_ptr<Entity> &mEntity) {
-        return !mEntity->isActive();
-    }),
-        std::end(entities)
-    );
-}
+    for(auto& group : groupedEntities) {
+        auto& g(group.second);
 
-std::shared_ptr<Entity> EntityManager::addEntity()
-{
-    std::shared_ptr<Entity> uPtr{ new Entity };
-    entities.emplace_back(uPtr);
-
-    return uPtr;
-}
-
-bool EntityManager::removeEntity(std::shared_ptr<Entity> entity)
-{
-    auto it = std::find(entities.begin(), entities.end(), entity);
-    if (it != entities.end()) {
-        entities.erase(it);
-    } else {
-        SDL_Log("An entity that would be deleted could not be found.");
-        return false;
+        g.erase(
+               std::remove_if(std::begin(g), std::end(g), [group](Entity* entity) {
+              return entity->isDeleted() || !entity->hasGroup(group.first);
+            }), std::end(g));
     }
 
-    return true;
+    entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::unique_ptr<Entity> &entity) {
+        return entity->isDeleted();
+    }), std::end(entities));
+}
+
+Entity& EntityManager::addEntity()
+{
+    std::unique_ptr<Entity> uPtr = std::make_unique<Entity>();
+    entities.emplace_back(std::move(uPtr));
+
+    return *entities.back().get();
 }
 
 void EntityManager::clean()
 {
 
+}
+
+void EntityManager::addEntityToGroup(Entity &entity, const Group group)
+{
+    auto& vectorOfEntities = groupedEntities[group];
+    vectorOfEntities.push_back(&entity);
+    entity.addGroup(group);
+}
+
+std::vector<Entity*> &EntityManager::getEntitiesFromGroup(const Group group)
+{
+    auto& a = groupedEntities[group];
+    return groupedEntities.find(group)->second;
+}
+
+void EntityManager::activateEntitiesFromGroup(const Group group, const bool active)
+{
+    for(auto* entity : getEntitiesFromGroup(group)) {
+        entity->setActive(active);
+    }
 }

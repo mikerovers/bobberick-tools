@@ -8,6 +8,7 @@ class TileObject
 {
 public:
     TileObject(Vector2D* position, const std::string name);
+    ~TileObject();
     Vector2D* position;
     const std::string name;
 };

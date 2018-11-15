@@ -8,7 +8,7 @@
 class ObjectFactory
 {
 public:
-    Entity* getObject(const TileObject* object);
+    Entity& getObject(const TileObject* object);
 };
 
 

@@ -1,7 +1,7 @@
 #include "RectangleComponent.h"
 #include "../Entity.h"
 #include "../../services/ServiceManager.h"
-#include "../../RectangleManager.h"
+#include "../../services/RectangleManager.h"
 #include "../../services/RenderService.h"
 
 void RectangleComponent::init()
@@ -24,7 +24,9 @@ void RectangleComponent::update()
 
 void RectangleComponent::render()
 {
-    ServiceManager::Instance()->getService<RectangleManager>().draw(&destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), red, green, blue, filled);
+	if (transform->visible) {
+		ServiceManager::Instance()->getService<RectangleManager>().draw(&destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), red, green, blue, filled);
+	}
 }
 
 RectangleComponent::RectangleComponent()

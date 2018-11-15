@@ -1,8 +1,18 @@
 #include "TextComponent.h"
 #include "../Entity.h"
 #include "../../services/ServiceManager.h"
-#include "../../FontManager.h"
+#include "../../services/FontManager.h"
 #include "../../services/RenderService.h"
+
+void TextComponent::setText(std::string newText) {
+	if (newText != text) { // Some text may 'update' every frame, but we won't unneccessarily create a new text surface.
+		if (ServiceManager::Instance()->getService<FontManager>().createText(font, texture, newText, ServiceManager::Instance()->getService<RenderService>().renderer)) {
+			text = newText;
+		} else {
+			std::cout << SDL_GetError();
+		}
+	}
+}
 
 void TextComponent::init()
 {
@@ -26,12 +36,14 @@ void TextComponent::update()
 
 void TextComponent::render()
 {
-    ServiceManager::Instance()->getService<FontManager>().draw(texture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer());
+    ServiceManager::Instance()->getService<TextureManager>().draw(texture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), false);
 }
 
-TextComponent::TextComponent(const char *path, const char *textureID, const std::string text, int size)
+TextComponent::TextComponent(const char *fontID, const char *textureID, const std::string text)
 {
-    if (ServiceManager::Instance()->getService<FontManager>().load(path, textureID, text, size, ServiceManager::Instance()->getService<RenderService>().renderer)) {
+	font = fontID;
+	TextComponent::text = text;
+    if (ServiceManager::Instance()->getService<FontManager>().createText(fontID, textureID, text, ServiceManager::Instance()->getService<RenderService>().renderer)) {
         texture = textureID;
     } else {
         std::cout << SDL_GetError();
