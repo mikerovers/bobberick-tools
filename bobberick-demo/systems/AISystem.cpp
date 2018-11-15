@@ -172,7 +172,7 @@ void AISystem::executeShoot(Entity& entity, int &channelCounter) {
 
 					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
 					projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
-					projectile->addComponent<CollisionComponent>("monster_projectile");
+					projectile.addComponent<CollisionComponent>("monster_projectile");
 
 					shoot.setShootTimer(980);
 				}
@@ -268,7 +268,7 @@ void AISystem::applyMovement(Entity& entity) {
 
 	if (move == 0)
 	{
-		auto v1 = rand() % 9;
+		const auto v1 = rand() % 9;
 
 		switch (v1)
 		{
