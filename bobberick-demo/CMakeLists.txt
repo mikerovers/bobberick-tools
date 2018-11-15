@@ -33,8 +33,9 @@ factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
 factory/enemies/ZombieFactory.cpp factory/enemies/ZombieFactory.h
 factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h
-factory/enemies/EndBossFactory.cpp factory/enemies/EndBossFactory.h
-state/TestState.cpp state/TestState.h)
+state/TestState.cpp state/TestState.h
+state/MainMenuState.cpp state/mainMenuState.h
+factory/enemies/EndBossFactory.cpp factory/enemies/EndBossFactory.h)
 
 add_executable(bobberick-demo ${SOURCE_FILES})
 
