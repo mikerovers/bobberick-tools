@@ -17,16 +17,14 @@ void CreditScreenState::update()
 
 bool CreditScreenState::onEnter()
 {
-	auto& entityManager = ServiceManager::Instance()->getService<EntityManager>();
-	auto logo = entityManager.addEntity();
-	auto logoText = entityManager.addEntity();
-	logoText->addComponent<TransformComponent>(192, 328, 80, 256, 1);
-	logoText->addComponent<TextComponent>("assets/font/font.ttf", "TitleText", "Credits", 56);
-	logoText->addComponent<FadeComponent>("logoText", -50, 2, 300);
+	auto &entityManager = ServiceManager::Instance()->getService<EntityManager>();
+	auto& logoText = entityManager.addEntity();
+	logoText.addComponent<TransformComponent>(192, 328, 80, 256, 1);
+	logoText.addComponent<TextComponent>("defaultLarge", "TitleText", "Credits");
+	logoText.addComponent<FadeComponent>("logoText", -50, 2, 300);
 	fadeEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<FadeComponent>();
 
-	//entityManager.addEntityToGroup(logo, getStateID());
-	//entityManager.addEntityToGroup(logoText, getStateID());
+	entityManager.addEntityToGroup(logoText, getStateID());
 
 	return true;
 }

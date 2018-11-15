@@ -26,13 +26,8 @@ systems/AISystem.cpp systems/AISystem.h
 state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
-<<<<<<< HEAD
 state/CreditScreenState.cpp state/CreditScreenState.h
-=======
-
-src/states/CreditScreenState.cpp src/states/CreditScreenState.h
->>>>>>> c5b637b1c11a5d84f55282ba76c029b2d98531eb
-factory/ObjectFactory.cpp factory/ObjectFactory.h)
+factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
 factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h

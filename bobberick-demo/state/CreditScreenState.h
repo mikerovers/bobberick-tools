@@ -12,5 +12,5 @@ public:
 
 	std::string getStateID() const override;
 
-	std::vector<std::shared_ptr<Entity>> fadeEntities;
+	std::vector<Entity*> fadeEntities;
 };

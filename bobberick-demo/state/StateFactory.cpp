@@ -9,13 +9,8 @@
 #include "../systems/BulletSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
-<<<<<<< HEAD
 #include "../state/CreditScreenState.h"
-=======
-#include "../src/states/CreditScreenState.h"
 #include "../systems/AISystem.h"
->>>>>>> c5b637b1c11a5d84f55282ba76c029b2d98531eb
-
 
 GameState* StateFactory::createState(const std::string& type)
 {
