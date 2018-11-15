@@ -182,6 +182,7 @@ void AISystem::initHealthBar(Entity* entity) {
 	auto& transform = entity->getComponent<TransformComponent>();
 	if (entity->hasComponent<HealthBarComponent>()) {
 		int width = transform.width / 2;
+		//int width = 50;
 		healthBar.outerBox.addComponent<TransformComponent>(-1, -1, 12, width + 2, 1);
 		healthBar.outerBox.addComponent<RectangleComponent>(0, 0, 0, false);
 
@@ -193,6 +194,15 @@ void AISystem::initHealthBar(Entity* entity) {
 	}
 }
 
+void AISystem::kill(Entity& entity) {
+	// animate destruction
+	auto& healthBar = entity.getComponent<HealthBarComponent>();
+	healthBar.healthBox.destroy();
+	healthBar.outerBox.destroy();
+	healthBar.innerBox.destroy();
+	entity.destroy();
+}
+
 void AISystem::applyHealthBar(Entity& entity) {
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& stats = entity.getComponent<StatsComponent>();
@@ -202,6 +212,11 @@ void AISystem::applyHealthBar(Entity& entity) {
 	double enemyY = transform.position.getY();
 
 	if (entity.hasComponent<HealthBarComponent>()) {
+		int const hp = stats.getHP();
+		if (hp < 1) {
+			kill(entity);
+		}
+
 		auto& outBox = healthBar.outerBox.getComponent<TransformComponent>();
 		auto& inBox = healthBar.innerBox.getComponent<TransformComponent>();
 		auto& healBox = healthBar.healthBox.getComponent<TransformComponent>();
@@ -221,7 +236,7 @@ void AISystem::applyHealthBar(Entity& entity) {
 			healBox.position.setY(enemyY - 9);
 			healBox.position.setX(enemyX + 16);
 
-			double healthWidth = ((double)stats.getHP() / (double)stats.getHPmax()) * 30;
+			double healthWidth = ((double)stats.getHP() / (double)stats.getHPmax()) * transform.width / 2;
 			healthBar.healthBox.getComponent<TransformComponent>().width = healthWidth;
 
 		}
