@@ -113,12 +113,12 @@ void PlayState::makeEnemies() const
 {
     EnemyFactory enemyFactory = EnemyFactory{};
     for (auto x = 0; x < 3; x++) {
-        for (auto y = 0; y < 10; y++) {
+        for (auto y = 0; y < 8; y++) {
             const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 
             auto& enemyTransform = enemy.getComponent<TransformComponent>();
-            enemyTransform.position.setX(450 + 50 * x);
-            enemyTransform.position.setY(50 * y);
+            enemyTransform.position.setX(350 + 50 * x);
+            enemyTransform.position.setY(60 + 50 * y);
         }
     }
 	auto& enemy = enemyFactory.getBoss(10);
