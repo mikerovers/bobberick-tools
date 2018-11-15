@@ -54,18 +54,9 @@ void AISystem::update()
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this
 		//std::cout << transform.position.getX() << "\n";
-		if (transform.position.getX() > 640 - (transform.width / 2) || transform.position.getY() > 480 - (transform.width / 2) || transform.position.getX() < 0 - (transform.height) ||
-			transform.position.getY() < 0 - (transform.height / 2))
-		{
-			kill(*entity);
-			//delete &entity;
-			//entity.reset();
-			//entity = nullptr;
-		}
-		else
-		{
+
 			transform.update();
-		}
+
 	}
 }
 
@@ -338,6 +329,25 @@ void AISystem::applyMovement(Entity& entity) {
 			}
 			break;
 		}
+
+	}
+
+	double x = transform.position.getX();
+	double y = transform.position.getY();
+	if (x < 0) {
+		transform.velocity.setX(speed);
+		sprite.flip = true;
+
+	}
+	if (x > 600) {
+		transform.velocity.setX(-speed);
+		sprite.flip = false;
+	}
+	if (y < 62) {
+		transform.velocity.setY(speed);
+	}
+	if (y > 420) {
+		transform.velocity.setY(-speed);
 	}
 
 	sprite.moving = !(transform.velocity.getX() == 0 && transform.velocity.getY() == 0);
