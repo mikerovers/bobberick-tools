@@ -11,7 +11,7 @@
 class CollisionComponent : public Component
 {
 public:
-    SDL_Rect* collider;
+    SDL_Rect collider;
     std::string tag;
 
     std::string texture;

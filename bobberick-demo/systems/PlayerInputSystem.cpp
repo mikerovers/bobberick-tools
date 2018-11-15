@@ -86,10 +86,10 @@ void PlayerInputSystem::handleKeyInput(Entity* entity) {
 	sprite.flip = inputHandler.getMousePosition()->getX() < transform.position.getX() ? true : false;
 
 	auto& collisionComponent = entity->getComponent<CollisionComponent>();
-	collisionComponent.collider->x = transform.position.getX();
-	collisionComponent.collider->y = transform.position.getY();
-	collisionComponent.collider->w = transform.width;
-	collisionComponent.collider->h = transform.height;
+	collisionComponent.collider.x = transform.position.getX();
+	collisionComponent.collider.y = transform.position.getY();
+	collisionComponent.collider.w = transform.width;
+	collisionComponent.collider.h = transform.height;
 }
 
 void PlayerInputSystem::handleMouseInput(Entity* entity) {

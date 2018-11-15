@@ -58,12 +58,10 @@ void CollisionSystem::update()
 		auto& cC = entity->getComponent<CollisionComponent>();
 		SDL_Rect* r;
 
-		r->x = tC.position.getX();
-		r->y = tC.position.getY();
-		r->w = tC.width;
-		r->h = tC.height;
-
-		cC.collider = r;
+		cC.collider.x = tC.position.getX();
+		cC.collider.y = tC.position.getY();
+		cC.collider.w = tC.width;
+		cC.collider.h = tC.height;
 	}
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
@@ -73,7 +71,7 @@ void CollisionSystem::update()
 		if (colliderA.tag == "monster_projectile")
 		{
 					std::cout << "TAG: " << colliderA.tag << std::endl;
-					std::cout << "X: " << colliderA.collider->x << " Y: " << colliderA.collider->y << " sizeH: " << colliderA.collider->h << " sizeW:" << colliderA.collider->w << std::endl;
+					std::cout << "X: " << colliderA.collider.x << " Y: " << colliderA.collider.y << " sizeH: " << colliderA.collider.h << " sizeW:" << colliderA.collider.w << std::endl;
 		}
 
 		for (auto& otherEntity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())

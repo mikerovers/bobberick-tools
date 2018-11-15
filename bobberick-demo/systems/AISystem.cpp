@@ -278,10 +278,10 @@ void AISystem::applyMovement(Entity* entity)
 	if (entity->hasComponent<CollisionComponent>())
 	{
 		auto& collisionComponent = entity->getComponent<CollisionComponent>();
-		collisionComponent.collider->x = transform.position.getX();
-		collisionComponent.collider->y = transform.position.getY();
-		collisionComponent.collider->w = transform.width;
-		collisionComponent.collider->h = transform.height;
+		collisionComponent.collider.x = transform.position.getX();
+		collisionComponent.collider.y = transform.position.getY();
+		collisionComponent.collider.w = transform.width;
+		collisionComponent.collider.h = transform.height;
 	}
 }
 

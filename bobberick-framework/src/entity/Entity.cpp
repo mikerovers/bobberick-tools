@@ -4,11 +4,6 @@ Entity::Entity() : active(true), deleted(false)
 {
 }
 
-Entity::~Entity()
-{
-    // TODO Implement destructor
-}
-
 bool Entity::isActive() const
 {
     return active;
