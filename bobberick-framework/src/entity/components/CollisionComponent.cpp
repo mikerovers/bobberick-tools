@@ -28,7 +28,7 @@ void CollisionComponent::init()
 {
 	if (tag == "monster_projectile")
 	{
-		std::cout << "init aangeroepen" << std::endl;
+		//std::cout << "init aangeroepen" << std::endl;
 	}
 
 	if (!entity->hasComponent<TransformComponent>())

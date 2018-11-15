@@ -8,6 +8,7 @@
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
+#include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-demo/components/AIComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
@@ -54,18 +55,9 @@ void AISystem::update()
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this
 		//std::cout << transform.position.getX() << "\n";
-		if (transform.position.getX() > 640 - (transform.width / 2) || transform.position.getY() > 480 - (transform.width / 2) || transform.position.getX() < 0 - (transform.height) ||
-			transform.position.getY() < 0 - (transform.height / 2))
-		{
-			kill(*entity);
-			//delete &entity;
-			//entity.reset();
-			//entity = nullptr;
-		}
-		else
-		{
+
 			transform.update();
-		}
+
 	}
 }
 
@@ -76,7 +68,7 @@ void AISystem::executeSpell(Entity& entity) {
 			if (entity.hasComponent<SpawnMinionsSpellComponent>()) {
 				auto& spellComponent = entity.getComponent<SpawnMinionsSpellComponent>();
 				if (spellComponent.phase > 2) {
-					return;
+					// return;
 				}
 				auto& transform = entity.getComponent<TransformComponent>();
 
@@ -92,7 +84,8 @@ void AISystem::executeSpell(Entity& entity) {
 				case 1: {
 					enemyType = "orc";
 				}break;
-				case 2: {
+				case 2:
+				default:{
 					enemyType = "fireWizard";
 				}break;
 				}
@@ -102,11 +95,12 @@ void AISystem::executeSpell(Entity& entity) {
 					spellComponent.minionCount = 0;
 					return;
 				}
+				int randomXPosition = rand() % 5;
 
 				for (int i = 0; i < 4; i++) {
 					auto& enemy = enemyFactory.getEnemy(1, enemyType);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
-					enemyTransform.position.setX(enemyX - 50);
+					enemyTransform.position.setX(enemyX - 50 * randomXPosition);
 					enemyTransform.position.setY(enemyY - 50 + (i * 50));
 					initHealthBar(enemy);
 					spellComponent.minionCount++;
@@ -338,6 +332,25 @@ void AISystem::applyMovement(Entity& entity) {
 			}
 			break;
 		}
+
+	}
+
+	double x = transform.position.getX();
+	double y = transform.position.getY();
+	if (x < 0) {
+		transform.velocity.setX(speed);
+		sprite.flip = false;
+
+	}
+	if (x > 600) {
+		transform.velocity.setX(-speed);
+		sprite.flip = true;
+	}
+	if (y < 62) {
+		transform.velocity.setY(speed);
+	}
+	if (y > 420) {
+		transform.velocity.setY(-speed);
 	}
 
 	sprite.moving = !(transform.velocity.getX() == 0 && transform.velocity.getY() == 0);
