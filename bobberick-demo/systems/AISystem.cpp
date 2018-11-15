@@ -8,10 +8,13 @@
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
+#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-demo/components/AIComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
+#include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
+#include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
 #include <thread>
 #include <chrono>
@@ -22,21 +25,10 @@ AISystem::AISystem(EntityManager &entityManager) : System(entityManager)
 
 void AISystem::init() {
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
-		auto& healthBar = entity->getComponent<HealthBarComponent>();
-		auto& transform = entity->getComponent<TransformComponent>();
-		if (entity->hasComponent<HealthBarComponent>()) {
-			int width = transform.width / 2;
-			healthBar.outerBox.addComponent<TransformComponent>(-1, -1, 12, width + 2, 1);
-			healthBar.outerBox.addComponent<RectangleComponent>(0, 0, 0, false);
-
-			healthBar.innerBox.addComponent<TransformComponent>(-1, -1, 10, width, 1);
-			healthBar.innerBox.addComponent<RectangleComponent>(128, 128, 128, true);
-
-			healthBar.healthBox.addComponent<TransformComponent>(-1, -1, 10, width, 1);
-			healthBar.healthBox.addComponent<RectangleComponent>(255, 0, 0, true);
-		}
+		initHealthBar(entity);
 	}
 }
+
 
 
 void AISystem::update()
@@ -53,6 +45,7 @@ void AISystem::update()
 		// make smoother
 
 		executeShoot(*entity, channelCounter);
+		executeSpell(*entity);
 		applyHealthBar(*entity);
 		applyMovement(*entity);
 
@@ -70,6 +63,56 @@ void AISystem::update()
 		else {
 			transform.update();
 
+		}
+	}
+}
+
+void AISystem::executeSpell(Entity& entity) {
+	if (entity.hasComponent<TimerComponent>()) {
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished()) {
+			if (entity.hasComponent<SpawnMinionsSpellComponent>()) {
+				auto& spellComponent = entity.getComponent<SpawnMinionsSpellComponent>();
+				if (spellComponent.phase > 2) {
+					return;
+				}
+				auto& transform = entity.getComponent<TransformComponent>();
+
+				double enemyX = transform.position.getX();
+				double enemyY = transform.position.getY();
+				EnemyFactory enemyFactory = EnemyFactory{};
+
+				std::string enemyType = "";
+				switch (spellComponent.phase) {
+				case 0: {
+					enemyType = "zombie";
+				}break;
+				case 1: {
+					enemyType = "orc";
+				}break;
+				case 2: {
+					enemyType = "fireWizard";
+				}break;
+				}
+
+				if (spellComponent.minionCount >= 8) {
+					spellComponent.phase++;
+					spellComponent.minionCount = 0;
+					return;
+				}
+
+				for (int i = 0; i < 4; i++) {
+					auto& enemy = enemyFactory.getEnemy(1, enemyType);
+					auto& enemyTransform = enemy.getComponent<TransformComponent>();
+					enemyTransform.position.setX(enemyX - 50);
+					enemyTransform.position.setY(enemyY - 50 + (i * 50));
+					initHealthBar(&enemy);
+					spellComponent.minionCount++;
+				}
+
+				timer.setTimer(5000);
+
+			}
 		}
 	}
 }
@@ -131,6 +174,22 @@ void AISystem::executeShoot(Entity& entity, int &channelCounter) {
 				}
 			}
 		}
+	}
+}
+
+void AISystem::initHealthBar(Entity* entity) {
+	auto& healthBar = entity->getComponent<HealthBarComponent>();
+	auto& transform = entity->getComponent<TransformComponent>();
+	if (entity->hasComponent<HealthBarComponent>()) {
+		int width = transform.width / 2;
+		healthBar.outerBox.addComponent<TransformComponent>(-1, -1, 12, width + 2, 1);
+		healthBar.outerBox.addComponent<RectangleComponent>(0, 0, 0, false);
+
+		healthBar.innerBox.addComponent<TransformComponent>(-1, -1, 10, width, 1);
+		healthBar.innerBox.addComponent<RectangleComponent>(128, 128, 128, true);
+
+		healthBar.healthBox.addComponent<TransformComponent>(-1, -1, 10, width, 1);
+		healthBar.healthBox.addComponent<RectangleComponent>(255, 0, 0, true);
 	}
 }
 

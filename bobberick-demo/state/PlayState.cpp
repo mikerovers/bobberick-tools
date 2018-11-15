@@ -121,6 +121,10 @@ void PlayState::makeEnemies() const
             enemyTransform.position.setY(50 * y);
         }
     }
+	auto& enemy = enemyFactory.getBoss(10);
+	auto& enemyTransform = enemy.getComponent<TransformComponent>();
+	enemyTransform.position.setX(250 + 50);
+	enemyTransform.position.setY(250);
 }
 
 void PlayState::makeGui()

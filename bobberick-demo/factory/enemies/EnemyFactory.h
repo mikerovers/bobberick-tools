@@ -9,6 +9,7 @@ public:
 	Entity& getRandomEnemy(const int level);
 	Entity& getRandomEnemy(const int minLevel, const int maxLevel);
 	Entity& getEnemy(const int level, const std::string type);
+	Entity& getBoss(const int level);
 };
 
 
