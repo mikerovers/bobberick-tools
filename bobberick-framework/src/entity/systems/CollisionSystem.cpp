@@ -44,19 +44,22 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 
 	if (colliderA.tag == "monster_projectile")
 	{
-		std::cout << "Is shot: " << colliderB.tag << std::endl;
+		if (colliderB.entity->hasComponent<PlayerStatsComponent>())
+		{
+			auto stats = colliderB.entity->getComponent<PlayerStatsComponent>();
+			stats.getHit(50000, true);
+		}
 	}
 }
 
 void CollisionSystem::update()
 {
-	auto* helper = new CollisionHelper();
+	CollisionHelper helper;
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<BulletMovementComponent>())
 	{
-		auto& tC = entity->getComponent<TransformComponent>();
-		auto& cC = entity->getComponent<CollisionComponent>();
-		SDL_Rect* r;
+		auto tC = entity->getComponent<TransformComponent>();
+		auto cC = entity->getComponent<CollisionComponent>();
 
 		cC.collider.x = tC.position.getX();
 		cC.collider.y = tC.position.getY();
@@ -77,12 +80,10 @@ void CollisionSystem::update()
 		for (auto& otherEntity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
 		{
 			auto& colliderB = otherEntity->getComponent<CollisionComponent>();
-			if (colliderA.tag != colliderB.tag && helper->AABB(colliderA, colliderB))
+			if (colliderA.tag != colliderB.tag && helper.AABB(colliderA, colliderB))
 			{
 				handle_collision_aabb(colliderA, colliderB);
 			}
 		}
 	}
-
-	delete helper;
 }
