@@ -132,7 +132,8 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 
 			Entity& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 			projectile.addComponent<BulletMovementComponent>();
-			auto& projectileTransform = projectile.addComponent<TransformComponent>(playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
+			auto& projectileTransform = projectile.addComponent<TransformComponent>(
+				playerXCenter + (dx * 25), playerYCenter + (dy * 25), 10, 10, 1);
 			projectileTransform.velocity.setX(dx);
 			projectileTransform.velocity.setY(dy);
 
@@ -142,15 +143,16 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bullet_ball_grey.png", "arrow");
 				projectile.addComponent<CollisionComponent>("arrow");
-				playerShoot.setShootTimer(500);
+				playerShoot.setShootTimer(250);
 			}
-			else
+
+			if (inputHandler.getMouseButtonState(RIGHT))
 			{
 				sprite.changeTexture("character_casting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
 				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
 				projectile.addComponent<CollisionComponent>("bolt");
-				playerShoot.setShootTimer(1000);
+				playerShoot.setShootTimer(400);
 			}
 		}
 	}
