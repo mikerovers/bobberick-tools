@@ -2,6 +2,7 @@
 #include "OrcFactory.h"
 #include "ZombieFactory.h"
 #include "FireWizardFactory.h"
+#include "EndBossFactory.h"
 #include "../../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -73,5 +74,11 @@ Entity & EnemyFactory::getEnemy(const int level, const std::string type)
 
 	// TODO replace this with something else
 	FireWizardFactory factory = FireWizardFactory{};
+	return factory.getEnemy(level);
+}
+
+Entity & EnemyFactory::getBoss(const int level)
+{
+	EndBossFactory factory = EndBossFactory{};
 	return factory.getEnemy(level);
 }
