@@ -1,7 +1,7 @@
 #include <tmxlite/Map.hpp>
 #include <tmxlite/TileLayer.hpp>
 #include "LevelFactory.h"
-#include "TextureManager.h"
+#include "services/TextureManager.h"
 #include "services/ServiceManager.h"
 #include "util/Vector2D.h"
 #include "entity/components/TileObject.h"
@@ -85,8 +85,8 @@ void LevelFactory::handleObjectLayer(const tmx::ObjectGroup *objectGroup, Tilese
 {
     auto& objects = objectGroup->getObjects();
     for (auto& object : objects) {
-       auto* position = new Vector2D(object.getPosition().x, object.getPosition().y);
-       component->objects.push_back(new TileObject(position, object.getName()));
+		Vector2D* position = new Vector2D(object.getPosition().x, object.getPosition().y);
+		component->objects.push_back(new TileObject(position, object.getName()));
 	   return;
     }
 }

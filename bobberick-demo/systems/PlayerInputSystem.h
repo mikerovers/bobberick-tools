@@ -10,6 +10,9 @@ class PlayerInputSystem : public System
 public:
     explicit PlayerInputSystem(EntityManager& entityManager);
     void update() override;
+private: 
+	void handleKeyInput(Entity*entity);
+	void handleMouseInput(Entity* entity);
 };
 
 

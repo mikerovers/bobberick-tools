@@ -13,6 +13,14 @@ public:
     bool shouldExit() override;
 
     std::string getStateID() const override;
+
+private:
+	bool _exitPressed = false;
+	Entity &makeTileMap() const;
+	Entity &makePlayer() const;
+	void makeEnemies() const;
+	void makeGui();
+	void instantiateSystems() const;
 };
 
 
