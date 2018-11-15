@@ -8,6 +8,7 @@
 #include "../../components/StatsComponent.h"
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
+#include "../../components/EndBossComponent.h"
 #include "../../components/SpawnMinionsSpellComponent.h"
 
 Entity & EndBossFactory::getEnemy(const int level)
@@ -24,6 +25,7 @@ Entity & EndBossFactory::getEnemy(const int level)
 	endBoss.addComponent<SpawnMinionsSpellComponent>();
 	//endBoss.addComponent<ShootComponent>();
 	endBoss.addComponent<CollisionComponent>("endBoss");
+	endBoss.addComponent<EndBossComponent>();
 
 	transformComponent.speed = 1;
 
