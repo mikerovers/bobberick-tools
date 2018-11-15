@@ -36,7 +36,7 @@ set(
 	src/entity/Component.cpp src/entity/Component.h
 	src/entity/components/TransformComponent.cpp src/entity/components/TransformComponent.h
 	src/services/RenderService.cpp src/services/RenderService.h
-	src/entity/systems/System.cpp src/entity/systems/System.h
+	src/entity/systems/System.cpp	 src/entity/systems/System.h
 	src/entity/systems/DrawSystem.cpp src/entity/systems/DrawSystem.h
 	src/services/SoundManager.cpp src/services/SoundManager.h
 	src/util/SDL_Deleter.h
