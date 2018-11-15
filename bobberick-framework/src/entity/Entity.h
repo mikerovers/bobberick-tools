@@ -7,6 +7,7 @@ class Entity
 {
 public:
     Entity();
+    ~Entity();
     bool isActive() const;
     void setActive(const bool isActive);
     bool isDeleted() const;
