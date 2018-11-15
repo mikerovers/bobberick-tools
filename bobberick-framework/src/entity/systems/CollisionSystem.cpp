@@ -14,13 +14,11 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 	{
 		if (colliderB.entity->hasComponent<StatsComponent>())
 		{
-			std::cout << "Burning his buttocks: " << colliderB.tag << std::endl;
 			auto stats = colliderB.entity->getComponent<StatsComponent>();
 			stats.getHit(500, false);
 		}
 		else if (colliderB.entity->hasComponent<PlayerStatsComponent>())
 		{
-			std::cout << "Burning his buttocks: " << colliderB.tag << std::endl;
 			auto stats = colliderB.entity->getComponent<PlayerStatsComponent>();
 			stats.getHit(500, false);
 		}
@@ -30,13 +28,11 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 	{
 		if (colliderB.entity->hasComponent<StatsComponent>())
 		{
-			std::cout << "Healing: " << colliderB.tag << std::endl;
 			auto stats = colliderB.entity->getComponent<StatsComponent>();
 			stats.healPercent(100);
 		}
 		else if (colliderB.entity->hasComponent<PlayerStatsComponent>())
 		{
-			std::cout << "Healing: " << colliderB.tag << std::endl;
 			auto stats = colliderB.entity->getComponent<PlayerStatsComponent>();
 			stats.getHit(-100, true);
 		}
@@ -47,7 +43,30 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		if (colliderB.entity->hasComponent<PlayerStatsComponent>())
 		{
 			auto stats = colliderB.entity->getComponent<PlayerStatsComponent>();
-			stats.getHit(50000, true);
+			stats.getHit(50, true);
+			colliderA.entity->destroy();
+		}
+	}
+
+	if (colliderA.tag == "arrow")
+	{
+		if (colliderB.entity->hasComponent<StatsComponent>())
+		{
+			std::cout << "Is shot: " << colliderB.tag << std::endl;
+			auto stats = colliderB.entity->getComponent<StatsComponent>();
+			stats.getHit(40, true);
+			colliderA.entity->destroy();
+		}
+	}
+
+	if (colliderA.tag == "bolt")
+	{
+		if (colliderB.entity->hasComponent<StatsComponent>())
+		{
+			std::cout << "Is shot: " << colliderB.tag << std::endl;
+			auto stats = colliderB.entity->getComponent<StatsComponent>();
+			stats.getHit(80, true);
+			colliderA.entity->destroy();
 		}
 	}
 }
@@ -58,8 +77,8 @@ void CollisionSystem::update()
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<BulletMovementComponent>())
 	{
-		auto tC = entity->getComponent<TransformComponent>();
-		auto cC = entity->getComponent<CollisionComponent>();
+		auto& tC = entity->getComponent<TransformComponent>();
+		auto& cC = entity->getComponent<CollisionComponent>();
 
 		cC.collider.x = tC.position.getX();
 		cC.collider.y = tC.position.getY();
@@ -70,12 +89,6 @@ void CollisionSystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
 	{
 		auto& colliderA = entity->getComponent<CollisionComponent>();
-
-		if (colliderA.tag == "monster_projectile")
-		{
-					std::cout << "TAG: " << colliderA.tag << std::endl;
-					std::cout << "X: " << colliderA.collider.x << " Y: " << colliderA.collider.y << " sizeH: " << colliderA.collider.h << " sizeW:" << colliderA.collider.w << std::endl;
-		}
 
 		for (auto& otherEntity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
 		{
