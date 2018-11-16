@@ -10,63 +10,61 @@ CollisionSystem::CollisionSystem(EntityManager& entityManager) : System(entityMa
 
 void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, CollisionComponent& colliderB)
 {
-	if (colliderA.tag == "fire")
+	if (colliderB.tag == "fire")
 	{
-		if (colliderB.entity->hasComponent<StatsComponent>())
+		if (colliderA.entity->hasComponent<StatsComponent>())
 		{
-			auto& stats = colliderB.entity->getComponent<StatsComponent>();
+			auto& stats = colliderA.entity->getComponent<StatsComponent>();
 			stats.getHit(500, false);
 		}
-		else if (colliderB.entity->hasComponent<PlayerStatsComponent>())
+		else if (colliderA.entity->hasComponent<PlayerStatsComponent>())
 		{
-			auto& stats = colliderB.entity->getComponent<PlayerStatsComponent>();
+			auto& stats = colliderA.entity->getComponent<PlayerStatsComponent>();
 			stats.getHit(500, false);
 		}
 	}
 
-	if (colliderA.tag == "healthkit")
+	if (colliderB.tag == "healthkit")
 	{
-		if (colliderB.entity->hasComponent<StatsComponent>())
+		if (colliderA.entity->hasComponent<StatsComponent>())
 		{
-			auto& stats = colliderB.entity->getComponent<StatsComponent>();
+			auto& stats = colliderA.entity->getComponent<StatsComponent>();
 			stats.healPercent(100);
 		}
-		else if (colliderB.entity->hasComponent<PlayerStatsComponent>())
+		else if (colliderA.entity->hasComponent<PlayerStatsComponent>())
 		{
-			auto& stats = colliderB.entity->getComponent<PlayerStatsComponent>();
+			auto& stats = colliderA.entity->getComponent<PlayerStatsComponent>();
 			stats.getHit(-100, true);
 		}
 	}
 
-	if (colliderA.tag == "monster_projectile")
+	if (colliderB.tag == "monster_projectile")
 	{
 		if (colliderB.entity->hasComponent<PlayerStatsComponent>())
 		{
-			auto& stats = colliderB.entity->getComponent<PlayerStatsComponent>();
+			auto& stats = colliderA.entity->getComponent<PlayerStatsComponent>();
 			stats.getHit(50, true);
-			colliderA.entity->destroy();
+			colliderB.entity->destroy();
 		}
 	}
 
-	if (colliderA.tag == "arrow")
+	if (colliderB.tag == "arrow")
 	{
-		if (colliderB.entity->hasComponent<StatsComponent>())
+		if (colliderA.entity->hasComponent<StatsComponent>())
 		{
-			std::cout << "Is shot: " << colliderB.tag << std::endl;
-			auto& stats = colliderB.entity->getComponent<StatsComponent>();
+			auto& stats = colliderA.entity->getComponent<StatsComponent>();
 			stats.getHit(40, true);
-			colliderA.entity->destroy();
+			colliderB.entity->destroy();
 		}
 	}
 
-	if (colliderA.tag == "bolt")
+	if (colliderB.tag == "bolt")
 	{
-		if (colliderB.entity->hasComponent<StatsComponent>())
+		if (colliderA.entity->hasComponent<StatsComponent>())
 		{
-			std::cout << "Is shot: " << colliderB.tag << std::endl;
-			auto& stats = colliderB.entity->getComponent<StatsComponent>();
+			auto& stats = colliderA.entity->getComponent<StatsComponent>();
 			stats.getHit(80, true);
-			colliderA.entity->destroy();
+			colliderB.entity->destroy();
 		}
 	}
 }
@@ -85,12 +83,15 @@ void CollisionSystem::update()
 		cC.collider.w = tC.width;
 		cC.collider.h = tC.height;
 	}
+	auto collisionComponentEntities = entityManager.getAllEntitiesWithComponent<CollisionComponent>();
+	auto monsterAndPlayerEntities = entityManager.getAllEntitiesWithComponent<StatsComponent>();
 
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
+	for (auto& entity : monsterAndPlayerEntities)
 	{
 		auto& colliderA = entity->getComponent<CollisionComponent>();
 
-		for (auto& otherEntity : entityManager.getAllEntitiesWithComponent<CollisionComponent>())
+
+		for (auto& otherEntity : collisionComponentEntities)
 		{
 			auto& colliderB = otherEntity->getComponent<CollisionComponent>();
 			if (colliderA.tag != colliderB.tag && helper.AABB(colliderA, colliderB))

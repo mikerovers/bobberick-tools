@@ -112,7 +112,7 @@ void PlayState::instantiateSystems() const
 void PlayState::makeEnemies() const
 {
     EnemyFactory enemyFactory = EnemyFactory{};
-    for (auto x = 0; x < 3; x++) {
+    for (auto x = 0; x < 20; x++) {
         for (auto y = 0; y < 10; y++) {
             const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 
