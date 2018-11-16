@@ -7,7 +7,7 @@
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
 #include "util/SDL_Deleter.h"
-#include "util/FrameHandler.h"
+#include "services/FrameHandler.h"
 
 class Game
 {
@@ -35,8 +35,7 @@ protected:
     int gameWidth;
 
     bool isRunning;
-   	
-    std::shared_ptr<FrameHandler> frameHandler;
+
 	std::shared_ptr<StateMachine> stateMachine;
 
     //TODO Make a interface for system registring. Maybe in the statemachine?

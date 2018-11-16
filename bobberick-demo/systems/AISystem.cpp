@@ -201,7 +201,11 @@ void AISystem::kill(Entity& entity) {
 	if (entity.hasComponent<EndBossComponent>()) {
 		// win
 	}
+	for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>()) {
+		player->getComponent<PlayerStatsComponent>().xp += entity.getComponent<StatsComponent>().getHPmax();
+	}
 	// animate destruction
+
 	auto& healthBar = entity.getComponent<HealthBarComponent>();
 	healthBar.healthBox.destroy();
 	healthBar.outerBox.destroy();
