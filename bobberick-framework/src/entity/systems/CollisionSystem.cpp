@@ -40,7 +40,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 
 	if (colliderB.tag == "monster_projectile")
 	{
-		if (colliderB.entity->hasComponent<PlayerStatsComponent>())
+		if (colliderA.entity->hasComponent<PlayerStatsComponent>())
 		{
 			auto& stats = colliderA.entity->getComponent<PlayerStatsComponent>();
 			stats.getHit(50, true);
@@ -84,9 +84,8 @@ void CollisionSystem::update()
 		cC.collider.h = tC.height;
 	}
 	auto collisionComponentEntities = entityManager.getAllEntitiesWithComponent<CollisionComponent>();
-	auto monsterAndPlayerEntities = entityManager.getAllEntitiesWithComponent<StatsComponent>();
 
-	for (auto& entity : monsterAndPlayerEntities)
+	for (auto& entity : collisionComponentEntities)
 	{
 		auto& colliderA = entity->getComponent<CollisionComponent>();
 
