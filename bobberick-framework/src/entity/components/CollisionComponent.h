@@ -11,15 +11,17 @@
 class CollisionComponent : public Component
 {
 public:
-    SDL_Rect* collider;
+    SDL_Rect collider;
     std::string tag;
 
     std::string texture;
-    SDL_Rect sourceRect;
-    SDL_Rect destinationRect;
+    SDL_Rect sourceRect{};
+    SDL_Rect destinationRect{};
 
-    CollisionComponent(std::string tag);
+    explicit CollisionComponent(std::string tag);
     CollisionComponent(std::string tag, int xPos, int yPos, int size);
+    CollisionComponent(std::string tag, int xPos, int yPos, int height, int width);
+    ~CollisionComponent() override;
 
     void init() override;
 };

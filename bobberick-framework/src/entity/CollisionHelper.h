@@ -7,7 +7,7 @@
 class CollisionHelper
 {
 public:
-    bool AABB(const SDL_Rect* a, const SDL_Rect* b);
+    bool AABB(const SDL_Rect& a, const SDL_Rect& b);
     bool AABB(const CollisionComponent& a, const CollisionComponent& b);
 };
 

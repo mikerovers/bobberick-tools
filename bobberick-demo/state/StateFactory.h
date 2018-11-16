@@ -5,15 +5,19 @@
 #include "../../bobberick-framework/src/GameState.h"
 #include "SplashScreenState.h"
 #include "PlayState.h"
+#include "MainMenuState.h"
+#include "../state/CreditScreenState.h"
 
 class StateFactory {
 
 public:
-	GameState* createState(const std::string type);
+	GameState* createState(const std::string& type);
 
 private:
 	SplashScreenState* createSplashScreenState();
 	PlayState* createPlayState();
+	MainMenuState* createMainMenuState();
+	CreditScreenState* createCreditScreenState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H

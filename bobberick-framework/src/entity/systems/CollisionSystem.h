@@ -2,12 +2,14 @@
 #define BOBBERICK_TOOLS_COLLISIONSYSTEM_H
 
 #include "System.h"
+#include "../components/CollisionComponent.h"
 
 class CollisionSystem : public System
 {
 public:
     explicit CollisionSystem(EntityManager& entityManager);
-    void update() override;
+	void handle_collision_aabb(CollisionComponent& colliderA, CollisionComponent& colliderB);
+	void update() override;
 };
 
 

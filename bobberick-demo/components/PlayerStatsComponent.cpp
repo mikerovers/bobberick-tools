@@ -57,3 +57,8 @@ void PlayerStatsComponent::getHit(int attack, const bool pierceDF) {
 		stats->getHit(attack, pierceDF); // Shield mode not active, get hit normally.
 	}
 }
+
+PlayerStatsComponent::~PlayerStatsComponent()
+{
+	//delete stats;
+}

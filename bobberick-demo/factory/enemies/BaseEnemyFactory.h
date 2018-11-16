@@ -6,7 +6,7 @@
 class BaseEnemyFactory
 {
 public:
-	virtual Entity * BaseEnemyFactory::getEnemy(const int level) = 0;
+	virtual Entity & getEnemy(const int level) = 0;
 };
 
 

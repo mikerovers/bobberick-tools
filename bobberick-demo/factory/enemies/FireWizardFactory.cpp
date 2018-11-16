@@ -8,16 +8,16 @@
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
 
-Entity * FireWizardFactory::getEnemy(const int level)
+Entity & FireWizardFactory::getEnemy(const int level)
 {
-	std::shared_ptr<Entity> fireWizard = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	auto& transformComponent = fireWizard->addComponent<TransformComponent>(-1, -1, 59, 54, 1);
-	auto& spriteComponent = fireWizard->addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
+	auto& fireWizard = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto& transformComponent = fireWizard.addComponent<TransformComponent>(-1, -1, 59, 54, 1);
+	auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
 	spriteComponent.addTexture("assets/image/enemies/fire_wizard_casting.png", "fire_wizard_casting");
-	fireWizard->addComponent<HealthBarComponent>();
-	fireWizard->addComponent<AIComponent>();
-	fireWizard->addComponent<ShootComponent>();
-	fireWizard->addComponent<CollisionComponent>("fireWizard");
+	fireWizard.addComponent<HealthBarComponent>();
+	fireWizard.addComponent<AIComponent>();
+	fireWizard.addComponent<ShootComponent>();
+	fireWizard.addComponent<CollisionComponent>("fireWizard");
 
 	transformComponent.speed = 1.5;
 
@@ -30,7 +30,7 @@ Entity * FireWizardFactory::getEnemy(const int level)
 		atkMax = 6 * level * (randMutator),
 		df = 1;
 
-	fireWizard->addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
+	fireWizard.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
 
-	return fireWizard.get();
+	return fireWizard;
 }

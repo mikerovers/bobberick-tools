@@ -1,4 +1,6 @@
 #include "Tile.h"
+#include <string>
+#include <SDL.h>
 
 Tile::Tile(std::string texture, int x, int y, int tx, int ty, int width, int height)
     : x(x), y(y), tx(tx), ty(ty), width(width), height(height)

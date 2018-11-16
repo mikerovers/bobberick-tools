@@ -6,8 +6,15 @@
 class Entity
 {
 public:
+    Entity();
     bool isActive() const;
+    void setActive(const bool isActive);
+    bool isDeleted() const;
     void destroy();
+
+    void addGroup(const Group group);
+    bool hasGroup(const Group group) const;
+    void removeGroup(const Group group);
 
     template <typename T> bool hasComponent() const
     {
@@ -23,7 +30,7 @@ public:
         if (components.size() < getComponentTypeID<T>()) {
             unsigned int difference = getComponentTypeID<T>() - components.size();
             for (int i = 0 ; i < difference; i++) {
-                components.push_back(nullptr);
+//                components.push_back(nullptr);
             }
         }
 
@@ -69,8 +76,10 @@ public:
     }
 
 private:
-    bool active = true;
-    std::vector<std::shared_ptr<Component>> components;
+    bool active;
+    bool deleted;
+    std::vector<Group> groups;
+    std::vector<std::unique_ptr<Component>> components;
 
     ComponentArray componentArray;
     ComponentBitSet componentBitSet;

@@ -7,14 +7,14 @@
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
 
-Entity * OrcFactory::getEnemy(const int level)
+Entity &OrcFactory::getEnemy(const int level)
 {
-	std::shared_ptr<Entity> orc = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	auto& transformComponent = orc->addComponent<TransformComponent>(-1, -1, 49, 64, 1);
-	auto& spriteComponent = orc->addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
-	orc->addComponent<HealthBarComponent>();
-	orc->addComponent<AIComponent>();
-	orc->addComponent<CollisionComponent>("orc");
+	Entity& orc = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto& transformComponent = orc.addComponent<TransformComponent>(-1, -1, 49, 64, 1);
+	auto& spriteComponent = orc.addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
+	orc.addComponent<HealthBarComponent>();
+	orc.addComponent<AIComponent>();
+	orc.addComponent<CollisionComponent>("orc");
 
 	transformComponent.speed = 2;
 
@@ -27,7 +27,7 @@ Entity * OrcFactory::getEnemy(const int level)
 		atkMax = 4 * level * (randMutator),
 		df = 1;
 
-	orc->addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
+	orc.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
 
-	return orc.get();
+	return orc;
 }

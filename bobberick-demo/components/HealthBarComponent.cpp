@@ -6,3 +6,12 @@ void HealthBarComponent::init()
 {
 
 }
+
+HealthBarComponent::HealthBarComponent() :
+outerBox(ServiceManager::Instance()->getService<EntityManager>().addEntity()),
+innerBox(ServiceManager::Instance()->getService<EntityManager>().addEntity()),
+healthBox(ServiceManager::Instance()->getService<EntityManager>().addEntity())
+{
+
+}
+

@@ -3,9 +3,9 @@
 #include "../components/RectangleComponent.h"
 #include "../components/TextComponent.h"
 #include "../components/FadeComponent.h"
-#include "../../TextureManager.h"
-#include "../../RectangleManager.h"
-#include "../../FontManager.h"
+#include "../../services/TextureManager.h"
+#include "../../services/RectangleManager.h"
+#include "../../services/FontManager.h"
 #include "../../services/ServiceManager.h"
 #include "../components/TilesetComponent.h"
 #include "../../services/RenderService.h"
@@ -39,10 +39,11 @@ void DrawSystem::update()
 	// Draw in-game sprites under the GUI.
     for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
 		if (!entity->getComponent<SpriteComponent>().guiLayer) {
-			auto & spr = entity->getComponent<SpriteComponent>();
+			auto &spr = entity->getComponent<SpriteComponent>();
+			auto &transform = entity->getComponent<TransformComponent>();
 
 			spr.update();
-			spr.render();
+			ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
 		} 
     }
 
@@ -69,10 +70,10 @@ void DrawSystem::update()
 		sourceRect->w = 32;
 		sourceRect->h = 32;
 		auto* destRect = new SDL_Rect;
-		destRect->x = comp.collider->x;
-		destRect->y = comp.collider->y;
-		destRect->w = comp.collider->w;
-		destRect->h = comp.collider->h;
+		destRect->x = comp.collider.x;
+		destRect->y = comp.collider.y;
+		destRect->w = comp.collider.w;
+		destRect->h = comp.collider.h;
 		tx.draw("collision", sourceRect, destRect, rs.getRenderer(), false);
 
 		delete sourceRect;
