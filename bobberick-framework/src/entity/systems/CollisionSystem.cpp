@@ -89,7 +89,6 @@ void CollisionSystem::update()
 	{
 		auto& colliderA = entity->getComponent<CollisionComponent>();
 
-
 		for (auto& otherEntity : collisionComponentEntities)
 		{
 			auto& colliderB = otherEntity->getComponent<CollisionComponent>();
