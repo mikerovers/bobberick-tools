@@ -10,7 +10,7 @@
 #include "services/SoundManager.h"
 #include "EmptyState.h"
 
-Game::Game(): frameHandler(new FrameHandler(60))
+Game::Game()
 {
 
 }
@@ -38,6 +38,7 @@ int Game::getGameHeight() const
 bool Game::init(const char *title, int xPos, int yPos, int height, int width, int flags)
 {
     ServiceManager* serviceManager = ServiceManager::Instance();
+    serviceManager->addService<FrameHandler>(60);
     serviceManager->addService<TextureManager>();
 	serviceManager->addService<FontManager>();
 	serviceManager->addService<RectangleManager>();
@@ -85,16 +86,16 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
 void Game::update()
 {
-    frameHandler->updateTicks();
+    ServiceManager::Instance()->getService<FrameHandler>().updateTicks();
 
     SDL_RenderClear(renderer.get());
     ServiceManager::Instance()->getService<EntityManager>().refresh();
     stateMachine->update();
     SDL_RenderPresent(renderer.get());
 
-	const auto frames = frameHandler->getCurrentFps();
+	const auto frames = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
 //	std::cout << frames << "\n";
-    frameHandler->handleFrame();
+    ServiceManager::Instance()->getService<FrameHandler>().handleFrame();
 }
 
 void Game::clean()
