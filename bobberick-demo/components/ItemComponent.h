@@ -14,7 +14,7 @@ public:
 		ItemComponent::sprite = sprite;
 		ItemComponent::name = name;
 	}
-	virtual void use(PlayerStatsComponent* playerStats) {}; // Impart an effect (or equip self) to this PlayerStatsComponent.
+	virtual void use(PlayerStatsComponent* playerStats) { }; // Impart an effect (or equip self) to this PlayerStatsComponent.
 };
 
 #endif //BOBBERICK_TOOLS_ITEMCOMPONENT_H

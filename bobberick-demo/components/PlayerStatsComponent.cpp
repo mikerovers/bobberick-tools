@@ -48,6 +48,14 @@ void PlayerStatsComponent::toggleShield() {
 	}
 }
 
+void PlayerStatsComponent::equipWeapon(WeaponComponent* weapon) {
+	if (weapon->isMagic) {
+		*magicWeapon = *weapon;
+	} else {
+		*normalWeapon = *weapon;
+	}
+}
+
 const bool PlayerStatsComponent::shieldActive() const {
 	return shdActive;
 }

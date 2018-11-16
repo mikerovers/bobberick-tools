@@ -8,8 +8,8 @@
 
 class InventoryComponent : public Component {
 public:
-	InventoryComponent(PlayerStatsComponent* playerStats) {
-		InventoryComponent::playerStats = playerStats;
+	InventoryComponent(PlayerStatsComponent* stats) {
+		InventoryComponent::playerStats = stats;
 	}
 
 	bool pickUp(ItemComponent item); // Add an ItemComponent to the inventory. Returns false if there is no room (consider not destroying the collided item in the game world).

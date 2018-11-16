@@ -6,7 +6,7 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include <string>
 
-class PlayerStatsComponent;
+class PlayerStatsComponent; // A PlayerStatsComponent has two equipped WeaponComponents, too.
 class WeaponComponent : public ItemComponent {
 public:
 	bool isMagic; // Magic weapons (staffs) go into the right mouse button. Non-magic weapons (bows) go into the left mouse button.
