@@ -6,70 +6,99 @@
 #include "../../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "ChickenFactory.h"
 
-Entity & EnemyFactory::getRandomEnemy(const int level)
+Entity& EnemyFactory::getRandomEnemy(const int level)
 {
-	const int type = rand() % 3;
-	switch (type) {
-		case 0: {
+	const int type = rand() % 4;
+	switch (type)
+	{
+	case 0:
+		{
 			OrcFactory factory = OrcFactory{};
 			return factory.getEnemy(level);
 		}
-		case 1: {
+	case 1:
+		{
 			ZombieFactory factory = ZombieFactory{};
 			return factory.getEnemy(level);
 		}
-		case 2: {
+	case 2:
+		{
 			FireWizardFactory factory = FireWizardFactory{};
 			return factory.getEnemy(level);
 		}
 		// TODO find something for this.
-		case 3:
+	case 3:
+		{
 			FireWizardFactory factory = FireWizardFactory{};
 			return factory.getEnemy(level);
+		}
+	case 4:
+		{
+			return (ChickenFactory{}).getEnemy(level);
+		}
+	default:
+		{
+			FireWizardFactory factory = FireWizardFactory{};
+			return factory.getEnemy(level);
+		}
 	}
-
-	FireWizardFactory factory = FireWizardFactory{};
-	return factory.getEnemy(level);
 }
 
 Entity& EnemyFactory::getRandomEnemy(const int minLevel, const int maxLevel)
 {
 	const int type = rand() % 3;
-	const int level = rand() % (maxLevel-minLevel) + minLevel;
-	switch (type) {
-		case 0: {
+	const int level = rand() % (maxLevel - minLevel) + minLevel;
+	switch (type)
+	{
+	case 0:
+		{
 			OrcFactory factory = OrcFactory{};
 			return factory.getEnemy(level);
 		}
-		case 1: {
+	case 1:
+		{
 			ZombieFactory factory = ZombieFactory{};
 			return factory.getEnemy(level);
 		}
-		case 2: {
+	case 2:
+		{
 			FireWizardFactory factory = FireWizardFactory{};
 			return factory.getEnemy(level);
+		}
+	case 3:
+		{
+			return (ChickenFactory{}).getEnemy(level);
 		}
 	}
 	FireWizardFactory factory = FireWizardFactory{};
 	return factory.getEnemy(level);
 }
 
-Entity & EnemyFactory::getEnemy(const int level, const std::string type)
+Entity& EnemyFactory::getEnemy(const int level, const std::string type)
 {
-	if (type == "orc") {
+	if (type == "orc")
+	{
 		OrcFactory factory = OrcFactory{};
 		return factory.getEnemy(level);
 	}
 
-	if (type == "zombie") {
+	if (type == "zombie")
+	{
 		ZombieFactory factory = ZombieFactory{};
 		return factory.getEnemy(level);
 	}
 
-	if (type == "fireWizard") {
+	if (type == "fireWizard")
+	{
 		FireWizardFactory factory = FireWizardFactory{};
 		return factory.getEnemy(level);
+	}
+
+	if (type == "chicken")
+	{
+		return (ChickenFactory{}).getEnemy(level);
 	}
 
 	// TODO replace this with something else
@@ -77,7 +106,7 @@ Entity & EnemyFactory::getEnemy(const int level, const std::string type)
 	return factory.getEnemy(level);
 }
 
-Entity & EnemyFactory::getBoss(const int level)
+Entity& EnemyFactory::getBoss(const int level)
 {
 	EndBossFactory factory = EndBossFactory{};
 	return factory.getEnemy(level);
