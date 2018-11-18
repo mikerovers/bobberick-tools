@@ -11,6 +11,8 @@
 #include "../../components/AIComponent.h"
 #include "../../components/EndBossComponent.h"
 #include "../../components/SpawnMinionsSpellComponent.h"
+#include "../../components/EnemyMovementComponent.h"
+#include "../../components/SpawnedComponent.h"
 
 Entity & EndBossFactory::getEnemy(const int level)
 {
@@ -21,6 +23,7 @@ Entity & EndBossFactory::getEnemy(const int level)
 	auto* collisionComponent = new HealthBarComponent();
 	endBoss.addExistingComponent<HealthBarComponent>(collisionComponent);
 	//endBoss.addComponent<HealthBarComponent>();
+	endBoss.addComponent<EnemyMovementComponent>();
 	endBoss.addComponent<AIComponent>();
 	endBoss.addComponent<TimerComponent>();
 	endBoss.addComponent<SpawnMinionsSpellComponent>();
@@ -39,7 +42,14 @@ Entity & EndBossFactory::getEnemy(const int level)
 		atkMax = 60 * level * (randMutator),
 		df = 1;
 
-	endBoss.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
+	endBoss.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df, level);
 
 	return endBoss;
+}
+
+Entity & EndBossFactory::getEnemy(const int level, const int spawnerId)
+{
+	auto& enemy = getEnemy(level);
+	enemy.addComponent<SpawnedComponent>(spawnerId);
+	return enemy;
 }
