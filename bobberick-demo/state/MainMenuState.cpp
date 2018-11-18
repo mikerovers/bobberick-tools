@@ -8,6 +8,9 @@
 #include "../factory/enemies/EnemyFactory.h"
 #include "../components/AIComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../../bobberick-framework/src/LevelFactory.h"
+#include "../../bobberick-framework/src/services/RenderService.h"
+#include "../factory/ObjectFactory.h"
 
 std::string MainMenuState::getStateID() const
 {
@@ -16,7 +19,8 @@ std::string MainMenuState::getStateID() const
 
 void MainMenuState::update()
 {
-	for (const auto &system : systems) {
+	for (const auto& system : systems)
+	{
 		system->update();
 	}
 	determineMovementDirection();
@@ -24,9 +28,12 @@ void MainMenuState::update()
 
 bool MainMenuState::onEnter()
 {
+	auto& level = makeTileMap();
+
 	createAnimatedBackground();
 
-	for (const auto &system : systems) {
+	for (const auto& system : systems)
+	{
 		system->init();
 	}
 
@@ -50,6 +57,29 @@ bool MainMenuState::shouldExit()
 {
 	return _playGamePressed;
 }
+
+Entity& MainMenuState::makeTileMap() const
+{
+	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+
+	// Use LevelFactory to load and create tilemap components.
+	auto* levelFactory = new LevelFactory();
+	TilesetComponent* tilesetComponent = levelFactory->Load("assets/maps/main_menu.tmx",
+	                                                        ServiceManager::Instance()
+	                                                        ->getService<RenderService>().getRenderer());
+
+	level.addExistingComponent<TilesetComponent>(tilesetComponent);
+	delete levelFactory;
+
+	ObjectFactory objectFactory;
+	for (auto& object : level.getComponent<TilesetComponent>().objects)
+	{
+		objectFactory.getObject(object);
+	}
+
+	return level;
+}
+
 
 void MainMenuState::createAnimatedBackground()
 {
@@ -93,7 +123,8 @@ void MainMenuState::createAnimatedBackground()
 void MainMenuState::makeStartGameButton()
 {
 	auto& playGameButton = entityManager.addEntity();
-	auto* playGameButtonComponent = new ButtonComponent([this]() {
+	auto* playGameButtonComponent = new ButtonComponent([this]()
+	{
 		std::cout << "Play button clicked" << std::endl;
 		_playGamePressed = true;
 	});
@@ -105,7 +136,8 @@ void MainMenuState::makeStartGameButton()
 	playGameButtonTransformComponent->height = 64;
 	playGameButtonTransformComponent->width = 128;
 	playGameButton.addExistingComponent<TransformComponent>(playGameButtonTransformComponent);
-	playGameButton.addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1, 3, 0);
+	playGameButton.addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1,
+	                                                   3, 0);
 	playGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(playGameButton, getStateID());
 }
@@ -113,7 +145,8 @@ void MainMenuState::makeStartGameButton()
 void MainMenuState::makeOptionsButton()
 {
 	auto& optionsButton = entityManager.addEntity();
-	auto* optionsButtonComponent = new ButtonComponent([this]() {
+	auto* optionsButtonComponent = new ButtonComponent([this]()
+	{
 		std::cout << "Options button clicked" << std::endl;
 		_playGamePressed = true;
 	});
@@ -125,7 +158,8 @@ void MainMenuState::makeOptionsButton()
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
 	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
-	optionsButton.addComponent<ButtonSpriteComponent>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
+	optionsButton.addComponent<ButtonSpriteComponent
+	>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
 	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
@@ -133,7 +167,8 @@ void MainMenuState::makeOptionsButton()
 void MainMenuState::makeExitButton()
 {
 	auto& exitButton = entityManager.addEntity();
-	auto* exitButtonComponent = new ButtonComponent([this]() {
+	auto* exitButtonComponent = new ButtonComponent([this]()
+	{
 		std::cout << "Exit button clicked" << std::endl;
 		_playGamePressed = true;
 	});
@@ -158,13 +193,17 @@ void MainMenuState::determineMovementDirection()
 		auto& sprite = entity->getComponent<SpriteComponent>();
 		const double speed = 0.2 * transform.speed;
 		transform.velocity.setY(0);
-	
-		if (transform.position.getX() < 150) {
+
+		if (transform.position.getX() < 150)
+		{
 			transform.velocity.setX(speed);
 			sprite.flip = false;
-		} else if (transform.position.getX() > 500) { // TODO: find a better way to get the window width
+		}
+		else if (transform.position.getX() > 500)
+		{
+			// TODO: find a better way to get the window width
 			transform.velocity.setX(-speed);
-			sprite.flip = true; 
+			sprite.flip = true;
 		}
 	}
 }

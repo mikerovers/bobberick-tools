@@ -69,16 +69,14 @@ Entity &PlayState::makeTileMap() const
     auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 
     // Use LevelFactory to load and create tilemap components.
-    auto* levelFactory = new LevelFactory();
-    TilesetComponent* tilesetComponent = levelFactory->Load("assets/maps/map1.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
+    LevelFactory levelFactory;
+	const auto tilesetComponent = levelFactory.Load("assets/maps/map1.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
     level.addExistingComponent<TilesetComponent>(tilesetComponent);
-    delete levelFactory;
 
-    auto* objectFactory = new ObjectFactory();
-    for(auto* object : level.getComponent<TilesetComponent>().objects) {
-        objectFactory->getObject(object);
+    ObjectFactory objectFactory;
+    for(auto object : level.getComponent<TilesetComponent>().objects) {
+        objectFactory.getObject(object);
     }
-    delete objectFactory;
 
     return level;
 }
