@@ -20,6 +20,7 @@ TilesetComponent *LevelFactory::Load(std::string path, SDL_RendererPointer rende
     auto& mapTileSets = tileMap.getTilesets();
     for (auto& tileSet : mapTileSets) {
         auto imagePath = tileSet.getImagePath();
+        component->sheet = tileSet.getName();
         auto texture = ServiceManager::Instance()->getService<TextureManager>().load(imagePath.c_str(), tileSet.getName(), renderer);
         if (texture) {
             component->tileSets.insert(std::pair<gid, std::string>(tileSet.getFirstGID(), tileSet.getName()));

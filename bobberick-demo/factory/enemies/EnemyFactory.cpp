@@ -34,30 +34,30 @@ Entity& EnemyFactory::getBoss(const int level)
 BaseEnemyFactory& EnemyFactory::getFactory(std::string type) {
 	if (type == "orc")
 	{
-		return OrcFactory{};
+		return *(new OrcFactory());
 	}
 
 	if (type == "zombie")
 	{
-		return ZombieFactory{};
+		return *(new ZombieFactory());
 	}
 
 	if (type == "fireWizard")
 	{
-		return FireWizardFactory{};
+		return *(new FireWizardFactory());
 	}
 
 	if (type == "chicken")
 	{
-		return ChickenFactory{};
+		return *(new ChickenFactory());
 	}
 
 	if (type == "boss")
 	{
-		return EndBossFactory{};
+		return *(new EndBossFactory());
 	}
 
-	return FireWizardFactory{}; // default
+	return *(new FireWizardFactory()); // default
 }
 
 BaseEnemyFactory& EnemyFactory::getRandomFactory() {
