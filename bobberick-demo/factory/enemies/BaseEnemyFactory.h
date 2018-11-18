@@ -8,6 +8,7 @@
 class BaseEnemyFactory
 {
 public:
+	virtual ~BaseEnemyFactory() = default;
 	virtual Entity& getEnemy(const int level) = 0;
 	virtual Entity& getEnemy(const int level, const int spawnerId) = 0;
 
