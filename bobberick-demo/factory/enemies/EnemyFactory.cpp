@@ -3,6 +3,7 @@
 #include "ZombieFactory.h"
 #include "FireWizardFactory.h"
 #include "EndBossFactory.h"
+#include "NullFactory.h"
 #include "../../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -68,7 +69,7 @@ std::unique_ptr<BaseEnemyFactory> EnemyFactory::getFactory(std::string type) con
 		return std::unique_ptr<EnemyManufactureFactory>(new EnemyManufactureFactory());
 	}
 
-	return std::unique_ptr<ChickenFactory>(new ChickenFactory());
+	return std::unique_ptr<NullFactory>(new NullFactory());
 }
 
 std::unique_ptr<BaseEnemyFactory> EnemyFactory::getRandomFactory() const {
@@ -88,6 +89,6 @@ std::unique_ptr<BaseEnemyFactory> EnemyFactory::getRandomFactory() const {
 		return getFactory("chicken");
 	}
 	default:
-		return getFactory("chicken");
+		return getFactory("");
 	}
 }
