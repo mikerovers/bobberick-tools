@@ -20,7 +20,7 @@ void StatsComponent::healPoints(const int points) {
 
 void StatsComponent::healPercent(const int percent) {
 	if (percent > 0) {
-		const int points = (double)((hpMax / 100) * percent);
+		const int points = (double)(hpMax / 100 * percent);
 		healPoints(points);
 	}
 }

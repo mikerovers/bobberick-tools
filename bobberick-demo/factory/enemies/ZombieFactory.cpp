@@ -22,10 +22,10 @@ Entity & ZombieFactory::getEnemy(const int level)
 	const double random = RandomGenerator{}.getRandomDouble(1, 50);
 	double randMutator = (random + 50) / 100;
 
-	int hp = 125 * level * (randMutator),
-		maxHp = 200 * level * (randMutator),
-		atkMin = 1 * level * (randMutator),
-		atkMax = 3 * level * (randMutator),
+	int hp = 125 * level * randMutator,
+		maxHp = 200 * level * randMutator,
+		atkMin = 1 * level * randMutator,
+		atkMax = 3 * level * randMutator,
 		df = 1;
 
 	zombie.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);

@@ -13,6 +13,7 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 include_directories(${SDL2_TTF_INCLUDE_DIRS})
 include_directories(${SDL2_MIXER_INCLUDE_DIR})
 
+
 set(
 	SOURCE_FILES 
 	src/entity/ECS.h 

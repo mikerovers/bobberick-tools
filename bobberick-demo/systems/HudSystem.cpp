@@ -28,8 +28,8 @@ void HudSystem::update()
 		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
 
 		playerStats.update();
-		double healthWidth = ((double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax()) * barWidth;
-		double shieldWidth = (playerStats.shdTime / playerStats.shdTimeMax) * barWidth;
+		double healthWidth = (double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax() * barWidth;
+		double shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
 		if (playerStats.shieldActive())
 		{
 			// Bright blue bar if shield is currently active.

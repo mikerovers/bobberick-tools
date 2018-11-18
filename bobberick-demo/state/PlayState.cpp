@@ -44,8 +44,8 @@ bool PlayState::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
 	                                                            SOUND_SFX);
 
-	auto& box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	box.addComponent<CollisionComponent>("fire", 140, 175, 40);
+	// auto& box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	// box.addComponent<CollisionComponent>("fire", 140, 175, 40);
 
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1",
 	                                                            SOUND_MUSIC);
@@ -72,15 +72,18 @@ Entity& PlayState::makeTileMap() const
 {
 	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 
-    // Use LevelFactory to load and create tilemap components.
-    LevelFactory levelFactory;
-	const auto tilesetComponent = levelFactory.Load("assets/maps/map2.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
-    level.addExistingComponent<TilesetComponent>(tilesetComponent);
+	// Use LevelFactory to load and create tilemap components.
+	LevelFactory levelFactory;
+	const auto tilesetComponent = levelFactory.Load("assets/maps/map2.tmx",
+	                                                ServiceManager::Instance()
+	                                                ->getService<RenderService>().getRenderer());
+	level.addExistingComponent<TilesetComponent>(tilesetComponent);
 
-    ObjectFactory objectFactory;
-    for(auto object : level.getComponent<TilesetComponent>().objects) {
-        objectFactory.getObject(object);
-    }
+	ObjectFactory objectFactory;
+	for (auto object : level.getComponent<TilesetComponent>().objects)
+	{
+		objectFactory.getObject(object);
+	}
 
 	return level;
 }
@@ -116,19 +119,21 @@ void PlayState::instantiateSystems() const
 void PlayState::makeEnemies() const
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
-	for (auto x = 0; x < 3; x++) {
-	    for (auto y = 0; y < 30; y++) {
-	        const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
-	
-	        auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	        enemyTransform.position.setX(350 + 50 * x);
-	        enemyTransform.position.setY(60 + 50 * y);
-	    }
+	for (auto x = 0; x < 3; x++)
+	{
+		for (auto y = 0; y < 50; y++)
+		{
+			const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
+
+			auto& enemyTransform = enemy.getComponent<TransformComponent>();
+			enemyTransform.position.x = 350 + 50 * x;
+			enemyTransform.position.y = 60 + 50 * y;
+		}
 	}
 	auto& enemy = enemyFactory.getBoss(10);
 	auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	enemyTransform.position.setX(250 + 50);
-	enemyTransform.position.setY(250);
+	enemyTransform.position.x = 250 + 50;
+	enemyTransform.position.y = 250;
 }
 
 void PlayState::makeGui()
@@ -143,8 +148,8 @@ void PlayState::makeGui()
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	auto* exitButtonTransformComponent = new TransformComponent();
-	exitButtonTransformComponent->position.setX(10);
-	exitButtonTransformComponent->position.setY(60);
+	exitButtonTransformComponent->position.x = 10;
+	exitButtonTransformComponent->position.y = 60;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
