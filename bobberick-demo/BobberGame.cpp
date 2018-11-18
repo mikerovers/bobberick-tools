@@ -6,13 +6,13 @@ bool BobberGame::setup()
 	if (Game::setup()) {
 		stateFactory = std::make_shared<StateFactory>();
 
-		getStateMachine()->pushState(stateFactory->createState("PlayState"));
+		ServiceManager::Instance()->getService<StateMachine>().pushState(stateFactory->createState("MainMenuState"));
 		//getStateMachine()->pushState(stateFactory->createState("MainMenuState"));
 		//getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
 		//getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
         //getStateMachine()->peekState()->onEnter();
 		//getStateMachine()->pushState(stateFactory->createState("TestState"));
-        getStateMachine()->peekState()->onEnter();
+        //ServiceManager::Instance()->getService<StateMachine>().peekState()->onEnter();
 
 		return true;
 	} else {

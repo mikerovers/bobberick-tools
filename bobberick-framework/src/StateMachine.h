@@ -1,12 +1,14 @@
 #ifndef BOBBERICK_TOOLS_STATEMACHINE_H
 #define BOBBERICK_TOOLS_STATEMACHINE_H
 
-
 #include <vector>
 #include "GameState.h"
 
-class StateMachine {
+class StateMachine : public Service
+{
 public:
+    void init() override;
+    void clean() override;
     void pushState(GameState* pState);
     void changeState(GameState* pState);
     void popState();
