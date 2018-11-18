@@ -3,6 +3,7 @@
 #include "../../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../../../bobberick-framework/src/util/RandomGenerator.h"
 #include "../../components/StatsComponent.h"
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
@@ -18,7 +19,8 @@ Entity &OrcFactory::getEnemy(const int level)
 
 	transformComponent.speed = 2;
 
-	double random = (rand() % 50);
+	const double random = RandomGenerator{}.getRandomDouble(1, 50);
+
 	double randMutator = (random + 50) / 100;
 
 	int hp = 100 * level * (randMutator),
