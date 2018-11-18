@@ -2,6 +2,8 @@
 #define BOBBERICK_TOOLS_ENEMYFACTORY_H
 
 #include "../../../bobberick-framework/src/entity/Entity.h"
+#include "BaseEnemyFactory.h"
+#include <map>
 
 class EnemyFactory
 {
@@ -10,6 +12,9 @@ public:
 	Entity& getRandomEnemy(const int minLevel, const int maxLevel);
 	Entity& getEnemy(const int level, const std::string type);
 	Entity& getBoss(const int level);
+	BaseEnemyFactory& getFactory(const std::string type);
+	BaseEnemyFactory& getRandomFactory();
+
 };
 
 

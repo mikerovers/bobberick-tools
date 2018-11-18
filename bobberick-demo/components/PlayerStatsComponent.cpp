@@ -1,5 +1,6 @@
 #include "PlayerStatsComponent.h"
 #include "StatsComponent.h"
+#include "WeaponComponent.h"
 
 PlayerStatsComponent::PlayerStatsComponent(StatsComponent* stats, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp) {
 	PlayerStatsComponent::shdTime = shdTime;
@@ -26,6 +27,16 @@ void PlayerStatsComponent::update() {
 		}
 	} else {
 		shdActive = false;
+		shdTime = 0;
+	}
+}
+
+int PlayerStatsComponent::attack(bool magic, int seed) const {
+	int basePow = stats->attack(seed);
+	if (magic) {
+		return basePow + magicWeapon->power;
+	} else {
+		return basePow + normalWeapon->power;
 	}
 }
 
@@ -34,6 +45,14 @@ void PlayerStatsComponent::toggleShield() {
 		shdActive = true;
 	} else if (shdActive) {
 		shdActive = false;
+	}
+}
+
+void PlayerStatsComponent::equipWeapon(WeaponComponent* weapon) {
+	if (weapon->isMagic) {
+		*magicWeapon = *weapon;
+	} else {
+		*normalWeapon = *weapon;
 	}
 }
 

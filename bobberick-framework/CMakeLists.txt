@@ -22,6 +22,7 @@ set(
 	src/GameState.cpp src/GameState.h
 	src/util/Vector2D.h src/util/Vector2D.cpp
 	src/util/Timer.h src/util/Timer.cpp
+	src/util/RandomGenerator.h src/util/RandomGenerator.cpp
 	src/Game.cpp src/Game.h
 	src/entity/components/SpriteComponent.cpp src/entity/components/SpriteComponent.h
 	src/entity/components/RectangleComponent.cpp src/entity/components/RectangleComponent.h

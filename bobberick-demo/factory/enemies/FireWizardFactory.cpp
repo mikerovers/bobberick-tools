@@ -4,6 +4,7 @@
 #include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../../bobberick-framework/src/entity/components/ShootComponent.h"
+#include "../../../bobberick-framework/src/util/RandomGenerator.h"
 #include "../../components/StatsComponent.h"
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
@@ -21,7 +22,7 @@ Entity & FireWizardFactory::getEnemy(const int level)
 
 	transformComponent.speed = 1.5;
 
-	double random = (rand() % 50);
+	const double random = RandomGenerator{}.getRandomDouble(1, 50);
 	double randMutator = (random + 50) / 100;
 
 	int hp = 50 * level * (randMutator),

@@ -6,79 +6,75 @@
 #include "../../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "ChickenFactory.h"
+#include "../../../bobberick-framework/src/util/RandomGenerator.h"
 
-Entity & EnemyFactory::getRandomEnemy(const int level)
+
+Entity& EnemyFactory::getRandomEnemy(const int level)
 {
-	const int type = rand() % 3;
-	switch (type) {
-		case 0: {
-			OrcFactory factory = OrcFactory{};
-			return factory.getEnemy(level);
-		}
-		case 1: {
-			ZombieFactory factory = ZombieFactory{};
-			return factory.getEnemy(level);
-		}
-		case 2: {
-			FireWizardFactory factory = FireWizardFactory{};
-			return factory.getEnemy(level);
-		}
-		// TODO find something for this.
-		case 3:
-			FireWizardFactory factory = FireWizardFactory{};
-			return factory.getEnemy(level);
-	}
-
-	FireWizardFactory factory = FireWizardFactory{};
-	return factory.getEnemy(level);
+	return getRandomFactory().getEnemy(level);
 }
 
 Entity& EnemyFactory::getRandomEnemy(const int minLevel, const int maxLevel)
 {
-	const int type = rand() % 3;
-	const int level = rand() % (maxLevel-minLevel) + minLevel;
-	switch (type) {
-		case 0: {
-			OrcFactory factory = OrcFactory{};
-			return factory.getEnemy(level);
-		}
-		case 1: {
-			ZombieFactory factory = ZombieFactory{};
-			return factory.getEnemy(level);
-		}
-		case 2: {
-			FireWizardFactory factory = FireWizardFactory{};
-			return factory.getEnemy(level);
-		}
-	}
-	FireWizardFactory factory = FireWizardFactory{};
-	return factory.getEnemy(level);
+	const int level = RandomGenerator{}.getRandomNumber(minLevel, maxLevel);
+	return getRandomFactory().getEnemy(level);
 }
 
-Entity & EnemyFactory::getEnemy(const int level, const std::string type)
+Entity& EnemyFactory::getEnemy(const int level, const std::string type)
 {
-	if (type == "orc") {
-		OrcFactory factory = OrcFactory{};
-		return factory.getEnemy(level);
-	}
-
-	if (type == "zombie") {
-		ZombieFactory factory = ZombieFactory{};
-		return factory.getEnemy(level);
-	}
-
-	if (type == "fireWizard") {
-		FireWizardFactory factory = FireWizardFactory{};
-		return factory.getEnemy(level);
-	}
-
-	// TODO replace this with something else
-	FireWizardFactory factory = FireWizardFactory{};
-	return factory.getEnemy(level);
+	return EnemyFactory::getFactory(type).getEnemy(level);
 }
 
-Entity & EnemyFactory::getBoss(const int level)
+Entity& EnemyFactory::getBoss(const int level)
 {
-	EndBossFactory factory = EndBossFactory{};
-	return factory.getEnemy(level);
+	return EnemyFactory::getFactory("boss").getEnemy(level);
+}
+
+BaseEnemyFactory& EnemyFactory::getFactory(std::string type) {
+	if (type == "orc")
+	{
+		return OrcFactory{};
+	}
+
+	if (type == "zombie")
+	{
+		return ZombieFactory{};
+	}
+
+	if (type == "fireWizard")
+	{
+		return FireWizardFactory{};
+	}
+
+	if (type == "chicken")
+	{
+		return ChickenFactory{};
+	}
+
+	if (type == "boss")
+	{
+		return EndBossFactory{};
+	}
+
+	return FireWizardFactory{}; // default
+}
+
+BaseEnemyFactory& EnemyFactory::getRandomFactory() {
+	const int type = RandomGenerator{}.getRandomNumber(0, 3);
+	switch (type)
+	{
+	case 0: {
+		return getFactory("orc");
+	}break;
+	case 1: {
+		return getFactory("zombie");
+	}break;
+	case 2: {
+		return getFactory("fireWizard");
+	}break;
+	case 3: {
+		return getFactory("chicken");
+	}break;
+	}
 }
