@@ -15,6 +15,9 @@
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
+#include "../../bobberick-demo/components/SpawnComponent.h"
+#include "../../bobberick-demo/components/SpawnedComponent.h"
+#include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
@@ -28,6 +31,15 @@ AISystem::AISystem(EntityManager& entityManager) : System(entityManager)
 void AISystem::init() {
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
 		initHealthBar(*entity);
+		if (entity->hasComponent<CollisionComponent>()) {
+			auto& collisionComponent = entity->getComponent<CollisionComponent>();
+			auto& transform = entity->getComponent<TransformComponent>();
+
+			collisionComponent.collider.x = transform.position.getX();
+			collisionComponent.collider.y = transform.position.getY();
+			collisionComponent.collider.w = transform.width;
+			collisionComponent.collider.h = transform.height;
+		}
 	}
 }
 
@@ -35,6 +47,10 @@ void AISystem::init() {
 
 void AISystem::update()
 {
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpawnComponent>()) {
+		executeSpawner(*entity);
+	}
+
 	int channelCounter = 2;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>())
 	{
@@ -109,6 +125,39 @@ void AISystem::executeSpell(Entity& entity) {
 				timer.setTimer(5000);
 
 			}
+		}
+	}
+}
+
+void AISystem::executeSpawner(Entity& entity) {
+
+	if (entity.hasComponent<TimerComponent>()) {
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished()) {
+			auto& spawnComponent = entity.getComponent<SpawnComponent>();
+
+			int spawnCounter = 0;
+
+			for (auto& spawnedEnemy : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>()) {
+				auto& spawnedComponent = spawnedEnemy->getComponent<SpawnedComponent>();
+				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy->getComponent<CollisionComponent>().tag) {
+					spawnCounter++; // we found its spawn
+				}
+			}
+
+			if (spawnCounter > spawnComponent.maxCount) {
+				return;
+			}
+
+			auto& statsComponent = entity.getComponent<StatsComponent>();
+			auto& transformComponent = entity.getComponent<TransformComponent>();
+
+			auto& enemy = EnemyFactory{}.spawnEnemy(1, spawnComponent.type, spawnComponent.id);
+			auto& enemyTransform = enemy.getComponent<TransformComponent>();
+			enemyTransform.position.setX(transformComponent.position.getX() + (transformComponent.width / 2));
+			enemyTransform.position.setY(transformComponent.position.getY() + transformComponent.height);
+			initHealthBar(enemy);
+			timer.setTimer(spawnComponent.spawnTimer);
 		}
 	}
 }
@@ -221,7 +270,7 @@ void AISystem::applyHealthBar(Entity& entity) {
 	double enemyX = transform.position.getX();
 	double enemyY = transform.position.getY();
 
-	if (entity.hasComponent<HealthBarComponent>()) {
+	if (entity.hasComponent<HealthBarComponent>() && entity.hasComponent<TransformComponent>()) {
 		int const hp = stats.getHP();
 		if (hp < 1) {
 			kill(entity);
@@ -261,6 +310,9 @@ void AISystem::applyHealthBar(Entity& entity) {
 }
 
 void AISystem::applyMovement(Entity& entity) {
+	if (!entity.hasComponent<EnemyMovementComponent>()) {
+		return;
+	}
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& sprite = entity.getComponent<SpriteComponent>();
 
@@ -359,13 +411,13 @@ void AISystem::applyMovement(Entity& entity) {
 
 	sprite.moving = !(transform.velocity.getX() == 0 && transform.velocity.getY() == 0);
 
-	if (entity.hasComponent<CollisionComponent>()) {
-		auto& collisionComponent = entity.getComponent<CollisionComponent>();
-		collisionComponent.collider.x = transform.position.getX();
-		collisionComponent.collider.y = transform.position.getY();
-		collisionComponent.collider.w = transform.width;
-		collisionComponent.collider.h = transform.height;
-	}
+	auto& collisionComponent = entity.getComponent<CollisionComponent>();
+
+	collisionComponent.collider.x = transform.position.getX();
+	collisionComponent.collider.y = transform.position.getY();
+	collisionComponent.collider.w = transform.width;
+	collisionComponent.collider.h = transform.height;
+
 }
 
 std::string AISystem::addSpaces(const std::string& string, const int goalChars, const bool leading)

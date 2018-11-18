@@ -8,6 +8,7 @@
 #include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../components/StatsComponent.h"
+#include "../components/SpawnComponent.h"
 #include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
@@ -102,7 +103,7 @@ Entity& PlayState::makePlayer() const
 	player.addComponent<PlayerMovementComponent>();
 
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
-	player.addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1), 180, 180, 0.3, 0, 0);
+	player.addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1, 1), 180, 180, 0.3, 0, 0);
 
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
@@ -122,18 +123,47 @@ void PlayState::makeEnemies() const
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
 	for (auto x = 0; x < 3; x++) {
-	    for (auto y = 0; y < 30; y++) {
+	    for (auto y = 0; y < 7; y++) {
 	        const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 	
 	        auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	        enemyTransform.position.setX(350 + 50 * x);
+	        enemyTransform.position.setX(200 + 50 * x);
 	        enemyTransform.position.setY(60 + 50 * y);
 	    }
 	}
-	auto& enemy = enemyFactory.getBoss(10);
-	auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	enemyTransform.position.setX(250 + 50);
-	enemyTransform.position.setY(250);
+	//auto& enemy = enemyFactory.getBoss(10);
+	//auto& enemyTransform = enemy.getComponent<TransformComponent>();
+	//enemyTransform.position.setX(250 + 50);
+	//enemyTransform.position.setY(250);
+
+	auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
+	auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
+	manufacturerSpawn.type = "orc";
+	manufacturerSpawn.spawnTimer = 7500;
+	manufacturerTransform.position.setX(500);
+	manufacturerTransform.position.setY(300);
+
+	auto& manufacturer1 = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturerTransform1 = manufacturer1.getComponent<TransformComponent>();
+	auto& manufacturerSpawn1 = manufacturer1.getComponent<SpawnComponent>();
+	manufacturerSpawn1.type = "fireWizard";
+	manufacturerSpawn1.spawnTimer = 3000;
+	manufacturerTransform1.position.setX(500);
+	manufacturerTransform1.position.setY(200);
+
+	auto& manufacturer2 = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturerTransform2 = manufacturer2.getComponent<TransformComponent>();
+	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
+	manufacturerSpawn2.type = "chicken";
+	manufacturerSpawn2.spawnTimer = 333;
+	manufacturerSpawn2.maxCount = 150;
+	manufacturerTransform2.position.setX(500);
+	manufacturerTransform2.position.setY(100);
+
+
+
+
 }
 
 void PlayState::makeGui()
