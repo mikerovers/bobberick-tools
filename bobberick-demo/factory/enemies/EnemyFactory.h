@@ -2,6 +2,7 @@
 #define BOBBERICK_TOOLS_ENEMYFACTORY_H
 
 #include "../../../bobberick-framework/src/entity/Entity.h"
+#include <map>
 
 class EnemyFactory
 {

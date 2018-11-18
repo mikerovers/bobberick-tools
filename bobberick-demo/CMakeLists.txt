@@ -34,6 +34,7 @@ factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
 factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
+factory/enemies/ChickenFactory.cpp factory/enemies/ChickenFactory.h
 factory/enemies/ZombieFactory.cpp factory/enemies/ZombieFactory.h
 factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h
 state/TestState.cpp state/TestState.h
