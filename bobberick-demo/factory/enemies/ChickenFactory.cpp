@@ -28,10 +28,10 @@ Entity& ChickenFactory::getEnemy(const int level)
 	const double random = RandomGenerator{}.getRandomDouble(1, 50);
 	const double randMutator = (random + 50) / 100;
 
-	int hp = 10 * level * (randMutator),
-	    maxHp = 10 * level * (randMutator),
-	    atkMin = 0 * level * (randMutator),
-	    atkMax = 0 * level * (randMutator),
+	int hp = 10 * level * randMutator,
+	    maxHp = 10 * level * randMutator,
+	    atkMin = 0 * level * randMutator,
+	    atkMax = 0 * level * randMutator,
 	    df = 0;
 
 	chicken.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df, level);

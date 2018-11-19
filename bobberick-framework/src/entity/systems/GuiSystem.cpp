@@ -21,10 +21,10 @@ void GuiSystem::update()
         auto& spr = entity->getComponent<ButtonSpriteComponent>();
         auto& transformComponent = entity->getComponent<TransformComponent>();
 
-        if (mousePosition->getX() < (transformComponent.position.getX() + transformComponent.width)
-            && mousePosition->getX() > transformComponent.position.getX()
-            && mousePosition->getY() < (transformComponent.position.getY() + transformComponent.height)
-            && mousePosition->getY() > transformComponent.position.getY())
+        if (mousePosition->x < transformComponent.position.x + transformComponent.width
+            && mousePosition->x > transformComponent.position.x
+            && mousePosition->y < transformComponent.position.y + transformComponent.height
+            && mousePosition->y > transformComponent.position.y)
         {
             spr.setCurrentFrame(1);
 

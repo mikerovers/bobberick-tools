@@ -21,8 +21,8 @@ void TextComponent::init()
 	sourceRect.x = sourceRect.y = 0;
 	destinationRect.w = sourceRect.w = transform->width;
 	destinationRect.h = sourceRect.h = transform->height;
-	destinationRect.x = transform->position.getX();
-	destinationRect.y = transform->position.getY();
+	destinationRect.x = transform->position.x;
+	destinationRect.y = transform->position.y;
 }
 
 void TextComponent::update()
@@ -30,8 +30,8 @@ void TextComponent::update()
 	sourceRect.x = sourceRect.y = 0;
 	destinationRect.w = sourceRect.w = transform->width;
 	destinationRect.h = sourceRect.h = transform->height;
-	destinationRect.x = transform->position.getX();
-	destinationRect.y = transform->position.getY();
+	destinationRect.x = transform->position.x;
+	destinationRect.y = transform->position.y;
 }
 
 void TextComponent::render()

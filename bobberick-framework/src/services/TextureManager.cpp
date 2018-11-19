@@ -35,7 +35,7 @@ bool TextureManager::addTextureFromSurface(SDL_SurfacePointer surface, std::stri
 	}
 }
 
-void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip, int nScale)
+void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip, double nScale)
 {
 	auto scaledDest = SDL_Rect{};
 	int width = destinationRect->w;

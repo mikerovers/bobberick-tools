@@ -12,6 +12,7 @@ typedef int gid;
 class TilesetComponent : public Component
 {
 public:
+    std::string sheet;
     int rows;
     int cols;
     int tileWidth;

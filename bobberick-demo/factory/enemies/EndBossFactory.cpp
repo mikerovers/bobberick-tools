@@ -36,10 +36,10 @@ Entity & EndBossFactory::getEnemy(const int level)
 	const double random = RandomGenerator{}.getRandomDouble(1, 50);
 	double randMutator = (random + 50) / 100;
 
-	int hp = 500 * level * (randMutator),
-		maxHp = 500 * level * (randMutator),
-		atkMin = 40 * level * (randMutator),
-		atkMax = 60 * level * (randMutator),
+	int hp = 500 * level * randMutator,
+		maxHp = 500 * level * randMutator,
+		atkMin = 40 * level * randMutator,
+		atkMax = 60 * level * randMutator,
 		df = 1;
 
 	endBoss.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df, level);
