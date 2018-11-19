@@ -38,7 +38,7 @@ void AISystem::init()
 			auto& transform = entity->getComponent<TransformComponent>();
 
 			collisionComponent.collider.x = transform.position.x;
-			collisionComponent.collider.y = transform.position.y);
+			collisionComponent.collider.y = transform.position.y;
 			collisionComponent.collider.w = transform.width;
 			collisionComponent.collider.h = transform.height;
 		}
