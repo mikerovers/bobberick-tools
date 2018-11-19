@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="21">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="27">
  <tileset firstgid="1" name="grassland" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="grassland.png" width="512" height="512"/>
  </tileset>
- <layer id="1" name="grass" width="32" height="32" visible="0">
+ <layer id="1" name="grass" width="32" height="32">
   <data>
    <tile gid="70"/>
    <tile gid="70"/>
@@ -1752,6 +1752,9 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="151"/>
+   <tile gid="152"/>
+   <tile gid="153"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1781,12 +1784,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="167"/>
+   <tile gid="168"/>
+   <tile gid="169"/>
    <tile/>
    <tile/>
    <tile/>
@@ -4115,7 +4115,7 @@
    <tile/>
   </data>
  </layer>
- <objectgroup id="5" name="health" visible="0">
+ <objectgroup id="5" name="health">
   <object id="1" name="healthkit" x="222" y="342">
    <point/>
   </object>
@@ -5151,7 +5151,7 @@
  <objectgroup id="8" name="water object">
   <object id="20" name="water" x="503.333" y="118" width="82" height="83.3333"/>
  </objectgroup>
- <layer id="7" name="hekkie" width="32" height="32" visible="0">
+ <layer id="7" name="hekkie" width="32" height="32">
   <data>
    <tile/>
    <tile/>
@@ -6179,7 +6179,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="9" name="Collision Sprites" width="32" height="32" visible="0">
+ <layer id="9" name="Collision Sprites" width="32" height="32">
   <data>
    <tile/>
    <tile/>
@@ -6772,6 +6772,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="38"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="39"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6794,6 +6804,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="26"/>
+   <tile gid="119"/>
+   <tile gid="120"/>
+   <tile gid="120"/>
+   <tile gid="88"/>
+   <tile gid="88"/>
+   <tile gid="89"/>
+   <tile gid="121"/>
+   <tile gid="122"/>
+   <tile gid="24"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6816,6 +6836,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="26"/>
+   <tile gid="135"/>
+   <tile gid="136"/>
+   <tile gid="136"/>
+   <tile gid="104"/>
+   <tile gid="104"/>
+   <tile gid="105"/>
+   <tile gid="137"/>
+   <tile gid="138"/>
+   <tile gid="24"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6838,6 +6868,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="26"/>
+   <tile gid="151"/>
+   <tile gid="152"/>
+   <tile gid="1"/>
+   <tile gid="2"/>
+   <tile gid="4"/>
+   <tile gid="5"/>
+   <tile gid="153"/>
+   <tile gid="154"/>
+   <tile gid="24"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6860,6 +6900,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="26"/>
+   <tile gid="135"/>
+   <tile gid="136"/>
+   <tile gid="17"/>
+   <tile gid="6"/>
+   <tile gid="7"/>
+   <tile gid="21"/>
+   <tile gid="153"/>
+   <tile gid="154"/>
+   <tile gid="24"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6882,6 +6932,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="26"/>
+   <tile gid="151"/>
+   <tile gid="152"/>
+   <tile gid="49"/>
+   <tile gid="22"/>
+   <tile gid="23"/>
+   <tile gid="53"/>
+   <tile gid="153"/>
+   <tile gid="154"/>
+   <tile gid="24"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6904,6 +6964,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="26"/>
+   <tile gid="151"/>
+   <tile gid="152"/>
+   <tile gid="65"/>
+   <tile gid="66"/>
+   <tile gid="68"/>
+   <tile gid="69"/>
+   <tile gid="153"/>
+   <tile gid="154"/>
+   <tile gid="24"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6926,6 +6996,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="26"/>
+   <tile gid="151"/>
+   <tile gid="152"/>
+   <tile gid="153"/>
+   <tile gid="153"/>
+   <tile gid="153"/>
+   <tile gid="153"/>
+   <tile gid="153"/>
+   <tile gid="154"/>
+   <tile gid="24"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6948,6 +7028,16 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="26"/>
+   <tile gid="167"/>
+   <tile gid="168"/>
+   <tile gid="169"/>
+   <tile gid="169"/>
+   <tile gid="169"/>
+   <tile gid="169"/>
+   <tile gid="169"/>
+   <tile gid="170"/>
+   <tile gid="24"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6970,106 +7060,16 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="54"/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile gid="55"/>
    <tile/>
    <tile/>
    <tile/>
@@ -7207,7 +7207,7 @@
    <tile/>
   </data>
  </layer>
- <objectgroup id="10" name="Object Layer 3" visible="0">
+ <objectgroup id="10" name="aabb_rectangle">
   <object id="9" name="aabb_rectangle" x="192" y="226" width="29" height="26"/>
   <object id="10" name="aabb_rectangle" x="257.5" y="225" width="29" height="26"/>
   <object id="11" name="aabb_rectangle" x="449.5" y="32" width="29" height="26"/>
@@ -7218,5 +7218,10 @@
   <object id="16" name="aabb_rectangle" x="161.5" y="321" width="29" height="26"/>
   <object id="17" name="aabb_rectangle" x="95.5" y="320" width="29" height="26"/>
   <object id="19" name="aabb_rectangle" x="330.833" y="162.333" width="76" height="57"/>
+  <object id="22" name="aabb_rectangle" x="516.186" y="607.409" width="87.8852" height="61.1859"/>
+  <object id="23" name="aabb_rectangle" x="674.157" y="608.522" width="85.6603" height="62.2984"/>
+  <object id="24" name="aabb_rectangle" x="515.074" y="668.595" width="61.1859" height="190.233"/>
+  <object id="25" name="aabb_rectangle" x="701.969" y="669.707" width="58.961" height="186.895"/>
+  <object id="26" name="aabb_rectangle" x="574.035" y="798.754" width="135.721" height="60.0734"/>
  </objectgroup>
 </map>
