@@ -7,6 +7,8 @@
 #include "../../components/StatsComponent.h"
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
+#include "../../components/EnemyMovementComponent.h"
+#include "../../components/SpawnedComponent.h"
 
 Entity &OrcFactory::getEnemy(const int level)
 {
@@ -14,6 +16,7 @@ Entity &OrcFactory::getEnemy(const int level)
 	auto& transformComponent = orc.addComponent<TransformComponent>(-1, -1, 49, 64, 1);
 	auto& spriteComponent = orc.addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
 	orc.addComponent<HealthBarComponent>();
+	orc.addComponent<EnemyMovementComponent>();
 	orc.addComponent<AIComponent>();
 	orc.addComponent<CollisionComponent>("orc");
 
@@ -29,7 +32,14 @@ Entity &OrcFactory::getEnemy(const int level)
 		atkMax = 4 * level * randMutator,
 		df = 1;
 
-	orc.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
+	orc.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df, level);
 
 	return orc;
+}
+
+Entity & OrcFactory::getEnemy(const int level, const int spawnerId)
+{
+	auto& enemy = getEnemy(level);
+	enemy.addComponent<SpawnedComponent>(spawnerId);
+	return enemy;
 }

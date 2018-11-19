@@ -18,6 +18,7 @@ private:
 	static std::string addSpaces(const std::string& string, const int goalChars, const bool leading);
 	void executeShoot(Entity& entity, int &channelCounter);
 	static void executeSpell(Entity& entity);
+	static void executeSpawner(Entity& entity);
 	static void initHealthBar(Entity& entity);
 	static void applyHealthBar(Entity& entity);
 	static void applyMovement(Entity& entity);

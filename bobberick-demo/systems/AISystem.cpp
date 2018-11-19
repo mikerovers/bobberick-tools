@@ -15,6 +15,9 @@
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
+#include "../../bobberick-demo/components/SpawnComponent.h"
+#include "../../bobberick-demo/components/SpawnedComponent.h"
+#include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
@@ -30,12 +33,25 @@ void AISystem::init()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>())
 	{
 		initHealthBar(*entity);
+		if (entity->hasComponent<CollisionComponent>()) {
+			auto& collisionComponent = entity->getComponent<CollisionComponent>();
+			auto& transform = entity->getComponent<TransformComponent>();
+
+			collisionComponent.collider.x = transform.position.x;
+			collisionComponent.collider.y = transform.position.y);
+			collisionComponent.collider.w = transform.width;
+			collisionComponent.collider.h = transform.height;
+		}
 	}
 }
 
 
 void AISystem::update()
 {
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpawnComponent>()) {
+		executeSpawner(*entity);
+	}
+
 	int channelCounter = 2;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>())
 	{
@@ -121,7 +137,41 @@ void AISystem::executeSpell(Entity& entity)
 				}
 
 				timer.setTimer(5000);
+
 			}
+		}
+	}
+}
+
+void AISystem::executeSpawner(Entity& entity) {
+
+	if (entity.hasComponent<TimerComponent>()) {
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished()) {
+			auto& spawnComponent = entity.getComponent<SpawnComponent>();
+
+			int spawnCounter = 0;
+
+			for (auto& spawnedEnemy : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>()) {
+				auto& spawnedComponent = spawnedEnemy->getComponent<SpawnedComponent>();
+				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy->getComponent<CollisionComponent>().tag) {
+					spawnCounter++; // we found its spawn
+				}
+			}
+
+			if (spawnCounter > spawnComponent.maxCount) {
+				return;
+			}
+
+			auto& statsComponent = entity.getComponent<StatsComponent>();
+			auto& transformComponent = entity.getComponent<TransformComponent>();
+
+			auto& enemy = EnemyFactory{}.spawnEnemy(1, spawnComponent.type, spawnComponent.id);
+			auto& enemyTransform = enemy.getComponent<TransformComponent>();
+			enemyTransform.position.x = transformComponent.position.x + (transformComponent.width / 2);
+			enemyTransform.position.y = transformComponent.position.y + transformComponent.height;
+			initHealthBar(enemy);
+			timer.setTimer(spawnComponent.spawnTimer);
 		}
 	}
 }
@@ -285,8 +335,10 @@ void AISystem::applyHealthBar(Entity& entity)
 	}
 }
 
-void AISystem::applyMovement(Entity& entity)
-{
+void AISystem::applyMovement(Entity& entity) {
+	if (!entity.hasComponent<EnemyMovementComponent>()) {
+		return;
+	}
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& sprite = entity.getComponent<SpriteComponent>();
 

@@ -8,6 +8,7 @@
 #include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../components/StatsComponent.h"
+#include "../components/SpawnComponent.h"
 #include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
@@ -100,7 +101,7 @@ Entity& PlayState::makePlayer() const
 	player.addComponent<PlayerMovementComponent>();
 
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
-	player.addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1), 180, 180, 0.3, 0, 0);
+	player.addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1, 1), 180, 180, 0.3, 0, 0);
 
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
@@ -132,8 +133,8 @@ void PlayState::makeEnemies() const
 	}
 	auto& enemy = enemyFactory.getBoss(10);
 	auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	enemyTransform.position.x = 250 + 50;
-	enemyTransform.position.y = 250;
+	enemyTransform.position.setX(250 + 50);
+	enemyTransform.position.setY(250);
 }
 
 void PlayState::makeGui()

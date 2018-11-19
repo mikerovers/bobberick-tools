@@ -7,6 +7,8 @@
 #include "../../components/StatsComponent.h"
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
+#include "../../components/EnemyMovementComponent.h"
+#include "../../components/SpawnedComponent.h"
 
 Entity & ZombieFactory::getEnemy(const int level)
 {
@@ -14,6 +16,7 @@ Entity & ZombieFactory::getEnemy(const int level)
 	auto& transformComponent = zombie.addComponent<TransformComponent>(-1, -1, 51, 51, 1);
 	auto& spriteComponent = zombie.addComponent<SpriteComponent>("assets/image/enemies/zombie.png", "zombie", 6, 4, 10);
 	zombie.addComponent<HealthBarComponent>();
+	zombie.addComponent<EnemyMovementComponent>();
 	zombie.addComponent<AIComponent>();
 	zombie.addComponent<CollisionComponent>("zombie");
 
@@ -22,13 +25,20 @@ Entity & ZombieFactory::getEnemy(const int level)
 	const double random = RandomGenerator{}.getRandomDouble(1, 50);
 	double randMutator = (random + 50) / 100;
 
-	int hp = 125 * level * randMutator,
-		maxHp = 200 * level * randMutator,
-		atkMin = 1 * level * randMutator,
-		atkMax = 3 * level * randMutator,
+	int hp = 200 * level * (randMutator),
+		maxHp = 200 * level * (randMutator),
+		atkMin = 1 * level * (randMutator),
+		atkMax = 3 * level * (randMutator),
 		df = 1;
 
-	zombie.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
+	zombie.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df, level);
 
 	return zombie;
+}
+
+Entity & ZombieFactory::getEnemy(const int level, const int spawnerId)
+{
+	auto& enemy = getEnemy(level);
+	enemy.addComponent<SpawnedComponent>(spawnerId);
+	return enemy;
 }

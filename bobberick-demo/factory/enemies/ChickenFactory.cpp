@@ -7,6 +7,8 @@
 #include "../../components/StatsComponent.h"
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
+#include "../../components/EnemyMovementComponent.h"
+#include "../../components/SpawnedComponent.h"
 
 Entity& ChickenFactory::getEnemy(const int level)
 {
@@ -18,6 +20,7 @@ Entity& ChickenFactory::getEnemy(const int level)
 
 	chicken.addComponent<HealthBarComponent>();
 	chicken.addComponent<AIComponent>();
+	chicken.addComponent<EnemyMovementComponent>();
 	chicken.addComponent<CollisionComponent>("chicken");
 
 	transformComponent.speed = 2;
@@ -31,7 +34,14 @@ Entity& ChickenFactory::getEnemy(const int level)
 	    atkMax = 0 * level * randMutator,
 	    df = 0;
 
-	chicken.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
+	chicken.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df, level);
 
 	return chicken;
+}
+
+Entity & ChickenFactory::getEnemy(const int level, const int spawnerId)
+{
+	auto& enemy = getEnemy(level);
+	enemy.addComponent<SpawnedComponent>(spawnerId);
+	return enemy;
 }

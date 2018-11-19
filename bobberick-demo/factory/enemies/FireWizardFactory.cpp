@@ -8,6 +8,8 @@
 #include "../../components/StatsComponent.h"
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
+#include "../../components/EnemyMovementComponent.h"
+#include "../../components/SpawnedComponent.h"
 
 Entity & FireWizardFactory::getEnemy(const int level)
 {
@@ -16,6 +18,7 @@ Entity & FireWizardFactory::getEnemy(const int level)
 	auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
 	spriteComponent.addTexture("assets/image/enemies/fire_wizard_casting.png", "fire_wizard_casting");
 	fireWizard.addComponent<HealthBarComponent>();
+	fireWizard.addComponent<EnemyMovementComponent>();
 	fireWizard.addComponent<AIComponent>();
 	fireWizard.addComponent<ShootComponent>();
 	fireWizard.addComponent<CollisionComponent>("fireWizard");
@@ -31,7 +34,14 @@ Entity & FireWizardFactory::getEnemy(const int level)
 		atkMax = 6 * level * randMutator,
 		df = 1;
 
-	fireWizard.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
+	fireWizard.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df, level);
 
 	return fireWizard;
+}
+
+Entity & FireWizardFactory::getEnemy(const int level, const int spawnerId)
+{ 
+	auto& enemy = getEnemy(level);
+	enemy.addComponent<SpawnedComponent>(spawnerId);
+	return enemy;
 }
