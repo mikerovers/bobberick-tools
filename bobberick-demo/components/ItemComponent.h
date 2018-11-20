@@ -8,9 +8,9 @@
 
 class ItemComponent : public Component {
 public:
-	SpriteComponent sprite; // The sprite belonging to this item. Could be used when the item is in the inventory view.
+	std::string sprite; // The asset path for the sprite belonging to this item. Could be used when the item is in the inventory view.
 	std::string name; // The name for this item. Might be randomly generated as well.
-	ItemComponent(SpriteComponent sprite, std::string name) {
+	ItemComponent(std::string sprite, std::string name) {
 		ItemComponent::sprite = sprite;
 		ItemComponent::name = name;
 	}

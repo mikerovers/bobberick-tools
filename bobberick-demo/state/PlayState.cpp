@@ -16,6 +16,7 @@
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../factory/ObjectFactory.h"
 #include "../factory/enemies/EnemyFactory.h"
+#include "../factory/WeaponFactory.h"
 
 std::string PlayState::getStateID() const
 {
@@ -46,6 +47,8 @@ bool PlayState::onEnter()
 
     ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1", SOUND_MUSIC);
     ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
+
+	WeaponFactory().generateWeapon(false, 10, 10, -9, 9); // For testing purposes
 
     instantiateSystems();
 

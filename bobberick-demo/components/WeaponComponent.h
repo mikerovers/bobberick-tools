@@ -12,8 +12,8 @@ public:
 	bool isMagic; // Magic weapons (staffs) go into the right mouse button. Non-magic weapons (bows) go into the left mouse button.
 	int power; // The modifier to the user's attack strength. Can also be negative as a trade-off to, for instance, a very high firing rate.
 	int fireDelay; // The amount of frames between each bullet and the next. 60 = one bullet per second.
-	SpriteComponent bulletSprite; // The sprite used for bullets fired by this weapon.
-	WeaponComponent(SpriteComponent sprite, std::string name, bool isMagic, int power, int fireDelay, SpriteComponent bulletSprite) : ItemComponent(sprite, name) {
+	std::string bulletSprite; // The asset path for the sprite for bullets fired by this weapon.
+	WeaponComponent(std::string sprite, std::string name, bool isMagic, int power, int fireDelay, std::string bulletSprite) : ItemComponent(sprite, name) {
 		WeaponComponent::isMagic = isMagic;
 		WeaponComponent::power = power;
 		WeaponComponent::fireDelay = fireDelay;
