@@ -1,7 +1,7 @@
 #include "InventoryComponent.h"
 
 ItemComponent* InventoryComponent::getItem(int index) {
-	if (index <= items.size()) {
+	if (index < items.size()) {
 		return items[index].get();
 	} else {
 		return nullptr;
@@ -9,7 +9,7 @@ ItemComponent* InventoryComponent::getItem(int index) {
 }
 
 bool InventoryComponent::use(int index) {
-	if (index <= items.size()) {
+	if (index < items.size()) {
 		items[index]->use(playerStats);
 		items.erase(items.begin() + index);
 		return true;
