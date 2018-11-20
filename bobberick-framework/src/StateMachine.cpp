@@ -24,7 +24,7 @@ void StateMachine::popState()
                 entity->destroy();
             });
 
-            delete gameStates.back();
+            gameStates.back()->setExiting(true);
             gameStates.pop_back();
 
             // Make previous state active.
