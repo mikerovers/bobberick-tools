@@ -2,6 +2,7 @@
 #include "services/TextureManager.h"
 #include "services/FontManager.h"
 #include "services/RectangleManager.h"
+#include "services/CameraManager.h"
 #include "entity/EntityManager.h"
 #include "services/InputHandler.h"
 #include "services/RenderService.h"
@@ -47,6 +48,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 	serviceManager->addService<SoundManager>();
 	serviceManager->addService<InputHandler>();
 	serviceManager->addService<SoundManager>();
+	serviceManager->addService<CameraManager>();
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
@@ -114,7 +116,8 @@ void Game::start()
 
 bool Game::setup()
 {
-    if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 480, 640,
+    //if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 480, 640,
+    if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 1280,
              static_cast<Uint32>(false))) {
         return true;
     } else {

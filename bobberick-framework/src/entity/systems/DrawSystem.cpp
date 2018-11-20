@@ -5,6 +5,7 @@
 #include "../components/FadeComponent.h"
 #include "../../services/TextureManager.h"
 #include "../../services/RectangleManager.h"
+#include "../../services/CameraManager.h"
 #include "../../services/FontManager.h"
 #include "../../services/ServiceManager.h"
 #include "../components/TilesetComponent.h"
@@ -19,6 +20,8 @@ void DrawSystem::update()
 {
 	auto& tx = ServiceManager::Instance()->getService<TextureManager>();
 	auto& rs = ServiceManager::Instance()->getService<RenderService>();
+	auto& camera = ServiceManager::Instance()->getService<CameraManager>();
+	// todo change camera 
 
 	for (auto& entity: entityManager.getAllEntitiesWithComponent<TilesetComponent>()) {
 		auto& tileSetComponent = entity->getComponent<TilesetComponent>();
@@ -41,9 +44,11 @@ void DrawSystem::update()
 		if (!entity->getComponent<SpriteComponent>().guiLayer) {
 			auto &spr = entity->getComponent<SpriteComponent>();
 			auto &transform = entity->getComponent<TransformComponent>();
-
+			auto& source = spr.getSourceRect();
+			auto& dest = spr.getDestinationRect();
 			spr.update();
-			ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
+
+			ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &source, &dest, ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
 		} 
     }
 

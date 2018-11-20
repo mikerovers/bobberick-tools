@@ -1,6 +1,7 @@
 #include "PlayerInputSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
+#include "../../bobberick-framework/src/services/CameraManager.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../components/BulletMovementComponent.h"
@@ -90,6 +91,9 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		{
 			transform.velocity.y = 1 * speedModifier;
 		}
+
+		auto& camera = ServiceManager::Instance()->getService<CameraManager>();
+		camera.setPosition(transform.position);
 
 		if (z)
 		{

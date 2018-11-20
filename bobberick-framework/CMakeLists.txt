@@ -33,6 +33,7 @@ set(
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/services/TextureManager.cpp src/services/TextureManager.h
 	src/services/FontManager.cpp src/services/FontManager.h
+	src/services/CameraManager.cpp src/services/CameraManager.h
 	src/services/RectangleManager.cpp src/services/RectangleManager.h
 	src/services/ServiceManager.cpp src/services/ServiceManager.h
 	src/services/Service.cpp src/services/Service.h

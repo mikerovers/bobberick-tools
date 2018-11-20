@@ -135,6 +135,22 @@ void PlayState::makeEnemies() const
 	auto& enemyTransform = enemy.getComponent<TransformComponent>();
 	enemyTransform.position.x = 250 + 50;
 	enemyTransform.position.y = 250;
+
+	auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
+	auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
+	manufacturerSpawn.type = "orc";
+	manufacturerSpawn.spawnTimer = 7500;
+	manufacturerTransform.position.x = 200;
+	manufacturerTransform.position.y = 333;
+
+	auto& manufacturer1 = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturerTransform1 = manufacturer1.getComponent<TransformComponent>();
+	auto& manufacturerSpawn1 = manufacturer1.getComponent<SpawnComponent>();
+	manufacturerSpawn1.type = "fireWizard";
+	manufacturerSpawn1.spawnTimer = 3000;
+	manufacturerTransform1.position.x = 300;
+	manufacturerTransform1.position.y = 333;
 }
 
 void PlayState::makeGui()
