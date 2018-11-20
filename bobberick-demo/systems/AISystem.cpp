@@ -19,6 +19,7 @@
 #include "../../bobberick-demo/components/SpawnedComponent.h"
 #include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
+#include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
 #include <thread>
@@ -341,13 +342,15 @@ void AISystem::applyMovement(Entity& entity) {
 	}
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& sprite = entity.getComponent<SpriteComponent>();
+	auto& enemyMovement = entity.getComponent<EnemyMovementComponent>();
 
 
 	const double speed = 0.2 * transform.speed;
 	const int move = rand() % 60;
 
-	if (move == 0)
+	if (move == 0 || enemyMovement.collided)
 	{
+		enemyMovement.collided = false;
 		const auto v1 = rand() % 9;
 
 		switch (v1)

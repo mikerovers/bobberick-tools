@@ -92,7 +92,7 @@ Entity& PlayState::makeTileMap() const
 Entity& PlayState::makePlayer() const
 {
 	auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	player.addComponent<TransformComponent>(200, 200, 64, 32, 1);
+	player.addComponent<TransformComponent>(100, 100, 64, 32, 1);
 	auto& spriteComponent = player.addComponent<SpriteComponent>("assets/image/character/character.png", "character", 6,
 	                                                             4, 5);
 	spriteComponent.addTexture("assets/image/character/character_casting.png", "character_casting");
@@ -120,21 +120,30 @@ void PlayState::instantiateSystems() const
 void PlayState::makeEnemies() const
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
-	for (auto x = 0; x < 3; x++)
+	for (auto x = 0; x < 5; x++)
 	{
-		for (auto y = 0; y < 50; y++)
+		for (auto y = 0; y < 5; y++)
 		{
 			const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 
 			auto& enemyTransform = enemy.getComponent<TransformComponent>();
-			enemyTransform.position.x = 350 + 50 * x;
-			enemyTransform.position.y = 60 + 50 * y;
+			enemyTransform.position.x = 50 + 10 * x;
+			enemyTransform.position.y = 350 + 10 * y;
 		}
 	}
-	auto& enemy = enemyFactory.getBoss(10);
+	/*auto& enemy = enemyFactory.getBoss(10);
 	auto& enemyTransform = enemy.getComponent<TransformComponent>();
 	enemyTransform.position.x = 250 + 50;
 	enemyTransform.position.y = 250;
+*/
+	auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
+	auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
+	manufacturerSpawn.type = "orc";
+	manufacturerSpawn.spawnTimer = 1000;
+	manufacturerSpawn.maxCount = 20;
+	manufacturerTransform.position.x = 500;
+	manufacturerTransform.position.y = 300;
 }
 
 void PlayState::makeGui()
