@@ -10,6 +10,7 @@
 #include "../components/StatsComponent.h"
 #include "../components/SpawnComponent.h"
 #include "../components/PlayerStatsComponent.h"
+#include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
@@ -105,6 +106,7 @@ Entity& PlayState::makePlayer() const
 
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
+	player.addComponent<InventoryComponent>(&player.getComponent<PlayerStatsComponent>());
 
 	return player;
 }
