@@ -34,10 +34,10 @@ WeaponComponent* WeaponFactory::generateWeapon(bool magic, int minRank, int maxR
 			}
 		}
 
-		int power;
-		int fireDelay;
 		// Base stats: Magic weapons of equal rank are twice as powerful as a normal weapon, but fire at half the speed.
 		// Fire rate is only slightly affected by rank, the bigger changes to it happen by balance.
+		int power;
+		int fireDelay;
 		if (magic) {
 			power = 10 * std::pow(1.5, rank);
 			fireDelay = 60 - (2 * rank);
@@ -69,7 +69,16 @@ WeaponComponent* WeaponFactory::generateWeapon(bool magic, int minRank, int maxR
 		std::cout << "Power: " << power << std::endl;
 		std::cout << "Fire Delay: " << fireDelay << std::endl;
 
-		return nullptr; // Return a WeaponComponent* when done.
+		// Assign sprites: these might vary depending on weapon type and weapon rank.
+		std::string sprite = "assets/items/potion.png"; // TODO: assign based on core numbers
+		std::string bulletSprite;
+		if (magic) {
+			bulletSprite = "assets/projectiles/bolt.png";
+		} else {
+			bulletSprite = "assets/projectiles/bullet_ball_grey.png";
+		}
+
+		return new WeaponComponent(sprite, name, magic, power, fireDelay, bulletSprite);
 	} else {
 		return nullptr;
 	}
