@@ -7,8 +7,8 @@ bool BobberGame::setup()
 		stateFactory = std::make_shared<StateFactory>();
 
 		getStateMachine()->pushState(stateFactory->createState("PlayState"));
-		//getStateMachine()->pushState(stateFactory->createState("MainMenuState"));
-		//getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
+		getStateMachine()->pushState(stateFactory->createState("MainMenuState"));
+		getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
 		//getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
         //getStateMachine()->peekState()->onEnter();
 		//getStateMachine()->pushState(stateFactory->createState("TestState"));
