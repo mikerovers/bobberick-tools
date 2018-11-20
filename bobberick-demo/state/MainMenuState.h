@@ -11,6 +11,7 @@ public:
 	void update() override;
 	std::string getStateID() const override;
 	bool shouldExit() override;
+	Entity& makeTileMap() const;
 
 private:
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();

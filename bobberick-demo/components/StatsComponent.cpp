@@ -1,12 +1,13 @@
 #include "StatsComponent.h"
 #include <random>
 
-StatsComponent::StatsComponent(const int hp, const int hpMax, const int atMin, const int atMax, const int df) {
+StatsComponent::StatsComponent(const int hp, const int hpMax, const int atMin, const int atMax, const int df, const int level) {
 	changeHPmax(hpMax);
 	healPoints(hp);
 	changeATmax(atMax);
 	changeATmin(atMin);
 	changeDF(df);
+	changeLevel(level);
 }
 
 void StatsComponent::healPoints(const int points) {
@@ -20,7 +21,7 @@ void StatsComponent::healPoints(const int points) {
 
 void StatsComponent::healPercent(const int percent) {
 	if (percent > 0) {
-		const int points = (double)((hpMax / 100) * percent);
+		const int points = (double)(hpMax / 100 * percent);
 		healPoints(points);
 	}
 }
@@ -62,6 +63,9 @@ const int StatsComponent::getATmax() {
 const int StatsComponent::getDF() {
 	return df;
 }
+const int StatsComponent::getLevel() {
+	return level;
+}
 
 void StatsComponent::changeHPmax(const int amount) {
 	hpMax += amount;
@@ -97,5 +101,12 @@ void StatsComponent::changeDF(const int amount) {
 	df += amount;
 	if (df < 0) {
 		df = 0;
+	}
+}
+
+void StatsComponent::changeLevel(const int amount) {
+	level += amount;
+	if (level < 0) {
+		level = 0;
 	}
 }

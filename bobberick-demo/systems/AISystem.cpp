@@ -15,6 +15,9 @@
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
+#include "../../bobberick-demo/components/SpawnComponent.h"
+#include "../../bobberick-demo/components/SpawnedComponent.h"
+#include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
@@ -25,16 +28,30 @@ AISystem::AISystem(EntityManager& entityManager) : System(entityManager)
 {
 }
 
-void AISystem::init() {
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>()) {
+void AISystem::init()
+{
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>())
+	{
 		initHealthBar(*entity);
+		if (entity->hasComponent<CollisionComponent>()) {
+			auto& collisionComponent = entity->getComponent<CollisionComponent>();
+			auto& transform = entity->getComponent<TransformComponent>();
+
+			collisionComponent.collider.x = transform.position.x;
+			collisionComponent.collider.y = transform.position.y;
+			collisionComponent.collider.w = transform.width;
+			collisionComponent.collider.h = transform.height;
+		}
 	}
 }
 
 
-
 void AISystem::update()
 {
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpawnComponent>()) {
+		executeSpawner(*entity);
+	}
+
 	int channelCounter = 2;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>())
 	{
@@ -54,54 +71,67 @@ void AISystem::update()
 
 		double maxWidth = 640.00; //change this
 		double maxHeight = 480.00; //change this
-		//std::cout << transform.position.getX() << "\n";
+		//std::cout << transform.position.x << "\n";
 
-			transform.update();
-
+		transform.update();
 	}
 }
 
-void AISystem::executeSpell(Entity& entity) {
-	if (entity.hasComponent<TimerComponent>()) {
+void AISystem::executeSpell(Entity& entity)
+{
+	if (entity.hasComponent<TimerComponent>())
+	{
 		auto& timer = entity.getComponent<TimerComponent>();
-		if (timer.isTimerFinished()) {
-			if (entity.hasComponent<SpawnMinionsSpellComponent>()) {
+		if (timer.isTimerFinished())
+		{
+			if (entity.hasComponent<SpawnMinionsSpellComponent>())
+			{
 				auto& spellComponent = entity.getComponent<SpawnMinionsSpellComponent>();
-				if (spellComponent.phase > 2) {
+				if (spellComponent.phase > 2)
+				{
 					// return;
 				}
 				auto& transform = entity.getComponent<TransformComponent>();
 
-				double enemyX = transform.position.getX();
-				double enemyY = transform.position.getY();
+				const double enemyX = transform.position.x;
+				const double enemyY = transform.position.y;
 				EnemyFactory enemyFactory = EnemyFactory{};
 
-				std::string enemyType = "";
-				switch (spellComponent.phase) {
-				case 0: {
-					enemyType = "zombie";
-				}break;
-				case 1: {
-					enemyType = "orc";
-				}break;
+				std::string enemy_type;
+				switch (spellComponent.phase)
+				{
+				case 0:
+					{
+						enemy_type = "zombie";
+					}
+					break;
+				case 1:
+					{
+						enemy_type = "orc";
+					}
+					break;
 				case 2:
-				default:{
-					enemyType = "fireWizard";
-				}break;
+				default:
+					{
+						enemy_type = "fireWizard";
+					}
+					break;
 				}
 
-				if (spellComponent.minionCount >= 8) {
+				if (spellComponent.minionCount >= 8)
+				{
 					spellComponent.phase++;
 					spellComponent.minionCount = 0;
 					return;
 				}
-				int randomXPosition = rand() % 5;
+				const int randomXPosition = rand() % 5;
 
-				for (int i = 0; i < 4; i++) {
-					auto& enemy = enemyFactory.getEnemy(1, enemyType);
+				for (int i = 0; i < 4; i++)
+				{
+					auto& enemy = enemyFactory.getEnemy(1, enemy_type);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
-					enemyTransform.position.setX(enemyX - 50 * randomXPosition);
-					enemyTransform.position.setY(enemyY - 50 + (i * 50));
+					enemyTransform.position.x = enemyX - 50 * randomXPosition;
+					enemyTransform.position.y = enemyY - 50 + i * 50;
 					initHealthBar(enemy);
 					spellComponent.minionCount++;
 				}
@@ -113,10 +143,46 @@ void AISystem::executeSpell(Entity& entity) {
 	}
 }
 
-void AISystem::executeShoot(Entity& entity, int &channelCounter) {
-	if (entity.hasComponent<ShootComponent>()) {
+void AISystem::executeSpawner(Entity& entity) {
+
+	if (entity.hasComponent<TimerComponent>()) {
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished()) {
+			auto& spawnComponent = entity.getComponent<SpawnComponent>();
+
+			int spawnCounter = 0;
+
+			for (auto& spawnedEnemy : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>()) {
+				auto& spawnedComponent = spawnedEnemy->getComponent<SpawnedComponent>();
+				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy->getComponent<CollisionComponent>().tag) {
+					spawnCounter++; // we found its spawn
+				}
+			}
+
+			if (spawnCounter > spawnComponent.maxCount) {
+				return;
+			}
+
+			auto& statsComponent = entity.getComponent<StatsComponent>();
+			auto& transformComponent = entity.getComponent<TransformComponent>();
+
+			auto& enemy = EnemyFactory{}.spawnEnemy(1, spawnComponent.type, spawnComponent.id);
+			auto& enemyTransform = enemy.getComponent<TransformComponent>();
+			enemyTransform.position.x = transformComponent.position.x + (transformComponent.width / 2);
+			enemyTransform.position.y = transformComponent.position.y + transformComponent.height;
+			initHealthBar(enemy);
+			timer.setTimer(spawnComponent.spawnTimer);
+		}
+	}
+}
+
+void AISystem::executeShoot(Entity& entity, int& channelCounter)
+{
+	if (entity.hasComponent<ShootComponent>())
+	{
 		auto& shoot = entity.getComponent<ShootComponent>();
-		if (shoot.canShoot()) {
+		if (shoot.canShoot())
+		{
 			auto& transform = entity.getComponent<TransformComponent>();
 			auto& sprite = entity.getComponent<SpriteComponent>();
 			auto& collision = entity.getComponent<CollisionComponent>();
@@ -124,8 +190,8 @@ void AISystem::executeShoot(Entity& entity, int &channelCounter) {
 			auto& stats = entity.getComponent<StatsComponent>();
 			auto& healthBar = entity.getComponent<HealthBarComponent>();
 
-			double enemyX = transform.position.getX();
-			double enemyY = transform.position.getY();
+			double enemyX = transform.position.x;
+			double enemyY = transform.position.y;
 
 			for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>())
 			{
@@ -135,10 +201,10 @@ void AISystem::executeShoot(Entity& entity, int &channelCounter) {
 				const double enemyXCenter = enemyX + transform.width / 2;
 				const double enemyYCenter = enemyY + transform.height / 2;
 
-				const auto angleX = playerTransform.position.getX() - enemyXCenter;
-				const auto angleY = playerTransform.position.getY() - enemyYCenter;
+				const auto angleX = playerTransform.position.x - enemyXCenter;
+				const auto angleY = playerTransform.position.y - enemyYCenter;
 
-				if ((angleX < 300 && angleX > -300) && (angleY < 300 && angleY > -300))
+				if (angleX < 300 && angleX > -300 && (angleY < 300 && angleY > -300))
 				{
 					if (angleX < 0)
 					{
@@ -155,15 +221,16 @@ void AISystem::executeShoot(Entity& entity, int &channelCounter) {
 
 					auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 					projectile.addComponent<BulletMovementComponent>();
-					auto& projectileTransform = projectile.addComponent<TransformComponent>(enemyXCenter + (dx * 25), enemyYCenter + (dy * 25), 10, 10, 1);
-					projectileTransform.velocity.setX(dx);
-					projectileTransform.velocity.setY(dy);
+					auto& projectileTransform = projectile.addComponent<TransformComponent>(
+						enemyXCenter + dx * 25, enemyYCenter + dy * 25, 10, 10, 1);
+					projectileTransform.velocity.x = dx;
+					projectileTransform.velocity.y = dy;
 
 					sprite.changeTexture("fire_wizard_casting");
 					// change to set entity to casting state (and change sprite accordingly)
 
-					transform.velocity.setX(0);
-					transform.velocity.setY(0);
+					transform.velocity.x = 0;
+					transform.velocity.y = 0;
 
 					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
 					projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
@@ -180,10 +247,12 @@ void AISystem::executeShoot(Entity& entity, int &channelCounter) {
 	}
 }
 
-void AISystem::initHealthBar(Entity& entity) {
+void AISystem::initHealthBar(Entity& entity)
+{
 	auto& healthBar = entity.getComponent<HealthBarComponent>();
 	auto& transform = entity.getComponent<TransformComponent>();
-	if (entity.hasComponent<HealthBarComponent>()) {
+	if (entity.hasComponent<HealthBarComponent>())
+	{
 		int width = transform.width / 2;
 		//int width = 50;
 		healthBar.outerBox.addComponent<TransformComponent>(-1, -1, 12, width + 2, 1);
@@ -197,11 +266,15 @@ void AISystem::initHealthBar(Entity& entity) {
 	}
 }
 
-void AISystem::kill(Entity& entity) {
-	if (entity.hasComponent<EndBossComponent>()) {
+void AISystem::kill(Entity& entity)
+{
+	if (entity.hasComponent<EndBossComponent>())
+	{
 		// win
 	}
-	for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>()) {
+	for (auto& player : ServiceManager::Instance()
+	                    ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>())
+	{
 		player->getComponent<PlayerStatsComponent>().xp += entity.getComponent<StatsComponent>().getHPmax();
 	}
 	// animate destruction
@@ -213,17 +286,20 @@ void AISystem::kill(Entity& entity) {
 	entity.destroy();
 }
 
-void AISystem::applyHealthBar(Entity& entity) {
+void AISystem::applyHealthBar(Entity& entity)
+{
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& stats = entity.getComponent<StatsComponent>();
 	auto& healthBar = entity.getComponent<HealthBarComponent>();
 
-	double enemyX = transform.position.getX();
-	double enemyY = transform.position.getY();
+	double enemyX = transform.position.x;
+	double enemyY = transform.position.y;
 
-	if (entity.hasComponent<HealthBarComponent>()) {
+	if (entity.hasComponent<HealthBarComponent>())
+	{
 		int const hp = stats.getHP();
-		if (hp < 1) {
+		if (hp < 1)
+		{
 			kill(entity);
 		}
 
@@ -238,18 +314,17 @@ void AISystem::applyHealthBar(Entity& entity) {
 			healBox.visible = true;
 
 			auto& x = healthBar.outerBox;
-			outBox.position.setY(enemyY - 10);
-			outBox.position.setX(enemyX + 15);
+			outBox.position.y = enemyY - 10;
+			outBox.position.x = enemyX + 15;
 
-			inBox.position.setY(enemyY - 9);
-			inBox.position.setX(enemyX + 16);
+			inBox.position.y = enemyY - 9;
+			inBox.position.x = enemyX + 16;
 
-			healBox.position.setY(enemyY - 9);
-			healBox.position.setX(enemyX + 16);
+			healBox.position.y = enemyY - 9;
+			healBox.position.x = enemyX + 16;
 
-			double healthWidth = ((double)stats.getHP() / (double)stats.getHPmax()) * transform.width / 2;
+			const auto healthWidth = double(stats.getHP()) / double(stats.getHPmax()) * transform.width / 2;
 			healthBar.healthBox.getComponent<TransformComponent>().width = healthWidth;
-
 		}
 		else
 		{
@@ -261,6 +336,9 @@ void AISystem::applyHealthBar(Entity& entity) {
 }
 
 void AISystem::applyMovement(Entity& entity) {
+	if (!entity.hasComponent<EnemyMovementComponent>()) {
+		return;
+	}
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& sprite = entity.getComponent<SpriteComponent>();
 
@@ -276,93 +354,97 @@ void AISystem::applyMovement(Entity& entity) {
 		{
 		case 0:
 			{
-				transform.velocity.setX(speed);
-				transform.velocity.setY(0);
+				transform.velocity.x = speed;
+				transform.velocity.y = 0;
 				sprite.flip = false;
 			}
 			break;
 		case 1:
 			{
-				transform.velocity.setX(-speed);
-				transform.velocity.setY(0);
+				transform.velocity.x = -speed;
+				transform.velocity.y = 0;
 				sprite.flip = true;
 			}
 			break;
 		case 2:
 			{
-				transform.velocity.setY(speed);
-				transform.velocity.setX(0);
+				transform.velocity.y = speed;
+				transform.velocity.x = 0;
 			}
 			break;
 		case 3:
 			{
-				transform.velocity.setY(-speed);
-				transform.velocity.setX(0);
+				transform.velocity.y = -speed;
+				transform.velocity.x = 0;
 			}
 			break;
 		case 4:
 			{
-				transform.velocity.setX(speed);
-				transform.velocity.setY(speed);
+				transform.velocity.x = speed;
+				transform.velocity.y = speed;
 				sprite.flip = false;
 			}
 			break;
 		case 5:
 			{
-				transform.velocity.setX(-speed);
-				transform.velocity.setY(-speed);
+				transform.velocity.x = -speed;
+				transform.velocity.y = -speed;
 				sprite.flip = true;
 			}
 			break;
 		case 6:
 			{
-				transform.velocity.setX(-speed);
-				transform.velocity.setY(speed);
+				transform.velocity.x = -speed;
+				transform.velocity.y = speed;
 				sprite.flip = true;
 			}
 			break;
 		case 7:
 			{
-				transform.velocity.setX(speed);
-				transform.velocity.setY(-speed);
+				transform.velocity.x = speed;
+				transform.velocity.y = -speed;
 				sprite.flip = false;
 			}
 			break;
 		case 8:
 			{
-				transform.velocity.setX(0);
-				transform.velocity.setY(0);
+				transform.velocity.zero();
+				transform.velocity.x = 0;
+				transform.velocity.y = 0;
 				sprite.flip = false;
 			}
 			break;
 		}
-
 	}
 
-	double x = transform.position.getX();
-	double y = transform.position.getY();
-	if (x < 0) {
-		transform.velocity.setX(speed);
+	double x = transform.position.x;
+	double y = transform.position.y;
+	if (x < 0)
+	{
+		transform.velocity.x = speed;
 		sprite.flip = false;
-
 	}
-	if (x > 600) {
-		transform.velocity.setX(-speed);
+	if (x > 600)
+	{
+		transform.velocity.x = -speed;
 		sprite.flip = true;
 	}
-	if (y < 62) {
-		transform.velocity.setY(speed);
+	if (y < 62)
+	{
+		transform.velocity.y = speed;
 	}
-	if (y > 420) {
-		transform.velocity.setY(-speed);
+	if (y > 420)
+	{
+		transform.velocity.y = -speed;
 	}
 
-	sprite.moving = !(transform.velocity.getX() == 0 && transform.velocity.getY() == 0);
+	sprite.moving = !(transform.velocity.x == 0 && transform.velocity.y == 0);
 
-	if (entity.hasComponent<CollisionComponent>()) {
+	if (entity.hasComponent<CollisionComponent>())
+	{
 		auto& collisionComponent = entity.getComponent<CollisionComponent>();
-		collisionComponent.collider.x = transform.position.getX();
-		collisionComponent.collider.y = transform.position.getY();
+		collisionComponent.collider.x = transform.position.x;
+		collisionComponent.collider.y = transform.position.y;
 		collisionComponent.collider.w = transform.width;
 		collisionComponent.collider.h = transform.height;
 	}

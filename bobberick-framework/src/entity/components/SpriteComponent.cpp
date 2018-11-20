@@ -14,8 +14,8 @@ void SpriteComponent::init()
     sourceRect.x = sourceRect.y = 0;
 	destinationRect.w = sourceRect.w = transform->width;
 	destinationRect.h = sourceRect.h = transform->height;
-	destinationRect.x = transform->position.getX();
-	destinationRect.y = transform->position.getY();
+	destinationRect.x = transform->position.x;
+	destinationRect.y = transform->position.y;
 }
 
 void SpriteComponent::update()
@@ -42,8 +42,8 @@ void SpriteComponent::update()
 		currentFrame = 0;
 	}
 
-	destinationRect.x = transform->position.getX();
-	destinationRect.y = transform->position.getY();
+	destinationRect.x = transform->position.x;
+	destinationRect.y = transform->position.y;
 }
 
 void SpriteComponent::render()

@@ -8,6 +8,9 @@
 #include "../factory/enemies/EnemyFactory.h"
 #include "../components/AIComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../../bobberick-framework/src/LevelFactory.h"
+#include "../../bobberick-framework/src/services/RenderService.h"
+#include "../factory/ObjectFactory.h"
 
 std::string MainMenuState::getStateID() const
 {
@@ -16,7 +19,8 @@ std::string MainMenuState::getStateID() const
 
 void MainMenuState::update()
 {
-	for (const auto &system : systems) {
+	for (const auto& system : systems)
+	{
 		system->update();
 	}
 	determineMovementDirection();
@@ -26,7 +30,8 @@ bool MainMenuState::onEnter()
 {
 	createAnimatedBackground();
 
-	for (const auto &system : systems) {
+	for (const auto& system : systems)
+	{
 		system->init();
 	}
 
@@ -50,6 +55,29 @@ bool MainMenuState::shouldExit()
 {
 	return _playGamePressed;
 }
+
+Entity& MainMenuState::makeTileMap() const
+{
+	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+
+	// Use LevelFactory to load and create tilemap components.
+	auto* levelFactory = new LevelFactory();
+	TilesetComponent* tilesetComponent = levelFactory->Load("assets/maps/main_menu.tmx",
+	                                                        ServiceManager::Instance()
+	                                                        ->getService<RenderService>().getRenderer());
+
+	level.addExistingComponent<TilesetComponent>(tilesetComponent);
+	delete levelFactory;
+
+	ObjectFactory objectFactory;
+	for (auto& object : level.getComponent<TilesetComponent>().objects)
+	{
+		objectFactory.getObject(object);
+	}
+
+	return level;
+}
+
 
 void MainMenuState::createAnimatedBackground()
 {
@@ -93,19 +121,21 @@ void MainMenuState::createAnimatedBackground()
 void MainMenuState::makeStartGameButton()
 {
 	auto& playGameButton = entityManager.addEntity();
-	auto* playGameButtonComponent = new ButtonComponent([this]() {
+	auto* playGameButtonComponent = new ButtonComponent([this]()
+	{
 		std::cout << "Play button clicked" << std::endl;
 		_playGamePressed = true;
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
 	auto* playGameButtonTransformComponent = new TransformComponent();
-	playGameButtonTransformComponent->position.setX(260);
-	playGameButtonTransformComponent->position.setY(60);
+	playGameButtonTransformComponent->position.x = 260;
+	playGameButtonTransformComponent->position.y = 60;
 	playGameButtonTransformComponent->height = 64;
 	playGameButtonTransformComponent->width = 128;
 	playGameButton.addExistingComponent<TransformComponent>(playGameButtonTransformComponent);
-	playGameButton.addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1, 3, 0);
+	playGameButton.addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1,
+	                                                   3, 0);
 	playGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(playGameButton, getStateID());
 }
@@ -113,19 +143,21 @@ void MainMenuState::makeStartGameButton()
 void MainMenuState::makeOptionsButton()
 {
 	auto& optionsButton = entityManager.addEntity();
-	auto* optionsButtonComponent = new ButtonComponent([this]() {
+	auto* optionsButtonComponent = new ButtonComponent([this]()
+	{
 		std::cout << "Options button clicked" << std::endl;
 		_playGamePressed = true;
 	});
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
 	auto* optionsButtonTransformComponent = new TransformComponent();
-	optionsButtonTransformComponent->position.setX(260);
-	optionsButtonTransformComponent->position.setY(140);
+	optionsButtonTransformComponent->position.x = 260;
+	optionsButtonTransformComponent->position.y= 140;
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
 	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
-	optionsButton.addComponent<ButtonSpriteComponent>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
+	optionsButton.addComponent<ButtonSpriteComponent
+	>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
 	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
@@ -133,15 +165,16 @@ void MainMenuState::makeOptionsButton()
 void MainMenuState::makeExitButton()
 {
 	auto& exitButton = entityManager.addEntity();
-	auto* exitButtonComponent = new ButtonComponent([this]() {
+	auto* exitButtonComponent = new ButtonComponent([this]()
+	{
 		std::cout << "Exit button clicked" << std::endl;
 		_playGamePressed = true;
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	auto* exitButtonTransformComponent = new TransformComponent();
-	exitButtonTransformComponent->position.setX(260);
-	exitButtonTransformComponent->position.setY(220);
+	exitButtonTransformComponent->position.x = 260;
+	exitButtonTransformComponent->position.y = 220;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
@@ -157,14 +190,18 @@ void MainMenuState::determineMovementDirection()
 		auto& transform = entity->getComponent<TransformComponent>();
 		auto& sprite = entity->getComponent<SpriteComponent>();
 		const double speed = 0.2 * transform.speed;
-		transform.velocity.setY(0);
-	
-		if (transform.position.getX() < 150) {
-			transform.velocity.setX(speed);
+		transform.velocity.y = 0;
+
+		if (transform.position.x < 150)
+		{
+			transform.velocity.x = speed;
 			sprite.flip = false;
-		} else if (transform.position.getX() > 500) { // TODO: find a better way to get the window width
-			transform.velocity.setX(-speed);
-			sprite.flip = true; 
+		}
+		else if (transform.position.x > 500)
+		{
+			// TODO: find a better way to get the window width
+			transform.velocity.x = -speed;
+			sprite.flip = true;
 		}
 	}
 }

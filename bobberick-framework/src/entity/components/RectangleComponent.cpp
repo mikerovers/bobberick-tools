@@ -10,16 +10,16 @@ void RectangleComponent::init()
 
 	destinationRect.w = transform->width;
 	destinationRect.h = transform->height;
-	destinationRect.x = transform->position.getX();
-	destinationRect.y = transform->position.getY();
+	destinationRect.x = transform->position.x;
+	destinationRect.y = transform->position.y;
 }
 
 void RectangleComponent::update()
 {
 	destinationRect.w = transform->width;
 	destinationRect.h = transform->height;
-	destinationRect.x = transform->position.getX();
-	destinationRect.y = transform->position.getY();
+	destinationRect.x = transform->position.x;
+	destinationRect.y = transform->position.y;
 }
 
 void RectangleComponent::render()

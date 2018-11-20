@@ -4,9 +4,12 @@
 #include "../../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../../bobberick-framework/src/entity/components/ShootComponent.h"
+#include "../../../bobberick-framework/src/util/RandomGenerator.h"
 #include "../../components/StatsComponent.h"
 #include "../../components/HealthBarComponent.h"
 #include "../../components/AIComponent.h"
+#include "../../components/EnemyMovementComponent.h"
+#include "../../components/SpawnedComponent.h"
 
 Entity & FireWizardFactory::getEnemy(const int level)
 {
@@ -15,22 +18,30 @@ Entity & FireWizardFactory::getEnemy(const int level)
 	auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
 	spriteComponent.addTexture("assets/image/enemies/fire_wizard_casting.png", "fire_wizard_casting");
 	fireWizard.addComponent<HealthBarComponent>();
+	fireWizard.addComponent<EnemyMovementComponent>();
 	fireWizard.addComponent<AIComponent>();
 	fireWizard.addComponent<ShootComponent>();
 	fireWizard.addComponent<CollisionComponent>("fireWizard");
 
 	transformComponent.speed = 1.5;
 
-	double random = (rand() % 50);
+	const double random = RandomGenerator{}.getRandomDouble(1, 50);
 	double randMutator = (random + 50) / 100;
 
-	int hp = 50 * level * (randMutator),
-		maxHp = 50 * level * (randMutator),
-		atkMin = 4 * level * (randMutator),
-		atkMax = 6 * level * (randMutator),
+	int hp = 50 * level * randMutator,
+		maxHp = 50 * level * randMutator,
+		atkMin = 4 * level * randMutator,
+		atkMax = 6 * level * randMutator,
 		df = 1;
 
-	fireWizard.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df);
+	fireWizard.addComponent<StatsComponent>(hp, maxHp, atkMin, atkMax, df, level);
 
 	return fireWizard;
+}
+
+Entity & FireWizardFactory::getEnemy(const int level, const int spawnerId)
+{ 
+	auto& enemy = getEnemy(level);
+	enemy.addComponent<SpawnedComponent>(spawnerId);
+	return enemy;
 }

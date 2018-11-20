@@ -7,6 +7,7 @@ class OrcFactory : public BaseEnemyFactory
 {
 public:
     Entity& getEnemy(const int level);
+	Entity& getEnemy(const int level, const int spawnerId);
 };
 
 
