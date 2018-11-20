@@ -66,33 +66,20 @@ void HudSystem::update()
 		auto* inventoryItem2 = inventory.getItem(1);
 
 		if (inventoryItem1 != nullptr) {
-			if (inventorySlot1.hasComponent<RectangleComponent>()) {
-				inventorySlot1.removeComponent<RectangleComponent>();
-				inventorySlot1.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
-			}
+			inventorySlot1.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
 		}
 		else {
 			if (inventorySlot1.hasComponent<SpriteComponent>()) {
 				inventorySlot1.removeComponent<SpriteComponent>();
 			}
-			if (!inventorySlot1.hasComponent<RectangleComponent>()) {
-				inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
-			}
 		}
 
 		if (inventoryItem2 != nullptr) {
-			if (inventorySlot2.hasComponent<RectangleComponent>()) {
-				inventorySlot2.removeComponent<RectangleComponent>();
-				
-				inventorySlot2.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
-			}
+			inventorySlot2.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
 		}
 		else {
 			if (inventorySlot2.hasComponent<SpriteComponent>()) {
-				inventorySlot1.removeComponent<SpriteComponent>();
-			}
-			if (!inventorySlot2.hasComponent<RectangleComponent>()) {
-				inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
+				inventorySlot2.removeComponent<SpriteComponent>();
 			}
 		}
 
@@ -141,10 +128,12 @@ void HudSystem::init()
 	inventory.addComponent<RectangleComponent>(161, 64, 5, true);
 
 	inventorySlot1.addComponent<TransformComponent>(20, 480 - 55, 40, 40, 1);
+	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
 	//inventorySlot1.addComponent<SpriteComponent>("", "potion", true);
 
 
 	inventorySlot2.addComponent<TransformComponent>(80, 480 - 55, 40, 40, 1);
+	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 	//inventorySlot2.addComponent<SpriteComponent>("", "potion", true);
 
 
