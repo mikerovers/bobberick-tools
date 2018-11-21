@@ -137,8 +137,9 @@ void MainMenuState::makeOptionsButton()
 void MainMenuState::makeExitButton()
 {
 	auto& exitButton = entityManager.addEntity();
-	auto* exitButtonComponent = new ButtonComponent([]()
+	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
+		readyForExit = true;
 		std::cout << "Exit button clicked" << std::endl;
 	});
 
