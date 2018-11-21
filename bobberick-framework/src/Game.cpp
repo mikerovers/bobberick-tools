@@ -59,7 +59,6 @@ bool Game::init(const char* title, int xPos, int yPos, int height, int width, in
 
 			if (renderer != nullptr)
 			{
-				serviceManager->getService<TextureManager>().preloadTextures(renderer); // Load in our textures.
 				SDL_SetRenderDrawColor(renderer.get(), 75, 75, 255, 255);
 			}
 			else

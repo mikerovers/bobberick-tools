@@ -12,6 +12,7 @@ public:
 
 private:
 	std::shared_ptr<StateFactory> stateFactory;
+	void preloadTextures();
 };
 
 
