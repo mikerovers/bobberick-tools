@@ -32,8 +32,8 @@ void HudSystem::update()
 		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
 
 		playerStats.update();
-		double healthWidth = (double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax() * barWidth;
-		double shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
+		const auto healthWidth = static_cast<double>(playerStats.stats->getHP()) / static_cast<double>(playerStats.stats->getHPmax()) * barWidth;
+		const auto shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
 		if (playerStats.shieldActive())
 		{
 			// Bright blue bar if shield is currently active.
@@ -136,12 +136,33 @@ void HudSystem::init()
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 	//inventorySlot2.addComponent<SpriteComponent>("", "potion", true);
 
+	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>();
+	for (auto player : players)
+	{
+		for (const auto& group : player->getGroups())
+		{
+			hudBox.addGroup(group);
+			outerBox.addGroup(group);
+			innerBox.addGroup(group);
+			healthBox.addGroup(group);
+			healthBox.addGroup(group);
+			shieldBox.addGroup(group);
+			coinImage.addGroup(group);
+			xpImage.addGroup(group);
+			healthText.addGroup(group);			
+			coinText.addGroup(group);			
+			xpText.addGroup(group);			
+			inventory.addGroup(group);			
+			inventorySlot1.addGroup(group);			
+			inventorySlot2.addGroup(group);			
+		}
+	}
 
 }
 
-std::string HudSystem::addSpaces(std::string string, const int goalChars, const bool leading)
+std::string HudSystem::addSpaces(const std::string& string, const int goalChars, const bool leading)
 {
-	std::string spaces = "";
+	std::string spaces;
 	for (int i = string.length(); i < goalChars; i++)
 	{
 		spaces += " ";
@@ -150,8 +171,5 @@ std::string HudSystem::addSpaces(std::string string, const int goalChars, const 
 	{
 		return spaces + string;
 	}
-	else
-	{
-		return string + spaces;
-	}
+	return string + spaces;
 }

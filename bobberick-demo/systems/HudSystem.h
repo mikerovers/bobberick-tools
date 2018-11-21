@@ -29,7 +29,7 @@ private:
 	Entity& inventorySlot2;
 
 	// Add spaces to the specified string until its length equals the specified goal amount. If leading is false, the spaces are trailing.
-	std::string addSpaces(std::string string, const int goalChars, const bool leading);
+	std::string addSpaces(const std::string& string, const int goalChars, const bool leading);
 };
 
 
