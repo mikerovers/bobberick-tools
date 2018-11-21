@@ -104,7 +104,7 @@ void MainMenuState::makeStartGameButton()
 	playGameButtonTransformComponent->height = 64;
 	playGameButtonTransformComponent->width = 128;
 	playGameButton.addExistingComponent<TransformComponent>(playGameButtonTransformComponent);
-	playGameButton.addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1,
+	playGameButton.addComponent<ButtonSpriteComponent>("startGameButton", 1,
 	                                                   3, 0);
 	playGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	playGameButton.addComponent<CollisionComponent>("button");
@@ -127,8 +127,7 @@ void MainMenuState::makeOptionsButton()
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
 	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
-	optionsButton.addComponent<ButtonSpriteComponent
-	>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
+	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0);
 	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	optionsButton.addComponent<CollisionComponent>("button");
 	entityManager.addEntityToGroup(optionsButton, getStateID());
@@ -151,7 +150,7 @@ void MainMenuState::makeExitButton()
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
-	exitButton.addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
 	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("button");
 
@@ -174,7 +173,7 @@ void MainMenuState::makeHelpButton()
 	helpButtonTransformComponent->height = 64;
 	helpButtonTransformComponent->width = 128;
 	helpButton.addExistingComponent<TransformComponent>(helpButtonTransformComponent);
-	helpButton.addComponent<ButtonSpriteComponent>("assets/image/button/helpbutton.png", "helpbutton", 1, 3, 0);
+	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
 	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(helpButton, getStateID());
 }

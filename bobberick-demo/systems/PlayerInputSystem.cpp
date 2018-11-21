@@ -159,18 +159,18 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 
 			if (inputHandler.getMouseButtonState(LEFT))
 			{
-				sprite.changeTexture("character_shooting");
+				sprite.setTexture("characterShooting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
-				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bullet_ball_grey.png", "arrow");
+				projectile.addComponent<SpriteComponent>("bullet");
 				projectile.addComponent<CollisionComponent>("arrow");
 				timer.setTimer(250);
 			}
 
 			if (inputHandler.getMouseButtonState(RIGHT))
 			{
-				sprite.changeTexture("character_casting");
+				sprite.setTexture("characterCasting");
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
-				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
+				projectile.addComponent<SpriteComponent>("bolt");
 				projectile.addComponent<CollisionComponent>("bolt");
 				timer.setTimer(400);
 			}
@@ -183,6 +183,6 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 	}
 	else
 	{
-		sprite.changeTexture("character");
+		sprite.setTexture("character");
 	}
 }

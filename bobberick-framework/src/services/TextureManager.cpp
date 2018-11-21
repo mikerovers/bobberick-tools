@@ -1,5 +1,3 @@
-
-
 #include "TextureManager.h"
 #include <iostream>
 
@@ -22,7 +20,6 @@ bool TextureManager::load(const char* fileName, std::string id, std::shared_ptr<
     }
 
 	return addTextureFromSurface(pTempSurface, id, renderer);
-
 }
 
 bool TextureManager::addTextureFromSurface(SDL_SurfacePointer surface, std::string id, std::shared_ptr<SDL_Renderer> renderer) {
@@ -61,7 +58,7 @@ void TextureManager::setOpacity(std::string id, int opacity) {
 
 void TextureManager::init()
 {
-
+	
 }
 
 void TextureManager::clean()

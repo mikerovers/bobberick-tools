@@ -258,14 +258,14 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					projectileTransform.velocity.x = dx;
 					projectileTransform.velocity.y = dy;
 
-					sprite.changeTexture("fire_wizard_casting");
+					sprite.setTexture("fireWizardCasting");
 					// change to set entity to casting state (and change sprite accordingly)
 
 					transform.velocity.x = 0;
 					transform.velocity.y = 0;
 
 					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
-					projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
+					projectile.addComponent<SpriteComponent>("bolt");
 					projectile.addComponent<CollisionComponent>("monster_projectile");
 					for (const auto& group : entity.getGroups())
 					{
@@ -276,7 +276,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				}
 				else
 				{
-					sprite.changeTexture("fire_wizard");
+					sprite.setTexture("fireWizard");
 				}
 			}
 		}

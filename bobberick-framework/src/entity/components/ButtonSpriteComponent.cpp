@@ -1,7 +1,7 @@
 #include "ButtonSpriteComponent.h"
 
-ButtonSpriteComponent::ButtonSpriteComponent(const char *path, const char *textureID, int animCols, int animFrames,
-                                             int animRate) : SpriteComponent(path, textureID, animCols, animFrames,
+ButtonSpriteComponent::ButtonSpriteComponent(const char *textureID, int animCols, int animFrames,
+                                             int animRate) : SpriteComponent(textureID, animCols, animFrames,
                                                                              animRate)
 {
 

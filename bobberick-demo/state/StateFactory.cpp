@@ -44,6 +44,8 @@ SplashScreenState* StateFactory::createSplashScreenState()
 	SplashScreenState* splashScreen = new SplashScreenState();
 	splashScreen->addSystem(
 			std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	splashScreen->addSystem(
+			std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return splashScreen;
 }
@@ -84,7 +86,10 @@ MainMenuState* StateFactory::createMainMenuState()
 CreditScreenState* StateFactory::createCreditScreenState() const
 {
 	auto creditScreen = new CreditScreenState();
-	creditScreen->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	creditScreen->addSystem(
+			std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	creditScreen->addSystem(
+			std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return creditScreen;
 }

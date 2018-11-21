@@ -51,19 +51,16 @@ void SpriteComponent::render()
     ServiceManager::Instance()->getService<TextureManager>().draw(currentTexture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), flip);
 }
 
-SpriteComponent::SpriteComponent(const char *path, const char *textureID, const bool guiLayer): staticAnimation(false)
+SpriteComponent::SpriteComponent(const char *textureID, const bool guiLayer): staticAnimation(false)
 {
-	addTexture(path, textureID);
 	currentTexture = textureID;
 	currentFrame = -1;
 	SpriteComponent::guiLayer = guiLayer;
 }
 
-SpriteComponent::SpriteComponent(const char *path, const char *textureID, const int animCols, const int animFrames, const int animRate): staticAnimation(false)
+SpriteComponent::SpriteComponent(const char *textureID, const int animCols, const int animFrames, const int animRate): staticAnimation(false)
 {
-	addTexture(path, textureID);
 	currentTexture = textureID;
-
 	SpriteComponent::animCols = animCols;
 	SpriteComponent::animFrames = animFrames;
 	SpriteComponent::animRate = animRate;
@@ -71,17 +68,7 @@ SpriteComponent::SpriteComponent(const char *path, const char *textureID, const 
 	currentFrame = 0;
 }
 
-void SpriteComponent::addTexture(const char * path, const char * textureID)
-{
-	if (ServiceManager::Instance()->getService<TextureManager>().load(path, textureID, ServiceManager::Instance()->getService<RenderService>().renderer)) {
-		// added
-	}
-	else {
-		std::cout << SDL_GetError();
-	}
-}
-
-void SpriteComponent::changeTexture(const char * textureID) 
+void SpriteComponent::setTexture(const char * textureID) 
 {
 	if (currentTexture != textureID) {
 		currentTexture = textureID;
