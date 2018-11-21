@@ -9,7 +9,6 @@ bool BobberGame::setup()
 		ServiceManager::Instance()->getService<StateMachine>().pushState(stateFactory->createState("MainMenuState"));
 		//getStateMachine()->pushState(stateFactory->createState("MainMenuState"));
 		//getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
-		//getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
         //getStateMachine()->peekState()->onEnter();
 		//getStateMachine()->pushState(stateFactory->createState("TestState"));
         //ServiceManager::Instance()->getService<StateMachine>().peekState()->onEnter();
