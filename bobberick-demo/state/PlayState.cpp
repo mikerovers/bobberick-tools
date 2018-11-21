@@ -144,6 +144,15 @@ void PlayState::makeEnemies() const
 	manufacturerSpawn.maxCount = 20;
 	manufacturerTransform.position.x = 500;
 	manufacturerTransform.position.y = 300;
+
+	auto& manufacturer2 = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
+	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
+	manufacturerSpawn2.type = "fireWizard";
+	manufacturerSpawn2.spawnTimer = 250;
+	manufacturerSpawn2.maxCount = 10;
+	manufacturer2Transform.position.x = 500;
+	manufacturer2Transform.position.y = 250;
 }
 
 void PlayState::makeGui()
