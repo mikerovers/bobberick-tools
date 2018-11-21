@@ -28,6 +28,8 @@ private:
 	Entity& inventorySlot1;
 	Entity& inventorySlot2;
 
+	Entity& fpsCounter;
+
 	// Add spaces to the specified string until its length equals the specified goal amount. If leading is false, the spaces are trailing.
 	std::string addSpaces(std::string string, const int goalChars, const bool leading);
 };
