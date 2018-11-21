@@ -72,7 +72,7 @@ void StateMachine::update()
 			popState();
 			if (!gameStates.empty())
 			{
-				gameStates.back()->onEnter();
+				gameStates.back();
 			}
 		}
 	}
