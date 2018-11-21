@@ -51,7 +51,7 @@ void BobberGame::preloadTextures()
 	// enemies
 	t.load("assets/image/Enemies/birds1.png", "birds", renderer);
 	t.load("assets/image/Enemies/chicken_brown.png", "chickenBrown", renderer);
-	t.load("assets/image/Enemies/chicken_white.png.png", "chickenWhite", renderer);
+	t.load("assets/image/Enemies/chicken_white.png", "chickenWhite", renderer);
 	t.load("assets/image/Enemies/end_boss.png", "endBoss", renderer);
 	t.load("assets/image/Enemies/factory.png", "factory", renderer);
 	t.load("assets/image/Enemies/fire_wizard.png", "fireWizard", renderer);
