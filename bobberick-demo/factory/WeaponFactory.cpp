@@ -3,13 +3,13 @@
 #include <cmath>
 #include <iostream>
 
-std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(bool magic, int minRank, int maxRank, int minBalance, int maxBalance) {
+std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic, const int minRank, const int maxRank, const int minBalance, const int maxBalance) {
 	// Check all conditions required to generate a valid weapon.
 	if (minRank >= 0 && maxRank <= 10 && minBalance >= -9 && maxBalance <= 9 && minRank <= maxRank && minBalance <= maxBalance) {
 		RandomGenerator generator = RandomGenerator();
 		// Determine core numbers
-		double rank = generator.getRandomDouble(minRank, maxRank);
-		double balance = generator.getRandomDouble(minBalance, maxBalance);
+		double const rank = generator.getRandomDouble(minRank, maxRank);
+		double const balance = generator.getRandomDouble(minBalance, maxBalance);
 
 		// Build weapon name
 		std::string name = "";
@@ -52,15 +52,15 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(bool magic, int m
 		fireDelay += fireDelayUnit * balance;
 
 		// Debug: test calculation and randomness.
-		std::cout << "Magic: " << magic << std::endl;
-		std::cout << "Rank: " << rank << std::endl;
-		std::cout << "Balance: " << balance << std::endl;
-		std::cout << "Name: " << name.c_str() << std::endl;
-		std::cout << "Power: " << power << std::endl;
-		std::cout << "Fire Delay: " << fireDelay << std::endl;
+		//std::cout << "Magic: " << magic << std::endl;
+		//std::cout << "Rank: " << rank << std::endl;
+		//std::cout << "Balance: " << balance << std::endl;
+		//std::cout << "Name: " << name.c_str() << std::endl;
+		//std::cout << "Power: " << power << std::endl;
+		//std::cout << "Fire Delay: " << fireDelay << std::endl;
 
 		// Assign sprites: these might vary depending on weapon type and weapon rank.
-		std::string sprite = "assets/items/potion.png"; // TODO: assign based on core numbers
+		std::string const sprite = "assets/items/potion.png"; // TODO: assign based on core numbers
 		std::string bulletSprite;
 		if (magic) {
 			bulletSprite = "assets/projectiles/bolt.png";

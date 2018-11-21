@@ -13,7 +13,7 @@ public:
 	int power; // The modifier to the user's attack strength.
 	int fireDelay; // The amount of frames between each bullet and the next. 60 = one bullet per second.
 	std::string bulletTexture; // The asset path for the sprite for bullets fired by this weapon.
-	WeaponComponent(std::string texture, std::string name, bool isMagic, int power, int fireDelay, std::string bulletTexture) : ItemComponent(texture, name) {
+	WeaponComponent(const std::string texture, const std::string name, const bool isMagic, const int power, const int fireDelay, const std::string bulletTexture) : ItemComponent(texture, name) {
 		WeaponComponent::isMagic = isMagic;
 		WeaponComponent::power = power;
 		WeaponComponent::fireDelay = fireDelay;
