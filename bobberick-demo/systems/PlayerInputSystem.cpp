@@ -4,10 +4,11 @@
 #include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../components/BulletMovementComponent.h"
+#include "../components/ShootComponent.h"
 #include "../components/PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
+#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
-#include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/services/FrameHandler.h"
 
@@ -127,14 +128,14 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
-	auto& playerShoot = entity->getComponent<ShootComponent>();
+	auto& timer = entity->getComponent<TimerComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 	auto& playerStats = entity->getComponent<PlayerStatsComponent>();
 
 	if (inputHandler.getMouseButtonState(LEFT) || inputHandler.getMouseButtonState(RIGHT))
 	{
 		// shoot
-		if (playerShoot.canShoot() && !playerStats.shieldActive())
+		if (timer.isTimerFinished() && !playerStats.shieldActive())
 		{
 			const auto playerX = transform.position.x;
 			const auto playerY = transform.position.y;
@@ -162,7 +163,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bullet_ball_grey.png", "arrow");
 				projectile.addComponent<CollisionComponent>("arrow");
-				playerShoot.setShootTimer(250);
+				timer.setTimer(250);
 			}
 
 			if (inputHandler.getMouseButtonState(RIGHT))
@@ -171,7 +172,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
 				projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
 				projectile.addComponent<CollisionComponent>("bolt");
-				playerShoot.setShootTimer(400);
+				timer.setTimer(400);
 			}
 		}
 	}

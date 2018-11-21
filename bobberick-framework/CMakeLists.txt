@@ -28,7 +28,6 @@ set(
 	src/entity/components/SpriteComponent.cpp src/entity/components/SpriteComponent.h
 	src/entity/components/RectangleComponent.cpp src/entity/components/RectangleComponent.h
 	src/entity/components/TextComponent.cpp src/entity/components/TextComponent.h
-	src/entity/components/ShootComponent.cpp src/entity/components/ShootComponent.h
 	src/entity/components/TimerComponent.cpp src/entity/components/TimerComponent.h
 	src/entity/components/FadeComponent.cpp src/entity/components/FadeComponent.h
 	src/services/TextureManager.cpp src/services/TextureManager.h
