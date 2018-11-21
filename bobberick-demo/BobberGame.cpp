@@ -15,9 +15,8 @@ bool BobberGame::setup()
         //ServiceManager::Instance()->getService<StateMachine>().peekState()->onEnter();
 
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 void BobberGame::start()
