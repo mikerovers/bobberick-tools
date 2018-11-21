@@ -130,16 +130,41 @@ void CollisionSystem::update()
 	playerAndMonsterEntities.insert(std::end(playerAndMonsterEntities), std::begin(playerEntities),
 	                                std::end(playerEntities));
 
+	auto nonMonsterProjectileComponentEntities = entityManager.getAllEntitiesWithComponent<CollisionComponent>();
+	nonMonsterProjectileComponentEntities.erase(
+		std::remove_if(nonMonsterProjectileComponentEntities.begin(), nonMonsterProjectileComponentEntities.end(),
+		               [](Entity* entity)
+		               {
+			               return entity->getComponent<CollisionComponent>().tag == "monster_projectile";
+		               }), nonMonsterProjectileComponentEntities.end()
+	);
+
+
 	for (auto& entity : playerAndMonsterEntities)
 	{
 		auto& colliderA = entity->getComponent<CollisionComponent>();
-		for (auto& otherEntity : collisionComponentEntities)
+		if (colliderA.tag != "player")
 		{
-			auto& colliderB = otherEntity->getComponent<CollisionComponent>();
-
-			if (colliderA.tag != colliderB.tag && helper.AABB(colliderA, colliderB))
+			for (auto& otherEntity : nonMonsterProjectileComponentEntities)
 			{
-				handle_collision_aabb(colliderA, colliderB);
+				auto& colliderB = otherEntity->getComponent<CollisionComponent>();
+
+				if (colliderA.tag != colliderB.tag && helper.AABB(colliderA, colliderB))
+				{
+					handle_collision_aabb(colliderA, colliderB);
+				}
+			}
+		}
+		else
+		{
+			for (auto& otherEntity : collisionComponentEntities)
+			{
+				auto& colliderB = otherEntity->getComponent<CollisionComponent>();
+
+				if (colliderA.tag != colliderB.tag && helper.AABB(colliderA, colliderB))
+				{
+					handle_collision_aabb(colliderA, colliderB);
+				}
 			}
 		}
 	}
