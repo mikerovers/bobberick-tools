@@ -11,6 +11,8 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/services/FrameHandler.h"
+#include "../../bobberick-framework/src/StateMachine.h"
+#include "../state/StateFactory.h"
 
 PlayerInputSystem::PlayerInputSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -57,9 +59,10 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	     down = inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S),
 	     z = inputHandler.isKeyDown(SDL_SCANCODE_X),
 	     x = inputHandler.isKeyDown(SDL_SCANCODE_Z),
-	     c = inputHandler.isKeyDown(SDL_SCANCODE_C);
+	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
+		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
 
-	if (left || right || up || down || z || x || c)
+	if (left || right || up || down || z || x || c || esc)
 	{
 		sprite.moving = true;
 		if (!ServiceManager::Instance()->getService<SoundManager>().isSoundPlaying(1))
@@ -105,6 +108,13 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		else if (c)
 		{
 			ServiceManager::Instance()->getService<FrameHandler>().setTarget(60);
+		}
+
+		if (esc)
+		{
+			std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
+			ServiceManager::Instance()->getService<StateMachine>().popState();
+			ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("EndScreen"));
 		}
 	}
 	else

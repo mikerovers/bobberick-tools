@@ -13,7 +13,7 @@ public:
 	bool shouldExit() override;
 
 private:
-	bool readyForExit = false;;
+	bool readyForExit = false;
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	std::vector<Entity*> entities;
 
