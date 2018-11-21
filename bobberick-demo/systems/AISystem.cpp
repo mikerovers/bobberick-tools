@@ -162,7 +162,12 @@ void AISystem::executeSpawner(Entity& entity)
 		if (timer.isTimerFinished())
 		{
 			auto& spawnComponent = entity.getComponent<SpawnComponent>();
-
+			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>())
+			{
+				if (!AISystem::isEntityInRange(entity, *player, 200)) {
+					return;
+				}
+			}
 			int spawnCounter = 0;
 
 			for (auto& spawnedEnemy : ServiceManager::Instance()

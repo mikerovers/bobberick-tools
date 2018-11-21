@@ -23,7 +23,7 @@ private:
 	static void applyHealthBar(Entity& entity);
 	static void applyMovement(Entity& entity);
 	static void kill(Entity& entity);
-	bool isEntityInRange(Entity& entity1, Entity& entity2, const int range);
+	static bool isEntityInRange(Entity& entity1, Entity& entity2, const int range);
 };
 
 
