@@ -12,33 +12,32 @@
 
 Game::Game()
 {
-
 }
 
 bool Game::running() const
 {
-    return isRunning;
+	return isRunning;
 }
 
 int Game::getGameWidth() const
 {
-    return gameWidth;
+	return gameWidth;
 }
 
 int Game::getGameHeight() const
 {
-    return gameHeight;
+	return gameHeight;
 }
 
-bool Game::init(const char *title, int xPos, int yPos, int height, int width, int flags)
+bool Game::init(const char* title, int xPos, int yPos, int height, int width, int flags)
 {
-    ServiceManager* serviceManager = ServiceManager::Instance();
-    serviceManager->addService<FrameHandler>(60);
-    serviceManager->addService<TextureManager>();
+	ServiceManager* serviceManager = ServiceManager::Instance();
+	serviceManager->addService<FrameHandler>(60);
+	serviceManager->addService<TextureManager>();
 	serviceManager->addService<FontManager>();
 	serviceManager->addService<RectangleManager>();
-    serviceManager->addService<EntityManager>();
-    serviceManager->addService<RenderService>();
+	serviceManager->addService<EntityManager>();
+	serviceManager->addService<RenderService>();
 	serviceManager->addService<SoundManager>();
 	serviceManager->addService<InputHandler>();
 	serviceManager->addService<SoundManager>();
@@ -46,75 +45,98 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
-    if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
+	if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
+	{
 		TTF_Init();
 		serviceManager->getService<FontManager>().init(); // Load in our fonts.
 		IMG_Init(IMG_INIT_PNG);
-        window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
+		window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
-        if (window != nullptr) {
-            serviceManager->getService<RenderService>().createRenderer(window);
-            renderer = serviceManager->getService<RenderService>().getRenderer();
-			serviceManager->getService<TextureManager>().preloadTextures(renderer); // Load in our textures.
+		if (window != nullptr)
+		{
+			serviceManager->getService<RenderService>().createRenderer(window);
+			renderer = serviceManager->getService<RenderService>().getRenderer();
 
-            if (renderer != nullptr) {
-                SDL_SetRenderDrawColor(renderer.get(), 75, 75, 255, 255);
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
+			if (renderer != nullptr)
+			{
+				serviceManager->getService<TextureManager>().preloadTextures(renderer); // Load in our textures.
+				SDL_SetRenderDrawColor(renderer.get(), 75, 75, 255, 255);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
 
-    SDL_SetWindowInputFocus(window.get());
-    SDL_RaiseWindow(window.get());
+	SDL_SetWindowInputFocus(window.get());
+	SDL_RaiseWindow(window.get());
 
-    isRunning = true;
-    gameWidth = width;
-    gameHeight = height;
+	isRunning = true;
+	gameWidth = width;
+	gameHeight = height;
 
-    return true;
+	return true;
 }
 
 void Game::update()
 {
-    ServiceManager::Instance()->getService<FrameHandler>().updateTicks();
+	// Check if game state machine is empty then exit
+	if (ServiceManager::Instance()->getService<StateMachine>().isEmpty() || ServiceManager::Instance()
+	                                                                        ->getService<InputHandler>().isWindowEvent(
+		                                                                        SDL_WINDOWEVENT_CLOSE)
+	)
+	{
+		isRunning = false;
+		return;
+	}
 
-    SDL_RenderClear(renderer.get());
-    ServiceManager::Instance()->getService<EntityManager>().refresh();
-    ServiceManager::Instance()->getService<StateMachine>().update();
-    SDL_RenderPresent(renderer.get());
+	ServiceManager::Instance()->getService<FrameHandler>().updateTicks();
+
+	SDL_RenderClear(renderer.get());
+	ServiceManager::Instance()->getService<EntityManager>().refresh();
+	ServiceManager::Instance()->getService<StateMachine>().update();
+	SDL_RenderPresent(renderer.get());
 
 	const auto frames = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
-//	std::cout << frames << "\n";
-    ServiceManager::Instance()->getService<FrameHandler>().handleFrame();
+	//	std::cout << frames << "\n";
+	ServiceManager::Instance()->getService<FrameHandler>().handleFrame();
 }
 
 void Game::clean()
 {
-    ServiceManager::Instance()->clean();
+	ServiceManager::Instance()->clean();
 
-    SDL_Quit();
+	SDL_Quit();
 }
 
 void Game::start()
 {
-    while (running()) {
-        update();
-    }
+	while (running())
+	{
+		update();
+	}
 }
 
 bool Game::setup()
 {
-    if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 480, 640,
-             static_cast<Uint32>(false))) {
-        return true;
-    } else {
-        std::cout << "Game initialization failure - " << SDL_GetError() << " :( \n";
+	if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 480, 640,
+	         static_cast<Uint32>(false)))
+	{
+		return true;
+	}
+	else
+	{
+		std::cout << "Game initialization failure - " << SDL_GetError() << " :( \n";
 
-        return false;
-    }
+		return false;
+	}
 }

@@ -11,9 +11,9 @@ public:
 	void update() override;
 	std::string getStateID() const override;
 	bool shouldExit() override;
-	Entity& makeTileMap() const;
 
 private:
+	bool readyForExit = false;;
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	std::vector<Entity*> entities;
 
@@ -23,8 +23,6 @@ private:
 	void makeOptionsButton();
 	void makeExitButton();
 	void makeHelpButton();
-
-	void determineMovementDirection();
 };
 
 #endif // BOBBERICK_TOOLS_MAINMENUSTATE_H

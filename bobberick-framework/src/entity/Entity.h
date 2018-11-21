@@ -15,6 +15,7 @@ public:
     void addGroup(const Group group);
     bool hasGroup(const Group group) const;
     void removeGroup(const Group group);
+	std::vector<Group> getGroups() const;
 
     template <typename T> bool hasComponent() const
     {

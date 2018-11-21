@@ -36,7 +36,8 @@ void AISystem::init()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>())
 	{
 		initHealthBar(*entity);
-		if (entity->hasComponent<CollisionComponent>()) {
+		if (entity->hasComponent<CollisionComponent>())
+		{
 			auto& collisionComponent = entity->getComponent<CollisionComponent>();
 			auto& transform = entity->getComponent<TransformComponent>();
 
@@ -51,7 +52,8 @@ void AISystem::init()
 
 void AISystem::update()
 {
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpawnComponent>()) {
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpawnComponent>())
+	{
 		executeSpawner(*entity);
 	}
 
@@ -127,43 +129,57 @@ void AISystem::executeSpell(Entity& entity)
 					spellComponent.minionCount = 0;
 					return;
 				}
-				
+
 				const int randomXPosition = RandomGenerator{}.getRandomNumber(0, 4);
 
-				for (int i = 0; i < 4; i++)
+				for (auto i = 0; i < 4; i++)
 				{
 					auto& enemy = enemyFactory.getEnemy(1, enemy_type);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
 					enemyTransform.position.x = enemyX - 50 * randomXPosition;
 					enemyTransform.position.y = enemyY - 50 + i * 50;
+
+					for (const auto& group : entity.getGroups())
+					{
+						ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
+					}
+
 					initHealthBar(enemy);
 					spellComponent.minionCount++;
 				}
 
 				timer.setTimer(5000);
-
 			}
 		}
 	}
 }
 
-void AISystem::executeSpawner(Entity& entity) {
-
-	if (entity.hasComponent<TimerComponent>()) {
+void AISystem::executeSpawner(Entity& entity)
+{
+	if (entity.hasComponent<TimerComponent>())
+	{
 		auto& timer = entity.getComponent<TimerComponent>();
-		if (timer.isTimerFinished()) {
+		if (timer.isTimerFinished())
+		{
 			auto& spawnComponent = entity.getComponent<SpawnComponent>();
 
 			int spawnCounter = 0;
 
-			for (auto& spawnedEnemy : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>()) {
+			for (auto& spawnedEnemy : ServiceManager::Instance()
+			                          ->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>())
+			{
 				auto& spawnedComponent = spawnedEnemy->getComponent<SpawnedComponent>();
-				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy->getComponent<CollisionComponent>().tag) {
+				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy
+				                                                                              ->getComponent<
+					                                                                              CollisionComponent>().
+				                                                                              tag)
+				{
 					spawnCounter++; // we found its spawn
 				}
 			}
 
-			if (spawnCounter > spawnComponent.maxCount) {
+			if (spawnCounter > spawnComponent.maxCount)
+			{
 				return;
 			}
 
@@ -171,6 +187,10 @@ void AISystem::executeSpawner(Entity& entity) {
 			auto& transformComponent = entity.getComponent<TransformComponent>();
 
 			auto& enemy = EnemyFactory{}.spawnEnemy(1, spawnComponent.type, spawnComponent.id);
+			for (const auto& group : entity.getGroups())
+			{
+				ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
+			}
 			auto& enemyTransform = enemy.getComponent<TransformComponent>();
 			enemyTransform.position.x = transformComponent.position.x + (transformComponent.width / 2);
 			enemyTransform.position.y = transformComponent.position.y + transformComponent.height;
@@ -239,6 +259,10 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
 					projectile.addComponent<SpriteComponent>("bolt");
 					projectile.addComponent<CollisionComponent>("monster_projectile");
+					for (const auto& group : entity.getGroups())
+					{
+						ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(projectile, group);
+					}
 
 					timer.setTimer(980);
 				}
@@ -339,8 +363,10 @@ void AISystem::applyHealthBar(Entity& entity)
 	}
 }
 
-void AISystem::applyMovement(Entity& entity) {
-	if (!entity.hasComponent<EnemyMovementComponent>()) {
+void AISystem::applyMovement(Entity& entity)
+{
+	if (!entity.hasComponent<EnemyMovementComponent>())
+	{
 		return;
 	}
 	auto& transform = entity.getComponent<TransformComponent>();

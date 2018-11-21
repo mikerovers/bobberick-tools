@@ -4,17 +4,18 @@ void InputHandler::init()
 {
 }
 
-InputHandler::InputHandler() : m_keystates(0),
-                               m_mousePosition(new Vector2D(0, 0))
+InputHandler::InputHandler() :
+	m_mousePosition(new Vector2D(0, 0))
 {
+	windowClosed = false;
 	//reset all states
-	for (int i = 0; i < 3; i++)
+	for (auto i = 0; i < 3; i++)
 	{
 		m_mouseButtonStates.push_back(false);
 	}
 }
 
-Vector2D* InputHandler::getMousePosition()
+Vector2D* InputHandler::getMousePosition() const
 {
 	return m_mousePosition;
 }
@@ -53,6 +54,9 @@ void InputHandler::update()
 		case SDL_JOYAXISMOTION:
 			onJoyAxisMotion(event);
 			break;
+		case SDL_WINDOWEVENT:
+			onWindowEvent(event);
+			break;
 		default:
 			break;
 		}
@@ -61,29 +65,31 @@ void InputHandler::update()
 
 bool InputHandler::isKeyDown(SDL_Scancode key) const
 {
-	if (m_keystates != 0)
+	if (m_keystates != nullptr)
 	{
-		if (m_keystates[key] == 1)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return static_cast<bool>(m_keystates[key]);
 	}
 
 	return false;
 }
 
+bool InputHandler::isWindowEvent(int windowEvent) const
+{
+	if (windowEvent == SDL_WINDOWEVENT_CLOSE)
+	{
+		return windowClosed;
+	}
+	return false;
+}
+
 void InputHandler::onKeyDown()
 {
-	m_keystates = (Uint8*)SDL_GetKeyboardState(0);
+	m_keystates = const_cast<Uint8*>(SDL_GetKeyboardState(nullptr));
 }
 
 void InputHandler::onKeyUp()
 {
-	m_keystates = (Uint8*)SDL_GetKeyboardState(0);
+	m_keystates = const_cast<Uint8*>(SDL_GetKeyboardState(nullptr));
 }
 
 void InputHandler::onMouseButtonDown(SDL_Event& event)
@@ -127,6 +133,14 @@ void InputHandler::onMouseButtonUp(SDL_Event& event)
 bool InputHandler::getMouseButtonState(int buttonNumber)
 {
 	return m_mouseButtonStates[buttonNumber];
+}
+
+void InputHandler::onWindowEvent(const SDL_Event& event)
+{
+	if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+	{
+		windowClosed = true;
+	}
 }
 
 void InputHandler::initialiseJoysticks()

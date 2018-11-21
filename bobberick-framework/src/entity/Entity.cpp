@@ -43,3 +43,8 @@ void Entity::removeGroup(const Group group)
         groups.erase(it);
     }
 }
+
+std::vector<Group> Entity::getGroups() const
+{
+	return groups;
+}
