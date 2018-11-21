@@ -132,7 +132,7 @@ void AISystem::executeSpell(Entity& entity)
 
 				const int randomXPosition = RandomGenerator{}.getRandomNumber(0, 4);
 
-				for (int i = 0; i < 4; i++)
+				for (auto i = 0; i < 4; i++)
 				{
 					auto& enemy = enemyFactory.getEnemy(1, enemy_type);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
