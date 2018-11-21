@@ -300,6 +300,14 @@ void AISystem::initHealthBar(Entity& entity)
 		healthBar.healthBox.addComponent<TransformComponent>(-1, -1, 10, width, 1);
 		healthBar.healthBox.addComponent<RectangleComponent>(255, 0, 0, true);
 	}
+
+	for (const auto& group : entity.getGroups())
+	{
+		auto& serviceManager = ServiceManager::Instance()->getService<EntityManager>();
+		serviceManager.addEntityToGroup(healthBar.outerBox, group);
+		serviceManager.addEntityToGroup(healthBar.innerBox, group);
+		serviceManager.addEntityToGroup(healthBar.healthBox, group);
+	}
 }
 
 void AISystem::kill(Entity& entity)
