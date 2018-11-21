@@ -69,7 +69,7 @@ void HudSystem::update()
 		auto* inventoryItem2 = inventory.getItem(1);
 
 		if (inventoryItem1 != nullptr) {
-			inventorySlot1.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
+			inventorySlot1.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
 		}
 		else {
 			if (inventorySlot1.hasComponent<SpriteComponent>()) {
@@ -78,7 +78,7 @@ void HudSystem::update()
 		}
 
 		if (inventoryItem2 != nullptr) {
-			inventorySlot2.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
+			inventorySlot2.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
 		}
 		else {
 			if (inventorySlot2.hasComponent<SpriteComponent>()) {
@@ -115,10 +115,10 @@ void HudSystem::init()
 	shieldBox.addComponent<RectangleComponent>(0, 255, 255, true);
 
 	coinImage.addComponent<TransformComponent>(barWidth + 17, 1, 48, 48, 1);
-	coinImage.addComponent<SpriteComponent>("assets/image/gui/hud_gold.png", "coinImage", true);
+	coinImage.addComponent<SpriteComponent>("hudGold", true);
 
 	xpImage.addComponent<TransformComponent>(barWidth + 177, 1, 48, 48, 1);
-	xpImage.addComponent<SpriteComponent>("assets/image/gui/hud_xp.png", "xpImage", true);
+	xpImage.addComponent<SpriteComponent>("hudXp", true);
 
 	healthText.addComponent<TransformComponent>(20, 10, 30, 280, 1);
 	healthText.addComponent<TextComponent>("monoMedium", "healthText", " ");

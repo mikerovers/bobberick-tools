@@ -13,6 +13,7 @@ class TextureManager : public Service
 public:
     void init() override;
     void clean() override;
+	void preloadTextures(std::shared_ptr<SDL_Renderer> renderer);
     bool load(const char* fileName, std::string id, std::shared_ptr<SDL_Renderer> renderer);
 	bool addTextureFromSurface(SDL_SurfacePointer surface, std::string id, std::shared_ptr<SDL_Renderer> renderer); // FontManager's SDL_TTF creates a surface from text.
     void draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip, double nScale = 1);

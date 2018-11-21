@@ -10,7 +10,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 	{
 		auto& entity = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 		entity.addComponent<TransformComponent>(object->position->x, object->position->y, 48, 32, 1);
-		entity.addComponent<SpriteComponent>("assets/image/items/potion.png", "potion");
+		entity.addComponent<SpriteComponent>("potion");
 		entity.addComponent<CollisionComponent>(object->name, object->position->x, object->position->y, 48,
 		                                        32);
 

@@ -15,8 +15,7 @@ Entity& ChickenFactory::getEnemy(const int level)
 	Entity& chicken = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = chicken.addComponent<TransformComponent>(-1, -1, 25, 24, 1);
 
-	chicken.addComponent<SpriteComponent>("assets/image/enemies/chicken_white.png",
-	                                      "chicken", 3, 2, 9);
+	chicken.addComponent<SpriteComponent>("chickenWhite", 3, 2, 9);
 
 	chicken.addComponent<HealthBarComponent>();
 	chicken.addComponent<AIComponent>();

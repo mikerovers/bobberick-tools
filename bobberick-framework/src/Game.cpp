@@ -55,6 +55,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
         if (window != nullptr) {
             serviceManager->getService<RenderService>().createRenderer(window);
             renderer = serviceManager->getService<RenderService>().getRenderer();
+			serviceManager->getService<TextureManager>().preloadTextures(renderer); // Load in our textures.
 
             if (renderer != nullptr) {
                 SDL_SetRenderDrawColor(renderer.get(), 75, 75, 255, 255);

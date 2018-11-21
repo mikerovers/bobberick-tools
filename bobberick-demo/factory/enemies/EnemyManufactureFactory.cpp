@@ -22,7 +22,7 @@ Entity& EnemyManufactureFactory::getEnemy(const int level)
 	Entity& manufacture = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = manufacture.addComponent<TransformComponent>(-1, -1, 100, 91, 1);
 
-	manufacture.addComponent<SpriteComponent>("assets/image/enemies/house.png", "factory", 1, 1, 10);
+	manufacture.addComponent<SpriteComponent>("house", 1, 1, 10);
 	manufacture.addComponent<HealthBarComponent>();
 	manufacture.addComponent<TimerComponent>();
 	manufacture.addComponent<AIComponent>();

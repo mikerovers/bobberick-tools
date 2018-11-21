@@ -14,7 +14,7 @@ Entity &OrcFactory::getEnemy(const int level)
 {
 	Entity& orc = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = orc.addComponent<TransformComponent>(-1, -1, 49, 64, 1);
-	auto& spriteComponent = orc.addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
+	auto& spriteComponent = orc.addComponent<SpriteComponent>("orc", 9, 9, 3);
 	orc.addComponent<HealthBarComponent>();
 	orc.addComponent<EnemyMovementComponent>();
 	orc.addComponent<AIComponent>();

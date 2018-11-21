@@ -16,7 +16,7 @@ void ShieldSystem::update()
 		auto& sprite = entity->getComponent<SpriteComponent>();
 
 		if (playerStats.shieldActive()) {
-			sprite.changeTexture("character_shield");
+			sprite.setTexture("characterShield");
 		}
 	}
 }

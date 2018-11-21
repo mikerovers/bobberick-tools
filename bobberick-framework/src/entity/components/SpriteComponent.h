@@ -11,12 +11,10 @@ class SpriteComponent : public Component
 {
 public:
     SpriteComponent();
-	SpriteComponent(const char * path, const char* textureID, const bool guiLayer = false);
-    SpriteComponent(const char * path, const char* textureID, int animCols, int animFrames, int animRate);
+	SpriteComponent(const char* textureID, const bool guiLayer = false);
+    SpriteComponent(const char* textureID, int animCols, int animFrames, int animRate);
 
-	void addTexture(const char * path, const char * textureID);
-	void changeTexture(const char * textureID);
-
+	void setTexture(const char * textureID);
     void setCurrentFrame(const int frame);
     void setStaticAnimation(const bool stan);
 	void processScale(const int scale);

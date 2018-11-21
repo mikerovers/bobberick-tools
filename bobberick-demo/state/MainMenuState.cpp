@@ -86,7 +86,7 @@ void MainMenuState::createAnimatedBackground()
 {
 	auto& fireWizard = entityManager.addEntity();
 	auto& fireWizardTransformComponent = fireWizard.addComponent<TransformComponent>(-1, 20, 59, 54, 2);
-	fireWizard.addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
+	fireWizard.addComponent<SpriteComponent>("fireWizard", 5, 5, 12);
 	fireWizard.addComponent<CollisionComponent>("fireWizard");
 	fireWizard.addComponent<AIComponent>();
 	fireWizardTransformComponent.speed = 1.5;
@@ -95,7 +95,7 @@ void MainMenuState::createAnimatedBackground()
 
 	auto& zombie = entityManager.addEntity();
 	auto& zombieTransformComponent = zombie.addComponent<TransformComponent>(560, 140, 51, 51, 2);
-	zombie.addComponent<SpriteComponent>("assets/image/enemies/zombie.png", "zombie", 6, 4, 10);
+	zombie.addComponent<SpriteComponent>("zombie", 6, 4, 10);
 	zombie.addComponent<CollisionComponent>("fireWizard");
 	zombie.addComponent<AIComponent>();
 	zombieTransformComponent.speed = -1.5;
@@ -104,7 +104,7 @@ void MainMenuState::createAnimatedBackground()
 
 	auto& orc = entityManager.addEntity();
 	auto& OrcTransformComponent = orc.addComponent<TransformComponent>(-1, 260, 49, 64, 2);
-	orc.addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
+	orc.addComponent<SpriteComponent>("orc", 9, 9, 3);
 	orc.addComponent<CollisionComponent>("fireWizard");
 	orc.addComponent<AIComponent>();
 	OrcTransformComponent.speed = 1.5;
@@ -113,7 +113,7 @@ void MainMenuState::createAnimatedBackground()
 
 	auto& player = entityManager.addEntity();
 	auto& playerTransformComponent = player.addComponent<TransformComponent>(560, 380, 64, 32, 2);
-	player.addComponent<SpriteComponent>("assets/image/character.png", "character", 6, 4, 5);
+	player.addComponent<SpriteComponent>("character", 6, 4, 5);
 	player.addComponent<CollisionComponent>("fireWizard");
 	player.addComponent<AIComponent>();
 	playerTransformComponent.speed = -1.5;
@@ -137,7 +137,7 @@ void MainMenuState::makeStartGameButton()
 	playGameButtonTransformComponent->height = 64;
 	playGameButtonTransformComponent->width = 128;
 	playGameButton.addExistingComponent<TransformComponent>(playGameButtonTransformComponent);
-	playGameButton.addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1,
+	playGameButton.addComponent<ButtonSpriteComponent>("startGameButton", 1,
 	                                                   3, 0);
 	playGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(playGameButton, getStateID());
@@ -158,8 +158,7 @@ void MainMenuState::makeOptionsButton()
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
 	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
-	optionsButton.addComponent<ButtonSpriteComponent
-	>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
+	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0);
 	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
@@ -180,7 +179,7 @@ void MainMenuState::makeExitButton()
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
-	exitButton.addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
 	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(exitButton, getStateID());
 }
@@ -224,7 +223,7 @@ void MainMenuState::makeHelpButton()
 	helpButtonTransformComponent->height = 64;
 	helpButtonTransformComponent->width = 128;
 	helpButton.addExistingComponent<TransformComponent>(helpButtonTransformComponent);
-	helpButton.addComponent<ButtonSpriteComponent>("assets/image/button/helpbutton.png", "helpbutton", 1, 3, 0);
+	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
 	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(helpButton, getStateID());
 }
