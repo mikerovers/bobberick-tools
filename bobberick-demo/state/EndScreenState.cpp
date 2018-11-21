@@ -51,7 +51,7 @@ void EndScreenState::makeExitButton()
     exitButtonTransformComponent->height = 64;
     exitButtonTransformComponent->width = 128;
     exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
-    exitButton.addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
+    exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
     exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
     exitButton.addComponent<CollisionComponent>("button");
 
