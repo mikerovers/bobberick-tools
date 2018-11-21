@@ -162,10 +162,21 @@ void PlayState::makeEnemies() const
 	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
 	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
 	manufacturerSpawn2.type = "fireWizard";
-	manufacturerSpawn2.spawnTimer = 250;
-	manufacturerSpawn2.maxCount = 10;
+	manufacturerSpawn2.spawnTimer = 20;
+	manufacturerSpawn2.maxCount = 50;
 	manufacturer2Transform.position.x = 500;
 	manufacturer2Transform.position.y = 250;
+
+	auto& manufacturer3 = enemyFactory.getEnemy(3, "manufacturer");
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer3, getStateID());
+
+	auto& manufacturer3Transform = manufacturer3.getComponent<TransformComponent>();
+	auto& manufacturerSpawn3 = manufacturer3.getComponent<SpawnComponent>();
+	manufacturerSpawn3.type = "chicken";
+	manufacturerSpawn3.spawnTimer = 10;
+	manufacturerSpawn3.maxCount = 100;
+	manufacturer3Transform.position.x = 500;
+	manufacturer3Transform.position.y = 150;
 }
 
 void PlayState::makeGui()
