@@ -6,17 +6,15 @@
 //#include <cstdlib>
 //#include <crtdbg.h>
 
-std::unique_ptr<Game> game = nullptr;
-
 int main(int argc, char** argv)
 {
-	game = std::unique_ptr<Game>(new BobberGame());
-	game->setup();
-	game->start();
+	BobberGame game;
+	game.setup();
+	game.start();
 
 
 	atexit(SDL_Quit);
 
-//	_CrtDumpMemoryLeaks();
+	//	_CrtDumpMemoryLeaks();
 	return 0;
 }

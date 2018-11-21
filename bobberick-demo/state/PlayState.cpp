@@ -61,6 +61,8 @@ bool PlayState::onEnter()
 
 bool PlayState::onExit()
 {
+	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
+	ServiceManager::Instance()->getService<SoundManager>().stopSound(-1);
 	std::cout << "Exited playstate" << std::endl;
 
 	return true;
