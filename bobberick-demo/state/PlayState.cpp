@@ -168,7 +168,7 @@ void PlayState::makeEnemies() const
 	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
 	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
 	manufacturerSpawn2.type = "fireWizard";
-	manufacturerSpawn2.spawnTimer = 250;
+	manufacturerSpawn2.spawnTimer = 2500;
 	manufacturerSpawn2.maxCount = 10;
 	manufacturer2Transform.position.x = 500;
 	manufacturer2Transform.position.y = 250;
