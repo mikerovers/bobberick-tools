@@ -174,6 +174,11 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				projectile.addComponent<CollisionComponent>("bolt");
 				timer.setTimer(400);
 			}
+
+			for (const auto& group : entity->getGroups())
+			{
+				ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(projectile, group);
+			}
 		}
 	}
 	else
