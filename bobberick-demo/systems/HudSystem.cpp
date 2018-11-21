@@ -22,10 +22,8 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
                                                      xpText(entityManager.addEntity()),
                                                      inventory(entityManager.addEntity()),
                                                      inventorySlot1(entityManager.addEntity()),
-													 inventorySlot2(entityManager.addEntity())
-													 innerBox(entityManager.addEntity()),
-healthBox(entityManager.addEntity())
-fpsCounter(entityManager.addEntity())
+                                                     inventorySlot2(entityManager.addEntity()),
+                                                     fpsCounter(entityManager.addEntity())
 {
 }
 
@@ -34,6 +32,7 @@ void HudSystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>())
 	{
 		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
+		auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
 
 		playerStats.update();
 		double healthWidth = (double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax() * barWidth;
@@ -102,8 +101,8 @@ void HudSystem::update()
 		coinText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.gold), 6, false));
 		xpText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.xp), 6, false));
 
-		 fpsCounter.getComponent<TextComponent>().setText(addSpaces(fps, 6, false));
-    }
+		fpsCounter.getComponent<TextComponent>().setText(addSpaces(fps, 6, false));
+	}
 }
 
 void HudSystem::init()
@@ -146,7 +145,9 @@ void HudSystem::init()
 
 	inventorySlot2.addComponent<TransformComponent>(80, 480 - 55, 40, 40, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
-	//inventorySlot2.addComponent<SpriteComponent>("", "potion", true);
+
+	fpsCounter.addComponent<TransformComponent>(640 - 50, 0 + 65, 40, 40, 1);
+	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
 
 	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<
 		PlayerStatsComponent>();
@@ -167,6 +168,7 @@ void HudSystem::init()
 			serviceManager.addEntityToGroup(inventory, group);
 			serviceManager.addEntityToGroup(inventorySlot1, group);
 			serviceManager.addEntityToGroup(inventorySlot2, group);
+			serviceManager.addEntityToGroup(fpsCounter, group);
 		}
 	}
 }
