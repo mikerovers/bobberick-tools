@@ -176,7 +176,7 @@ void MainMenuState::makeExitButton()
 	auto* exitButtonTransformComponent = new TransformComponent();
 
 	exitButtonTransformComponent->position.x = 260;
-	exitButtonTransformComponent->position.y = 220;
+	exitButtonTransformComponent->position.y = 300;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
@@ -219,8 +219,8 @@ void MainMenuState::makeHelpButton()
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
 	auto* helpButtonTransformComponent = new TransformComponent();
-	helpButtonTransformComponent->position.setX(260);
-	helpButtonTransformComponent->position.setY(220);
+	helpButtonTransformComponent->position.x = 260;
+	helpButtonTransformComponent->position.y = 220;
 	helpButtonTransformComponent->height = 64;
 	helpButtonTransformComponent->width = 128;
 	helpButton.addExistingComponent<TransformComponent>(helpButtonTransformComponent);
