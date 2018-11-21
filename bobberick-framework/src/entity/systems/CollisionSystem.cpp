@@ -74,6 +74,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 	{
 	}
 
+
 	if (colliderB.tag == "aabb_rectangle")
 	{
 		if (colliderA.entity->hasComponent<TransformComponent>())
@@ -96,7 +97,8 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 				//transform.position.x += -transform.velocity.x * 5;
 				//transform.position.y += -transform.velocity.y * 5;
 			}
-			else {
+			else
+			{
 				auto& enemyMovement = colliderA.entity->getComponent<EnemyMovementComponent>();
 				enemyMovement.collided = true;
 				transform.position.x += -transform.velocity.x * 5;
@@ -122,16 +124,11 @@ void CollisionSystem::update()
 		cC.collider.h = tC.height;
 	}
 
-	const auto removeNonPlayersAndMonsters = [](Entity* entity) -> bool
-	{
-		return true;
-		return !entity->hasComponent<PlayerStatsComponent>() || !entity->hasComponent<StatsComponent>();
-	};
-
 	auto collisionComponentEntities = entityManager.getAllEntitiesWithComponent<CollisionComponent>();
 	auto playerAndMonsterEntities = entityManager.getAllEntitiesWithComponent<StatsComponent>();
 	auto playerEntities = entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>();
-	playerAndMonsterEntities.insert(std::end(playerAndMonsterEntities), std::begin(playerEntities), std::end(playerEntities));
+	playerAndMonsterEntities.insert(std::end(playerAndMonsterEntities), std::begin(playerEntities),
+	                                std::end(playerEntities));
 
 	for (auto& entity : playerAndMonsterEntities)
 	{
