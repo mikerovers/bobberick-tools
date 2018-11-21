@@ -41,35 +41,35 @@ Entity& EnemyFactory::getBoss(const int level)
 std::unique_ptr<BaseEnemyFactory> EnemyFactory::getFactory(std::string type) const {
 	if (type == "orc")
 	{
-		return std::unique_ptr<OrcFactory>(new OrcFactory());
+		return std::make_unique<OrcFactory>();
 	}
 
 	if (type == "zombie")
 	{
-		return std::unique_ptr<ZombieFactory>(new ZombieFactory());
+		return std::make_unique<ZombieFactory>();
 	}
 
 	if (type == "fireWizard")
 	{
-		return std::unique_ptr<FireWizardFactory>(new FireWizardFactory());
+		return std::make_unique<FireWizardFactory>();
 	}
 
 	if (type == "chicken")
 	{
-		return std::unique_ptr<ChickenFactory>(new ChickenFactory());
+		return std::make_unique<ChickenFactory>();
 	}
 
 	if (type == "boss")
 	{
-		return std::unique_ptr<EndBossFactory>(new EndBossFactory());
+		return std::make_unique<EndBossFactory>();
 	}
 
 	if (type == "manufacturer")
 	{
-		return std::unique_ptr<EnemyManufactureFactory>(new EnemyManufactureFactory());
+		return std::make_unique<EnemyManufactureFactory>();
 	}
 
-	return std::unique_ptr<NullFactory>(new NullFactory());
+	return std::make_unique<NullFactory>();
 }
 
 std::unique_ptr<BaseEnemyFactory> EnemyFactory::getRandomFactory() const {

@@ -11,16 +11,17 @@ TilesetComponent *LevelFactory::Load(std::string path, SDL_RendererPointer rende
     tmx::Map tileMap;
     tileMap.load("" + path);
     auto component = new TilesetComponent();
-    auto mapDimensions = tileMap.getTileCount();
+	const auto mapDimensions = tileMap.getTileCount();
     component->rows = mapDimensions.y;
     component->cols = mapDimensions.x;
-    auto tileSize = tileMap.getTileSize();
+	const auto tileSize = tileMap.getTileSize();
     component->tileWidth = tileSize.x;
     component->tileHeight = tileSize.y;
     auto& mapTileSets = tileMap.getTilesets();
     for (auto& tileSet : mapTileSets) {
         auto imagePath = tileSet.getImagePath();
-        auto texture = ServiceManager::Instance()->getService<TextureManager>().load(imagePath.c_str(), tileSet.getName(), renderer);
+        component->sheet = tileSet.getName();
+	    const auto texture = ServiceManager::Instance()->getService<TextureManager>().load(imagePath.c_str(), tileSet.getName(), renderer);
         if (texture) {
             component->tileSets.insert(std::pair<gid, std::string>(tileSet.getFirstGID(), tileSet.getName()));
         } else {
@@ -47,7 +48,7 @@ void LevelFactory::handleTileLayer(const tmx::TileLayer* tileLayer, TilesetCompo
     auto& layerTiles = tileLayer->getTiles();
     for (auto y = 0; y < component->rows; y++) {
         for (auto x = 0; x < component->cols; x++) {
-            auto tileIndex = x + (y * component->cols);
+            auto tileIndex = x + y * component->cols;
             auto curGid = layerTiles[tileIndex].ID;
             // Tile is empty if curGid == 0
             if (curGid == 0) {
@@ -70,8 +71,8 @@ void LevelFactory::handleTileLayer(const tmx::TileLayer* tileLayer, TilesetCompo
             auto textureManager = ServiceManager::Instance()->getService<TextureManager>();
             auto texture = textureManager.getTexture(component->tileSets[tileSetGid]).get();
             SDL_QueryTexture(texture, nullptr, nullptr, &tileSetWidth, &tileSetHeight);
-            auto regionX = (curGid % (tileSetWidth / component->tileWidth)) * component->tileWidth;
-            auto regionY = (curGid / (tileSetWidth / component->tileHeight)) * component->tileHeight;
+            auto regionX = curGid % (tileSetWidth / component->tileWidth) * component->tileWidth;
+            auto regionY = curGid / (tileSetWidth / component->tileHeight) * component->tileHeight;
             auto xPos = x * component->tileWidth;
             auto yPos = y * component->tileHeight;
             auto name = component->tileSets[tileSetGid];
@@ -86,7 +87,7 @@ void LevelFactory::handleObjectLayer(const tmx::ObjectGroup *objectGroup, Tilese
     auto& objects = objectGroup->getObjects();
     for (auto& object : objects) {
 		Vector2D* position = new Vector2D(object.getPosition().x, object.getPosition().y);
-		component->objects.push_back(new TileObject(position, object.getName()));
+		component->objects.push_back(new TileObject(position, object.getName(), object.getAABB()));
 	   // return;
     }
 }

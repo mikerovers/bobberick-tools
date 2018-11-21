@@ -30,8 +30,6 @@ void MainMenuState::update()
 
 bool MainMenuState::onEnter()
 {
-	auto& level = makeTileMap();
-
 	createAnimatedBackground();
 
 	for (const auto& system : systems)
@@ -134,8 +132,8 @@ void MainMenuState::makeStartGameButton()
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
 	auto* playGameButtonTransformComponent = new TransformComponent();
-	playGameButtonTransformComponent->position.setX(260);
-	playGameButtonTransformComponent->position.setY(60);
+	playGameButtonTransformComponent->position.x = 260;
+	playGameButtonTransformComponent->position.y = 60;
 	playGameButtonTransformComponent->height = 64;
 	playGameButtonTransformComponent->width = 128;
 	playGameButton.addExistingComponent<TransformComponent>(playGameButtonTransformComponent);
@@ -155,8 +153,8 @@ void MainMenuState::makeOptionsButton()
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
 	auto* optionsButtonTransformComponent = new TransformComponent();
-	optionsButtonTransformComponent->position.setX(260);
-	optionsButtonTransformComponent->position.setY(140);
+	optionsButtonTransformComponent->position.x = 260;
+	optionsButtonTransformComponent->position.y= 140;
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
 	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
@@ -176,8 +174,9 @@ void MainMenuState::makeExitButton()
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	auto* exitButtonTransformComponent = new TransformComponent();
-	exitButtonTransformComponent->position.setX(260);
-	exitButtonTransformComponent->position.setY(300);
+
+	exitButtonTransformComponent->position.x = 260;
+	exitButtonTransformComponent->position.y = 220;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
@@ -193,17 +192,17 @@ void MainMenuState::determineMovementDirection()
 		auto& transform = entity->getComponent<TransformComponent>();
 		auto& sprite = entity->getComponent<SpriteComponent>();
 		const double speed = 0.2 * transform.speed;
-		transform.velocity.setY(0);
+		transform.velocity.y = 0;
 
-		if (transform.position.getX() < 150)
+		if (transform.position.x < 150)
 		{
-			transform.velocity.setX(speed);
+			transform.velocity.x = speed;
 			sprite.flip = false;
 		}
-		else if (transform.position.getX() > 500)
+		else if (transform.position.x > 500)
 		{
 			// TODO: find a better way to get the window width
-			transform.velocity.setX(-speed);
+			transform.velocity.x = -speed;
 			sprite.flip = true;
 		}
 	}

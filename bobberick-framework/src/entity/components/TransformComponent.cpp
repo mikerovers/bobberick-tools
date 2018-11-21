@@ -12,8 +12,8 @@ TransformComponent::TransformComponent(int sc)
 
 TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, double sc)
 {
-	if (xPos >= 0) position.setX(xPos);
-	if (yPos >= 0) position.setY(yPos);
+	if (xPos >= 0) position.x  = xPos;
+	if (yPos >= 0) position.y = yPos;
 	height = h;
 	width = w;
 	scale = sc;
@@ -21,13 +21,13 @@ TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, dou
 
 void TransformComponent::update()
 {
-    position.setX(position.getX() + (velocity.getX() * speed));
-    position.setY(position.getY() + (velocity.getY() * speed));
+    position.x = position.x + velocity.x * speed;
+    position.y = position.y + velocity.y * speed;
 }
 
 void TransformComponent::init()
 {
-    velocity.Zero();
+    velocity.zero();
 }
 
 double TransformComponent::getScale() const

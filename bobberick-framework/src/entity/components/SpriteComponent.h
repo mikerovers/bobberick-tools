@@ -28,19 +28,19 @@ public:
     void update() override;
     void render() override;
 
-	bool guiLayer; // Set this to true to always render this sprite on top of any rectangles and text; used for drawing sprites on a GUI box.
-	bool moving;
+	bool guiLayer{}; // Set this to true to always render this sprite on top of any rectangles and text; used for drawing sprites on a GUI box.
+	bool moving{};
 	bool flip = false;
 protected:
-    TransformComponent* transform;
+    TransformComponent* transform{};
     std::string currentTexture;
     SDL_Rect sourceRect{};
     SDL_Rect destinationRect{};
-	int animCols; // Amount of columns in spritesheet
-	int animFrames; // Amount of frames in spritesheet
+	int animCols{}; // Amount of columns in spritesheet
+	int animFrames{}; // Amount of frames in spritesheet
 	int currentFrame; // Current frame number
-	int animRate; // Amount of ticks each frame
-	int animTimer; // Amount of ticks remaining to next frame
+	int animRate{}; // Amount of ticks each frame
+	int animTimer{}; // Amount of ticks remaining to next frame
 	bool staticAnimation;
 };
 

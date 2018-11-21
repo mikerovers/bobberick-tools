@@ -1,6 +1,7 @@
 #include "HudSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../components/PlayerStatsComponent.h"
+#include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
@@ -17,7 +18,10 @@ healthText(entityManager.addEntity()),
 coinImage(entityManager.addEntity()),
 coinText(entityManager.addEntity()),
 xpImage(entityManager.addEntity()),
-xpText(entityManager.addEntity())
+xpText(entityManager.addEntity()),
+inventory(entityManager.addEntity()),
+inventorySlot1(entityManager.addEntity()),
+inventorySlot2(entityManager.addEntity())
 {
 }
 
@@ -28,8 +32,8 @@ void HudSystem::update()
 		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
 
 		playerStats.update();
-		double healthWidth = ((double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax()) * barWidth;
-		double shieldWidth = (playerStats.shdTime / playerStats.shdTimeMax) * barWidth;
+		double healthWidth = (double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax() * barWidth;
+		double shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
 		if (playerStats.shieldActive())
 		{
 			// Bright blue bar if shield is currently active.
@@ -55,6 +59,29 @@ void HudSystem::update()
 		//if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
 		//	playerStats.toggleShield();
 		//}
+
+		// check player inventory en update accordingly
+		auto& inventory = entity->getComponent<InventoryComponent>();
+		auto* inventoryItem1 = inventory.getItem(0);
+		auto* inventoryItem2 = inventory.getItem(1);
+
+		if (inventoryItem1 != nullptr) {
+			inventorySlot1.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
+		}
+		else {
+			if (inventorySlot1.hasComponent<SpriteComponent>()) {
+				inventorySlot1.removeComponent<SpriteComponent>();
+			}
+		}
+
+		if (inventoryItem2 != nullptr) {
+			inventorySlot2.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
+		}
+		else {
+			if (inventorySlot2.hasComponent<SpriteComponent>()) {
+				inventorySlot2.removeComponent<SpriteComponent>();
+			}
+		}
 
 		healthBox.getComponent<TransformComponent>().width = healthWidth;
 		shieldBox.getComponent<TransformComponent>().width = shieldWidth;
@@ -96,6 +123,20 @@ void HudSystem::init()
 
 	xpText.addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
 	xpText.addComponent<TextComponent>("monoMedium", "xpText", " ");
+
+	inventory.addComponent<TransformComponent>(10, 480 - 60, 50, 120, 1);
+	inventory.addComponent<RectangleComponent>(161, 64, 5, true);
+
+	inventorySlot1.addComponent<TransformComponent>(20, 480 - 55, 40, 40, 1);
+	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
+	//inventorySlot1.addComponent<SpriteComponent>("", "potion", true);
+
+
+	inventorySlot2.addComponent<TransformComponent>(80, 480 - 55, 40, 40, 1);
+	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
+	//inventorySlot2.addComponent<SpriteComponent>("", "potion", true);
+
+
 }
 
 std::string HudSystem::addSpaces(std::string string, const int goalChars, const bool leading)

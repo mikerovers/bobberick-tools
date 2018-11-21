@@ -10,6 +10,7 @@
 #include "../components/StatsComponent.h"
 #include "../components/SpawnComponent.h"
 #include "../components/PlayerStatsComponent.h"
+#include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
@@ -45,8 +46,8 @@ bool PlayState::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
 	                                                            SOUND_SFX);
 
-	auto& box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	box.addComponent<CollisionComponent>("fire", 140, 175, 40);
+	// auto& box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	// box.addComponent<CollisionComponent>("fire", 140, 175, 40);
 
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1",
 	                                                            SOUND_MUSIC);
@@ -73,15 +74,18 @@ Entity& PlayState::makeTileMap() const
 {
 	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 
-    // Use LevelFactory to load and create tilemap components.
-    LevelFactory levelFactory;
-	const auto tilesetComponent = levelFactory.Load("assets/maps/map1.tmx", ServiceManager::Instance()->getService<RenderService>().getRenderer());
-    level.addExistingComponent<TilesetComponent>(tilesetComponent);
+	// Use LevelFactory to load and create tilemap components.
+	LevelFactory levelFactory;
+	const auto tilesetComponent = levelFactory.Load("assets/maps/map2.tmx",
+	                                                ServiceManager::Instance()
+	                                                ->getService<RenderService>().getRenderer());
+	level.addExistingComponent<TilesetComponent>(tilesetComponent);
 
-    ObjectFactory objectFactory;
-    for(auto object : level.getComponent<TilesetComponent>().objects) {
-        objectFactory.getObject(object);
-    }
+	ObjectFactory objectFactory;
+	for (auto object : level.getComponent<TilesetComponent>().objects)
+	{
+		objectFactory.getObject(object);
+	}
 
 	return level;
 }
@@ -89,7 +93,7 @@ Entity& PlayState::makeTileMap() const
 Entity& PlayState::makePlayer() const
 {
 	auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	player.addComponent<TransformComponent>(200, 200, 64, 32, 1);
+	player.addComponent<TransformComponent>(100, 100, 64, 32, 1);
 	auto& spriteComponent = player.addComponent<SpriteComponent>("assets/image/character/character.png", "character", 6,
 	                                                             4, 5);
 	spriteComponent.addTexture("assets/image/character/character_casting.png", "character_casting");
@@ -102,6 +106,7 @@ Entity& PlayState::makePlayer() const
 
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
+	player.addComponent<InventoryComponent>(&player.getComponent<PlayerStatsComponent>());
 
 	return player;
 }
@@ -117,48 +122,39 @@ void PlayState::instantiateSystems() const
 void PlayState::makeEnemies() const
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
-	for (auto x = 0; x < 3; x++) {
-	    for (auto y = 0; y < 7; y++) {
-	        const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
-	
-	        auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	        enemyTransform.position.setX(200 + 50 * x);
-	        enemyTransform.position.setY(60 + 50 * y);
-	    }
-	}
-	//auto& enemy = enemyFactory.getBoss(10);
-	//auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	//enemyTransform.position.setX(250 + 50);
-	//enemyTransform.position.setY(250);
+	for (auto x = 0; x < 5; x++)
+	{
+		for (auto y = 0; y < 5; y++)
+		{
+			const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 
+			auto& enemyTransform = enemy.getComponent<TransformComponent>();
+			enemyTransform.position.x = 50 + 10 * x;
+			enemyTransform.position.y = 350 + 10 * y;
+		}
+	}
+	/*auto& enemy = enemyFactory.getBoss(10);
+	auto& enemyTransform = enemy.getComponent<TransformComponent>();
+	enemyTransform.position.x = 250 + 50;
+	enemyTransform.position.y = 250;
+*/
 	auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
 	auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 	auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 	manufacturerSpawn.type = "orc";
-	manufacturerSpawn.spawnTimer = 7500;
-	manufacturerTransform.position.setX(500);
-	manufacturerTransform.position.setY(300);
-
-	auto& manufacturer1 = enemyFactory.getEnemy(3, "manufacturer");
-	auto& manufacturerTransform1 = manufacturer1.getComponent<TransformComponent>();
-	auto& manufacturerSpawn1 = manufacturer1.getComponent<SpawnComponent>();
-	manufacturerSpawn1.type = "fireWizard";
-	manufacturerSpawn1.spawnTimer = 3000;
-	manufacturerTransform1.position.setX(500);
-	manufacturerTransform1.position.setY(200);
+	manufacturerSpawn.spawnTimer = 1000;
+	manufacturerSpawn.maxCount = 20;
+	manufacturerTransform.position.x = 500;
+	manufacturerTransform.position.y = 300;
 
 	auto& manufacturer2 = enemyFactory.getEnemy(3, "manufacturer");
-	auto& manufacturerTransform2 = manufacturer2.getComponent<TransformComponent>();
+	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
 	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
-	manufacturerSpawn2.type = "chicken";
-	manufacturerSpawn2.spawnTimer = 333;
-	manufacturerSpawn2.maxCount = 150;
-	manufacturerTransform2.position.setX(500);
-	manufacturerTransform2.position.setY(100);
-
-
-
-
+	manufacturerSpawn2.type = "fireWizard";
+	manufacturerSpawn2.spawnTimer = 250;
+	manufacturerSpawn2.maxCount = 10;
+	manufacturer2Transform.position.x = 500;
+	manufacturer2Transform.position.y = 250;
 }
 
 void PlayState::makeGui()
@@ -173,8 +169,8 @@ void PlayState::makeGui()
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	auto* exitButtonTransformComponent = new TransformComponent();
-	exitButtonTransformComponent->position.setX(10);
-	exitButtonTransformComponent->position.setY(60);
+	exitButtonTransformComponent->position.x = 10;
+	exitButtonTransformComponent->position.y = 60;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
