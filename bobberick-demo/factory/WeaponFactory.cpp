@@ -15,9 +15,9 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(bool magic, int m
 		std::string name = "";
 		name += rankPrefixes.at(rank);
 		if (magic) {
-			name += magicNames[generator.getRandomNumber(0, magicNames.size())];
+			name += magicNames[generator.getRandomNumber(0, magicNames.size()-1)];
 		} else {
-			name += normalNames[generator.getRandomNumber(0, normalNames.size())];
+			name += normalNames[generator.getRandomNumber(0, normalNames.size()-1)];
 		}
 		for (int i = 0; i <= balanceAffixLimits.size(); i++) {
 			if (i == balanceAffixLimits.size() || balance >= balanceAffixLimits[i]) {
