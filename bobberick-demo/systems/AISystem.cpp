@@ -162,7 +162,12 @@ void AISystem::executeSpawner(Entity& entity)
 		if (timer.isTimerFinished())
 		{
 			auto& spawnComponent = entity.getComponent<SpawnComponent>();
-
+			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>())
+			{
+				if (!AISystem::isEntityInRange(entity, *player, 200)) {
+					return;
+				}
+			}
 			int spawnCounter = 0;
 
 			for (auto& spawnedEnemy : ServiceManager::Instance()
@@ -228,7 +233,10 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				const auto angleX = playerTransform.position.x - enemyXCenter;
 				const auto angleY = playerTransform.position.y - enemyYCenter;
 
-				if (angleX < 300 && angleX > -300 && (angleY < 300 && angleY > -300))
+				bool isInRange = AISystem::isEntityInRange(*player, entity, 300);
+				
+
+				if (isInRange)
 				{
 					if (angleX < 0)
 					{
@@ -312,6 +320,22 @@ void AISystem::kill(Entity& entity)
 	healthBar.outerBox.destroy();
 	healthBar.innerBox.destroy();
 	entity.destroy();
+}
+
+bool AISystem::isEntityInRange(Entity& entity1, Entity& entity2, const int range)
+{
+	auto& entity1Transform = entity1.getComponent<TransformComponent>();
+	auto& entity2Transform = entity2.getComponent<TransformComponent>();
+
+	const double entity1XCenter = entity1Transform.position.x + entity1Transform.width / 2;
+	const double entity1YCenter = entity1Transform.position.y + entity1Transform.height / 2;
+
+	const double entity2XCenter = entity2Transform.position.x + entity2Transform.width / 2;
+	const double entity2YCenter = entity2Transform.position.y + entity2Transform.height / 2;
+
+	const double distance = sqrt((entity1XCenter - entity2XCenter) * (entity1XCenter - entity2XCenter) + (entity1YCenter - entity2YCenter) * (entity1YCenter - entity2YCenter));
+
+	return distance < range;
 }
 
 void AISystem::applyHealthBar(Entity& entity)
