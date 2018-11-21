@@ -9,19 +9,19 @@
 #include <string>
 
 HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
-hudBox(entityManager.addEntity()),
-outerBox(entityManager.addEntity()),
-innerBox(entityManager.addEntity()),
-healthBox(entityManager.addEntity()),
-shieldBox(entityManager.addEntity()),
-healthText(entityManager.addEntity()),
-coinImage(entityManager.addEntity()),
-coinText(entityManager.addEntity()),
-xpImage(entityManager.addEntity()),
-xpText(entityManager.addEntity()),
-inventory(entityManager.addEntity()),
-inventorySlot1(entityManager.addEntity()),
-inventorySlot2(entityManager.addEntity())
+                                                     hudBox(entityManager.addEntity()),
+                                                     outerBox(entityManager.addEntity()),
+                                                     innerBox(entityManager.addEntity()),
+                                                     healthBox(entityManager.addEntity()),
+                                                     shieldBox(entityManager.addEntity()),
+                                                     healthText(entityManager.addEntity()),
+                                                     coinImage(entityManager.addEntity()),
+                                                     coinText(entityManager.addEntity()),
+                                                     xpImage(entityManager.addEntity()),
+                                                     xpText(entityManager.addEntity()),
+                                                     inventory(entityManager.addEntity()),
+                                                     inventorySlot1(entityManager.addEntity()),
+                                                     inventorySlot2(entityManager.addEntity())
 {
 }
 
@@ -32,7 +32,10 @@ void HudSystem::update()
 		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
 
 		playerStats.update();
-		const auto healthWidth = static_cast<double>(playerStats.stats->getHP()) / static_cast<double>(playerStats.stats->getHPmax()) * barWidth;
+		const auto healthWidth = static_cast<double>(playerStats.stats->getHP()) / static_cast<double>(playerStats
+		                                                                                               .stats->
+		                                                                                               getHPmax()) *
+			barWidth;
 		const auto shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
 		if (playerStats.shieldActive())
 		{
@@ -65,20 +68,26 @@ void HudSystem::update()
 		auto* inventoryItem1 = inventory.getItem(0);
 		auto* inventoryItem2 = inventory.getItem(1);
 
-		if (inventoryItem1 != nullptr) {
+		if (inventoryItem1 != nullptr)
+		{
 			inventorySlot1.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
 		}
-		else {
-			if (inventorySlot1.hasComponent<SpriteComponent>()) {
+		else
+		{
+			if (inventorySlot1.hasComponent<SpriteComponent>())
+			{
 				inventorySlot1.removeComponent<SpriteComponent>();
 			}
 		}
 
-		if (inventoryItem2 != nullptr) {
+		if (inventoryItem2 != nullptr)
+		{
 			inventorySlot2.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
 		}
-		else {
-			if (inventorySlot2.hasComponent<SpriteComponent>()) {
+		else
+		{
+			if (inventorySlot2.hasComponent<SpriteComponent>())
+			{
 				inventorySlot2.removeComponent<SpriteComponent>();
 			}
 		}
@@ -86,10 +95,12 @@ void HudSystem::update()
 		healthBox.getComponent<TransformComponent>().width = healthWidth;
 		shieldBox.getComponent<TransformComponent>().width = shieldWidth;
 
-		healthText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + addSpaces(std::to_string(playerStats.stats->getHPmax()), 6, false));
+		healthText.getComponent<TextComponent>().setText(
+			addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + addSpaces(
+				std::to_string(playerStats.stats->getHPmax()), 6, false));
 		coinText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.gold), 6, false));
 		xpText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.xp), 6, false));
-    }
+	}
 }
 
 void HudSystem::init()
@@ -136,28 +147,27 @@ void HudSystem::init()
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 	//inventorySlot2.addComponent<SpriteComponent>("", "potion", true);
 
-	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>();
+	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<
+		PlayerStatsComponent>();
 	for (auto player : players)
 	{
 		for (const auto& group : player->getGroups())
 		{
-			hudBox.addGroup(group);
-			outerBox.addGroup(group);
-			innerBox.addGroup(group);
-			healthBox.addGroup(group);
-			healthBox.addGroup(group);
-			shieldBox.addGroup(group);
-			coinImage.addGroup(group);
-			xpImage.addGroup(group);
-			healthText.addGroup(group);			
-			coinText.addGroup(group);			
-			xpText.addGroup(group);			
-			inventory.addGroup(group);			
-			inventorySlot1.addGroup(group);			
-			inventorySlot2.addGroup(group);			
+			auto& serviceManager = ServiceManager::Instance()->getService<EntityManager>();
+			serviceManager.addEntityToGroup(hudBox, group);
+			serviceManager.addEntityToGroup(outerBox, group);
+			serviceManager.addEntityToGroup(innerBox, group);
+			serviceManager.addEntityToGroup(shieldBox, group);
+			serviceManager.addEntityToGroup(coinImage, group);
+			serviceManager.addEntityToGroup(xpImage, group);
+			serviceManager.addEntityToGroup(healthText, group);
+			serviceManager.addEntityToGroup(coinText, group);
+			serviceManager.addEntityToGroup(xpText, group);
+			serviceManager.addEntityToGroup(inventory, group);
+			serviceManager.addEntityToGroup(inventorySlot1, group);
+			serviceManager.addEntityToGroup(inventorySlot2, group);
 		}
 	}
-
 }
 
 std::string HudSystem::addSpaces(const std::string& string, const int goalChars, const bool leading)
