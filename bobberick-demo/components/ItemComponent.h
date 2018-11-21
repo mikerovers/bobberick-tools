@@ -8,11 +8,10 @@
 
 class ItemComponent : public Component {
 public:
-	SpriteComponent sprite; // The sprite belonging to this item. Could be used when the item is in the inventory view.
-	std::string texture;
+	std::string texture; // The asset path for the texture belonging to this item. Could be used when the item is in the inventory view.
 	std::string name; // The name for this item. Might be randomly generated as well.
-	ItemComponent(SpriteComponent sprite, std::string name) {
-		ItemComponent::texture = sprite.getTexture();
+	ItemComponent(std::string const texture, std::string const name) {
+		ItemComponent::texture = texture;
 		ItemComponent::name = name;
 	}
 	virtual void use(PlayerStatsComponent* playerStats) { }; // Impart an effect (or equip self) to this PlayerStatsComponent.

@@ -30,7 +30,7 @@ Entity& EntityManager::addEntity()
     std::unique_ptr<Entity> uPtr = std::make_unique<Entity>();
     entities.emplace_back(std::move(uPtr));
 
-    return *entities.back().get();
+    return *entities.back();
 }
 
 void EntityManager::clean()
