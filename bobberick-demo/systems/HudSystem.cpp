@@ -35,8 +35,8 @@ void HudSystem::update()
 		auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
 
 		playerStats.update();
-		double healthWidth = (double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax() * barWidth;
-		double shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
+		const auto healthWidth = static_cast<double>(playerStats.stats->getHP()) / static_cast<double>(playerStats.stats->getHPmax()) * barWidth;
+		const auto shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
 		if (playerStats.shieldActive())
 		{
 			// Bright blue bar if shield is currently active.
