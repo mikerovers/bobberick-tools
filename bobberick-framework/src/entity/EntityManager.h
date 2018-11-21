@@ -6,35 +6,38 @@
 #include "SDL.h"
 #include "../services/Service.h"
 
-class EntityManager : public Service {
+class EntityManager : public Service
+{
 public:
-    EntityManager() = default;
+	EntityManager() = default;
 
-    void refresh();
-    void init() override;
-    void clean() override;
+	void refresh();
+	void init() override;
+	void clean() override;
 
-    template <typename T>
-    std::vector<Entity*> getAllEntitiesWithComponent()
-    {
-        std::vector<Entity*> temp;
+	template <typename T>
+	std::vector<Entity*> getAllEntitiesWithComponent()
+	{
+		std::vector<Entity*> temp;
 
-        for (auto& entity : entities) {
-            if (entity->isActive() && entity->hasComponent<T>()) {
-                temp.emplace_back(entity.get());
-            }
-        }
+		for (auto& entity : entities)
+		{
+			if (entity->isActive() && entity->hasComponent<T>())
+			{
+				temp.emplace_back(entity.get());
+			}
+		}
 
-        return temp;
-    }
+		return temp;
+	}
 
-    Entity& addEntity();
-    void addEntityToGroup(Entity& entity, const Group group);
-    std::vector<Entity*> &getEntitiesFromGroup(const Group group);
-    void activateEntitiesFromGroup(const Group group, const bool active);
+	Entity& addEntity();
+	void addEntityToGroup(Entity& entity, const Group group);
+	std::vector<Entity*>& getEntitiesFromGroup(const Group group);
+	void activateEntitiesFromGroup(const Group group, const bool active);
 private:
-    std::vector<std::unique_ptr<Entity>> entities;
-    std::map<Group, std::vector<Entity*>> groupedEntities;
+	std::vector<std::unique_ptr<Entity>> entities;
+	std::map<Group, std::vector<Entity*>> groupedEntities;
 };
 
 

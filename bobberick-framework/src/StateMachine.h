@@ -13,6 +13,7 @@ public:
     void changeState(GameState* pState);
     void popState();
     GameState* peekState();
+	bool isEmpty() const;
 
     void update();
 private:

@@ -74,6 +74,8 @@ bool PlayState::shouldExit()
 Entity& PlayState::makeTileMap() const
 {
 	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(level, getStateID());
+
 
 	// Use LevelFactory to load and create tilemap components.
 	LevelFactory levelFactory;
@@ -85,7 +87,8 @@ Entity& PlayState::makeTileMap() const
 	ObjectFactory objectFactory;
 	for (auto object : level.getComponent<TilesetComponent>().objects)
 	{
-		objectFactory.getObject(object);
+		auto& objEntity = objectFactory.getObject(object);
+		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
 	}
 
 	return level;
@@ -109,6 +112,7 @@ Entity& PlayState::makePlayer() const
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
 	player.addComponent<InventoryComponent>(&player.getComponent<PlayerStatsComponent>());
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(player, getStateID());
 
 	return player;
 }
@@ -128,7 +132,8 @@ void PlayState::makeEnemies() const
 	{
 		for (auto y = 0; y < 5; y++)
 		{
-			const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
+			auto& enemy = enemyFactory.getRandomEnemy(1, 4);
+			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());
 
 			auto& enemyTransform = enemy.getComponent<TransformComponent>();
 			enemyTransform.position.x = 50 + 10 * x;
@@ -141,6 +146,8 @@ void PlayState::makeEnemies() const
 	enemyTransform.position.y = 250;
 */
 	auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer, getStateID());
+
 	auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 	auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 	manufacturerSpawn.type = "orc";
@@ -150,6 +157,8 @@ void PlayState::makeEnemies() const
 	manufacturerTransform.position.y = 300;
 
 	auto& manufacturer2 = enemyFactory.getEnemy(3, "manufacturer");
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer2, getStateID());
+
 	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
 	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
 	manufacturerSpawn2.type = "fireWizard";
@@ -162,6 +171,8 @@ void PlayState::makeEnemies() const
 void PlayState::makeGui()
 {
 	auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
+
 
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{

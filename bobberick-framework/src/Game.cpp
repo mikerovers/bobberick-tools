@@ -80,6 +80,13 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 
 void Game::update()
 {
+	// Check if game state machine is empty then exit
+	if (ServiceManager::Instance()->getService<StateMachine>().isEmpty())
+	{
+		isRunning = false;
+		return;
+	}
+
     ServiceManager::Instance()->getService<FrameHandler>().updateTicks();
 
     SDL_RenderClear(renderer.get());
