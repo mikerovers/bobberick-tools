@@ -6,6 +6,7 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
+#include "../../bobberick-framework/src/services/FrameHandler.h"
 #include <string>
 
 HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
@@ -21,7 +22,10 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
                                                      xpText(entityManager.addEntity()),
                                                      inventory(entityManager.addEntity()),
                                                      inventorySlot1(entityManager.addEntity()),
-                                                     inventorySlot2(entityManager.addEntity())
+													 inventorySlot2(entityManager.addEntity())
+													 innerBox(entityManager.addEntity()),
+healthBox(entityManager.addEntity())
+fpsCounter(entityManager.addEntity())
 {
 }
 
@@ -32,11 +36,8 @@ void HudSystem::update()
 		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
 
 		playerStats.update();
-		const auto healthWidth = static_cast<double>(playerStats.stats->getHP()) / static_cast<double>(playerStats
-		                                                                                               .stats->
-		                                                                                               getHPmax()) *
-			barWidth;
-		const auto shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
+		double healthWidth = (double)playerStats.stats->getHP() / (double)playerStats.stats->getHPmax() * barWidth;
+		double shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
 		if (playerStats.shieldActive())
 		{
 			// Bright blue bar if shield is currently active.
@@ -100,7 +101,9 @@ void HudSystem::update()
 				std::to_string(playerStats.stats->getHPmax()), 6, false));
 		coinText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.gold), 6, false));
 		xpText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.xp), 6, false));
-	}
+
+		 fpsCounter.getComponent<TextComponent>().setText(addSpaces(fps, 6, false));
+    }
 }
 
 void HudSystem::init()
@@ -140,8 +143,6 @@ void HudSystem::init()
 
 	inventorySlot1.addComponent<TransformComponent>(20, 480 - 55, 40, 40, 1);
 	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
-	//inventorySlot1.addComponent<SpriteComponent>("", "potion", true);
-
 
 	inventorySlot2.addComponent<TransformComponent>(80, 480 - 55, 40, 40, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
