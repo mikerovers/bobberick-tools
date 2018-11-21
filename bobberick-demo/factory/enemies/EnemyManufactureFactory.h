@@ -7,8 +7,8 @@
 class EnemyManufactureFactory : public BaseEnemyFactory
 {
 public:
-	Entity& getEnemy(const int level);
-	Entity& getEnemy(const int level, const int spawnerId);
+	Entity& getEnemy(const int level) override;
+	Entity& getEnemy(const int level, const int spawnerId) override;
 private:
 	std::string type;
 };
