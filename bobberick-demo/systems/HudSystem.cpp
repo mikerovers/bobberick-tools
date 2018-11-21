@@ -10,20 +10,20 @@
 #include <string>
 
 HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
-hudBox(entityManager.addEntity()),
-outerBox(entityManager.addEntity()),
-innerBox(entityManager.addEntity()),
-healthBox(entityManager.addEntity()),
-shieldBox(entityManager.addEntity()),
-healthText(entityManager.addEntity()),
-coinImage(entityManager.addEntity()),
-coinText(entityManager.addEntity()),
-xpImage(entityManager.addEntity()),
-xpText(entityManager.addEntity()),
-inventory(entityManager.addEntity()),
-inventorySlot1(entityManager.addEntity()),
-inventorySlot2(entityManager.addEntity()),
-fpsCounter(entityManager.addEntity())
+                                                     hudBox(entityManager.addEntity()),
+                                                     outerBox(entityManager.addEntity()),
+                                                     innerBox(entityManager.addEntity()),
+                                                     healthBox(entityManager.addEntity()),
+                                                     shieldBox(entityManager.addEntity()),
+                                                     healthText(entityManager.addEntity()),
+                                                     coinImage(entityManager.addEntity()),
+                                                     coinText(entityManager.addEntity()),
+                                                     xpImage(entityManager.addEntity()),
+                                                     xpText(entityManager.addEntity()),
+                                                     inventory(entityManager.addEntity()),
+                                                     inventorySlot1(entityManager.addEntity()),
+                                                     inventorySlot2(entityManager.addEntity()),
+                                                     fpsCounter(entityManager.addEntity())
 {
 }
 
@@ -68,20 +68,26 @@ void HudSystem::update()
 		auto* inventoryItem1 = inventory.getItem(0);
 		auto* inventoryItem2 = inventory.getItem(1);
 
-		if (inventoryItem1 != nullptr) {
+		if (inventoryItem1 != nullptr)
+		{
 			inventorySlot1.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
 		}
-		else {
-			if (inventorySlot1.hasComponent<SpriteComponent>()) {
+		else
+		{
+			if (inventorySlot1.hasComponent<SpriteComponent>())
+			{
 				inventorySlot1.removeComponent<SpriteComponent>();
 			}
 		}
 
-		if (inventoryItem2 != nullptr) {
+		if (inventoryItem2 != nullptr)
+		{
 			inventorySlot2.addComponent<SpriteComponent>("", inventoryItem2->texture.c_str(), true);
 		}
-		else {
-			if (inventorySlot2.hasComponent<SpriteComponent>()) {
+		else
+		{
+			if (inventorySlot2.hasComponent<SpriteComponent>())
+			{
 				inventorySlot2.removeComponent<SpriteComponent>();
 			}
 		}
@@ -89,12 +95,14 @@ void HudSystem::update()
 		healthBox.getComponent<TransformComponent>().width = healthWidth;
 		shieldBox.getComponent<TransformComponent>().width = shieldWidth;
 
-		healthText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + addSpaces(std::to_string(playerStats.stats->getHPmax()), 6, false));
+		healthText.getComponent<TextComponent>().setText(
+			addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + addSpaces(
+				std::to_string(playerStats.stats->getHPmax()), 6, false));
 		coinText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.gold), 6, false));
 		xpText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.xp), 6, false));
 
-		 fpsCounter.getComponent<TextComponent>().setText(addSpaces(fps, 6, false));
-    }
+		fpsCounter.getComponent<TextComponent>().setText(addSpaces(fps, 6, false));
+	}
 }
 
 void HudSystem::init()
@@ -140,11 +148,34 @@ void HudSystem::init()
 
 	fpsCounter.addComponent<TransformComponent>(640 - 50, 0 + 65, 40, 40, 1);
 	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
+
+	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<
+		PlayerStatsComponent>();
+	for (auto player : players)
+	{
+		for (const auto& group : player->getGroups())
+		{
+			auto& serviceManager = ServiceManager::Instance()->getService<EntityManager>();
+			serviceManager.addEntityToGroup(hudBox, group);
+			serviceManager.addEntityToGroup(outerBox, group);
+			serviceManager.addEntityToGroup(innerBox, group);
+			serviceManager.addEntityToGroup(shieldBox, group);
+			serviceManager.addEntityToGroup(coinImage, group);
+			serviceManager.addEntityToGroup(xpImage, group);
+			serviceManager.addEntityToGroup(healthText, group);
+			serviceManager.addEntityToGroup(coinText, group);
+			serviceManager.addEntityToGroup(xpText, group);
+			serviceManager.addEntityToGroup(inventory, group);
+			serviceManager.addEntityToGroup(inventorySlot1, group);
+			serviceManager.addEntityToGroup(inventorySlot2, group);
+			serviceManager.addEntityToGroup(fpsCounter, group);
+		}
+	}
 }
 
-std::string HudSystem::addSpaces(std::string string, const int goalChars, const bool leading)
+std::string HudSystem::addSpaces(const std::string& string, const int goalChars, const bool leading)
 {
-	std::string spaces = "";
+	std::string spaces;
 	for (int i = string.length(); i < goalChars; i++)
 	{
 		spaces += " ";
@@ -153,8 +184,5 @@ std::string HudSystem::addSpaces(std::string string, const int goalChars, const 
 	{
 		return spaces + string;
 	}
-	else
-	{
-		return string + spaces;
-	}
+	return string + spaces;
 }
