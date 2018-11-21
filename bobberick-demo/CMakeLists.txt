@@ -16,6 +16,7 @@ components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h
 components/BulletMovementComponent.cpp components/BulletMovementComponent.h
 components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h 
 components/SpawnComponent.cpp components/SpawnComponent.h 
+components/ShootComponent.cpp components/ShootComponent.h 
 components/SpawnedComponent.cpp components/SpawnedComponent.h 
 components/StatsComponent.cpp components/StatsComponent.h
 components/AIComponent.cpp components/AIComponent.h

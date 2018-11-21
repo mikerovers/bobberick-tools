@@ -6,6 +6,7 @@
 #include "../../bobberick-framework/src/entity/systems/InputSystem.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
+#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../components/StatsComponent.h"
 #include "../components/SpawnComponent.h"
 #include "../components/ShootComponent.h"
@@ -104,6 +105,7 @@ Entity& PlayState::makePlayer() const
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
 	player.addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1, 1), 180, 180, 0.3, 0, 0);
 
+	player.addComponent<TimerComponent>();
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
 	player.addComponent<InventoryComponent>(&player.getComponent<PlayerStatsComponent>());
