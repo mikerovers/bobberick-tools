@@ -6,12 +6,12 @@
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
 #include <iostream>
 #include "../factory/enemies/EnemyFactory.h"
-#include "../components/AIComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../factory/ObjectFactory.h"
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "StateFactory.h"
+#include "../components/SpawnMinionsSpellComponent.h"
 
 std::string MainMenuState::getStateID() const
 {
@@ -54,7 +54,7 @@ bool MainMenuState::onExit()
 
 bool MainMenuState::shouldExit()
 {
-	return false;
+	return readyForExit;
 }
 
 
