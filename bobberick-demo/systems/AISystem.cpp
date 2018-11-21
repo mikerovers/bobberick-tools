@@ -9,6 +9,8 @@
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
+#include "../../bobberick-framework/src/util/RandomGenerator.h"
+
 #include "../../bobberick-demo/components/AIComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../bobberick-demo/components/ShootComponent.h"
@@ -125,7 +127,8 @@ void AISystem::executeSpell(Entity& entity)
 					spellComponent.minionCount = 0;
 					return;
 				}
-				const int randomXPosition = rand() % 5;
+				
+				const int randomXPosition = RandomGenerator{}.getRandomNumber(0, 4);
 
 				for (int i = 0; i < 4; i++)
 				{
@@ -346,12 +349,12 @@ void AISystem::applyMovement(Entity& entity) {
 
 
 	const double speed = 0.2 * transform.speed;
-	const int move = rand() % 60;
+	const int move = RandomGenerator{}.getRandomNumber(0, 59);
 
 	if (move == 0 || enemyMovement.collided)
 	{
 		enemyMovement.collided = false;
-		const auto v1 = rand() % 9;
+		const auto v1 = RandomGenerator{}.getRandomNumber(0, 8);
 
 		switch (v1)
 		{
