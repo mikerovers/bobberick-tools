@@ -8,6 +8,7 @@
 #include "MainMenuState.h"
 #include "../state/CreditScreenState.h"
 #include "HelpScreenState.h"
+#include "EndScreenState.h"
 
 class StateFactory {
 
@@ -20,6 +21,7 @@ private:
 	MainMenuState* createMainMenuState();
 	CreditScreenState* createCreditScreenState() const;
 	HelpScreenState* createHelpScreenState() const;
+    EndScreenState* createEndScreenState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H

@@ -35,6 +35,9 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "HelpScreen")
 	{
 		return createHelpScreenState();
+	} else if (type == "EndScreen")
+	{
+		return createEndScreenState();
 	}
 
 	return nullptr;
@@ -109,4 +112,21 @@ HelpScreenState *StateFactory::createHelpScreenState() const
 		ServiceManager::Instance()->getService<EntityManager>()));
 
 	return helpScreenState;
+}
+
+EndScreenState *StateFactory::createEndScreenState() const
+{
+	auto *endScreenState = new EndScreenState();
+	endScreenState->addSystem(
+			std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	endScreenState->addSystem(
+			std::shared_ptr<GuiSystem>(new GuiSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	endScreenState->addSystem(
+			std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	endScreenState->addSystem(std::shared_ptr<CollisionSystem>(
+			new CollisionSystem(ServiceManager::Instance()->getService<EntityManager>())));
+	endScreenState->addSystem(
+			std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
+
+	return endScreenState;
 }

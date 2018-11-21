@@ -44,16 +44,10 @@ void StateMachine::changeState(GameState* pState)
 {
 	if (!gameStates.empty())
 	{
-		if (gameStates.back()->getStateID() == pState->getStateID())
-		{
-			return;
-		}
-
-		if (gameStates.back()->onExit())
-		{
-			delete gameStates.back();
-			gameStates.pop_back();
-		}
+		auto f = gameStates.size();
+        for(auto state : gameStates) {
+            popState();
+        }
 	}
 
 	gameStates.push_back(pState);
