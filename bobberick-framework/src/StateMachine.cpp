@@ -10,6 +10,7 @@ void StateMachine::pushState(GameState *pState)
     }
 
     gameStates.push_back(pState);
+    peekState()->onEnter();
 }
 
 void StateMachine::popState()
@@ -23,7 +24,7 @@ void StateMachine::popState()
                 entity->destroy();
             });
 
-            delete gameStates.back();
+            gameStates.back()->setExiting(true);
             gameStates.pop_back();
 
             // Make previous state active.
@@ -70,4 +71,14 @@ GameState *StateMachine::peekState()
     }
 
     return nullptr;
+}
+
+void StateMachine::init()
+{
+
+}
+
+void StateMachine::clean()
+{
+
 }

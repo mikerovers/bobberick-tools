@@ -11,6 +11,8 @@
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../../bobberick-framework/src/services/RenderService.h"
 #include "../factory/ObjectFactory.h"
+#include "../../bobberick-framework/src/StateMachine.h"
+#include "StateFactory.h"
 
 std::string MainMenuState::getStateID() const
 {
@@ -40,6 +42,7 @@ bool MainMenuState::onEnter()
 	makeStartGameButton();
 	makeOptionsButton();
 	makeExitButton();
+	makeHelpButton();
 
 	return true;
 }
@@ -53,7 +56,7 @@ bool MainMenuState::onExit()
 
 bool MainMenuState::shouldExit()
 {
-	return _playGamePressed;
+	return false;
 }
 
 Entity& MainMenuState::makeTileMap() const
@@ -123,8 +126,8 @@ void MainMenuState::makeStartGameButton()
 	auto& playGameButton = entityManager.addEntity();
 	auto* playGameButtonComponent = new ButtonComponent([this]()
 	{
-		std::cout << "Play button clicked" << std::endl;
-		_playGamePressed = true;
+        StateFactory factory{};
+        ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("PlayState"));
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
@@ -146,7 +149,6 @@ void MainMenuState::makeOptionsButton()
 	auto* optionsButtonComponent = new ButtonComponent([this]()
 	{
 		std::cout << "Options button clicked" << std::endl;
-		_playGamePressed = true;
 	});
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
@@ -168,13 +170,13 @@ void MainMenuState::makeExitButton()
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
 		std::cout << "Exit button clicked" << std::endl;
-		_playGamePressed = true;
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	auto* exitButtonTransformComponent = new TransformComponent();
+
 	exitButtonTransformComponent->position.x = 260;
-	exitButtonTransformComponent->position.y = 220;
+	exitButtonTransformComponent->position.y = 300;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
@@ -204,4 +206,25 @@ void MainMenuState::determineMovementDirection()
 			sprite.flip = true;
 		}
 	}
+}
+
+void MainMenuState::makeHelpButton()
+{
+	auto& helpButton = entityManager.addEntity();
+	auto* helpButtonComponent = new ButtonComponent([this]()
+    {
+        StateFactory factory{};
+        ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("HelpScreen"));
+    });
+
+	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
+	auto* helpButtonTransformComponent = new TransformComponent();
+	helpButtonTransformComponent->position.x = 260;
+	helpButtonTransformComponent->position.y = 220;
+	helpButtonTransformComponent->height = 64;
+	helpButtonTransformComponent->width = 128;
+	helpButton.addExistingComponent<TransformComponent>(helpButtonTransformComponent);
+	helpButton.addComponent<ButtonSpriteComponent>("assets/image/button/helpbutton.png", "helpbutton", 1, 3, 0);
+	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	entityManager.addEntityToGroup(helpButton, getStateID());
 }
