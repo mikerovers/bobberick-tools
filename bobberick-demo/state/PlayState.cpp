@@ -157,6 +157,15 @@ void PlayState::makeEnemies() const
 	manufacturerSpawn2.maxCount = 10;
 	manufacturer2Transform.position.x = 500;
 	manufacturer2Transform.position.y = 250;
+
+	auto& manufacturer3 = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturer3Transform = manufacturer3.getComponent<TransformComponent>();
+	auto& manufacturer3Spawn = manufacturer3.getComponent<SpawnComponent>();
+	manufacturer3Spawn.type = "chicken";
+	manufacturer3Spawn.spawnTimer = 100;
+	manufacturer3Spawn.maxCount = 1000;
+	manufacturer3Transform.position.x = 100;
+	manufacturer3Transform.position.y = 100;
 }
 
 void PlayState::makeGui()
