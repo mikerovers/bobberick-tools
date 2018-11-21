@@ -7,6 +7,7 @@
 #include "PlayState.h"
 #include "MainMenuState.h"
 #include "../state/CreditScreenState.h"
+#include "HelpScreenState.h"
 
 class StateFactory {
 
@@ -18,6 +19,7 @@ private:
 	PlayState* createPlayState();
 	MainMenuState* createMainMenuState();
 	CreditScreenState* createCreditScreenState() const;
+	HelpScreenState* createHelpScreenState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H

@@ -7,7 +7,7 @@
 class EnemyMovementComponent : public Component
 {
 public:
-
+	bool collided;
 };
 
 

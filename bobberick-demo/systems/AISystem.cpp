@@ -6,12 +6,14 @@
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
-#include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
+#include "../../bobberick-framework/src/util/RandomGenerator.h"
+
 #include "../../bobberick-demo/components/AIComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
+#include "../../bobberick-demo/components/ShootComponent.h"
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
@@ -19,6 +21,7 @@
 #include "../../bobberick-demo/components/SpawnedComponent.h"
 #include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
+#include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
 #include <thread>
@@ -124,7 +127,8 @@ void AISystem::executeSpell(Entity& entity)
 					spellComponent.minionCount = 0;
 					return;
 				}
-				const int randomXPosition = rand() % 5;
+				
+				const int randomXPosition = RandomGenerator{}.getRandomNumber(0, 4);
 
 				for (int i = 0; i < 4; i++)
 				{
@@ -178,10 +182,10 @@ void AISystem::executeSpawner(Entity& entity) {
 
 void AISystem::executeShoot(Entity& entity, int& channelCounter)
 {
-	if (entity.hasComponent<ShootComponent>())
+	if (entity.hasComponent<ShootComponent>() && entity.hasComponent<TimerComponent>())
 	{
-		auto& shoot = entity.getComponent<ShootComponent>();
-		if (shoot.canShoot())
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished())
 		{
 			auto& transform = entity.getComponent<TransformComponent>();
 			auto& sprite = entity.getComponent<SpriteComponent>();
@@ -236,7 +240,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
 					projectile.addComponent<CollisionComponent>("monster_projectile");
 
-					shoot.setShootTimer(980);
+					timer.setTimer(980);
 				}
 				else
 				{
@@ -341,14 +345,16 @@ void AISystem::applyMovement(Entity& entity) {
 	}
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& sprite = entity.getComponent<SpriteComponent>();
+	auto& enemyMovement = entity.getComponent<EnemyMovementComponent>();
 
 
 	const double speed = 0.2 * transform.speed;
-	const int move = rand() % 60;
+	const int move = RandomGenerator{}.getRandomNumber(0, 59);
 
-	if (move == 0)
+	if (move == 0 || enemyMovement.collided)
 	{
-		const auto v1 = rand() % 9;
+		enemyMovement.collided = false;
+		const auto v1 = RandomGenerator{}.getRandomNumber(0, 8);
 
 		switch (v1)
 		{

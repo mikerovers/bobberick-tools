@@ -3,6 +3,8 @@
 #include "../../../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../../../bobberick-demo/components/BulletMovementComponent.h"
+#include "../../../../bobberick-demo/components/EnemyMovementComponent.h"
+#include "../../../../bobberick-demo/components/PlayerMovementComponent.h"
 
 CollisionSystem::CollisionSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -78,12 +80,29 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		{
 			auto& transform = colliderA.entity->getComponent<TransformComponent>();
 
-			transform.velocity * -1;
+
+			//transform.velocity * -1;
+
+
+			//transform.velocity.x = -transform.velocity.x;
+			//transform.velocity.y = -transform.velocity.y;
+			//transform.position.x += transform.velocity.x * 50;
+			//transform.position.y += transform.velocity.y * 50;
 
 			if (colliderA.tag == "player")
 			{
-				
+				//auto& playerMovement = colliderA.entity->getComponent <PlayerMovementComponent> ();
+				//playerMovement.collided = true;
+				//transform.position.x += -transform.velocity.x * 5;
+				//transform.position.y += -transform.velocity.y * 5;
 			}
+			else {
+				auto& enemyMovement = colliderA.entity->getComponent<EnemyMovementComponent>();
+				enemyMovement.collided = true;
+				transform.position.x += -transform.velocity.x * 5;
+				transform.position.y += -transform.velocity.y * 5;
+			}
+			transform.velocity.zero();
 		}
 	}
 }

@@ -20,11 +20,6 @@ bool Game::running() const
     return isRunning;
 }
 
-std::shared_ptr<StateMachine> Game::getStateMachine() const
-{
-    return stateMachine;
-}
-
 int Game::getGameWidth() const
 {
     return gameWidth;
@@ -47,6 +42,7 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
 	serviceManager->addService<SoundManager>();
 	serviceManager->addService<InputHandler>();
 	serviceManager->addService<SoundManager>();
+	serviceManager->addService<StateMachine>();
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
@@ -72,8 +68,6 @@ bool Game::init(const char *title, int xPos, int yPos, int height, int width, in
         return false;
     }
 
-    stateMachine = std::make_shared<StateMachine>();
-  
     SDL_SetWindowInputFocus(window.get());
     SDL_RaiseWindow(window.get());
 
@@ -90,7 +84,7 @@ void Game::update()
 
     SDL_RenderClear(renderer.get());
     ServiceManager::Instance()->getService<EntityManager>().refresh();
-    stateMachine->update();
+    ServiceManager::Instance()->getService<StateMachine>().update();
     SDL_RenderPresent(renderer.get());
 
 	const auto frames = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();

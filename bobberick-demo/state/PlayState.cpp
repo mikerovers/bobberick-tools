@@ -4,11 +4,12 @@
 #include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/entity/systems/DrawSystem.h"
 #include "../../bobberick-framework/src/entity/systems/InputSystem.h"
-#include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
+#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../components/StatsComponent.h"
 #include "../components/SpawnComponent.h"
+#include "../components/ShootComponent.h"
 #include "../components/PlayerStatsComponent.h"
 #include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
@@ -97,7 +98,7 @@ Entity& PlayState::makeTileMap() const
 Entity& PlayState::makePlayer() const
 {
 	auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	player.addComponent<TransformComponent>(200, 200, 64, 32, 1);
+	player.addComponent<TransformComponent>(100, 100, 64, 32, 1);
 	auto& spriteComponent = player.addComponent<SpriteComponent>("assets/image/character/character.png", "character", 6,
 	                                                             4, 5);
 	spriteComponent.addTexture("assets/image/character/character_casting.png", "character_casting");
@@ -108,6 +109,7 @@ Entity& PlayState::makePlayer() const
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
 	player.addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1, 1), 180, 180, 0.3, 0, 0);
 
+	player.addComponent<TimerComponent>();
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
 	player.addComponent<InventoryComponent>(&player.getComponent<PlayerStatsComponent>());
@@ -126,21 +128,39 @@ void PlayState::instantiateSystems() const
 void PlayState::makeEnemies() const
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
-	for (auto x = 0; x < 3; x++)
+	for (auto x = 0; x < 5; x++)
 	{
-		for (auto y = 0; y < 50; y++)
+		for (auto y = 0; y < 5; y++)
 		{
 			const auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 
 			auto& enemyTransform = enemy.getComponent<TransformComponent>();
-			enemyTransform.position.x = 350 + 50 * x;
-			enemyTransform.position.y = 60 + 50 * y;
+			enemyTransform.position.x = 50 + 10 * x;
+			enemyTransform.position.y = 350 + 10 * y;
 		}
 	}
-	auto& enemy = enemyFactory.getBoss(10);
+	/*auto& enemy = enemyFactory.getBoss(10);
 	auto& enemyTransform = enemy.getComponent<TransformComponent>();
 	enemyTransform.position.x = 250 + 50;
 	enemyTransform.position.y = 250;
+*/
+	auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
+	auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
+	manufacturerSpawn.type = "orc";
+	manufacturerSpawn.spawnTimer = 1000;
+	manufacturerSpawn.maxCount = 20;
+	manufacturerTransform.position.x = 500;
+	manufacturerTransform.position.y = 300;
+
+	auto& manufacturer2 = enemyFactory.getEnemy(3, "manufacturer");
+	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
+	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
+	manufacturerSpawn2.type = "fireWizard";
+	manufacturerSpawn2.spawnTimer = 250;
+	manufacturerSpawn2.maxCount = 10;
+	manufacturer2Transform.position.x = 500;
+	manufacturer2Transform.position.y = 250;
 }
 
 void PlayState::makeGui()

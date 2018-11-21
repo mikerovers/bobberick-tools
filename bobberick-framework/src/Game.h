@@ -22,8 +22,6 @@ public:
 
     bool running() const;
 
-    std::shared_ptr<StateMachine> getStateMachine() const;
-
     int getGameWidth() const;
     int getGameHeight() const;
 
@@ -35,9 +33,6 @@ protected:
     int gameWidth;
 
     bool isRunning;
-
-	std::shared_ptr<StateMachine> stateMachine;
-
     //TODO Make a interface for system registring. Maybe in the statemachine?
 };
 

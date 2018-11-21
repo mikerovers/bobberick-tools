@@ -16,6 +16,7 @@ components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h
 components/BulletMovementComponent.cpp components/BulletMovementComponent.h
 components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h 
 components/SpawnComponent.cpp components/SpawnComponent.h 
+components/ShootComponent.cpp components/ShootComponent.h 
 components/SpawnedComponent.cpp components/SpawnedComponent.h 
 components/StatsComponent.cpp components/StatsComponent.h
 components/AIComponent.cpp components/AIComponent.h
@@ -43,7 +44,7 @@ factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h
 factory/enemies/EnemyManufactureFactory.cpp factory/enemies/EnemyManufactureFactory.h
 state/TestState.cpp state/TestState.h
 state/MainMenuState.cpp state/mainMenuState.h
-factory/enemies/EndBossFactory.cpp factory/enemies/EndBossFactory.h factory/enemies/NullFactory.cpp factory/enemies/NullFactory.h)
+factory/enemies/EndBossFactory.cpp factory/enemies/EndBossFactory.h factory/enemies/NullFactory.cpp factory/enemies/NullFactory.h state/HelpScreenState.cpp state/HelpScreenState.h)
 
 add_executable(bobberick-demo ${SOURCE_FILES})
 
