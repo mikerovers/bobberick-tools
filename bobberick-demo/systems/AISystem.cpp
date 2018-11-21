@@ -6,12 +6,12 @@
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
-#include "../../bobberick-framework/src/entity/components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-demo/components/AIComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
+#include "../../bobberick-demo/components/ShootComponent.h"
 #include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
@@ -179,10 +179,10 @@ void AISystem::executeSpawner(Entity& entity) {
 
 void AISystem::executeShoot(Entity& entity, int& channelCounter)
 {
-	if (entity.hasComponent<ShootComponent>())
+	if (entity.hasComponent<ShootComponent>() && entity.hasComponent<TimerComponent>())
 	{
-		auto& shoot = entity.getComponent<ShootComponent>();
-		if (shoot.canShoot())
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished())
 		{
 			auto& transform = entity.getComponent<TransformComponent>();
 			auto& sprite = entity.getComponent<SpriteComponent>();
@@ -237,7 +237,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					projectile.addComponent<SpriteComponent>("assets/image/projectiles/bolt.png", "bolt");
 					projectile.addComponent<CollisionComponent>("monster_projectile");
 
-					shoot.setShootTimer(980);
+					timer.setTimer(980);
 				}
 				else
 				{
