@@ -7,11 +7,7 @@
 class PlayerMovementComponent : public Component
 {
 public:
-    Entity* entity{};
-
-    void init() override;
-    void update() override;
-    void render() override;
+	bool collided;
 
 };
 
