@@ -4,17 +4,17 @@
 #include <map>
 #include <string>
 #include <array>
-#include <random>
+#include "../../bobberick-framework/src/util/RandomGenerator.h"
 
 class WeaponFactory {
 public: 
-	// Rank is a number between 0 and 10, giving a general idea of a weapon's power.
+	// Rank is a number between 0 and 10, giving a general idea of a weapon's strength.
 	// Higher ranking weapons may show up later in the game or as special treasures.
 
 	// Balance is a number between -9 and +9, determining a weapon's playstyle.
 	// Weapons with a positive balance focus on raw power at the expense of firing rate.
 	// Weapons with a negative balance have a high firing rate, but far less power.
-	WeaponComponent* generateWeapon(bool magic, int minRank, int maxRank, int minBalance, int maxBalance);
+	std::unique_ptr<WeaponComponent> generateWeapon(bool magic, int minRank, int maxRank, int minBalance, int maxBalance);
 
 private:
 	// Weapons have a prefixing word, according to their rank. (May also affect their sprite?)
@@ -64,7 +64,6 @@ private:
 		" of Infinity",
 	};
 
-	std::default_random_engine generator;
 	bool seeded = false;
 };
 

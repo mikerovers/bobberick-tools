@@ -10,14 +10,14 @@ class PlayerStatsComponent; // A PlayerStatsComponent has two equipped WeaponCom
 class WeaponComponent : public ItemComponent {
 public:
 	bool isMagic; // Magic weapons (staffs) go into the right mouse button. Non-magic weapons (bows) go into the left mouse button.
-	int power; // The modifier to the user's attack strength. Can also be negative as a trade-off to, for instance, a very high firing rate.
+	int power; // The modifier to the user's attack strength.
 	int fireDelay; // The amount of frames between each bullet and the next. 60 = one bullet per second.
-	std::string bulletSprite; // The asset path for the sprite for bullets fired by this weapon.
-	WeaponComponent(std::string sprite, std::string name, bool isMagic, int power, int fireDelay, std::string bulletSprite) : ItemComponent(sprite, name) {
+	std::string bulletTexture; // The asset path for the sprite for bullets fired by this weapon.
+	WeaponComponent(std::string texture, std::string name, bool isMagic, int power, int fireDelay, std::string bulletTexture) : ItemComponent(texture, name) {
 		WeaponComponent::isMagic = isMagic;
 		WeaponComponent::power = power;
 		WeaponComponent::fireDelay = fireDelay;
-		WeaponComponent::bulletSprite = bulletSprite;
+		WeaponComponent::bulletTexture = bulletTexture;
 	}
 	void use(PlayerStatsComponent* playerStats) override; // Equip self to this PlayerStatsComponent.
 };
