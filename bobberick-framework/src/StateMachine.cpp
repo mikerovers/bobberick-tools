@@ -1,84 +1,102 @@
 #include "StateMachine.h"
 #include "services/ServiceManager.h"
 
-void StateMachine::pushState(GameState *pState)
+void StateMachine::pushState(GameState* pState)
 {
-    // Make previous state inactive.
-    auto& entityManager = ServiceManager::Instance()->getService<EntityManager>();
-    if(peekState() != nullptr) {
-        entityManager.activateEntitiesFromGroup(peekState()->getStateID(), false);
-    }
+	// Make previous state inactive.
+	auto& entityManager = ServiceManager::Instance()->getService<EntityManager>();
+	if (peekState() != nullptr)
+	{
+		entityManager.activateEntitiesFromGroup(peekState()->getStateID(), false);
+	}
 
-    gameStates.push_back(pState);
-    peekState()->onEnter();
+	gameStates.push_back(pState);
+	peekState()->onEnter();
 }
 
 void StateMachine::popState()
 {
-    if (!gameStates.empty()) {
-        if (gameStates.back()->onExit()) {
-            auto name = gameStates.back()->getStateID();
-            auto& entityManager = ServiceManager::Instance()->getService<EntityManager>();
-            std::vector<Entity*> entities = entityManager.getEntitiesFromGroup(name);
-            std::for_each(entities.begin(), entities.end(), [](Entity* entity) {
-                entity->destroy();
-            });
+	if (!gameStates.empty())
+	{
+		if (gameStates.back()->onExit())
+		{
+			auto name = gameStates.back()->getStateID();
+			auto& entityManager = ServiceManager::Instance()->getService<EntityManager>();
+			std::vector<Entity*> entities = entityManager.getEntitiesFromGroup(name);
+			std::for_each(entities.begin(), entities.end(), [](Entity* entity)
+			{
+				entity->destroy();
+			});
 
-            gameStates.back()->setExiting(true);
-            gameStates.pop_back();
+			gameStates.back()->setExiting(true);
+			gameStates.pop_back();
 
-            // Make previous state active.
-            if(peekState() != nullptr) {
-                entityManager.activateEntitiesFromGroup(peekState()->getStateID(), true);
-            }
-        }
-    }
+			// Make previous state active.
+			if (peekState() != nullptr)
+			{
+				entityManager.activateEntitiesFromGroup(peekState()->getStateID(), true);
+			}
+		}
+	}
 }
 
-void StateMachine::changeState(GameState *pState)
+void StateMachine::changeState(GameState* pState)
 {
-    if (!gameStates.empty()) {
-        if (gameStates.back()->getStateID() == pState->getStateID()) {
-            return;
-        }
+	if (!gameStates.empty())
+	{
+		if (gameStates.back()->getStateID() == pState->getStateID())
+		{
+			return;
+		}
 
-        if (gameStates.back()->onExit()) {
-            delete gameStates.back();
-            gameStates.pop_back();
-        }
-    }
+		if (gameStates.back()->onExit())
+		{
+			delete gameStates.back();
+			gameStates.pop_back();
+		}
+	}
 
-    gameStates.push_back(pState);
+	gameStates.push_back(pState);
 
-    gameStates.back()->onEnter();
+	gameStates.back()->onEnter();
 }
 
-void StateMachine::update() {
-    if (!gameStates.empty()) {
-        gameStates.back()->update();
-		if (gameStates.back()->shouldExit()) {
+void StateMachine::update()
+{
+	if (!gameStates.empty())
+	{
+		gameStates.back()->update();
+		if (gameStates.back()->shouldExit())
+		{
 			SDL_Log("Popping state.");
 			popState();
-			gameStates.back()->onEnter();
+			if (!gameStates.empty())
+			{
+				gameStates.back()->onEnter();
+			}
 		}
-    }
+	}
 }
 
-GameState *StateMachine::peekState()
+GameState* StateMachine::peekState()
 {
-    if (!gameStates.empty()) {
-        return gameStates.back();
-    }
+	if (!gameStates.empty())
+	{
+		return gameStates.back();
+	}
 
-    return nullptr;
+	return nullptr;
+}
+
+bool StateMachine::isEmpty() const
+{
+	return gameStates.empty();
 }
 
 void StateMachine::init()
 {
-
 }
 
 void StateMachine::clean()
 {
-
 }

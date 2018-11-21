@@ -9,7 +9,6 @@
 #include "../components/AIComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
-#include "../../bobberick-framework/src/services/RenderService.h"
 #include "../factory/ObjectFactory.h"
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "StateFactory.h"
@@ -25,7 +24,6 @@ void MainMenuState::update()
 	{
 		system->update();
 	}
-	determineMovementDirection();
 }
 
 bool MainMenuState::onEnter()
@@ -59,75 +57,44 @@ bool MainMenuState::shouldExit()
 	return false;
 }
 
-Entity& MainMenuState::makeTileMap() const
-{
-	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-
-	// Use LevelFactory to load and create tilemap components.
-	auto* levelFactory = new LevelFactory();
-	TilesetComponent* tilesetComponent = levelFactory->Load("assets/maps/main_menu.tmx",
-	                                                        ServiceManager::Instance()
-	                                                        ->getService<RenderService>().getRenderer());
-
-	level.addExistingComponent<TilesetComponent>(tilesetComponent);
-	delete levelFactory;
-
-	ObjectFactory objectFactory;
-	for (auto& object : level.getComponent<TilesetComponent>().objects)
-	{
-		objectFactory.getObject(object);
-	}
-
-	return level;
-}
-
 
 void MainMenuState::createAnimatedBackground()
 {
-	auto& fireWizard = entityManager.addEntity();
-	auto& fireWizardTransformComponent = fireWizard.addComponent<TransformComponent>(-1, 20, 59, 54, 2);
-	fireWizard.addComponent<SpriteComponent>("assets/image/enemies/fire_wizard.png", "fire_wizard", 5, 5, 12);
-	fireWizard.addComponent<CollisionComponent>("fireWizard");
-	fireWizard.addComponent<AIComponent>();
-	fireWizardTransformComponent.speed = 1.5;
+	EnemyFactory enemyFactory;
+
+	auto& fireWizard = enemyFactory.getEnemy(10, "fireWizard");
+	fireWizard.getComponent<TransformComponent>().position = Vector2D{20, 20};
 	entityManager.addEntityToGroup(fireWizard, getStateID());
 	entities.push_back(&fireWizard);
 
-	auto& zombie = entityManager.addEntity();
-	auto& zombieTransformComponent = zombie.addComponent<TransformComponent>(560, 140, 51, 51, 2);
-	zombie.addComponent<SpriteComponent>("assets/image/enemies/zombie.png", "zombie", 6, 4, 10);
-	zombie.addComponent<CollisionComponent>("fireWizard");
-	zombie.addComponent<AIComponent>();
-	zombieTransformComponent.speed = -1.5;
+	auto& zombie = enemyFactory.getEnemy(10, "zombie");
+	zombie.getComponent<TransformComponent>().position = Vector2D{560, 140};
 	entityManager.addEntityToGroup(zombie, getStateID());
 	entities.push_back(&zombie);
 
-	auto& orc = entityManager.addEntity();
-	auto& OrcTransformComponent = orc.addComponent<TransformComponent>(-1, 260, 49, 64, 2);
-	orc.addComponent<SpriteComponent>("assets/image/enemies/orc_piratess.png", "orc", 9, 9, 3);
-	orc.addComponent<CollisionComponent>("fireWizard");
-	orc.addComponent<AIComponent>();
-	OrcTransformComponent.speed = 1.5;
+	auto& orc = enemyFactory.getEnemy(10, "orc");
+	orc.getComponent<TransformComponent>().position = Vector2D{-1, 260};
 	entityManager.addEntityToGroup(orc, getStateID());
 	entities.push_back(&orc);
 
-	auto& player = entityManager.addEntity();
-	auto& playerTransformComponent = player.addComponent<TransformComponent>(560, 380, 64, 32, 2);
-	player.addComponent<SpriteComponent>("assets/image/character.png", "character", 6, 4, 5);
-	player.addComponent<CollisionComponent>("fireWizard");
-	player.addComponent<AIComponent>();
-	playerTransformComponent.speed = -1.5;
-	entityManager.addEntityToGroup(player, getStateID());
-	entities.push_back(&player);
+	auto& chicken = enemyFactory.getEnemy(10, "chicken");
+	chicken.getComponent<TransformComponent>().position = Vector2D{300, 300};
+	entityManager.addEntityToGroup(chicken, getStateID());
+	entities.push_back(&chicken);
+
+	auto& boss = enemyFactory.getBoss(10);
+	boss.getComponent<TransformComponent>().position = Vector2D{500, 350};
+	entityManager.addEntityToGroup(boss, getStateID());
+	entities.push_back(&boss);
 }
 
 void MainMenuState::makeStartGameButton()
 {
 	auto& playGameButton = entityManager.addEntity();
-	auto* playGameButtonComponent = new ButtonComponent([this]()
+	auto* playGameButtonComponent = new ButtonComponent([]()
 	{
-        StateFactory factory{};
-        ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("PlayState"));
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("PlayState"));
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
@@ -140,13 +107,15 @@ void MainMenuState::makeStartGameButton()
 	playGameButton.addComponent<ButtonSpriteComponent>("assets/image/button/startgamebutton.png", "startgamebutton", 1,
 	                                                   3, 0);
 	playGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	playGameButton.addComponent<CollisionComponent>("button");
+
 	entityManager.addEntityToGroup(playGameButton, getStateID());
 }
 
 void MainMenuState::makeOptionsButton()
 {
 	auto& optionsButton = entityManager.addEntity();
-	auto* optionsButtonComponent = new ButtonComponent([this]()
+	auto* optionsButtonComponent = new ButtonComponent([]()
 	{
 		std::cout << "Options button clicked" << std::endl;
 	});
@@ -154,20 +123,21 @@ void MainMenuState::makeOptionsButton()
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
 	auto* optionsButtonTransformComponent = new TransformComponent();
 	optionsButtonTransformComponent->position.x = 260;
-	optionsButtonTransformComponent->position.y= 140;
+	optionsButtonTransformComponent->position.y = 140;
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
 	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
 	optionsButton.addComponent<ButtonSpriteComponent
 	>("assets/image/button/optionsbutton.png", "optionsbutton", 1, 3, 0);
 	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	optionsButton.addComponent<CollisionComponent>("button");
 	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
 
 void MainMenuState::makeExitButton()
 {
 	auto& exitButton = entityManager.addEntity();
-	auto* exitButtonComponent = new ButtonComponent([this]()
+	auto* exitButtonComponent = new ButtonComponent([]()
 	{
 		std::cout << "Exit button clicked" << std::endl;
 	});
@@ -182,40 +152,19 @@ void MainMenuState::makeExitButton()
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
 	exitButton.addComponent<ButtonSpriteComponent>("assets/image/button/exitbutton.png", "exitbutton", 1, 3, 0);
 	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addComponent<CollisionComponent>("button");
+
 	entityManager.addEntityToGroup(exitButton, getStateID());
-}
-
-void MainMenuState::determineMovementDirection()
-{
-	for (const auto& entity : entities)
-	{
-		auto& transform = entity->getComponent<TransformComponent>();
-		auto& sprite = entity->getComponent<SpriteComponent>();
-		const double speed = 0.2 * transform.speed;
-		transform.velocity.y = 0;
-
-		if (transform.position.x < 150)
-		{
-			transform.velocity.x = speed;
-			sprite.flip = false;
-		}
-		else if (transform.position.x > 500)
-		{
-			// TODO: find a better way to get the window width
-			transform.velocity.x = -speed;
-			sprite.flip = true;
-		}
-	}
 }
 
 void MainMenuState::makeHelpButton()
 {
 	auto& helpButton = entityManager.addEntity();
-	auto* helpButtonComponent = new ButtonComponent([this]()
-    {
-        StateFactory factory{};
-        ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("HelpScreen"));
-    });
+	auto* helpButtonComponent = new ButtonComponent([]()
+	{
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("HelpScreen"));
+	});
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
 	auto* helpButtonTransformComponent = new TransformComponent();
