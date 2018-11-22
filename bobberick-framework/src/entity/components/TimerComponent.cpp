@@ -6,8 +6,10 @@
 
 bool TimerComponent::isTimerFinished()
 {
-	unsigned int currentTime = SDL_GetTicks(); // ServiceManager::Instance()->getService<FrameHandler>().getDeltaClock();
-	if (currentTime > lastTime + timerCount) {
+	unsigned int currentTime = ServiceManager::Instance()->getService<FrameHandler>().getStartClock();
+	unsigned int fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
+
+	if (currentTime > lastTime + timerCount * 60 / (fps > 0 ? fps : 1)) {
 		return true;
 	}
 	return false;
@@ -16,5 +18,5 @@ bool TimerComponent::isTimerFinished()
 void TimerComponent::setTimer(unsigned int timer)
 {
 	timerCount = timer;
-	lastTime = SDL_GetTicks(); // ServiceManager::Instance()->getService<FrameHandler>().getDeltaClock();
+	lastTime = ServiceManager::Instance()->getService<FrameHandler>().getStartClock();
 }

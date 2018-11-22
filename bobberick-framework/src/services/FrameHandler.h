@@ -17,6 +17,7 @@ public:
 	void setTarget(int target);
 	Uint32 getCurrentFps() const;
 	int getDeltaClock() const;
+	int getStartClock() const;
 	int getTarget() const;
 private:
 	int target;
