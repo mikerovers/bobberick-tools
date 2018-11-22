@@ -133,7 +133,7 @@ void PlayState::makeEnemies() const
 	EnemyFactory enemyFactory = EnemyFactory{};
 	for (auto x = 0; x < 5; x++)
 	{
-		for (auto y = 0; y < 10; y++)
+		for (auto y = 0; y < 5; y++)
 		{
 			auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());

@@ -54,6 +54,11 @@ int FrameHandler::getDeltaClock() const
 	return deltaclock;
 }
 
+int FrameHandler::getStartClock() const
+{
+	return startclock;
+}
+
 int FrameHandler::getTarget() const
 {
 	return target;
