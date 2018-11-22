@@ -161,11 +161,21 @@ void AISystem::executeSpawner(Entity& entity)
 		if (timer.isTimerFinished())
 		{
 			auto& spawnComponent = entity.getComponent<SpawnComponent>();
+			auto& spawnerStats = entity.getComponent<StatsComponent>();
+
+			bool isInRange = true;
+			bool isAttacked = spawnerStats.getHP() < spawnerStats.getHPmax();
 			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>())
 			{
 				if (!AISystem::isEntityInRange(entity, *player, 200)) {
-					return;
+					isInRange = false;
 				}
+			}
+
+			if (isInRange || isAttacked) {
+			}
+			else {
+				return;
 			}
 			int spawnCounter = 0;
 
@@ -182,7 +192,7 @@ void AISystem::executeSpawner(Entity& entity)
 				}
 			}
 
-			if (spawnCounter > spawnComponent.maxCount)
+			if (spawnCounter >= spawnComponent.maxCount)
 			{
 				return;
 			}
@@ -233,7 +243,6 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				const auto angleY = playerTransform.position.y - enemyYCenter;
 
 				bool isInRange = AISystem::isEntityInRange(*player, entity, 300);
-				
 
 				if (isInRange)
 				{
