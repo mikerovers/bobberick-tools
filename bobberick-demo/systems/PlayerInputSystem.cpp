@@ -1,5 +1,6 @@
 #include "PlayerInputSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../components/PlayerMovementComponent.h"
@@ -64,6 +65,26 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 
 	if (left || right || up || down || z || x || c || esc)
 	{
+		const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
+		const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
+
+		if (transform.position.x < 0)
+		{
+			left = false;
+		}
+		if (transform.position.x > gameWidth - 30)
+		{
+			right = false;
+		}
+		if (transform.position.y < 0 + 50)
+		{
+			up = false;
+		}
+		if (transform.position.y > gameHeight - transform.height)
+		{
+			down = false;
+		}
+
 		sprite.moving = true;
 		if (!ServiceManager::Instance()->getService<SoundManager>().isSoundPlaying(1))
 		{

@@ -1,5 +1,6 @@
 #include "BulletSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -14,10 +15,10 @@ void BulletSystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<BulletMovementComponent>()) {
 		auto& transform = entity->getComponent<TransformComponent>();
 
-		double maxWidth = 640.00; //change this
-		double maxHeight = 480.00; //change this
+		const int maxWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
+		const int maxHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
 		//std::cout << transform.position.getX() << "\n";
-		if (transform.position.x > 640 || transform.position.y > 480 || transform.position.x < 0 || transform.position.y < 0) {
+		if (transform.position.x > maxHeight || transform.position.y > maxWidth || transform.position.x < 0 || transform.position.y < 0) {
 
 			entity->destroy();
 			//delete &entity;
