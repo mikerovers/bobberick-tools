@@ -5,6 +5,7 @@
 #include "entity/EntityManager.h"
 #include "services/InputHandler.h"
 #include "services/RenderService.h"
+#include "services/SettingsService.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
 #include "services/SoundManager.h"
@@ -42,6 +43,7 @@ bool Game::init(const char* title, int xPos, int yPos, int height, int width, in
 	serviceManager->addService<InputHandler>();
 	serviceManager->addService<SoundManager>();
 	serviceManager->addService<StateMachine>();
+	serviceManager->addService<SettingsService>();
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
@@ -50,6 +52,8 @@ bool Game::init(const char* title, int xPos, int yPos, int height, int width, in
 		TTF_Init();
 		serviceManager->getService<FontManager>().init(); // Load in our fonts.
 		IMG_Init(IMG_INIT_PNG);
+		serviceManager->getService<SettingsService>().gameWidth = width;
+		serviceManager->getService<SettingsService>().gameHeight = height;
 		window = SDL_WindowPointer(SDL_CreateWindow(title, xPos, yPos, width, height, flags));
 
 		if (window != nullptr)

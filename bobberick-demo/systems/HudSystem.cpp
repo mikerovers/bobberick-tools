@@ -1,5 +1,6 @@
 #include "HudSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../components/PlayerStatsComponent.h"
 #include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
@@ -105,7 +106,9 @@ void HudSystem::update()
 
 void HudSystem::init()
 {
-	hudBox.addComponent<TransformComponent>(0, 0, 50, 640, 1);
+	const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
+	const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
+	hudBox.addComponent<TransformComponent>(0, 0, 50, gameWidth, 1);
 	hudBox.addComponent<RectangleComponent>(51, 51, 204, true);
 
 	outerBox.addComponent<TransformComponent>(9, 9, 32, barWidth + 2, 1);
@@ -135,16 +138,16 @@ void HudSystem::init()
 	xpText.addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
 	xpText.addComponent<TextComponent>("monoMedium", "xpText", " ");
 
-	inventory.addComponent<TransformComponent>(10, 480 - 60, 50, 120, 1);
+	inventory.addComponent<TransformComponent>(10, gameHeight - 60, 50, 120, 1);
 	inventory.addComponent<RectangleComponent>(161, 64, 5, true);
 
-	inventorySlot1.addComponent<TransformComponent>(20, 480 - 55, 40, 40, 1);
+	inventorySlot1.addComponent<TransformComponent>(20, gameHeight - 55, 40, 40, 1);
 	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
 
-	inventorySlot2.addComponent<TransformComponent>(80, 480 - 55, 40, 40, 1);
+	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 40, 40, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 
-	fpsCounter.addComponent<TransformComponent>(640 - 50, 0 + 65, 40, 40, 1);
+	fpsCounter.addComponent<TransformComponent>(gameWidth - 50, 0 + 65, 40, 40, 1);
 	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
 
 	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<

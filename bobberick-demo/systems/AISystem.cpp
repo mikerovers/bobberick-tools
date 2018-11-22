@@ -1,5 +1,6 @@
 #include "AISystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
@@ -74,8 +75,6 @@ void AISystem::update()
 		applyHealthBar(*entity);
 		applyMovement(*entity);
 
-		double maxWidth = 640.00; //change this
-		double maxHeight = 480.00; //change this
 		//std::cout << transform.position.x << "\n";
 
 		transform.update();
@@ -404,7 +403,8 @@ void AISystem::applyMovement(Entity& entity)
 	auto& transform = entity.getComponent<TransformComponent>();
 	auto& sprite = entity.getComponent<SpriteComponent>();
 	auto& enemyMovement = entity.getComponent<EnemyMovementComponent>();
-
+	const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
+	const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
 
 	const double speed = 0.2 * transform.speed;
 	const int move = RandomGenerator{}.getRandomNumber(0, 59);
@@ -488,16 +488,16 @@ void AISystem::applyMovement(Entity& entity)
 		transform.velocity.x = speed;
 		sprite.flip = false;
 	}
-	if (x > 600)
+	if (x > gameWidth - 40)
 	{
 		transform.velocity.x = -speed;
 		sprite.flip = true;
 	}
-	if (y < 62)
+	if (y < 0 + 50)
 	{
 		transform.velocity.y = speed;
 	}
-	if (y > 420)
+	if (y > gameHeight - 60)
 	{
 		transform.velocity.y = -speed;
 	}
