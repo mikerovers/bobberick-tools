@@ -132,6 +132,7 @@ void Game::start()
 bool Game::setup()
 {
 	if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 480, 640,
+	//if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 720, 960,
 	         static_cast<Uint32>(false)))
 	{
 		return true;
