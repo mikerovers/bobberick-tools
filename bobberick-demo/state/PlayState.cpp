@@ -65,8 +65,6 @@ bool PlayState::onEnter()
 
 bool PlayState::onExit()
 {
-	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
-	ServiceManager::Instance()->getService<SoundManager>().stopSound(-1);
 	std::cout << "Exited playstate" << std::endl;
 
 	return true;
@@ -133,7 +131,7 @@ void PlayState::makeEnemies() const
 	EnemyFactory enemyFactory = EnemyFactory{};
 	for (auto x = 0; x < 5; x++)
 	{
-		for (auto y = 0; y < 10; y++)
+		for (auto y = 0; y < 5; y++)
 		{
 			auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());
@@ -165,7 +163,7 @@ void PlayState::makeEnemies() const
 	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
 	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
 	manufacturerSpawn2.type = "fireWizard";
-	manufacturerSpawn2.spawnTimer = 2500;
+	manufacturerSpawn2.spawnTimer = 250;
 	manufacturerSpawn2.maxCount = 10;
 	manufacturer2Transform.position.x = 500;
 	manufacturer2Transform.position.y = 250;
