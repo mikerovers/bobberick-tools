@@ -133,12 +133,13 @@ void CollisionSystem::update()
 	auto nonMonsterProjectileComponentEntities = entityManager.getAllEntitiesWithComponent<CollisionComponent>();
 	nonMonsterProjectileComponentEntities.erase(
 		std::remove_if(nonMonsterProjectileComponentEntities.begin(), nonMonsterProjectileComponentEntities.end(),
-		               [](Entity* entity)
-		               {
-			               return entity->getComponent<CollisionComponent>().tag == "monster_projectile";
-		               }), nonMonsterProjectileComponentEntities.end()
-	);
+			[](Entity* entity)
+	{
+		auto tag = entity->getComponent<CollisionComponent>().tag;
+		return tag == "monster_projectile" || tag == "chicken" || tag == "zombie" || tag == "orc" || tag == "fireWizard" || tag == "manufacturer";
 
+	}), nonMonsterProjectileComponentEntities.end()
+		);
 
 	for (auto& entity : playerAndMonsterEntities)
 	{
