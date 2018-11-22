@@ -11,6 +11,7 @@
 #include "../../components/EnemyMovementComponent.h"
 #include "../../components/SpawnedComponent.h"
 #include "../../components/ShootComponent.h"
+#include "../../components/DeadComponent.h"
 
 Entity & FireWizardFactory::getEnemy(const int level)
 {
@@ -23,6 +24,7 @@ Entity & FireWizardFactory::getEnemy(const int level)
 	fireWizard.addComponent<ShootComponent>();
 	fireWizard.addComponent<TimerComponent>();
 	fireWizard.addComponent<CollisionComponent>("fireWizard");
+	fireWizard.addComponent<DeadComponent>();
 
 	transformComponent.speed = 1.5;
 

@@ -61,6 +61,9 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/Enemies/orc_piratess.png", "orc", renderer);
 	t.load("assets/image/Enemies/zombie.png", "zombie", renderer);
 
+	// effects
+	t.load("assets/image/effects/explosion1.png", "explosion1", renderer);
+
 	// gui
 	t.load("assets/image/gui/hud_gold.png", "hudGold", renderer);
 	t.load("assets/image/gui/hud_xp.png", "hudXp", renderer);

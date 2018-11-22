@@ -7,7 +7,8 @@
 class System
 {
 public:
-    explicit System(EntityManager& entityManager);
+	virtual ~System() = default;
+	explicit System(EntityManager& entityManager);
     virtual void update() = 0;
 	virtual void init();
 protected:

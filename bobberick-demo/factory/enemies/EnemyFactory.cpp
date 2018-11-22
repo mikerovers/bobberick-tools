@@ -12,28 +12,28 @@
 #include "../../../bobberick-framework/src/util/RandomGenerator.h"
 
 
-Entity& EnemyFactory::getRandomEnemy(const int level)
+Entity& EnemyFactory::getRandomEnemy(const int level) const
 {
 	return getRandomFactory()->getEnemy(level);
 }
 
-Entity& EnemyFactory::getRandomEnemy(const int minLevel, const int maxLevel)
+Entity& EnemyFactory::getRandomEnemy(const int minLevel, const int maxLevel) const
 {
 	const int level = RandomGenerator{}.getRandomNumber(minLevel, maxLevel);
 	return getRandomFactory()->getEnemy(level);
 }
 
-Entity& EnemyFactory::getEnemy(const int level, const std::string type)
+Entity& EnemyFactory::getEnemy(const int level, const std::string type) const
 {
 	return EnemyFactory::getFactory(type)->getEnemy(level);
 }
 
-Entity& EnemyFactory::spawnEnemy(const int level, const std::string type, const int spawnerId)
+Entity& EnemyFactory::spawnEnemy(const int level, const std::string type, const int spawnerId) const
 {
 	return EnemyFactory::getFactory(type)->getEnemy(level, spawnerId);
 }
 
-Entity& EnemyFactory::getBoss(const int level)
+Entity& EnemyFactory::getBoss(const int level) const
 {
 	return EnemyFactory::getFactory("boss")->getEnemy(level);
 }

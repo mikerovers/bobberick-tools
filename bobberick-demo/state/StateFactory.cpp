@@ -13,6 +13,7 @@
 #include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
+#include "../systems/DeadSystem.h"
 
 GameState* StateFactory::createState(const std::string& type)
 {
@@ -45,7 +46,7 @@ GameState* StateFactory::createState(const std::string& type)
 
 SplashScreenState* StateFactory::createSplashScreenState()
 {
-	SplashScreenState* splashScreen = new SplashScreenState();
+	auto* splashScreen = new SplashScreenState();
 	splashScreen->addSystem(
 		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	splashScreen->addSystem(
@@ -56,7 +57,7 @@ SplashScreenState* StateFactory::createSplashScreenState()
 
 PlayState* StateFactory::createPlayState()
 {
-	PlayState* playState = new PlayState();
+	auto* playState = new PlayState();
 	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
@@ -66,13 +67,14 @@ PlayState* StateFactory::createPlayState()
 	playState->addSystem(std::make_shared<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<DeadSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return playState;
 }
 
 MainMenuState* StateFactory::createMainMenuState()
 {
-    MainMenuState * mainMenuState = new MainMenuState();
+	auto* mainMenuState = new MainMenuState();
     mainMenuState->addSystem(
 	    std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
     mainMenuState->addSystem(
@@ -118,15 +120,15 @@ EndScreenState *StateFactory::createEndScreenState() const
 {
 	auto *endScreenState = new EndScreenState();
 	endScreenState->addSystem(
-			std::shared_ptr<InputSystem>(new InputSystem(ServiceManager::Instance()->getService<EntityManager>())));
+		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	endScreenState->addSystem(
-			std::shared_ptr<GuiSystem>(new GuiSystem(ServiceManager::Instance()->getService<EntityManager>())));
+		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	endScreenState->addSystem(
-			std::shared_ptr<DrawSystem>(new DrawSystem(ServiceManager::Instance()->getService<EntityManager>())));
-	endScreenState->addSystem(std::shared_ptr<CollisionSystem>(
-			new CollisionSystem(ServiceManager::Instance()->getService<EntityManager>())));
+		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	endScreenState->addSystem(
-			std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
+		std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	endScreenState->addSystem(
+		std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return endScreenState;
 }

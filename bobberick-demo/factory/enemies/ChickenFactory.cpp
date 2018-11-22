@@ -9,6 +9,7 @@
 #include "../../components/AIComponent.h"
 #include "../../components/EnemyMovementComponent.h"
 #include "../../components/SpawnedComponent.h"
+#include "../../components/DeadComponent.h"
 
 Entity& ChickenFactory::getEnemy(const int level)
 {
@@ -21,6 +22,7 @@ Entity& ChickenFactory::getEnemy(const int level)
 	chicken.addComponent<AIComponent>();
 	chicken.addComponent<EnemyMovementComponent>();
 	chicken.addComponent<CollisionComponent>("chicken");
+	chicken.addComponent<DeadComponent>();
 
 	transformComponent.speed = 2;
 

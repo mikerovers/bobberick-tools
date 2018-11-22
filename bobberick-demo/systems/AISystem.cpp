@@ -320,22 +320,7 @@ void AISystem::initHealthBar(Entity& entity)
 
 void AISystem::kill(Entity& entity)
 {
-	if (entity.hasComponent<EndBossComponent>())
-	{
-		// win
-	}
-	for (auto& player : ServiceManager::Instance()
-	                    ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>())
-	{
-		player->getComponent<PlayerStatsComponent>().xp += entity.getComponent<StatsComponent>().getHPmax();
-	}
-	// animate destruction
-
-	auto& healthBar = entity.getComponent<HealthBarComponent>();
-	healthBar.healthBox.destroy();
-	healthBar.outerBox.destroy();
-	healthBar.innerBox.destroy();
-	entity.destroy();
+	
 }
 
 bool AISystem::isEntityInRange(Entity& entity1, Entity& entity2, const int range)
@@ -365,12 +350,6 @@ void AISystem::applyHealthBar(Entity& entity)
 
 	if (entity.hasComponent<HealthBarComponent>())
 	{
-		int const hp = stats.getHP();
-		if (hp < 1)
-		{
-			kill(entity);
-		}
-
 		auto& outBox = healthBar.outerBox.getComponent<TransformComponent>();
 		auto& inBox = healthBar.innerBox.getComponent<TransformComponent>();
 		auto& healBox = healthBar.healthBox.getComponent<TransformComponent>();

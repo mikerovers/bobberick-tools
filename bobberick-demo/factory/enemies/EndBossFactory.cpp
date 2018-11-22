@@ -13,6 +13,7 @@
 #include "../../components/EnemyMovementComponent.h"
 #include "../../components/ShootComponent.h"
 #include "../../components/SpawnedComponent.h"
+#include "../../components/DeadComponent.h"
 
 Entity & EndBossFactory::getEnemy(const int level)
 {
@@ -30,6 +31,8 @@ Entity & EndBossFactory::getEnemy(const int level)
 	//endBoss.addComponent<ShootComponent>();
 	endBoss.addComponent<CollisionComponent>("endBoss");
 	endBoss.addComponent<EndBossComponent>();
+	endBoss.addComponent<DeadComponent>();
+
 
 	transformComponent.speed = 1;
 

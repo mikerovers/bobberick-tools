@@ -9,6 +9,7 @@
 #include "../../components/AIComponent.h"
 #include "../../components/EnemyMovementComponent.h"
 #include "../../components/SpawnedComponent.h"
+#include "../../components/DeadComponent.h"
 
 Entity &OrcFactory::getEnemy(const int level)
 {
@@ -19,6 +20,7 @@ Entity &OrcFactory::getEnemy(const int level)
 	orc.addComponent<EnemyMovementComponent>();
 	orc.addComponent<AIComponent>();
 	orc.addComponent<CollisionComponent>("orc");
+	orc.addComponent<DeadComponent>();
 
 	transformComponent.speed = 2;
 

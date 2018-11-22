@@ -29,6 +29,7 @@ systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
 systems/AISystem.cpp systems/AISystem.h 
+systems/DeadSystem.cpp systems/DeadSystem.h 
 state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
