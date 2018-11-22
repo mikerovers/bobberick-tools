@@ -7,6 +7,7 @@
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../../bobberick-framework/src/services/FrameHandler.h"
+#include "../../bobberick-framework/src/util/TextFormatter.h"
 #include <string>
 
 HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
@@ -93,13 +94,13 @@ void HudSystem::update()
 		healthBox.getComponent<TransformComponent>().width = healthWidth;
 		shieldBox.getComponent<TransformComponent>().width = shieldWidth;
 
+		TextFormatter textFormatter = TextFormatter{};
 		healthText.getComponent<TextComponent>().setText(
-			addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + addSpaces(
+			textFormatter.addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + TextFormatter{}.addSpaces(
 				std::to_string(playerStats.stats->getHPmax()), 6, false));
-		coinText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.gold), 6, false));
-		xpText.getComponent<TextComponent>().setText(addSpaces(std::to_string(playerStats.xp), 6, false));
-
-		fpsCounter.getComponent<TextComponent>().setText(addSpaces(fps, 6, false));
+		coinText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.gold), 6, false));
+		xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.xp), 6, false));
+		fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(fps, 6, false));
 	}
 }
 
@@ -169,18 +170,4 @@ void HudSystem::init()
 			serviceManager.addEntityToGroup(fpsCounter, group);
 		}
 	}
-}
-
-std::string HudSystem::addSpaces(const std::string& string, const int goalChars, const bool leading)
-{
-	std::string spaces;
-	for (int i = string.length(); i < goalChars; i++)
-	{
-		spaces += " ";
-	}
-	if (leading)
-	{
-		return spaces + string;
-	}
-	return string + spaces;
 }
