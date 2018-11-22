@@ -415,80 +415,24 @@ void AISystem::applyMovement(Entity& entity)
 	const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
 	const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
 
-	const double speed = 0.2 * transform.speed;
-	const int move = RandomGenerator{}.getRandomNumber(0, 59);
+	const double speed = transform.speed / 10;
 
-	if (move == 0 || enemyMovement.collided)
-	{
+	const int moveChance = RandomGenerator{}.getRandomNumber(1, 100);
+	const int moveAngle = RandomGenerator{}.getRandomNumber(0, 360);
+	const double xVel = speed * cos(moveAngle);
+	const double yVel = speed * sin(moveAngle);
+
+
+	if (moveChance < 2 || enemyMovement.collided) {
 		enemyMovement.collided = false;
-		const auto v1 = RandomGenerator{}.getRandomNumber(0, 8);
-
-		switch (v1)
-		{
-		case 0:
-			{
-				transform.velocity.x = speed;
-				transform.velocity.y = 0;
-				sprite.flip = false;
-			}
-			break;
-		case 1:
-			{
-				transform.velocity.x = -speed;
-				transform.velocity.y = 0;
-				sprite.flip = true;
-			}
-			break;
-		case 2:
-			{
-				transform.velocity.y = speed;
-				transform.velocity.x = 0;
-			}
-			break;
-		case 3:
-			{
-				transform.velocity.y = -speed;
-				transform.velocity.x = 0;
-			}
-			break;
-		case 4:
-			{
-				transform.velocity.x = speed;
-				transform.velocity.y = speed;
-				sprite.flip = false;
-			}
-			break;
-		case 5:
-			{
-				transform.velocity.x = -speed;
-				transform.velocity.y = -speed;
-				sprite.flip = true;
-			}
-			break;
-		case 6:
-			{
-				transform.velocity.x = -speed;
-				transform.velocity.y = speed;
-				sprite.flip = true;
-			}
-			break;
-		case 7:
-			{
-				transform.velocity.x = speed;
-				transform.velocity.y = -speed;
-				sprite.flip = false;
-			}
-			break;
-		case 8:
-			{
-				transform.velocity.zero();
-				transform.velocity.x = 0;
-				transform.velocity.y = 0;
-				sprite.flip = false;
-			}
-			break;
-		}
+		transform.velocity.x = xVel;
+		transform.velocity.y = yVel;
+		sprite.flip = xVel < 0;
 	}
+	else if (moveChance < 3) {
+		enemyMovement.collided = false;
+	}
+	transform.update();
 
 	double x = transform.position.x;
 	double y = transform.position.y;
