@@ -13,6 +13,7 @@
 #include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
+#include "PauseScreenState.h"
 
 GameState* StateFactory::createState(const std::string& type)
 {
@@ -38,6 +39,9 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "EndScreen")
 	{
 		return createEndScreenState();
+	} else if (type == "PauseScreenState")
+	{
+		return createPauseScreenState();
 	}
 
 	return nullptr;
@@ -129,4 +133,20 @@ EndScreenState *StateFactory::createEndScreenState() const
 			std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return endScreenState;
+}
+
+PauseScreenState *StateFactory::createPauseScreenState() const
+{
+	auto* pauseScreenState = new PauseScreenState();
+
+	pauseScreenState->addSystem(
+		std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return pauseScreenState;
 }
