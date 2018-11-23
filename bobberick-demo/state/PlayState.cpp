@@ -42,23 +42,23 @@ bool PlayState::onEnter()
 	makeGui();
 
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "arrow",
-	                                                            SOUND_SFX);
+		SOUND_SFX);
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg",
-	                                                            "footsteps", SOUND_SFX);
+		"footsteps", SOUND_SFX);
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
-	                                                            SOUND_SFX);
+		SOUND_SFX);
 
 	// auto& box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	// box.addComponent<CollisionComponent>("fire", 140, 175, 40);
 
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1",
-	                                                            SOUND_MUSIC);
+		SOUND_MUSIC);
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
 
 	WeaponFactory().generateWeapon(false, 0, 10, -9, 9); // For testing purposes
 	WeaponFactory().generateWeapon(true, 0, 10, -9, 9); // For testing purposes
 
-    instantiateSystems();
+	instantiateSystems();
 
 	return true;
 }
@@ -84,8 +84,8 @@ Entity& PlayState::makeTileMap() const
 	// Use LevelFactory to load and create tilemap components.
 	LevelFactory levelFactory;
 	const auto tilesetComponent = levelFactory.Load("assets/maps/map2.tmx",
-	                                                ServiceManager::Instance()
-	                                                ->getService<RenderService>().getRenderer());
+		ServiceManager::Instance()
+		->getService<RenderService>().getRenderer());
 	level.addExistingComponent<TilesetComponent>(tilesetComponent);
 
 	ObjectFactory objectFactory;
@@ -103,7 +103,7 @@ Entity& PlayState::makePlayer() const
 	auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	player.addComponent<TransformComponent>(100, 100, 64, 32, 1);
 	auto& spriteComponent = player.addComponent<SpriteComponent>("character", 6,
-	                                                             4, 5);
+		4, 5);
 	player.addComponent<PlayerMovementComponent>();
 
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
@@ -129,16 +129,16 @@ void PlayState::instantiateSystems() const
 void PlayState::makeEnemies() const
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
-	for (auto x = 0; x < 5; x++)
+	for (auto x = 0; x < 3; x++)
 	{
-		for (auto y = 0; y < 5; y++)
+		for (auto y = 0; y < 3; y++)
 		{
 			auto& enemy = enemyFactory.getRandomEnemy(1, 4);
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());
 
 			auto& enemyTransform = enemy.getComponent<TransformComponent>();
-			enemyTransform.position.x = 50 + 10 * x;
-			enemyTransform.position.y = 350 + 10 * y;
+			enemyTransform.position.x = 50 + 25 * x;
+			enemyTransform.position.y = 350 + 25 * y;
 		}
 	}
 	/*auto& enemy = enemyFactory.getBoss(10);
@@ -165,8 +165,20 @@ void PlayState::makeEnemies() const
 	manufacturerSpawn2.type = "fireWizard";
 	manufacturerSpawn2.spawnTimer = 250;
 	manufacturerSpawn2.maxCount = 10;
-	manufacturer2Transform.position.x = 500;
-	manufacturer2Transform.position.y = 250;
+	manufacturer2Transform.position.x = 800;
+	manufacturer2Transform.position.y = 400;
+
+	auto& manufacturer3 = enemyFactory.getEnemy(3, "manufacturer");
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer3, getStateID());
+
+	auto& manufacturer3Transform = manufacturer3.getComponent<TransformComponent>();
+	auto& manufacturerSpawn3 = manufacturer3.getComponent<SpawnComponent>();
+	manufacturerSpawn3.type = "chicken";
+	manufacturerSpawn3.spawnTimer = 250;
+	manufacturerSpawn3.maxCount = 15;
+	manufacturer3Transform.position.x = 400;
+	manufacturer3Transform.position.y = 400;
+
 }
 
 void PlayState::makeGui()
