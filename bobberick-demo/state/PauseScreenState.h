@@ -18,6 +18,7 @@ private:
 	bool readyForExit = false;
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	
+	void createPauseText() const;
 	void createResumeButton() const;
 	void createHelpButton() const;
 	void createExitButton();

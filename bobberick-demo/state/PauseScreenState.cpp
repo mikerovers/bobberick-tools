@@ -4,6 +4,7 @@
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "StateFactory.h"
 #include "../../bobberick-framework/src/StateMachine.h"
+#include "../../bobberick-framework/src/entity/components/TextComponent.h"
 
 std::string PauseScreenState::getStateID() const
 {
@@ -32,6 +33,7 @@ bool PauseScreenState::shouldExit()
 
 bool PauseScreenState::onEnter()
 {
+	createPauseText();
 	createResumeButton();
 	// createSaveButton();
 	// createLoadButton();
@@ -39,6 +41,15 @@ bool PauseScreenState::onEnter()
 	createExitButton();
 
 	return true;
+}
+
+void PauseScreenState::createPauseText() const
+{
+	auto& pauseText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	pauseText.addComponent<TransformComponent>(235, 50, 80, 450, 1);
+	pauseText.addComponent<TextComponent>("defaultLarge", "pauseText", "Game paused");
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseText, getStateID());
 }
 
 void PauseScreenState::createResumeButton() const
@@ -50,12 +61,7 @@ void PauseScreenState::createResumeButton() const
 	});
 
 	resumeGameButton.addExistingComponent<ButtonComponent>(resumeGameButtonComponent);
-	auto* resumeGameButtonTransformComponent = new TransformComponent();
-	resumeGameButtonTransformComponent->position.x = 410;
-	resumeGameButtonTransformComponent->position.y = 60;
-	resumeGameButtonTransformComponent->height = 64;
-	resumeGameButtonTransformComponent->width = 128;
-	resumeGameButton.addExistingComponent<TransformComponent>(resumeGameButtonTransformComponent);
+	resumeGameButton.addComponent<TransformComponent>(410, 160, 64, 128, 1);
 	resumeGameButton.addComponent<ButtonSpriteComponent>("resumeGameButton", 1, 3, 0);
 	resumeGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	resumeGameButton.addComponent<CollisionComponent>("resumeButton");
@@ -72,12 +78,7 @@ void PauseScreenState::createSaveButton() const
 	});
 
 	saveGameButton.addExistingComponent<ButtonComponent>(saveGameButtonComponent);
-	auto* saveGameButtonTransformComponent = new TransformComponent();
-	saveGameButtonTransformComponent->position.x = 410;
-	saveGameButtonTransformComponent->position.y = 140;
-	saveGameButtonTransformComponent->height = 64;
-	saveGameButtonTransformComponent->width = 128;
-	saveGameButton.addExistingComponent<TransformComponent>(saveGameButtonTransformComponent);
+	saveGameButton.addComponent<TransformComponent>(410, 240, 64, 128, 1);
 	saveGameButton.addComponent<ButtonSpriteComponent>("saveGameButton", 1, 3, 0);
 	saveGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	saveGameButton.addComponent<CollisionComponent>("saveButton");
@@ -94,12 +95,7 @@ void PauseScreenState::createLoadButton() const
 	});
 
 	loadGameButton.addExistingComponent<ButtonComponent>(loadGameButtonComponent);
-	auto* loadGameButtonTransformComponent = new TransformComponent();
-	loadGameButtonTransformComponent->position.x = 410;
-	loadGameButtonTransformComponent->position.y = 220;
-	loadGameButtonTransformComponent->height = 64;
-	loadGameButtonTransformComponent->width = 128;
-	loadGameButton.addExistingComponent<TransformComponent>(loadGameButtonTransformComponent);
+	loadGameButton.addComponent<TransformComponent>(410, 320, 64, 128, 1);
 	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0);
 	loadGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	loadGameButton.addComponent<CollisionComponent>("loadButton");
@@ -117,12 +113,7 @@ void PauseScreenState::createHelpButton() const
 	});
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
-	auto* helpButtonTransformComponent = new TransformComponent();
-	helpButtonTransformComponent->position.x = 410;
-	helpButtonTransformComponent->position.y = 300;
-	helpButtonTransformComponent->height = 64;
-	helpButtonTransformComponent->width = 128;
-	helpButton.addExistingComponent<TransformComponent>(helpButtonTransformComponent);
+	helpButton.addComponent<TransformComponent>(410, 400, 64, 128, 1);
 	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
 	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
@@ -140,13 +131,7 @@ void PauseScreenState::createExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	auto* exitButtonTransformComponent = new TransformComponent();
-
-	exitButtonTransformComponent->position.x = 410;
-	exitButtonTransformComponent->position.y = 380;
-	exitButtonTransformComponent->height = 64;
-	exitButtonTransformComponent->width = 128;
-	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
+	exitButton.addComponent<TransformComponent>(410, 480, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
 	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("exitButton");
