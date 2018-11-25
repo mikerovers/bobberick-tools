@@ -10,6 +10,7 @@
 #include "HelpScreenState.h"
 #include "EndScreenState.h"
 #include "Level2State.h"
+#include "Level3State.h"
 
 class StateFactory {
 
@@ -20,6 +21,7 @@ private:
 	SplashScreenState* createSplashScreenState();
 	Level1State* createPlayState();
 	Level2State* createLevel2State() const;
+    Level3State* createLevel3State() const;
 	MainMenuState* createMainMenuState();
 	CreditScreenState* createCreditScreenState() const;
 	HelpScreenState* createHelpScreenState() const;

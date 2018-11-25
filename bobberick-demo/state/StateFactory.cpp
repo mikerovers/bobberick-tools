@@ -28,7 +28,10 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "Level2State")
 	{
 		return createLevel2State();
-	}
+	} else if (type == "Level3State")
+    {
+	    return createLevel3State();
+    }
 	else if (type == "TestState") {
 		return new TestState();
 	}
@@ -137,6 +140,22 @@ EndScreenState *StateFactory::createEndScreenState() const
 Level2State *StateFactory::createLevel2State() const
 {
 	Level2State* playState = new Level2State();
+	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return playState;
+}
+
+Level3State *StateFactory::createLevel3State() const
+{
+	Level3State* playState = new Level3State();
 	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
