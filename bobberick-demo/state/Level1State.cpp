@@ -1,4 +1,4 @@
-#include "PlayState.h"
+#include "Level1State.h"
 #include "../systems/PlayerInputSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
@@ -21,12 +21,12 @@
 #include "../factory/enemies/EnemyFactory.h"
 #include "../factory/WeaponFactory.h"
 
-std::string PlayState::getStateID() const
+std::string Level1State::getStateID() const
 {
 	return "playing";
 }
 
-void PlayState::update()
+void Level1State::update()
 {
 	for (const auto& system : systems)
 	{
@@ -34,7 +34,7 @@ void PlayState::update()
 	}
 }
 
-bool PlayState::onEnter()
+bool Level1State::onEnter()
 {
 	makeEnemies();
 	auto& player = makePlayer();
@@ -63,19 +63,19 @@ bool PlayState::onEnter()
 	return true;
 }
 
-bool PlayState::onExit()
+bool Level1State::onExit()
 {
 	std::cout << "Exited playstate" << std::endl;
 
 	return true;
 }
 
-bool PlayState::shouldExit()
+bool Level1State::shouldExit()
 {
 	return _exitPressed;
 }
 
-Entity& PlayState::makeTileMap() const
+Entity& Level1State::makeTileMap() const
 {
 	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(level, getStateID());
@@ -98,7 +98,7 @@ Entity& PlayState::makeTileMap() const
 	return level;
 }
 
-Entity& PlayState::makePlayer() const
+Entity& Level1State::makePlayer() const
 {
 	auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	player.addComponent<TransformComponent>(100, 100, 64, 32, 1);
@@ -118,7 +118,7 @@ Entity& PlayState::makePlayer() const
 	return player;
 }
 
-void PlayState::instantiateSystems() const
+void Level1State::instantiateSystems() const
 {
 	for (const auto& system : systems)
 	{
@@ -126,7 +126,7 @@ void PlayState::instantiateSystems() const
 	}
 }
 
-void PlayState::makeEnemies() const
+void Level1State::makeEnemies() const
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
 	for (auto x = 0; x < 3; x++)
@@ -181,7 +181,7 @@ void PlayState::makeEnemies() const
 
 }
 
-void PlayState::makeGui()
+void Level1State::makeGui()
 {
 	auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());

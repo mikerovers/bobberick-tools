@@ -3,7 +3,7 @@
 
 #include "../../bobberick-framework/src/GameState.h"
 
-class PlayState : public GameState
+class Level1State : public GameState
 {
 public:
     void update() override;
