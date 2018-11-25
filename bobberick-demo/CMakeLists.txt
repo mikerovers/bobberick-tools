@@ -24,6 +24,7 @@ components/HealthBarComponent.cpp components/HealthBarComponent.h
 components/ItemComponent.h
 components/WeaponComponent.cpp components/WeaponComponent.h
 components/InventoryComponent.cpp components/InventoryComponent.h
+components/SkillsComponent.cpp components/SkillsComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
