@@ -30,9 +30,9 @@ systems/CheatSystem.cpp systems/CheatSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
+state/Level1State.cpp state/Level1State.h
 systems/AISystem.cpp systems/AISystem.h 
 systems/AdvertisementSystem.cpp systems/AdvertisementSystem.h 
-state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
 state/CreditScreenState.cpp state/CreditScreenState.h
@@ -47,10 +47,12 @@ factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h
 factory/enemies/EnemyManufactureFactory.cpp factory/enemies/EnemyManufactureFactory.h
 state/TestState.cpp state/TestState.h
 state/MainMenuState.cpp state/mainMenuState.h
-factory/enemies/EndBossFactory.cpp factory/enemies/EndBossFactory.h
+factory/enemies/EndBossFactory.cpp factory/enemies/EndBossFactory.h 
 factory/enemies/NullFactory.cpp factory/enemies/NullFactory.h 
 state/HelpScreenState.cpp state/HelpScreenState.h 
-state/EndScreenState.cpp state/EndScreenState.h
+state/EndScreenState.cpp state/EndScreenState.h 
+state/Level2State.cpp state/Level2State.h
+state/Level3State.cpp state/Level3State.h
 state/PauseScreenState.cpp state/PauseScreenState.h)
 
 add_executable(bobberick-demo ${SOURCE_FILES})

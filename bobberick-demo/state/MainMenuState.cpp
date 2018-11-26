@@ -100,7 +100,7 @@ void MainMenuState::makeStartGameButton()
 	auto* playGameButtonComponent = new ButtonComponent([]()
 	{
 		StateFactory factory{};
-		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("PlayState"));
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level3State"));
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);

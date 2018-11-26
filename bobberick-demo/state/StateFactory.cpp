@@ -7,28 +7,36 @@
 #include "../../bobberick-framework/src/entity/systems/GuiSystem.h"
 #include "../../bobberick-framework/src/entity/systems/CollisionSystem.h"
 #include "../systems/PlayerInputSystem.h"
-#include "../systems/AdvertisementSystem.h"
 #include "../systems/BulletSystem.h"
+#include "../systems/AdvertisementSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
-#include "../systems/CheatSystem.h"
 #include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
-#include "PauseScreenState.h"
 
 GameState* StateFactory::createState(const std::string& type)
 {
 	if (type == "SplashScreenState")
 	{
 		return createSplashScreenState();
-	} else if (type == "MainMenuState") {
+	} 
+	else if (type == "MainMenuState") {
 		return createMainMenuState();
 	}
-	else if (type == "PlayState")
+	else if (type == "PauseScreenState") {
+		return createPauseScreenState();
+	}
+	else if (type == "Level1State")
 	{
 		return createPlayState();
-	}
+	} else if (type == "Level2State")
+	{
+		return createLevel2State();
+	} else if (type == "Level3State")
+    {
+	    return createLevel3State();
+    }
 	else if (type == "TestState") {
 		return new TestState();
 	}
@@ -41,9 +49,6 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "EndScreen")
 	{
 		return createEndScreenState();
-	} else if (type == "PauseScreenState")
-	{
-		return createPauseScreenState();
 	}
 
 	return nullptr;
@@ -60,13 +65,12 @@ SplashScreenState* StateFactory::createSplashScreenState()
 	return splashScreen;
 }
 
-PlayState* StateFactory::createPlayState()
+Level1State* StateFactory::createPlayState()
 {
-	PlayState* playState = new PlayState();
+	Level1State* playState = new Level1State();
 	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
@@ -88,9 +92,9 @@ MainMenuState* StateFactory::createMainMenuState()
 	    std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
     mainMenuState->addSystem(std::make_shared<CollisionSystem>(
 	    ServiceManager::Instance()->getService<EntityManager>()));
-    mainMenuState->addSystem(
-	    std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	mainMenuState->addSystem(
+		std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	    mainMenuState->addSystem(
 	    std::make_shared<AdvertisementSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
     return mainMenuState;
@@ -154,4 +158,36 @@ PauseScreenState *StateFactory::createPauseScreenState() const
 		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return pauseScreenState;
+}
+
+Level2State *StateFactory::createLevel2State() const
+{
+	Level2State* playState = new Level2State();
+	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return playState;
+}
+
+Level3State *StateFactory::createLevel3State() const
+{
+	Level3State* playState = new Level3State();
+	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return playState;
 }

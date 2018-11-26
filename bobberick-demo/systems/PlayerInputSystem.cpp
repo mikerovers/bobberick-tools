@@ -161,6 +161,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
 		// {
 			std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
+
 			ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("PauseScreenState"));
 		// }
 		// else
