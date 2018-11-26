@@ -19,12 +19,10 @@ void AdvertisementSystem::update()
 			auto& timer = entity->getComponent<TimerComponent>();
 			if (timer.isTimerFinished())
 			{
-				int const currentAd = advertisementComponent.getCurrentAd();
-				advertisementComponent.increaseAd();
 				auto& spriteComponent = entity->getComponent<SpriteComponent>();
 
 				std::ostringstream sstream;
-				sstream << "ad" << currentAd;
+				sstream << "ad" << advertisementComponent.getNextAd();
 				const std::string tmp = sstream.str();
 				const char* cstr = tmp.c_str();
 				spriteComponent.setTexture(cstr);

@@ -6,14 +6,14 @@
 class AdvertisementComponent : public Component
 {
 public:
-	explicit AdvertisementComponent(int const startAdvertisement, int const maxAdvertisement) : currentAd(startAdvertisement), maxAd(maxAdvertisement) {};
+	explicit AdvertisementComponent(int const startAdvertisement, int const firstAdvertisement, int const lastAdvertisement) : currentAd(startAdvertisement), firstAd(firstAdvertisement), lastAd(lastAdvertisement) {};
 
-	int getCurrentAd() const;
-	void increaseAd();
+	int getNextAd();
 
 private:
 	int currentAd;
-	int const maxAd;
+	int const firstAd;
+	int const lastAd;
 };
 
 
