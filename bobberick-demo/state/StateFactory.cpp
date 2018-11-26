@@ -7,12 +7,15 @@
 #include "../../bobberick-framework/src/entity/systems/GuiSystem.h"
 #include "../../bobberick-framework/src/entity/systems/CollisionSystem.h"
 #include "../systems/PlayerInputSystem.h"
+#include "../systems/AdvertisementSystem.h"
 #include "../systems/BulletSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
+#include "../systems/CheatSystem.h"
 #include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
+#include "PauseScreenState.h"
 
 GameState* StateFactory::createState(const std::string& type)
 {
@@ -38,6 +41,9 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "EndScreen")
 	{
 		return createEndScreenState();
+	} else if (type == "PauseScreenState")
+	{
+		return createPauseScreenState();
 	}
 
 	return nullptr;
@@ -60,6 +66,7 @@ PlayState* StateFactory::createPlayState()
 	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
@@ -83,6 +90,8 @@ MainMenuState* StateFactory::createMainMenuState()
 	    ServiceManager::Instance()->getService<EntityManager>()));
     mainMenuState->addSystem(
 	    std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	mainMenuState->addSystem(
+	    std::make_shared<AdvertisementSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
     return mainMenuState;
 }
@@ -129,4 +138,20 @@ EndScreenState *StateFactory::createEndScreenState() const
 			std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return endScreenState;
+}
+
+PauseScreenState *StateFactory::createPauseScreenState() const
+{
+	auto* pauseScreenState = new PauseScreenState();
+
+	pauseScreenState->addSystem(
+		std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return pauseScreenState;
 }

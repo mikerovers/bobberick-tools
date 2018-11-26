@@ -88,5 +88,11 @@ void HelpScreenState::makeText()
     mouseText.addComponent<TransformComponent>(10, 320, 80, 400, 1);
     mouseText.addComponent<TextComponent>("defaultLarge", "shootText", "Mouse : Shoot");
 
-    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(mouseText, getStateID());
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(mouseText, getStateID());
+
+	auto& pauseText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	pauseText.addComponent<TransformComponent>(10, 420, 80, 450, 1);
+	pauseText.addComponent<TextComponent>("defaultLarge", "pauseText", "RETURN : Pause");
+
+    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseText, getStateID());
 }

@@ -8,6 +8,8 @@ StatsComponent::StatsComponent(const int hp, const int hpMax, const int atMin, c
 	changeATmin(atMin);
 	changeDF(df);
 	changeLevel(level);
+
+	generator = RandomGenerator();
 }
 
 void StatsComponent::healPoints(const int points) {
@@ -41,11 +43,8 @@ void StatsComponent::getHit(int attack, const bool pierceDF) {
 	}
 }
 
-int StatsComponent::attack(int seed) {
-	std::default_random_engine generator;
-	generator.seed(seed);
-	std::uniform_int_distribution<int> dist(atMin, atMax);
-	return dist(generator);
+int StatsComponent::attack() {
+	return generator.getRandomNumber(atMin, atMax);
 }
 
 const int StatsComponent::getHP() {
@@ -71,6 +70,9 @@ void StatsComponent::changeHPmax(const int amount) {
 	hpMax += amount;
 	if (hpMax < 1) {
 		hpMax = 1;
+	}
+	if (hpMax > 999999) {
+		hpMax = 999999;
 	}
 	if (hp > hpMax) {
 		hp = hpMax;

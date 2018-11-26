@@ -66,6 +66,7 @@ bool PlayState::onEnter()
 bool PlayState::onExit()
 {
 	std::cout << "Exited playstate" << std::endl;
+	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
 
 	return true;
 }
@@ -107,7 +108,7 @@ Entity& PlayState::makePlayer() const
 	player.addComponent<PlayerMovementComponent>();
 
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
-	player.addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1, 1), 180, 180, 0.3, 0, 0);
+	player.addComponent<PlayerStatsComponent>(1000, 1000, 1, 3, 1, 1, 180, 180, 0.3, 0, 0);
 
 	player.addComponent<TimerComponent>();
 	player.addComponent<ShootComponent>();

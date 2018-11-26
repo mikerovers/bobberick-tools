@@ -2,6 +2,7 @@
 #define BOBBERICK_TOOLS_STATSCOMPONENT_H
 
 #include "../../bobberick-framework/src/entity/Component.h"
+#include "../../bobberick-framework/src/util/RandomGenerator.h"
 
 class StatsComponent : public Component
 {
@@ -10,8 +11,8 @@ public:
 
 	void healPoints(const int points); // Heal HP, up to X fixed points.
 	void healPercent(const int percentage); // Heal HP, up to X percent of HPmax.
-	void getHit(int attack, const bool pierceDF); // Mitigate attack with DF (unless pierceDF is true), then take the resulting damage.
-	int attack(int seed); // Return a random number between ATmin and ATmax (when hitting an enemy or when generating a bullet).
+	virtual void getHit(int attack, const bool pierceDF); // Mitigate attack with DF (unless pierceDF is true), then take the resulting damage.
+	int attack(); // Return a random number between ATmin and ATmax (when hitting an enemy or when generating a bullet).
 	
 	// Get the value of a stat.
 	const int getHP();
@@ -27,9 +28,8 @@ public:
 	void changeATmax(const int amount);
 	void changeDF(const int amount);
 	void changeLevel(const int amount);
-
-
-private:
+protected:
+	RandomGenerator generator;
 	int hp = 0; // current hit points
 	int hpMax = 0; // maximum hit points
 	int atMin = 0; // minimum attack
