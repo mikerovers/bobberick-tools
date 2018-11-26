@@ -19,7 +19,7 @@ void DeadSystem::update()
 {
 	auto deadComponentEntities = ServiceManager::Instance()
 	                             ->getService<EntityManager>().getAllEntitiesWithComponent<DeadComponent>();
-
+	int biemCounter = 0;
 	for (auto&& entity : deadComponentEntities)
 	{
 		if (entity->hasComponent<StatsComponent>())
@@ -28,8 +28,8 @@ void DeadSystem::update()
 			auto& deathComponent = entity->getComponent<DeadComponent>();
 			if (statsComponent.getHP() <= 0 && !deathComponent.handledDeath)
 			{
-				ServiceManager::Instance()->getService<SoundManager>().playSound(4, "biem", 0);
-
+				ServiceManager::Instance()->getService<SoundManager>().playSound(20 + biemCounter, "biem", 0);
+				biemCounter++;
 				if (entity->hasComponent<EndBossComponent>())
 				{
 					// win

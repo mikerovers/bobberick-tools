@@ -4,6 +4,7 @@
 SoundManager::SoundManager()
 {
 	Mix_OpenAudio(22050, AUDIO_S16, 2, 4096);
+	Mix_AllocateChannels(512);
 }
 
 bool SoundManager::load(const std::string& file_name, const std::string& id, const sound_type type)
