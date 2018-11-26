@@ -10,6 +10,7 @@
 #include "../systems/BulletSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
+#include "../systems/CheatSystem.h"
 #include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
@@ -64,6 +65,7 @@ PlayState* StateFactory::createPlayState()
 	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));

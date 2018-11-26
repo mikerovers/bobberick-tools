@@ -25,6 +25,7 @@ components/ItemComponent.h
 components/WeaponComponent.cpp components/WeaponComponent.h
 components/InventoryComponent.cpp components/InventoryComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
+systems/CheatSystem.cpp systems/CheatSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
