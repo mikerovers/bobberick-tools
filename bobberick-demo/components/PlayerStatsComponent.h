@@ -13,6 +13,7 @@ public:
 	void update() override; // The shield is recovered in this function.
 
 	void getHit(int attack, const bool pierceDF); // Mitigate attack with DF in offensive mode or absorb it in shield mode.
+	void heal(int const healAmount); // Heal the player
 	// If an entity has a PlayerStatsComponent with a StatsComponent in it, call only the PlayerStatsComponent getHit() in your system.
 
 	int attack(bool magic) const; // Generate an attack and modify it based on the power of one of your weapons.

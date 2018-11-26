@@ -79,3 +79,10 @@ void PlayerStatsComponent::getHit(int attack, const bool pierceDF) {
 		}
 	}
 }
+
+void PlayerStatsComponent::heal(int const healAmount) {
+	hp += healAmount;
+	if (hp > hpMax) {
+		hp = hpMax;
+	}
+}
