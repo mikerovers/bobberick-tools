@@ -141,44 +141,6 @@ void Level1State::makeEnemies() const
 			enemyTransform.position.y = 350 + 25 * y;
 		}
 	}
-	/*auto& enemy = enemyFactory.getBoss(10);
-	auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	enemyTransform.position.x = 250 + 50;
-	enemyTransform.position.y = 250;
-*/
-	auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer, getStateID());
-
-	auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
-	auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
-	manufacturerSpawn.type = "orc";
-	manufacturerSpawn.spawnTimer = 1000;
-	manufacturerSpawn.maxCount = 20;
-	manufacturerTransform.position.x = 500;
-	manufacturerTransform.position.y = 300;
-
-	auto& manufacturer2 = enemyFactory.getEnemy(3, "manufacturer");
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer2, getStateID());
-
-	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
-	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
-	manufacturerSpawn2.type = "fireWizard";
-	manufacturerSpawn2.spawnTimer = 250;
-	manufacturerSpawn2.maxCount = 10;
-	manufacturer2Transform.position.x = 800;
-	manufacturer2Transform.position.y = 400;
-
-	auto& manufacturer3 = enemyFactory.getEnemy(3, "manufacturer");
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer3, getStateID());
-
-	auto& manufacturer3Transform = manufacturer3.getComponent<TransformComponent>();
-	auto& manufacturerSpawn3 = manufacturer3.getComponent<SpawnComponent>();
-	manufacturerSpawn3.type = "chicken";
-	manufacturerSpawn3.spawnTimer = 250;
-	manufacturerSpawn3.maxCount = 15;
-	manufacturer3Transform.position.x = 400;
-	manufacturer3Transform.position.y = 400;
-
 }
 
 void Level1State::makeGui()

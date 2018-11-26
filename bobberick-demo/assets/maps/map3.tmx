@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="32" tileheight="32" infinite="0" nextobjectid="26">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="32" tileheight="32" infinite="0" nextobjectid="29">
  <tileset firstgid="1" name="dungeon_landscape" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="dungeon_landscape.png" width="512" height="512"/>
  </tileset>
@@ -2007,6 +2007,14 @@
   <object id="19" name="aabb_rectangle" x="192.459" y="386.227" width="95.5748" height="95.5748"/>
   <object id="24" name="aabb_rectangle" x="890.285" y="-19.6386" width="72.0084" height="699.136"/>
   <object id="25" name="aabb_rectangle" x="-11.7832" y="631.055" width="983.242" height="81.1731"/>
+ </objectgroup>
+ <objectgroup name="spawners">
+  <object id="26" name="firewziard_spawner" x="329.929" y="551.191">
+   <point/>
+  </object>
+  <object id="27" name="firewizard_spawner" x="765.907" y="367.897">
+   <point/>
+  </object>
  </objectgroup>
  <layer name="holes" width="30" height="22">
   <data>

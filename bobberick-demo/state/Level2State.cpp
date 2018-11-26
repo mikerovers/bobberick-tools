@@ -39,7 +39,6 @@ bool Level2State::onEnter()
     ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
 
     auto& level = makeTileMap();
-    makeEnemies();
     makePlayer();
 
     for (const auto& system : systems)
@@ -86,33 +85,6 @@ Entity &Level2State::makeTileMap() const
     }
 
     return level;
-}
-
-void Level2State::makeEnemies() const
-{
-    EnemyFactory enemyFactory = EnemyFactory{};
-
-    auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
-    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer, getStateID());
-
-    auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
-    auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
-    manufacturerSpawn.type = "fireWizard";
-    manufacturerSpawn.spawnTimer = 1000;
-    manufacturerSpawn.maxCount = 20;
-    manufacturerTransform.position.x = 500;
-    manufacturerTransform.position.y = 300;
-
-    auto& manufacturer2 = enemyFactory.getEnemy(3, "manufacturer");
-    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer2, getStateID());
-
-    auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
-    auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
-    manufacturerSpawn2.type = "fireWizard";
-    manufacturerSpawn2.spawnTimer = 100;
-    manufacturerSpawn2.maxCount = 10;
-    manufacturer2Transform.position.x = 200;
-    manufacturer2Transform.position.y = 200;
 }
 
 void Level2State::makePlayer() const

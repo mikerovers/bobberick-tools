@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="27">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextobjectid="29">
  <tileset firstgid="1" name="grassland" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="grassland.png" width="512" height="512"/>
  </tileset>
- <layer id="1" name="grass" width="32" height="32">
+ <layer name="grass" width="32" height="32">
   <data>
    <tile gid="70"/>
    <tile gid="70"/>
@@ -1031,7 +1031,7 @@
    <tile gid="70"/>
   </data>
  </layer>
- <layer id="2" name="ground" width="32" height="32">
+ <layer name="ground" width="32" height="32">
   <data>
    <tile gid="51"/>
    <tile gid="51"/>
@@ -2059,7 +2059,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="3" name="trees" width="32" height="32">
+ <layer name="trees" width="32" height="32">
   <data>
    <tile/>
    <tile/>
@@ -3087,7 +3087,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="4" name="clutter" width="32" height="32">
+ <layer name="clutter" width="32" height="32">
   <data>
    <tile/>
    <tile/>
@@ -4115,12 +4115,20 @@
    <tile/>
   </data>
  </layer>
- <objectgroup id="5" name="health">
+ <objectgroup name="spawners">
+  <object id="27" name="orc_spawner" x="574.054" y="338.943">
+   <point/>
+  </object>
+  <object id="28" name="firewizard_spawner" x="423.678" y="360.425">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup name="health">
   <object id="1" name="healthkit" x="222" y="342">
    <point/>
   </object>
  </objectgroup>
- <layer id="6" name="water" width="32" height="32">
+ <layer name="water" width="32" height="32">
   <data>
    <tile/>
    <tile/>
@@ -5148,10 +5156,10 @@
    <tile/>
   </data>
  </layer>
- <objectgroup id="8" name="water object">
+ <objectgroup name="water object">
   <object id="20" name="water" x="503.333" y="118" width="82" height="83.3333"/>
  </objectgroup>
- <layer id="7" name="hekkie" width="32" height="32">
+ <layer name="hekkie" width="32" height="32">
   <data>
    <tile/>
    <tile/>
@@ -6179,7 +6187,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="9" name="Collision Sprites" width="32" height="32">
+ <layer name="Collision Sprites" width="32" height="32">
   <data>
    <tile/>
    <tile/>
@@ -7207,7 +7215,7 @@
    <tile/>
   </data>
  </layer>
- <objectgroup id="10" name="aabb_rectangle">
+ <objectgroup name="aabb_rectangle">
   <object id="9" name="aabb_rectangle" x="192" y="226" width="29" height="26"/>
   <object id="10" name="aabb_rectangle" x="257.5" y="225" width="29" height="26"/>
   <object id="11" name="aabb_rectangle" x="449.5" y="32" width="29" height="26"/>

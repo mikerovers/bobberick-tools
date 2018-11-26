@@ -39,7 +39,6 @@ bool Level3State::onEnter()
     ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
 
     auto& level = makeTileMap();
-    makeEnemies();
     makePlayer();
 
     for (const auto& system : systems)
@@ -86,34 +85,6 @@ Entity &Level3State::makeTileMap() const
     }
 
     return level;
-}
-
-void Level3State::makeEnemies() const
-{
-    EnemyFactory enemyFactory = EnemyFactory{};
-    for (auto x = 0; x < 3; x++)
-    {
-        for (auto y = 0; y < 3; y++)
-        {
-            auto& enemy = enemyFactory.getRandomEnemy(1, 4);
-            ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());
-
-            auto& enemyTransform = enemy.getComponent<TransformComponent>();
-            enemyTransform.position.x = 50 + 25 * x;
-            enemyTransform.position.y = 350 + 25 * y;
-        }
-    }
-
-    auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
-    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer, getStateID());
-
-    auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
-    auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
-    manufacturerSpawn.type = "orc";
-    manufacturerSpawn.spawnTimer = 30;
-    manufacturerSpawn.maxCount = 50;
-    manufacturerTransform.position.x = 500;
-    manufacturerTransform.position.y = 300;
 }
 
 void Level3State::makePlayer() const

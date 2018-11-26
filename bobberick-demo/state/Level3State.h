@@ -17,7 +17,6 @@ public:
 
 private:
     Entity& makeTileMap() const;
-    void makeEnemies() const;
     void makePlayer() const;
 };
 
