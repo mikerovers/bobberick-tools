@@ -1,6 +1,7 @@
 #include <string>
 #include "MainMenuState.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
@@ -33,6 +34,8 @@ bool MainMenuState::onEnter()
 {
 	createAnimatedBackground();
 
+	ServiceManager::Instance()->getService<SoundManager>().playMusic("menu", -1);
+
 	for (const auto& system : systems)
 	{
 		system->init();
@@ -51,7 +54,7 @@ bool MainMenuState::onEnter()
 bool MainMenuState::onExit()
 {
 	std::cout << "Exited MainMenuState" << std::endl;
-
+	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
 	return true;
 }
 

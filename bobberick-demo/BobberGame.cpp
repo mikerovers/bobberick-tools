@@ -2,11 +2,13 @@
 #include "state/PlayState.h"
 #include "../bobberick-framework/src/services/RenderService.h"
 #include "../bobberick-framework/src/services/TextureManager.h"
+#include "../bobberick-framework/src/services/SoundManager.h"
 
 bool BobberGame::setup()
 {
 	if (Game::setup()) {
 		preloadTextures();
+		preloadMusicAndSounds();
 
 		stateFactory = std::make_shared<StateFactory>();
 
@@ -25,6 +27,11 @@ bool BobberGame::setup()
 void BobberGame::start()
 {
     Game::start();
+}
+
+void BobberGame::preloadMusicAndSounds() {
+	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/menu.wav", "menu",
+		SOUND_MUSIC);
 }
 
 void BobberGame::preloadTextures()
