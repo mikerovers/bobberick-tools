@@ -22,7 +22,7 @@ public:
 	{
 		if (s_pInstance == 0)
 		{
-			s_pInstance = new SoundManager();
+			s_pInstance = new SoundManager(512);
 			return  s_pInstance;
 		}
 		return  s_pInstance;
@@ -34,13 +34,24 @@ public:
 	void playMusic(const std::string& id, int loop);
 
 	void stopMusic();
+	
+	void pauseMusic();
+	void resumeMusic();
+
+	void stopAllSounds();
 	void stopSound(int const channel);
+
+	void pauseSound(int const channel);
+	void resumeSound(int const channel);
+
+	void pauseAllChannels();
+	void resumeAllChannels();
 
 	bool isSoundPlaying(int const channel) const;
 
 	void clean() override;
 
-	SoundManager();
+	SoundManager(int const channelCount) : channelCount(channelCount) {};
 	~SoundManager();
 
 private:
@@ -48,6 +59,7 @@ private:
 
 	std::map<std::string, Mix_Chunk*> m_sfxs;
 	std::map<std::string, Mix_Music*> m_music;
+	int const channelCount;
 
 	SoundManager(const SoundManager&);
 	SoundManager &operator=(const SoundManager&);
