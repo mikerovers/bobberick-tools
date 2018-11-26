@@ -99,7 +99,7 @@ void MainMenuState::makeStartGameButton()
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
 	auto* playGameButtonTransformComponent = new TransformComponent();
-	playGameButtonTransformComponent->position.x = 260;
+	playGameButtonTransformComponent->position.x = 420;
 	playGameButtonTransformComponent->position.y = 60;
 	playGameButtonTransformComponent->height = 64;
 	playGameButtonTransformComponent->width = 128;
@@ -122,7 +122,7 @@ void MainMenuState::makeOptionsButton()
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
 	auto* optionsButtonTransformComponent = new TransformComponent();
-	optionsButtonTransformComponent->position.x = 260;
+	optionsButtonTransformComponent->position.x = 420;
 	optionsButtonTransformComponent->position.y = 140;
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
@@ -145,7 +145,7 @@ void MainMenuState::makeExitButton()
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	auto* exitButtonTransformComponent = new TransformComponent();
 
-	exitButtonTransformComponent->position.x = 260;
+	exitButtonTransformComponent->position.x = 420;
 	exitButtonTransformComponent->position.y = 300;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
@@ -168,7 +168,7 @@ void MainMenuState::makeHelpButton()
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
 	auto* helpButtonTransformComponent = new TransformComponent();
-	helpButtonTransformComponent->position.x = 260;
+	helpButtonTransformComponent->position.x = 420;
 	helpButtonTransformComponent->position.y = 220;
 	helpButtonTransformComponent->height = 64;
 	helpButtonTransformComponent->width = 128;
