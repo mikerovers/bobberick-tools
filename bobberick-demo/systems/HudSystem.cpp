@@ -37,7 +37,7 @@ void HudSystem::update()
 		auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
 
 		playerStats.update();
-		const auto healthWidth = static_cast<double>(playerStats.stats->getHP()) / static_cast<double>(playerStats.stats->getHPmax()) * barWidth;
+		const auto healthWidth = static_cast<double>(playerStats.getHP()) / static_cast<double>(playerStats.getHPmax()) * barWidth;
 		const auto shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
 		if (playerStats.shieldActive())
 		{
@@ -97,8 +97,8 @@ void HudSystem::update()
 
 		TextFormatter textFormatter = TextFormatter{};
 		healthText.getComponent<TextComponent>().setText(
-			textFormatter.addSpaces(std::to_string(playerStats.stats->getHP()), 6, true) + " / " + TextFormatter{}.addSpaces(
-				std::to_string(playerStats.stats->getHPmax()), 6, false));
+			textFormatter.addSpaces(std::to_string(playerStats.getHP()), 6, true) + " / " + TextFormatter{}.addSpaces(
+				std::to_string(playerStats.getHPmax()), 6, false));
 		coinText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.gold), 6, false));
 		xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.xp), 6, false));
 		fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(fps, 6, false));

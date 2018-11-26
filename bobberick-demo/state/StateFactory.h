@@ -11,6 +11,7 @@
 #include "EndScreenState.h"
 #include "Level2State.h"
 #include "Level3State.h"
+#include "PauseScreenState.h"
 
 class StateFactory {
 
@@ -26,6 +27,7 @@ private:
 	CreditScreenState* createCreditScreenState() const;
 	HelpScreenState* createHelpScreenState() const;
     EndScreenState* createEndScreenState() const;
+    PauseScreenState* createPauseScreenState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H

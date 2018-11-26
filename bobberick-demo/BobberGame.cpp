@@ -2,11 +2,13 @@
 #include "state/Level1State.h"
 #include "../bobberick-framework/src/services/RenderService.h"
 #include "../bobberick-framework/src/services/TextureManager.h"
+#include "../bobberick-framework/src/services/SoundManager.h"
 
 bool BobberGame::setup()
 {
 	if (Game::setup()) {
 		preloadTextures();
+		preloadMusicAndSounds();
 
 		stateFactory = std::make_shared<StateFactory>();
 
@@ -27,6 +29,11 @@ void BobberGame::start()
     Game::start();
 }
 
+void BobberGame::preloadMusicAndSounds() {
+	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/menu.wav", "menu",
+		SOUND_MUSIC);
+}
+
 void BobberGame::preloadTextures()
 {
 	SDL_RendererPointer renderer = ServiceManager::Instance()->getService<RenderService>().getRenderer();
@@ -41,6 +48,9 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/button/helpbutton.png", "helpButton", renderer);
 	t.load("assets/image/button/optionsbutton.png", "optionsButton", renderer);
 	t.load("assets/image/button/startgamebutton.png", "startGameButton", renderer);
+	t.load("assets/image/button/resumebutton.png", "resumeGameButton", renderer);
+	t.load("assets/image/button/loadbutton.png", "loadGameButton", renderer);
+	t.load("assets/image/button/savebutton.png", "saveGameButton", renderer);
 
 	// character
 	t.load("assets/image/character/character.png", "character", renderer);
@@ -72,4 +82,11 @@ void BobberGame::preloadTextures()
 	// projectiles
 	t.load("assets/image/projectiles/bolt.png", "bolt", renderer);
 	t.load("assets/image/projectiles/bullet_ball_grey.png", "bullet", renderer);
+
+	// advertisements
+	t.load("assets/image/advertisements/zombie.jpg", "ad1", renderer);
+	t.load("assets/image/advertisements/ketchup.jpg", "ad2", renderer);
+	t.load("assets/image/advertisements/knight.jpg", "ad3", renderer);
+	t.load("assets/image/advertisements/avans.jpg", "ad4", renderer);
+	t.load("assets/image/advertisements/dark_souls.jpg", "ad5", renderer);
 }
