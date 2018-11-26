@@ -8,6 +8,7 @@
 #include "../../bobberick-framework/src/entity/systems/CollisionSystem.h"
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
+#include "../systems/AdvertisementSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
 #include "../state/CreditScreenState.h"
@@ -19,8 +20,12 @@ GameState* StateFactory::createState(const std::string& type)
 	if (type == "SplashScreenState")
 	{
 		return createSplashScreenState();
-	} else if (type == "MainMenuState") {
+	} 
+	else if (type == "MainMenuState") {
 		return createMainMenuState();
+	}
+	else if (type == "PauseScreenState") {
+		return createPauseScreenState();
 	}
 	else if (type == "Level1State")
 	{
@@ -87,8 +92,10 @@ MainMenuState* StateFactory::createMainMenuState()
 	    std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
     mainMenuState->addSystem(std::make_shared<CollisionSystem>(
 	    ServiceManager::Instance()->getService<EntityManager>()));
-    mainMenuState->addSystem(
-	    std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	mainMenuState->addSystem(
+		std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	    mainMenuState->addSystem(
+	    std::make_shared<AdvertisementSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
     return mainMenuState;
 }
@@ -135,6 +142,22 @@ EndScreenState *StateFactory::createEndScreenState() const
 			std::shared_ptr<AISystem>(new AISystem(ServiceManager::Instance()->getService<EntityManager>())));
 
 	return endScreenState;
+}
+
+PauseScreenState *StateFactory::createPauseScreenState() const
+{
+	auto* pauseScreenState = new PauseScreenState();
+
+	pauseScreenState->addSystem(
+		std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	pauseScreenState->addSystem(
+		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return pauseScreenState;
 }
 
 Level2State *StateFactory::createLevel2State() const
