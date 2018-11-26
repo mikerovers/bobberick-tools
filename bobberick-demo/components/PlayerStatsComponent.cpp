@@ -1,6 +1,9 @@
 #include "PlayerStatsComponent.h"
 #include "StatsComponent.h"
 #include "WeaponComponent.h"
+#include "../../bobberick-framework/src/StateMachine.h"
+#include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../state/StateFactory.h"
 
 PlayerStatsComponent::PlayerStatsComponent(StatsComponent* stats, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp) {
 	PlayerStatsComponent::shdTime = shdTime;
@@ -28,6 +31,9 @@ void PlayerStatsComponent::update() {
 	} else {
 		shdActive = false;
 		shdTime = 0;
+		// Go to the Game Over screen when health reaches 0.
+		StateFactory sFactory{};
+		ServiceManager::Instance()->getService<StateMachine>().changeState(sFactory.createState("GameOverState"));
 	}
 }
 
