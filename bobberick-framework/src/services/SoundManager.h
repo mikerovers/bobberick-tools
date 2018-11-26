@@ -22,7 +22,8 @@ public:
 	{
 		if (s_pInstance == 0)
 		{
-			s_pInstance = new SoundManager(512);
+			s_pInstance = new SoundManager();
+			s_pInstance->channelCount = 512;
 			return  s_pInstance;
 		}
 		return  s_pInstance;
@@ -51,7 +52,7 @@ public:
 
 	void clean() override;
 
-	SoundManager(int const channelCount) : channelCount(channelCount) {};
+	SoundManager();
 	~SoundManager();
 
 private:
@@ -59,7 +60,7 @@ private:
 
 	std::map<std::string, Mix_Chunk*> m_sfxs;
 	std::map<std::string, Mix_Music*> m_music;
-	int const channelCount;
+	int channelCount;
 
 	SoundManager(const SoundManager&);
 	SoundManager &operator=(const SoundManager&);
