@@ -46,7 +46,7 @@ int SkillsComponent::getAtCost() const {
 }
 int SkillsComponent::getDfCost() const {
 	if (getDfValue(true) != -1) {
-		return pow(getDfValue(true) * 60, 1.8);
+		return pow(getDfValue(true) * 60, 1.7);
 	}
 	else {
 		return -1;
@@ -54,7 +54,7 @@ int SkillsComponent::getDfCost() const {
 }
 int SkillsComponent::getShdTimeCost() const {
 	if (getShdTimeValue(true) != -1) {
-		return pow(getShdTimeValue(true) / 80, 5);
+		return pow((getShdTimeLevel()+1) * 90, 1.6);
 	}
 	else {
 		return -1;
@@ -62,7 +62,7 @@ int SkillsComponent::getShdTimeCost() const {
 }
 int SkillsComponent::getShdRecovCost() const {
 	if (getShdRecovValue(true) != -1) {
-		return getHpValue(true) * 10;
+		return pow(getShdRecovValue(true) * 1000, 1.5);
 	}
 	else {
 		return -1;
