@@ -7,6 +7,7 @@
 #include "../../bobberick-framework/src/entity/systems/GuiSystem.h"
 #include "../../bobberick-framework/src/entity/systems/CollisionSystem.h"
 #include "../systems/PlayerInputSystem.h"
+#include "../systems/AdvertisementSystem.h"
 #include "../systems/BulletSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
@@ -89,6 +90,8 @@ MainMenuState* StateFactory::createMainMenuState()
 	    ServiceManager::Instance()->getService<EntityManager>()));
     mainMenuState->addSystem(
 	    std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	mainMenuState->addSystem(
+	    std::make_shared<AdvertisementSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
     return mainMenuState;
 }

@@ -22,6 +22,7 @@ components/StatsComponent.cpp components/StatsComponent.h
 components/AIComponent.cpp components/AIComponent.h
 components/HealthBarComponent.cpp components/HealthBarComponent.h
 components/ItemComponent.h
+components/AdvertisementComponent.cpp components/AdvertisementComponent.h
 components/WeaponComponent.cpp components/WeaponComponent.h
 components/InventoryComponent.cpp components/InventoryComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
@@ -30,6 +31,7 @@ systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
 systems/AISystem.cpp systems/AISystem.h 
+systems/AdvertisementSystem.cpp systems/AdvertisementSystem.h 
 state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h

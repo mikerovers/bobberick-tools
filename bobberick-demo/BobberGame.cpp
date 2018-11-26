@@ -75,4 +75,11 @@ void BobberGame::preloadTextures()
 	// projectiles
 	t.load("assets/image/projectiles/bolt.png", "bolt", renderer);
 	t.load("assets/image/projectiles/bullet_ball_grey.png", "bullet", renderer);
+
+	// advertisements
+	t.load("assets/image/advertisements/zombie.jpg", "ad1", renderer);
+	t.load("assets/image/advertisements/ketchup.jpg", "ad2", renderer);
+	t.load("assets/image/advertisements/knight.jpg", "ad3", renderer);
+	t.load("assets/image/advertisements/avans.jpg", "ad4", renderer);
+	t.load("assets/image/advertisements/dark_souls.jpg", "ad5", renderer);
 }

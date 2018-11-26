@@ -21,6 +21,7 @@ private:
 
 	void makeStartGameButton();
 	void makeOptionsButton();
+	void makeAdvertisements();
 	void makeExitButton();
 	void makeHelpButton();
 };
