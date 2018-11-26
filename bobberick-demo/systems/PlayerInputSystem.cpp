@@ -61,9 +61,10 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	     z = inputHandler.isKeyDown(SDL_SCANCODE_X),
 	     x = inputHandler.isKeyDown(SDL_SCANCODE_Z),
 	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
-		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
+		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE),
+		 returnBtn = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2);
 
-	if (left || right || up || down || z || x || c || esc)
+	if (left || right || up || down || z || x || c || esc || returnBtn)
 	{
 		const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
 		const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
@@ -136,6 +137,28 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 			std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
 			ServiceManager::Instance()->getService<StateMachine>().popState();
 			ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("EndScreen"));
+			// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
+			// {
+			// 	std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
+			// 	ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("PauseScreenState"));
+			// }
+			// else
+			// {
+			// 	ServiceManager::Instance()->getService<StateMachine>().popState();
+			// }
+		}
+
+		if (returnBtn)
+		{
+			// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
+			// {
+				std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
+				ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("PauseScreenState"));
+			// }
+			// else
+			// {
+			// 	ServiceManager::Instance()->getService<StateMachine>().popState();
+			// }
 		}
 	}
 	else
