@@ -49,8 +49,6 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		manufacturerSpawn.maxCount = 10;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
-		manufacturerTransform.width = 48;
-		manufacturerTransform.height = 48;
 
 		return manufacturer;
 	}
@@ -65,8 +63,6 @@ Entity& ObjectFactory::getObject(const TileObject* object)
         manufacturerSpawn.maxCount = 10;
         manufacturerTransform.position.x = object->position->x;
         manufacturerTransform.position.y = object->position->y;
-        manufacturerTransform.width = 48;
-        manufacturerTransform.height = 48;
 
         return manufacturer;
     }
@@ -81,8 +77,6 @@ Entity& ObjectFactory::getObject(const TileObject* object)
         manufacturerSpawn.maxCount = 20;
         manufacturerTransform.position.x = object->position->x;
         manufacturerTransform.position.y = object->position->y;
-        manufacturerTransform.width = 48;
-        manufacturerTransform.height = 48;
 
         return manufacturer;
     }

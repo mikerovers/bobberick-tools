@@ -48,9 +48,6 @@ bool Level1State::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
 		SOUND_SFX);
 
-	// auto& box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	// box.addComponent<CollisionComponent>("fire", 140, 175, 40);
-
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1",
 		SOUND_MUSIC);
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);

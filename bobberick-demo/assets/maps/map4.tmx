@@ -1347,10 +1347,7 @@
   </object>
  </objectgroup>
  <objectgroup name="spawners">
-  <object id="14" name="orc_spawner" x="636.412" y="375.761">
-   <point/>
-  </object>
-  <object id="15" name="orc_spawner" x="376.719" y="334.92">
+  <object id="14" name="orc_spawner" x="610.265" y="282.938">
    <point/>
   </object>
  </objectgroup>
