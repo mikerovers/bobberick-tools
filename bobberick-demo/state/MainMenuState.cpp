@@ -7,11 +7,14 @@
 #include <iostream>
 #include "../factory/enemies/EnemyFactory.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
+#include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../factory/ObjectFactory.h"
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "StateFactory.h"
 #include "../components/SpawnMinionsSpellComponent.h"
+#include "../components/AdvertisementComponent.h"
 
 std::string MainMenuState::getStateID() const
 {
@@ -41,7 +44,7 @@ bool MainMenuState::onEnter()
 	makeOptionsButton();
 	makeExitButton();
 	makeHelpButton();
-
+	makeAdvertisements();
 	return true;
 }
 
@@ -131,6 +134,25 @@ void MainMenuState::makeOptionsButton()
 	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	optionsButton.addComponent<CollisionComponent>("button");
 	entityManager.addEntityToGroup(optionsButton, getStateID());
+}
+
+void MainMenuState::makeAdvertisements()
+{
+	auto& advertisement1 = entityManager.addEntity();
+	advertisement1.addComponent<TransformComponent>(20, 450, 224, 300, 1);
+	advertisement1.addComponent<SpriteComponent>("ad1");
+	advertisement1.addComponent<AdvertisementComponent>(1, 5);
+	advertisement1.addComponent<TimerComponent>();
+	advertisement1.addComponent<CollisionComponent>("advertisement");
+	entityManager.addEntityToGroup(advertisement1, getStateID());
+
+	auto& advertisement2 = entityManager.addEntity();
+	advertisement2.addComponent<TransformComponent>(640, 450, 224, 300, 1);
+	advertisement2.addComponent<SpriteComponent>("ad3");
+	advertisement2.addComponent<AdvertisementComponent>(3, 5);
+	advertisement2.addComponent<TimerComponent>();
+	advertisement2.addComponent<CollisionComponent>("advertisement");
+	entityManager.addEntityToGroup(advertisement2, getStateID());
 }
 
 void MainMenuState::makeExitButton()
