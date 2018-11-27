@@ -48,9 +48,14 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "HelpScreen")
 	{
 		return createHelpScreenState();
-	} else if (type == "EndScreen")
+	}
+	else if (type == "EndScreen")
 	{
 		return createEndScreenState();
+	}
+	else if (type == "OptionsScreen")
+	{
+		return createOptionsScreenState();
 	}
 
 	return nullptr;
@@ -90,11 +95,25 @@ CreditScreenState* StateFactory::createCreditScreenState() const
 {
 	auto creditScreen = new CreditScreenState();
 	creditScreen->addSystem(
-			std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	creditScreen->addSystem(
 		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return creditScreen;
+}
+
+
+OptionsScreenState* StateFactory::createOptionsScreenState() const
+{
+	auto optionsScreen = new OptionsScreenState();
+	optionsScreen->addSystem(
+		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	optionsScreen->addSystem(
+		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	optionsScreen->addSystem(
+		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return optionsScreen;
 }
 
 HelpScreenState *StateFactory::createHelpScreenState() const

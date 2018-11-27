@@ -2,6 +2,7 @@
 #include "MainMenuState.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
+#include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
@@ -35,7 +36,9 @@ bool MainMenuState::onEnter()
 	createAnimatedBackground();
 
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("menu", -1);
-
+	if (!ServiceManager::Instance()->getService<SettingsService>().music) {
+		ServiceManager::Instance()->getService<SoundManager>().pauseMusic();
+	}
 	for (const auto& system : systems)
 	{
 		system->init();
