@@ -1,6 +1,6 @@
 #ifndef BOBBERICK_TOOLS_PLAYERSTATSSERVICE_H
 #define BOBBERICK_TOOLS_PLAYERSTATSSERVICE_H
-#include "../../bobberick-framework/src/services/Service.h";
+#include "../../bobberick-framework/src/services/Service.h"
 #include "../../bobberick-framework/src/util/RandomGenerator.h"
 #include "../components/WeaponComponent.h"
 
@@ -27,17 +27,23 @@ public:
 	int getATmin() const;
 	int getATmax() const;
 	int getDF() const;
-	int getSHD() const;
-	int getSHDmax() const;
+	double getSHD() const;
+	double getSHDmax() const;
 	double getSHDrecov() const;
 	bool getSHDactive() const;
+
+	// Cheats
+	void changeHPmax(const int amount);
+	void changeATmin(const int amount);
+	void changeATmax(const int amount);
+	void setSHD(const int amount);
 
 	// Getters for metagame stats
 	int getXPtotal() const;
 
 	// Public in-game stats
-	WeaponComponent normalWeapon;
-	WeaponComponent magicWeapon;
+	WeaponComponent normalWeapon = WeaponComponent("potion", "Training Bow of Nothing", false, 0, 60, "bullet");
+	WeaponComponent magicWeapon = WeaponComponent("potion", "Training Staff of Nothing", false, 5, 120, "bolt");
 	int gold;
 	int xp; // Earned in the current game.
 private:
@@ -47,8 +53,8 @@ private:
 	int atMin; // minimum attack
 	int atMax; // maximum attack
 	int df; // natural defense (in offensive mode)
-	int shdTime; // The amount of ticks the shield can still be active.
-	int shdTimeMax; // The amount of ticks the shield can be active at most.
+	double shdTime; // The amount of ticks the shield can still be active.
+	double shdTimeMax; // The amount of ticks the shield can be active at most.
 	double shdRecov; // The amount of shdTime recovered every tick (when shield is inactive).
 	bool shdActive;
 	int fireCooldown; // The amount of ticks to wait before a weapon can be fired again.

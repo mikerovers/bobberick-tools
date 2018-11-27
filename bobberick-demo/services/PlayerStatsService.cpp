@@ -10,7 +10,7 @@ void PlayerStatsService::init() {
 	alive = true;
 
 	// TODO calculate all of this based on skills
-	hp = hpMax = 1000;
+	hp = hpMax = 100;
 	atMin = 5;
 	atMax = 10;
 	df = 0;
@@ -45,7 +45,7 @@ void PlayerStatsService::update() {
 	}
 	if (hp > 0) { // Shield recovery freezes when the player is dead.
 		if (shdActive) {
-			shdTime -= 1;
+ 			shdTime -= 1;
 			if (shdTime <= 0) {
 				shdActive = false;
 			}
@@ -130,10 +130,10 @@ int PlayerStatsService::getATmax() const {
 int PlayerStatsService::getDF() const {
 	return df;
 }
-int PlayerStatsService::getSHD() const {
+double PlayerStatsService::getSHD() const {
 	return shdTime;
 }
-int PlayerStatsService::getSHDmax() const {
+double PlayerStatsService::getSHDmax() const {
 	return shdTimeMax;
 }
 double PlayerStatsService::getSHDrecov() const {
@@ -144,4 +144,41 @@ bool PlayerStatsService::getSHDactive() const {
 }
 int PlayerStatsService::getXPtotal() const {
 	return xpTotal;
+}
+
+void PlayerStatsService::changeHPmax(const int amount) {
+	hpMax += amount;
+	if (hpMax < 1) {
+		hpMax = 1;
+	}
+	if (hpMax > 999999) {
+		hpMax = 999999;
+	}
+	if (hp > hpMax) {
+		hp = hpMax;
+	}
+}
+
+void PlayerStatsService::changeATmin(const int amount) {
+	atMin += amount;
+	if (atMin < 0) {
+		atMin = 0;
+	}
+	if (atMin > atMax) {
+		atMin = atMax;
+	}
+}
+
+void PlayerStatsService::changeATmax(const int amount) {
+	atMax += amount;
+	if (atMax < 1) {
+		atMax = 1;
+	}
+	if (atMin > atMax) {
+		atMin = atMax;
+	}
+}
+
+void PlayerStatsService::setSHD(const int amount) {
+	shdTime = amount;
 }

@@ -2,7 +2,6 @@
 #define BOBBERICK_TOOLS_ITEMCOMPONENT_H
 
 #include "../../bobberick-framework/src/entity/Component.h"
-#include "PlayerStatsComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include <string>
 
@@ -14,7 +13,7 @@ public:
 		ItemComponent::texture = texture;
 		ItemComponent::name = name;
 	}
-	virtual void use(PlayerStatsComponent* playerStats) { }; // Impart an effect (or equip self) to this PlayerStatsComponent.
+	virtual void use() { }; // Impart an effect to the player stats.
 };
 
 #endif //BOBBERICK_TOOLS_ITEMCOMPONENT_H

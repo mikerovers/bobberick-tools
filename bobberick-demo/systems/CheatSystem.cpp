@@ -1,7 +1,8 @@
 #include "CheatSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
-#include "../components/PlayerStatsComponent.h"
+#include "../components/PlayerComponent.h"
+#include "../services/PlayerStatsService.h"
 
 CheatSystem::CheatSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -9,7 +10,7 @@ CheatSystem::CheatSystem(EntityManager& entityManager) : System(entityManager)
 
 void CheatSystem::update()
 {
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>())
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerComponent>())
 	{
 		handleKeyInput(entity);
 	}
@@ -18,7 +19,7 @@ void CheatSystem::update()
 void CheatSystem::handleKeyInput(Entity* entity)
 {
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
-	auto& playerStats = entity->getComponent<PlayerStatsComponent>();
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 
 	if (inputHandler.isKeyDown(SDL_SCANCODE_GRAVE))
 	{
@@ -28,10 +29,10 @@ void CheatSystem::handleKeyInput(Entity* entity)
 			playerStats.xp = 999999;
 		} else if (inputHandler.isKeyDown(SDL_SCANCODE_H)) { // Get max health
 			playerStats.changeHPmax(999999);
-			playerStats.healPercent(100);
+			playerStats.heal(999999);
 		} else if (inputHandler.isKeyDown(SDL_SCANCODE_M)) { // Get a 10 second shield (M for mode)
-			playerStats.shdTime = 600;
-			if (!playerStats.shieldActive()) {
+			playerStats.setSHD(600);
+			if (!playerStats.getSHDactive()) {
 				playerStats.toggleShield();
 			}
 		} else if (inputHandler.isKeyDown(SDL_SCANCODE_P)) { // Add 1000 attack power
