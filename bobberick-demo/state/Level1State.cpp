@@ -23,7 +23,7 @@
 
 std::string Level1State::getStateID() const
 {
-	return "playing";
+	return "level_one";
 }
 
 void Level1State::update()

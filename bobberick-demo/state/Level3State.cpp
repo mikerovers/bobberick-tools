@@ -63,7 +63,7 @@ bool Level3State::shouldExit()
 
 std::string Level3State::getStateID() const
 {
-    return "level_two";
+    return "level_three";
 }
 
 Entity &Level3State::makeTileMap() const
@@ -86,7 +86,7 @@ Entity &Level3State::makeTileMap() const
         ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
 		if (objEntity.hasComponent<SpawnComponent>()) {
 			auto& spawnComponent = objEntity.getComponent<SpawnComponent>();
-			spawnComponent.maxCount *= 10;
+			spawnComponent.maxCount *= 6;
 		}
     }
 
