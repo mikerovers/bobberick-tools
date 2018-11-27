@@ -74,8 +74,6 @@ MainMenuState* StateFactory::createMainMenuState()
     mainMenuState->addSystem(
 		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	mainMenuState->addSystem(
-		std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	mainMenuState->addSystem(
 	    std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
     mainMenuState->addSystem(
 	    std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
