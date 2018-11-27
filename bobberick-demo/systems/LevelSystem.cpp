@@ -18,17 +18,20 @@ LevelSystem::LevelSystem(EntityManager &entityManager) : System(entityManager)
 void LevelSystem::handleLevelFinished() const {
 	StateFactory factory{};
 	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID();
-	std::string newStateId;
+	std::string newStateId = "";
 	if (stateId == "level_one") {
 		newStateId = "Level2State";
 	}
 	else if (stateId == "level_two") {
 		newStateId = "Level3State";
 	}
-	else {
+	else if (stateId == "level_three") {
 		newStateId = "EndScreen";
 	}
-	ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState(newStateId));
+	if (newStateId != "") {
+		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState(newStateId));
+
+	}
 }
 
 bool LevelSystem::checkIfLevelFinished() const {
