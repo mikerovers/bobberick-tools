@@ -31,10 +31,25 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
 
 void HudSystem::update()
 {
+	fpsMiddlerCount++;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>())
 	{
+		//auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
+		auto fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
+		fpsMiddlerVector.push_back(fps);
 		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
-		auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
+		if (fpsMiddlerCount == fpsMiddlerDivideBy) {
+
+			int fpsCount = 0;
+			for (auto &countedFps : fpsMiddlerVector)
+			{
+				fpsCount += countedFps;
+			}
+
+			fpsMiddlerResult = fpsCount / fpsMiddlerDivideBy;
+			fpsMiddlerCount = 0;
+			fpsMiddlerVector.clear();
+		}
 
 		playerStats.update();
 		const auto healthWidth = static_cast<double>(playerStats.getHP()) / static_cast<double>(playerStats.getHPmax()) * barWidth;
@@ -101,7 +116,7 @@ void HudSystem::update()
 				std::to_string(playerStats.getHPmax()), 6, false));
 		coinText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.gold), 6, false));
 		xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.xp), 6, false));
-		fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(fps, 6, false));
+		fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(fpsMiddlerResult), 6, false));
 	}
 }
 
