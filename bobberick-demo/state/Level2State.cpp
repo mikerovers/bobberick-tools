@@ -85,7 +85,7 @@ Entity &Level2State::makeTileMap() const
         ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
 		if (objEntity.hasComponent<SpawnComponent>()) {
 			auto& spawnComponent = objEntity.getComponent<SpawnComponent>();
-			spawnComponent.maxCount *= 5;
+			spawnComponent.maxCount *= 3;
 		}
     }
 
