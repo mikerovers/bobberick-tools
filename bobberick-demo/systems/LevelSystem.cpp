@@ -2,6 +2,7 @@
 #include "../../bobberick-demo/components/AdvertisementComponent.h"
 #include "../../bobberick-demo/components/ShootComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
+#include "../../bobberick-demo/components/PlayerStatsComponent.h"
 #include "../../bobberick-demo/components/SpawnComponent.h"
 #include "../../bobberick-demo/state/StateFactory.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
@@ -43,4 +44,24 @@ void LevelSystem::update()
 	if (checkIfLevelFinished()) {
 		handleLevelFinished();
 	}
+	else if (checkIfPlayerDied()) {
+		handlePlayerDied();
+	}
+}
+
+bool LevelSystem::checkIfPlayerDied() const {
+
+	bool died = false;
+	for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
+		auto& playerStats = player->getComponent<PlayerStatsComponent>();
+		if (playerStats.getHP() <= 0) {
+			died = true;
+		}
+	}
+	return died;
+}
+
+void LevelSystem::handlePlayerDied() const {
+	StateFactory factory{};
+	ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState("MainMenuState"));
 }

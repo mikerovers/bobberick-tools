@@ -12,6 +12,9 @@ public:
 private:
 	bool checkIfLevelFinished() const;
 	void handleLevelFinished() const;
+
+	bool checkIfPlayerDied() const;
+	void handlePlayerDied() const;
 };
 
 
