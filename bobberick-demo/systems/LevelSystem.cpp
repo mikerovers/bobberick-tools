@@ -2,9 +2,10 @@
 #include "../../bobberick-demo/components/AdvertisementComponent.h"
 #include "../../bobberick-demo/components/ShootComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
-#include "../../bobberick-demo/components/PlayerStatsComponent.h"
+#include "../../bobberick-demo/components/PlayerComponent.h"
 #include "../../bobberick-demo/components/SpawnComponent.h"
 #include "../../bobberick-demo/state/StateFactory.h"
+#include "../../bobberick-demo/services/PlayerStatsService.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -55,11 +56,9 @@ void LevelSystem::update()
 bool LevelSystem::checkIfPlayerDied() const {
 
 	bool died = false;
-	for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>()) {
-		auto& playerStats = player->getComponent<PlayerStatsComponent>();
-		if (playerStats.getHP() <= 0) {
-			died = true;
-		}
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	if (playerStats.getHP() <= 0) {
+		died = true;
 	}
 	return died;
 }
