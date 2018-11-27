@@ -40,14 +40,14 @@ set(
 	src/entity/components/TransformComponent.cpp src/entity/components/TransformComponent.h
 	src/services/RenderService.cpp src/services/RenderService.h
 	src/services/SettingsService.cpp src/services/SettingsService.h
-	src/entity/systems/System.cpp	 src/entity/systems/System.h
+	src/entity/systems/System.cpp src/entity/systems/System.h
 	src/entity/systems/DrawSystem.cpp src/entity/systems/DrawSystem.h
 	src/services/SoundManager.cpp src/services/SoundManager.h
 	src/util/SDL_Deleter.h
-        src/services/FrameHandler.cpp src/services/FrameHandler.h
+    src/services/FrameHandler.cpp src/services/FrameHandler.h
 	src/services/InputHandler.cpp src/services/InputHandler.h
 	src/entity/systems/InputSystem.cpp src/entity/systems/InputSystem.h
-  src/entity/components/ButtonSpriteComponent.cpp src/entity/components/ButtonSpriteComponent.h
+	src/entity/components/ButtonSpriteComponent.cpp src/entity/components/ButtonSpriteComponent.h
 	src/EmptyState.cpp src/EmptyState.h 
 	src/LevelFactory.cpp src/LevelFactory.h 
 	src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h 

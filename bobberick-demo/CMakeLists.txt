@@ -38,6 +38,7 @@ state/SplashScreenState.cpp state/SplashScreenState.h
 state/CreditScreenState.cpp state/CreditScreenState.h
 factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/WeaponFactory.cpp factory/WeaponFactory.h
+services/PlayerStatsService.cpp services/PlayerStatsService.h
 factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
 factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
