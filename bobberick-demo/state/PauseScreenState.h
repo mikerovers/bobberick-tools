@@ -1,9 +1,9 @@
-#ifndef BOBBERICK_TOOLS_MAINMENUSTATE_H
-#define BOBBERICK_TOOLS_MAINMENUSTATE_H
+#ifndef BOBBERICK_TOOLS_PAUSESCREENTATE_H
+#define BOBBERICK_TOOLS_PAUSESCREENTATE_H
 #include "../../bobberick-framework/src/GameState.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 
-class MainMenuState : public GameState
+class PauseScreenState : public GameState
 {
 public:
 	bool onEnter() override;
@@ -11,19 +11,17 @@ public:
 	void update() override;
 	std::string getStateID() const override;
 	bool shouldExit() override;
+	void createSaveButton() const;
+	void createLoadButton() const;
 
 private:
 	bool readyForExit = false;
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
-	std::vector<Entity*> entities;
-
-	void createAnimatedBackground();
-
-	void makeStartGameButton();
-	void makeOptionsButton();
-	void makeAdvertisements();
-	void makeExitButton();
-	void makeHelpButton();
+	
+	void createPauseText() const;
+	void createResumeButton() const;
+	void createHelpButton() const;
+	void createExitButton();
 };
 
-#endif // BOBBERICK_TOOLS_MAINMENUSTATE_H
+#endif //BOBBERICK_TOOLS_PAUSESCREENTATE_H

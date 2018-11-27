@@ -36,7 +36,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		else if (colliderA.entity->hasComponent<PlayerStatsComponent>())
 		{
 			auto& stats = colliderA.entity->getComponent<PlayerStatsComponent>();
-			stats.getHit(-100, true);
+			stats.heal(100);
 		}
 	}
 

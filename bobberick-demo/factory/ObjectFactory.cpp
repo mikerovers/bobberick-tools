@@ -25,7 +25,6 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		entity.addComponent<CollisionComponent>(object->name, object->position->x, object->position->y,
 		                                        object->aabb.height, object->aabb.width);
 
-
 		return entity;
 	}	
 	
@@ -37,11 +36,55 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		entity.addComponent<CollisionComponent>(object->name, object->position->x, object->position->y,
 		                                        object->aabb.height, object->aabb.width);
 
-
 		return entity;
 	}
 
+	if (object->name == "orc_spawner")
+	{
+		auto& manufacturer = enemyFactory->getEnemy(3, "manufacturer");
+		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
+		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
+		manufacturerSpawn.type = "orc";
+		manufacturerSpawn.spawnTimer = 100;
+		manufacturerSpawn.maxCount = 10;
+		manufacturerTransform.position.x = object->position->x;
+		manufacturerTransform.position.y = object->position->y;
 
+		return manufacturer;
+	}
+
+    if (object->name == "firewizard_spawner")
+    {
+        auto& manufacturer = enemyFactory->getEnemy(3, "manufacturer");
+        auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
+        auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
+        manufacturerSpawn.type = "fireWizard";
+        manufacturerSpawn.spawnTimer = 200;
+        manufacturerSpawn.maxCount = 10;
+        manufacturerTransform.position.x = object->position->x;
+        manufacturerTransform.position.y = object->position->y;
+
+        return manufacturer;
+    }
+
+    if (object->name == "chicken_spawner")
+    {
+        auto& manufacturer = enemyFactory->getEnemy(3, "manufacturer");
+        auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
+        auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
+        manufacturerSpawn.type = "chicken";
+        manufacturerSpawn.spawnTimer = 60;
+        manufacturerSpawn.maxCount = 20;
+        manufacturerTransform.position.x = object->position->x;
+        manufacturerTransform.position.y = object->position->y;
+
+        return manufacturer;
+    }
 
 	return *new Entity();
+}
+
+ObjectFactory::ObjectFactory()
+{
+	enemyFactory = std::make_unique<EnemyFactory>();
 }

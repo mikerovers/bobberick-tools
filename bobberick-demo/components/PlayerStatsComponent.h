@@ -5,23 +5,22 @@
 #include "StatsComponent.h"
 
 class WeaponComponent;
-class PlayerStatsComponent : public Component
+class PlayerStatsComponent : public StatsComponent
 {
 public:
-	PlayerStatsComponent(StatsComponent* stats, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp);
-	~PlayerStatsComponent() override;
+	PlayerStatsComponent(const int hp, const int hpMax, const int atMin, const int atMax, const int df, const int level, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp);
 
 	void update() override; // The shield is recovered in this function.
 
 	void getHit(int attack, const bool pierceDF); // Mitigate attack with DF in offensive mode or absorb it in shield mode.
+	void heal(int const healAmount); // Heal the player
 	// If an entity has a PlayerStatsComponent with a StatsComponent in it, call only the PlayerStatsComponent getHit() in your system.
 
-	int attack(bool magic, int seed) const; // Generate an attack and modify it based on the power of one of your weapons.
+	int attack(bool magic) const; // Generate an attack and modify it based on the power of one of your weapons.
 	void toggleShield(); // Activate the shield, if it's charged enough (currently must be at least 50% charged).
 	const bool shieldActive() const; // Returns true if the shield is currently active.
 	void equipWeapon(WeaponComponent* weapon);
 
-	StatsComponent* stats; // The Component containing the player's basic stats.
 	double shdTime; // The amount of ticks the shield can still be active.
 	double shdTimeMax; // The amount of ticks the shield can be active at most.
 	double shdRecov; // The amount of shdTime recovered every tick (when shield is inactive).

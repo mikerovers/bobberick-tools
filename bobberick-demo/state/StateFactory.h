@@ -4,12 +4,14 @@
 #include <string>
 #include "../../bobberick-framework/src/GameState.h"
 #include "SplashScreenState.h"
-#include "PlayState.h"
+#include "Level1State.h"
 #include "MainMenuState.h"
 #include "../state/CreditScreenState.h"
 #include "HelpScreenState.h"
 #include "EndScreenState.h"
-#include "GameOverState.h"
+#include "Level2State.h"
+#include "Level3State.h"
+#include "PauseScreenState.h"
 
 class StateFactory {
 
@@ -18,12 +20,14 @@ public:
 
 private:
 	SplashScreenState* createSplashScreenState();
-	PlayState* createPlayState();
+	Level1State* createPlayState();
+	Level2State* createLevel2State() const;
+    Level3State* createLevel3State() const;
 	MainMenuState* createMainMenuState();
 	CreditScreenState* createCreditScreenState() const;
 	HelpScreenState* createHelpScreenState() const;
     EndScreenState* createEndScreenState() const;
-    GameOverState* createGameOverState() const;
+    PauseScreenState* createPauseScreenState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H

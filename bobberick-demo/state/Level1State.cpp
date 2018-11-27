@@ -1,4 +1,4 @@
-#include "PlayState.h"
+#include "Level1State.h"
 #include "../systems/PlayerInputSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
@@ -21,12 +21,12 @@
 #include "../factory/enemies/EnemyFactory.h"
 #include "../factory/WeaponFactory.h"
 
-std::string PlayState::getStateID() const
+std::string Level1State::getStateID() const
 {
 	return "playing";
 }
 
-void PlayState::update()
+void Level1State::update()
 {
 	for (const auto& system : systems)
 	{
@@ -34,7 +34,7 @@ void PlayState::update()
 	}
 }
 
-bool PlayState::onEnter()
+bool Level1State::onEnter()
 {
 	makeEnemies();
 	auto& player = makePlayer();
@@ -48,9 +48,6 @@ bool PlayState::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
 		SOUND_SFX);
 
-	// auto& box = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	// box.addComponent<CollisionComponent>("fire", 140, 175, 40);
-
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1",
 		SOUND_MUSIC);
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
@@ -63,19 +60,20 @@ bool PlayState::onEnter()
 	return true;
 }
 
-bool PlayState::onExit()
+bool Level1State::onExit()
 {
 	std::cout << "Exited playstate" << std::endl;
+	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
 
 	return true;
 }
 
-bool PlayState::shouldExit()
+bool Level1State::shouldExit()
 {
 	return _exitPressed;
 }
 
-Entity& PlayState::makeTileMap() const
+Entity& Level1State::makeTileMap() const
 {
 	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(level, getStateID());
@@ -98,7 +96,7 @@ Entity& PlayState::makeTileMap() const
 	return level;
 }
 
-Entity& PlayState::makePlayer() const
+Entity& Level1State::makePlayer() const
 {
 	auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	player.addComponent<TransformComponent>(100, 100, 64, 32, 1);
@@ -107,7 +105,7 @@ Entity& PlayState::makePlayer() const
 	player.addComponent<PlayerMovementComponent>();
 
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
-	player.addComponent<PlayerStatsComponent>(new StatsComponent(100000, 100000, 1, 3, 1, 1), 180, 180, 0.3, 0, 0);
+	player.addComponent<PlayerStatsComponent>(1000, 1000, 1, 3, 1, 1, 180, 180, 0.3, 0, 0);
 
 	player.addComponent<TimerComponent>();
 	player.addComponent<ShootComponent>();
@@ -118,7 +116,7 @@ Entity& PlayState::makePlayer() const
 	return player;
 }
 
-void PlayState::instantiateSystems() const
+void Level1State::instantiateSystems() const
 {
 	for (const auto& system : systems)
 	{
@@ -126,7 +124,7 @@ void PlayState::instantiateSystems() const
 	}
 }
 
-void PlayState::makeEnemies() const
+void Level1State::makeEnemies() const
 {
 	EnemyFactory enemyFactory = EnemyFactory{};
 	for (auto x = 0; x < 3; x++)
@@ -141,47 +139,9 @@ void PlayState::makeEnemies() const
 			enemyTransform.position.y = 350 + 25 * y;
 		}
 	}
-	/*auto& enemy = enemyFactory.getBoss(10);
-	auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	enemyTransform.position.x = 250 + 50;
-	enemyTransform.position.y = 250;
-*/
-	auto& manufacturer = enemyFactory.getEnemy(3, "manufacturer");
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer, getStateID());
-
-	auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
-	auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
-	manufacturerSpawn.type = "orc";
-	manufacturerSpawn.spawnTimer = 1000;
-	manufacturerSpawn.maxCount = 20;
-	manufacturerTransform.position.x = 500;
-	manufacturerTransform.position.y = 300;
-
-	auto& manufacturer2 = enemyFactory.getEnemy(3, "manufacturer");
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer2, getStateID());
-
-	auto& manufacturer2Transform = manufacturer2.getComponent<TransformComponent>();
-	auto& manufacturerSpawn2 = manufacturer2.getComponent<SpawnComponent>();
-	manufacturerSpawn2.type = "fireWizard";
-	manufacturerSpawn2.spawnTimer = 250;
-	manufacturerSpawn2.maxCount = 10;
-	manufacturer2Transform.position.x = 800;
-	manufacturer2Transform.position.y = 400;
-
-	auto& manufacturer3 = enemyFactory.getEnemy(3, "manufacturer");
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(manufacturer3, getStateID());
-
-	auto& manufacturer3Transform = manufacturer3.getComponent<TransformComponent>();
-	auto& manufacturerSpawn3 = manufacturer3.getComponent<SpawnComponent>();
-	manufacturerSpawn3.type = "chicken";
-	manufacturerSpawn3.spawnTimer = 250;
-	manufacturerSpawn3.maxCount = 15;
-	manufacturer3Transform.position.x = 400;
-	manufacturer3Transform.position.y = 400;
-
 }
 
-void PlayState::makeGui()
+void Level1State::makeGui()
 {
 	auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());

@@ -1,17 +1,21 @@
 #include <string>
 #include "MainMenuState.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
 #include <iostream>
 #include "../factory/enemies/EnemyFactory.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
+#include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include "../../bobberick-framework/src/LevelFactory.h"
 #include "../factory/ObjectFactory.h"
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "StateFactory.h"
 #include "../components/SpawnMinionsSpellComponent.h"
+#include "../components/AdvertisementComponent.h"
 
 std::string MainMenuState::getStateID() const
 {
@@ -30,6 +34,8 @@ bool MainMenuState::onEnter()
 {
 	createAnimatedBackground();
 
+	ServiceManager::Instance()->getService<SoundManager>().playMusic("menu", -1);
+
 	for (const auto& system : systems)
 	{
 		system->init();
@@ -41,14 +47,14 @@ bool MainMenuState::onEnter()
 	makeOptionsButton();
 	makeExitButton();
 	makeHelpButton();
-
+	makeAdvertisements();
 	return true;
 }
 
 bool MainMenuState::onExit()
 {
 	std::cout << "Exited MainMenuState" << std::endl;
-
+	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
 	return true;
 }
 
@@ -94,12 +100,12 @@ void MainMenuState::makeStartGameButton()
 	auto* playGameButtonComponent = new ButtonComponent([]()
 	{
 		StateFactory factory{};
-		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("PlayState"));
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level3State"));
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
 	auto* playGameButtonTransformComponent = new TransformComponent();
-	playGameButtonTransformComponent->position.x = 260;
+	playGameButtonTransformComponent->position.x = 420;
 	playGameButtonTransformComponent->position.y = 60;
 	playGameButtonTransformComponent->height = 64;
 	playGameButtonTransformComponent->width = 128;
@@ -122,7 +128,7 @@ void MainMenuState::makeOptionsButton()
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
 	auto* optionsButtonTransformComponent = new TransformComponent();
-	optionsButtonTransformComponent->position.x = 260;
+	optionsButtonTransformComponent->position.x = 420;
 	optionsButtonTransformComponent->position.y = 140;
 	optionsButtonTransformComponent->height = 64;
 	optionsButtonTransformComponent->width = 128;
@@ -131,6 +137,25 @@ void MainMenuState::makeOptionsButton()
 	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	optionsButton.addComponent<CollisionComponent>("button");
 	entityManager.addEntityToGroup(optionsButton, getStateID());
+}
+
+void MainMenuState::makeAdvertisements()
+{
+	auto& advertisement1 = entityManager.addEntity();
+	advertisement1.addComponent<TransformComponent>(20, 450, 224, 300, 1);
+	advertisement1.addComponent<SpriteComponent>("ad1");
+	advertisement1.addComponent<AdvertisementComponent>(1, 1, 5);
+	advertisement1.addComponent<TimerComponent>();
+	advertisement1.addComponent<CollisionComponent>("advertisement");
+	entityManager.addEntityToGroup(advertisement1, getStateID());
+
+	auto& advertisement2 = entityManager.addEntity();
+	advertisement2.addComponent<TransformComponent>(640, 450, 224, 300, 1);
+	advertisement2.addComponent<SpriteComponent>("ad3");
+	advertisement2.addComponent<AdvertisementComponent>(3, 1, 5);
+	advertisement2.addComponent<TimerComponent>();
+	advertisement2.addComponent<CollisionComponent>("advertisement");
+	entityManager.addEntityToGroup(advertisement2, getStateID());
 }
 
 void MainMenuState::makeExitButton()
@@ -145,7 +170,7 @@ void MainMenuState::makeExitButton()
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	auto* exitButtonTransformComponent = new TransformComponent();
 
-	exitButtonTransformComponent->position.x = 260;
+	exitButtonTransformComponent->position.x = 420;
 	exitButtonTransformComponent->position.y = 300;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
@@ -168,7 +193,7 @@ void MainMenuState::makeHelpButton()
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
 	auto* helpButtonTransformComponent = new TransformComponent();
-	helpButtonTransformComponent->position.x = 260;
+	helpButtonTransformComponent->position.x = 420;
 	helpButtonTransformComponent->position.y = 220;
 	helpButtonTransformComponent->height = 64;
 	helpButtonTransformComponent->width = 128;
