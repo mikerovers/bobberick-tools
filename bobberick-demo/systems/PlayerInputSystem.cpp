@@ -59,8 +59,8 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	     right = inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D),
 	     up = inputHandler.isKeyDown(SDL_SCANCODE_UP) || inputHandler.isKeyDown(SDL_SCANCODE_W),
 	     down = inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S),
-	     z = inputHandler.isKeyDown(SDL_SCANCODE_X),
-	     x = inputHandler.isKeyDown(SDL_SCANCODE_Z),
+	     z = inputHandler.isKeyDown(SDL_SCANCODE_Z),
+	     x = inputHandler.isKeyDown(SDL_SCANCODE_X),
 	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
 		 ret = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2),
 		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
