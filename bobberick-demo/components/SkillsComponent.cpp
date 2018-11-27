@@ -182,14 +182,12 @@ bool SkillsComponent::upgradeShdRecovLevel() {
 PlayerStatsComponent SkillsComponent::generateStartingStats() {
 	int totalLv = getHpLevel() + getAtLevel() + getDfLevel() + getShdTimeLevel() + getShdRecovLevel();
 	return PlayerStatsComponent(
-		new StatsComponent(
-			getHpValue(false), 
-			getHpValue(false), 
-			getAtMinValue(false), 
-			getAtMaxValue(false), 
-			getDfValue(false), 
-			totalLv
-		), 
+		getHpValue(false), 
+		getHpValue(false), 
+		getAtMinValue(false), 
+		getAtMaxValue(false), 
+		getDfValue(false), 
+		totalLv,
 		getShdTimeValue(false), 
 		getShdTimeValue(false), 
 		getShdRecovValue(false), 

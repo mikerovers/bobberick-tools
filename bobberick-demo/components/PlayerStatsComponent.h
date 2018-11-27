@@ -3,8 +3,8 @@
 
 #include "../../bobberick-framework/src/entity/Component.h"
 #include "StatsComponent.h"
+#include "WeaponComponent.h"
 
-class WeaponComponent;
 class PlayerStatsComponent : public StatsComponent
 {
 public:

@@ -36,6 +36,7 @@ systems/AdvertisementSystem.cpp systems/AdvertisementSystem.h
 state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
+state/SkillScreenState.cpp state/SkillScreenState.h
 state/CreditScreenState.cpp state/CreditScreenState.h
 factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/WeaponFactory.cpp factory/WeaponFactory.h

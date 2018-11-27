@@ -10,6 +10,7 @@
 #include "HelpScreenState.h"
 #include "EndScreenState.h"
 #include "PauseScreenState.h"
+#include "SkillScreenState.h"
 
 class StateFactory {
 
@@ -24,6 +25,7 @@ private:
 	HelpScreenState* createHelpScreenState() const;
     EndScreenState* createEndScreenState() const;
     PauseScreenState* createPauseScreenState() const;
+	SkillScreenState* createSkillScreenState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H

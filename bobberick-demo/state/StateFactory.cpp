@@ -44,6 +44,9 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "PauseScreenState")
 	{
 		return createPauseScreenState();
+	} else if (type == "SkillScreenState")
+	{
+		return createSkillScreenState();
 	}
 
 	return nullptr;
@@ -154,4 +157,17 @@ PauseScreenState *StateFactory::createPauseScreenState() const
 		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return pauseScreenState;
+}
+
+SkillScreenState* StateFactory::createSkillScreenState() const
+{
+	SkillScreenState* skillScreenState = new SkillScreenState();
+	skillScreenState->addSystem(
+		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	skillScreenState->addSystem(
+		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	skillScreenState->addSystem(
+		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return skillScreenState;
 }
