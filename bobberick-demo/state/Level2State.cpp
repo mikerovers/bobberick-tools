@@ -12,6 +12,7 @@
 #include "../components/PlayerMovementComponent.h"
 #include "../components/StatsComponent.h"
 #include "../components/PlayerStatsComponent.h"
+#include "../components/SpawnComponent.h"
 #include "../components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../components/InventoryComponent.h"
@@ -82,6 +83,10 @@ Entity &Level2State::makeTileMap() const
     {
         auto& objEntity = objectFactory.getObject(object);
         ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
+		if (objEntity.hasComponent<SpawnComponent>()) {
+			auto& spawnComponent = objEntity.getComponent<SpawnComponent>();
+			spawnComponent.maxCount *= 5;
+		}
     }
 
     return level;
