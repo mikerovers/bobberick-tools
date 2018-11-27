@@ -52,6 +52,8 @@ bool Level2State::onEnter()
 
 bool Level2State::onExit()
 {
+	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
+	ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
     return true;
 }
 

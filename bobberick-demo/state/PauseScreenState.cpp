@@ -4,6 +4,7 @@
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "StateFactory.h"
 #include "../../bobberick-framework/src/StateMachine.h"
+#include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 
 std::string PauseScreenState::getStateID() const
@@ -22,7 +23,7 @@ void PauseScreenState::update()
 bool PauseScreenState::onExit()
 {
 	std::cout << "Exited PauseScreenState" << std::endl;
-
+	ServiceManager::Instance()->getService<SoundManager>().resumeAllChannels();
 	return true;
 }
 
@@ -39,7 +40,7 @@ bool PauseScreenState::onEnter()
 	// createLoadButton();
 	createHelpButton();
 	createExitButton();
-
+	ServiceManager::Instance()->getService<SoundManager>().pauseAllChannels();
 	return true;
 }
 
