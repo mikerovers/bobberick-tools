@@ -14,6 +14,7 @@
 #include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
+#include "GameOverState.h"
 
 GameState* StateFactory::createState(const std::string& type)
 {
@@ -49,6 +50,9 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "EndScreen")
 	{
 		return createEndScreenState();
+	} else if (type == "GameOverState")
+	{
+		return createGameOverState();
 	}
 
 	return nullptr;
@@ -190,4 +194,15 @@ Level3State *StateFactory::createLevel3State() const
 	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return playState;
+}
+
+GameOverState* StateFactory::createGameOverState() const
+{
+	auto* gameOverState = new GameOverState();
+
+	gameOverState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	gameOverState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	gameOverState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return gameOverState;
 }
