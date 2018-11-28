@@ -12,6 +12,7 @@
 #include "../components/PlayerMovementComponent.h"
 #include "../components/StatsComponent.h"
 #include "../components/PlayerStatsComponent.h"
+#include "../components/SpawnComponent.h"
 #include "../components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../components/InventoryComponent.h"
@@ -51,6 +52,8 @@ bool Level2State::onEnter()
 
 bool Level2State::onExit()
 {
+	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
+	ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
     return true;
 }
 
@@ -82,6 +85,10 @@ Entity &Level2State::makeTileMap() const
     {
         auto& objEntity = objectFactory.getObject(object);
         ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
+		if (objEntity.hasComponent<SpawnComponent>()) {
+			auto& spawnComponent = objEntity.getComponent<SpawnComponent>();
+			spawnComponent.maxCount *= 3;
+		}
     }
 
     return level;

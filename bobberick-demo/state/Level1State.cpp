@@ -23,7 +23,7 @@
 
 std::string Level1State::getStateID() const
 {
-	return "playing";
+	return "level_one";
 }
 
 void Level1State::update()
@@ -64,6 +64,7 @@ bool Level1State::onExit()
 {
 	std::cout << "Exited playstate" << std::endl;
 	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
+	ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
 
 	return true;
 }

@@ -9,8 +9,10 @@
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
 #include "../systems/AdvertisementSystem.h"
+#include "../systems/CheatSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
+#include "../systems/LevelSystem.h"
 #include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
@@ -67,22 +69,6 @@ SplashScreenState* StateFactory::createSplashScreenState()
 		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return splashScreen;
-}
-
-Level1State* StateFactory::createPlayState()
-{
-	Level1State* playState = new Level1State();
-	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
-
-	return playState;
 }
 
 MainMenuState* StateFactory::createMainMenuState()
@@ -164,6 +150,24 @@ PauseScreenState *StateFactory::createPauseScreenState() const
 	return pauseScreenState;
 }
 
+Level1State* StateFactory::createPlayState()
+{
+	Level1State* playState = new Level1State();
+	playState->addSystem(std::make_shared<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return playState;
+}
+
 Level2State *StateFactory::createLevel2State() const
 {
 	Level2State* playState = new Level2State();
@@ -176,6 +180,8 @@ Level2State *StateFactory::createLevel2State() const
 	playState->addSystem(std::make_shared<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return playState;
 }
@@ -192,6 +198,8 @@ Level3State *StateFactory::createLevel3State() const
 	playState->addSystem(std::make_shared<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_shared<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_shared<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return playState;
 }

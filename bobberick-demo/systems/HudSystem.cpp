@@ -163,7 +163,7 @@ void HudSystem::init()
 	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 40, 40, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 
-	fpsCounter.addComponent<TransformComponent>(gameWidth - 50, 0 + 65, 40, 40, 1);
+	fpsCounter.addComponent<TransformComponent>(gameWidth - 60, 0 + 65, 40, 55, 1);
 	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
 
 	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<
@@ -176,6 +176,7 @@ void HudSystem::init()
 			serviceManager.addEntityToGroup(hudBox, group);
 			serviceManager.addEntityToGroup(outerBox, group);
 			serviceManager.addEntityToGroup(innerBox, group);
+			serviceManager.addEntityToGroup(healthBox, group);
 			serviceManager.addEntityToGroup(shieldBox, group);
 			serviceManager.addEntityToGroup(coinImage, group);
 			serviceManager.addEntityToGroup(xpImage, group);

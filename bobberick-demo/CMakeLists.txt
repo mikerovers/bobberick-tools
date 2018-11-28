@@ -29,6 +29,7 @@ systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/CheatSystem.cpp systems/CheatSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
+systems/LevelSystem.cpp systems/LevelSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
 state/Level1State.cpp state/Level1State.h
 systems/AISystem.cpp systems/AISystem.h 

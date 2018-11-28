@@ -51,6 +51,8 @@ bool Level3State::onEnter()
 
 bool Level3State::onExit()
 {
+	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
+	ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
     return true;
 }
 
@@ -61,7 +63,7 @@ bool Level3State::shouldExit()
 
 std::string Level3State::getStateID() const
 {
-    return "level_two";
+    return "level_three";
 }
 
 Entity &Level3State::makeTileMap() const
@@ -82,6 +84,10 @@ Entity &Level3State::makeTileMap() const
     {
         auto& objEntity = objectFactory.getObject(object);
         ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
+		if (objEntity.hasComponent<SpawnComponent>()) {
+			auto& spawnComponent = objEntity.getComponent<SpawnComponent>();
+			spawnComponent.maxCount *= 6;
+		}
     }
 
     return level;

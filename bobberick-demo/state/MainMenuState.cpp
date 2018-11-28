@@ -88,10 +88,10 @@ void MainMenuState::createAnimatedBackground()
 	entityManager.addEntityToGroup(chicken, getStateID());
 	entities.push_back(&chicken);
 
-	auto& boss = enemyFactory.getBoss(10);
-	boss.getComponent<TransformComponent>().position = Vector2D{500, 350};
-	entityManager.addEntityToGroup(boss, getStateID());
-	entities.push_back(&boss);
+	//auto& boss = enemyFactory.getBoss(10);
+	//boss.getComponent<TransformComponent>().position = Vector2D{500, 350};
+	//entityManager.addEntityToGroup(boss, getStateID());
+	//entities.push_back(&boss);
 }
 
 void MainMenuState::makeStartGameButton()
@@ -100,7 +100,7 @@ void MainMenuState::makeStartGameButton()
 	auto* playGameButtonComponent = new ButtonComponent([]()
 	{
 		StateFactory factory{};
-		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level3State"));
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level1State"));
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
