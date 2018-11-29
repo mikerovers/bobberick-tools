@@ -2,6 +2,7 @@
 #include "MainMenuState.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
+#include "../services/PlayerStatsService.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
@@ -101,6 +102,7 @@ void MainMenuState::makeStartGameButton()
 	{
 		StateFactory factory{};
 		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level1State"));
+		ServiceManager::Instance()->getService<PlayerStatsService>().init();
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);

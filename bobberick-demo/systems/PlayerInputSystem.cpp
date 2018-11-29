@@ -3,10 +3,11 @@
 #include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
+#include "../services/PlayerStatsService.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../components/BulletMovementComponent.h"
 #include "../components/ShootComponent.h"
-#include "../components/PlayerStatsComponent.h"
+#include "../components/PlayerComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -42,13 +43,13 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
-	auto& playerStats = entity->getComponent<PlayerStatsComponent>();
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 
-	double speedModifier = playerStats.shieldActive() ? 0.5 : 1;
+	double speedModifier = playerStats.getSHDactive() ? 0.5 : 1;
 
 	if (inputHandler.isKeyDown(SDL_SCANCODE_SPACE))
 	{
-		if (!playerStats.shieldActive())
+		if (!playerStats.getSHDactive())
 		{
 			playerStats.toggleShield();
 		}
@@ -187,12 +188,12 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& timer = entity->getComponent<TimerComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
-	auto& playerStats = entity->getComponent<PlayerStatsComponent>();
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 
 	if (inputHandler.getMouseButtonState(LEFT) || inputHandler.getMouseButtonState(RIGHT))
 	{
 		// shoot
-		if (timer.isTimerFinished() && !playerStats.shieldActive())
+		if (timer.isTimerFinished() && !playerStats.getSHDactive())
 		{
 			const auto playerX = transform.position.x;
 			const auto playerY = transform.position.y;
