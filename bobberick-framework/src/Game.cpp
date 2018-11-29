@@ -6,6 +6,7 @@
 #include "services/InputHandler.h"
 #include "services/RenderService.h"
 #include "services/SettingsService.h"
+#include "services/SaveService.h"
 #include "entity/systems/DrawSystem.h"
 #include "entity/systems/InputSystem.h"
 #include "services/SoundManager.h"
@@ -44,6 +45,7 @@ bool Game::init(const char* title, int xPos, int yPos, int height, int width, in
 	serviceManager->addService<SoundManager>();
 	serviceManager->addService<StateMachine>();
 	serviceManager->addService<SettingsService>();
+	serviceManager->addService<SaveService>();
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
