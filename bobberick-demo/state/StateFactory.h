@@ -12,6 +12,7 @@
 #include "Level2State.h"
 #include "Level3State.h"
 #include "PauseScreenState.h"
+#include "SettingsScreenState.h"
 #include "GameOverState.h"
 
 class StateFactory {
@@ -29,6 +30,7 @@ private:
 	HelpScreenState* createHelpScreenState() const;
     EndScreenState* createEndScreenState() const;
     PauseScreenState* createPauseScreenState() const;
+	SettingsScreenState* createSettingsScreenState() const;
 	GameOverState* createGameOverState() const;
 };
 

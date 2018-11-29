@@ -10,6 +10,7 @@
 #include "../systems/BulletSystem.h"
 #include "../systems/AdvertisementSystem.h"
 #include "../systems/CheatSystem.h"
+#include "../systems/MenuSystem.h"
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
 #include "../systems/LevelSystem.h"
@@ -57,6 +58,10 @@ GameState* StateFactory::createState(const std::string& type)
 	{
 		return createGameOverState();
 	}
+	else if (type == "SettingsScreen")
+	{
+		return createSettingsScreenState();
+	}
 
 	return nullptr;
 }
@@ -89,6 +94,21 @@ MainMenuState* StateFactory::createMainMenuState()
 	    std::make_unique<AdvertisementSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
     return mainMenuState;
+}
+
+SettingsScreenState* StateFactory::createSettingsScreenState() const
+{
+	SettingsScreenState * settingsScreenState = new SettingsScreenState();
+	settingsScreenState->addSystem(
+	    std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	settingsScreenState->addSystem(
+	    std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	settingsScreenState->addSystem(
+	    std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+		settingsScreenState->addSystem(
+	    std::make_unique<MenuSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+    return settingsScreenState;
 }
 
 CreditScreenState* StateFactory::createCreditScreenState() const
