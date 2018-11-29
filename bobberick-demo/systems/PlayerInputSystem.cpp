@@ -40,6 +40,12 @@ void PlayerInputSystem::update()
 
 void PlayerInputSystem::handleKeyInput(Entity* entity)
 {
+	if (skipForRepeat > 600) {
+		skipForRepeat = 0;
+	}
+	else {
+		skipForRepeat++;
+	}
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
@@ -62,6 +68,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	     z = inputHandler.isKeyDown(SDL_SCANCODE_Z),
 	     x = inputHandler.isKeyDown(SDL_SCANCODE_X),
 	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
+	     v = inputHandler.isKeyDown(SDL_SCANCODE_V),
 		 ret = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2),
 		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
 
@@ -139,6 +146,24 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	else if (c)
 	{
 		ServiceManager::Instance()->getService<FrameHandler>().setTarget(60);
+	}
+	if (v)
+	{
+
+		if (skipForRepeat > 30) {
+			auto music = ServiceManager::Instance()->getService<SettingsService>().music;
+			if (music) {
+				ServiceManager::Instance()->getService<SoundManager>().pauseMusic();
+			}
+			else {
+				ServiceManager::Instance()->getService<SoundManager>().resumeMusic();
+			}
+
+			ServiceManager::Instance()->getService<SettingsService>().music = !music;
+			skipForRepeat = 0;
+		}
+
+
 	}
 
 	if (ret)

@@ -39,7 +39,7 @@ bool Level1State::onEnter()
 	makeEnemies();
 	auto& player = makePlayer();
 	auto& level = makeTileMap();
-	makeGui();
+	//makeGui();
 
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "arrow",
 		SOUND_SFX);

@@ -48,7 +48,8 @@ GameState* StateFactory::createState(const std::string& type)
 	} else if (type == "HelpScreen")
 	{
 		return createHelpScreenState();
-	} else if (type == "EndScreen")
+	}
+	else if (type == "EndScreen")
 	{
 		return createEndScreenState();
 	}
@@ -90,7 +91,7 @@ CreditScreenState* StateFactory::createCreditScreenState() const
 {
 	auto creditScreen = new CreditScreenState();
 	creditScreen->addSystem(
-			std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	creditScreen->addSystem(
 		std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
