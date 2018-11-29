@@ -21,13 +21,40 @@ void LevelSystem::handleLevelFinished() const {
 	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID();
 	std::string newStateId = "";
 	if (stateId == "level_one") {
-		newStateId = "Level2State";
+		// if (ServiceManager::Instance()->getService<PlayerStatsService>().getHP() == 0)
+		// {
+		// 	newStateId = "GameOverState";
+		// 	// StateFactory sf{};
+		// 	// ServiceManager::Instance()->getService<StateMachine>().changeState(sf.createState("GameOverState"));
+		// }
+		// else
+		// {
+			newStateId = "Level2State";
+		// }
 	}
 	else if (stateId == "level_two") {
-		newStateId = "Level3State";
+		// if (ServiceManager::Instance()->getService<PlayerStatsService>().getHP() == 0)
+		// {
+		// 	newStateId = "GameOverState";
+		// 	// StateFactory sf{};
+		// 	// ServiceManager::Instance()->getService<StateMachine>().changeState(sf.createState("GameOverState"));
+		// }
+		// else
+		// {
+			newStateId = "Level3State";
+		// }
 	}
 	else if (stateId == "level_three") {
-		newStateId = "EndScreen";
+		// if (ServiceManager::Instance()->getService<PlayerStatsService>().getHP() == 0)
+		// {
+		// 	newStateId = "GameOverState";
+		// 	// StateFactory sf{};
+		// 	// ServiceManager::Instance()->getService<StateMachine>().changeState(sf.createState("GameOverState"));
+		// }
+		// else
+		// {
+			newStateId = "EndScreen";
+		// }
 	}
 	if (newStateId != "") {
 		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState(newStateId));
@@ -64,5 +91,5 @@ bool LevelSystem::checkIfPlayerDied() const {
 
 void LevelSystem::handlePlayerDied() const {
 	StateFactory factory{};
-	ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState("MainMenuState"));
+	ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState("GameOverState"));
 }

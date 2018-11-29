@@ -209,9 +209,9 @@ GameOverState* StateFactory::createGameOverState() const
 {
 	auto* gameOverState = new GameOverState();
 
-	gameOverState->addSystem(std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	gameOverState->addSystem(std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
-	gameOverState->addSystem(std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	gameOverState->addSystem(std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	gameOverState->addSystem(std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	gameOverState->addSystem(std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return gameOverState;
 }

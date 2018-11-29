@@ -10,6 +10,8 @@ public:
 	bool onEnter() override;
 	bool onExit() override;
 	bool shouldExit() override;
+	void makeXPText() const;
+	void makeGameOverText() const;
 
 	std::string getStateID() const override;
 private:

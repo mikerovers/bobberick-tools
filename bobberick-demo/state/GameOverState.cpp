@@ -5,6 +5,7 @@
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "StateFactory.h"
+#include "../services/PlayerStatsService.h"
 
 std::string GameOverState::getStateID() const
 {
@@ -41,11 +42,26 @@ bool GameOverState::shouldExit()
 
 void GameOverState::makeText() const
 {
+	makeGameOverText();
+	makeXPText();
+}
+
+void GameOverState::makeGameOverText() const
+{
 	auto& gameOverText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	gameOverText.addComponent<TransformComponent>(100, 50, 80, 450, 1);
+	gameOverText.addComponent<TransformComponent>(250, 50, 80, 450, 1);
 	gameOverText.addComponent<TextComponent>("defaultLarge", "gameOverText", "Game Over...");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(gameOverText, getStateID());
+}
+
+void GameOverState::makeXPText() const
+{
+	auto& xpGainedText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	xpGainedText.addComponent<TransformComponent>(100, 250, 80, 800, 1);
+	xpGainedText.addComponent<TextComponent>("monoMedium", "xpGainedText", "Total XP gained this game: " + std::to_string(ServiceManager::Instance()->getService<PlayerStatsService>().getXPtotal()));
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(xpGainedText, getStateID());
 }
 
 void GameOverState::makeGui()
@@ -59,7 +75,7 @@ void GameOverState::makeGui()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(410, 480, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(410, 500, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
 	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("button");
