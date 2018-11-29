@@ -10,7 +10,7 @@ ItemComponent* InventoryComponent::getItem(int index) {
 
 bool InventoryComponent::use(int index) {
 	if (index < items.size()) {
-		items[index]->use(playerStats);
+		items[index]->use();
 		items.erase(items.begin() + index);
 		return true;
 	} else {

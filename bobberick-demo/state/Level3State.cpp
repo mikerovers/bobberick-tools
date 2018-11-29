@@ -11,7 +11,7 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../components/StatsComponent.h"
-#include "../components/PlayerStatsComponent.h"
+#include "../components/PlayerComponent.h"
 #include "../components/ShootComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../components/InventoryComponent.h"
@@ -102,11 +102,11 @@ void Level3State::makePlayer() const
     player.addComponent<PlayerMovementComponent>();
 
     // 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
-    player.addComponent<PlayerStatsComponent>(1000, 1000, 1, 3, 1, 1, 180, 180, 0.3, 0, 0);
+    player.addComponent<PlayerComponent>();
 
     player.addComponent<TimerComponent>();
     player.addComponent<ShootComponent>();
     player.addComponent<CollisionComponent>("player");
-    player.addComponent<InventoryComponent>(&player.getComponent<PlayerStatsComponent>());
+   // player.addComponent<InventoryComponent>(&player.getComponent<PlayerComponent>());
     ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(player, getStateID());
 }
