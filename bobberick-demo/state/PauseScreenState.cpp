@@ -137,7 +137,7 @@ void PauseScreenState::createHelpButton() const
 	});
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
-	helpButton.addComponent<TransformComponent>(410, 400, 64, 128, 1);
+	helpButton.addComponent<TransformComponent>(410, 320, 64, 128, 1);
 	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
 	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 

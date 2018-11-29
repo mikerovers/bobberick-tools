@@ -87,7 +87,7 @@ void SettingsScreenState::createMusicToggleButton() const
 	});
 
 	musicToggleButton.addExistingComponent<ButtonComponent>(musicToggleButtonComponent);
-	musicToggleButton.addComponent<TransformComponent>(360, 165, 64, 128, 1);
+	musicToggleButton.addComponent<TransformComponent>(560, 165, 64, 128, 1);
 	musicToggleButton.addComponent<ButtonSpriteComponent>("blank_green_button", 1, 3, 0);
 	musicToggleButton.addComponent<ButtonSettingComponent>("music");
 	musicToggleButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
