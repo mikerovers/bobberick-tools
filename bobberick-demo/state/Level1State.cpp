@@ -10,7 +10,7 @@
 #include "../components/StatsComponent.h"
 #include "../components/SpawnComponent.h"
 #include "../components/ShootComponent.h"
-#include "../components/PlayerStatsComponent.h"
+#include "../components/PlayerComponent.h"
 #include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
@@ -39,7 +39,7 @@ bool Level1State::onEnter()
 	makeEnemies();
 	auto& player = makePlayer();
 	auto& level = makeTileMap();
-	makeGui();
+	//makeGui();
 
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "arrow",
 		SOUND_SFX);
@@ -106,12 +106,12 @@ Entity& Level1State::makePlayer() const
 	player.addComponent<PlayerMovementComponent>();
 
 	// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
-	player.addComponent<PlayerStatsComponent>(1000, 1000, 1, 3, 1, 1, 180, 180, 0.3, 0, 0);
+	player.addComponent<PlayerComponent>();
 
 	player.addComponent<TimerComponent>();
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
-	player.addComponent<InventoryComponent>(&player.getComponent<PlayerStatsComponent>());
+	//player.addComponent<InventoryComponent>(&player.getComponent<PlayerComponent>());
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(player, getStateID());
 
 	return player;

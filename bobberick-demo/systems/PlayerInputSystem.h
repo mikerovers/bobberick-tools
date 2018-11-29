@@ -12,6 +12,7 @@ public:
 private:
 	void handleKeyInput(Entity* entity);
 	void handleMouseInput(Entity* entity);
+	int skipForRepeat = 0;
 };
 
 

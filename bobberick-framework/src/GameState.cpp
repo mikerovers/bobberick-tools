@@ -1,16 +1,11 @@
 #include "GameState.h"
 
-GameState::~GameState()
-{
-
-}
-
-void GameState::addSystem(std::shared_ptr<System> system)
-{
-    systems.push_back(system);
-}
-
 void GameState::setExiting(const bool isExiting)
 {
     exiting = isExiting;
+}
+
+void GameState::addSystem(std::unique_ptr<System> system)
+{
+    systems.push_back(std::unique_ptr<System>(std::move(system)));
 }

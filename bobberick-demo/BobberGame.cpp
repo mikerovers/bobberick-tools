@@ -1,5 +1,6 @@
 #include "BobberGame.h"
 #include "state/Level1State.h"
+#include "services/PlayerStatsService.h"
 #include "../bobberick-framework/src/services/RenderService.h"
 #include "../bobberick-framework/src/services/TextureManager.h"
 #include "../bobberick-framework/src/services/SoundManager.h"
@@ -7,6 +8,9 @@
 bool BobberGame::setup()
 {
 	if (Game::setup()) {
+		ServiceManager::Instance()->addService<PlayerStatsService>();
+		ServiceManager::Instance()->getService<PlayerStatsService>().init();
+
 		preloadTextures();
 		preloadMusicAndSounds();
 

@@ -14,7 +14,7 @@ BobberGame.cpp BobberGame.h
 systems/PlayerMovementSystem.cpp systems/PlayerMovementSystem.h 
 components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h
 components/BulletMovementComponent.cpp components/BulletMovementComponent.h
-components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h 
+components/PlayerComponent.cpp components/PlayerComponent.h 
 components/SpawnComponent.cpp components/SpawnComponent.h 
 components/ShootComponent.cpp components/ShootComponent.h 
 components/SpawnedComponent.cpp components/SpawnedComponent.h 
@@ -39,6 +39,7 @@ state/SplashScreenState.cpp state/SplashScreenState.h
 state/CreditScreenState.cpp state/CreditScreenState.h
 factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/WeaponFactory.cpp factory/WeaponFactory.h
+services/PlayerStatsService.cpp services/PlayerStatsService.h
 factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
 factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
