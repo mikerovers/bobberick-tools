@@ -9,6 +9,7 @@ class ButtonSpriteComponent : public SpriteComponent
 public:
     ButtonSpriteComponent(const char* textureID, int animCols, int animFrames, int animRate);
     void update() override;
+	void setTexture(const char * textureID);
 };
 
 

@@ -36,6 +36,7 @@ bool PauseScreenState::onEnter()
 {
 	createPauseText();
 	createResumeButton();
+	makeOptionsButton();
 	// createSaveButton();
 	// createLoadButton();
 	createHelpButton();
@@ -68,6 +69,28 @@ void PauseScreenState::createResumeButton() const
 	resumeGameButton.addComponent<CollisionComponent>("resumeButton");
 
 	entityManager.addEntityToGroup(resumeGameButton, getStateID());
+}
+
+void PauseScreenState::makeOptionsButton() const
+{
+	auto& optionsButton = entityManager.addEntity();
+	auto* optionsButtonComponent = new ButtonComponent([]()
+	{
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("SettingsScreen"));
+	});
+
+	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
+	auto* optionsButtonTransformComponent = new TransformComponent();
+	optionsButtonTransformComponent->position.x = 410;
+	optionsButtonTransformComponent->position.y = 240;
+	optionsButtonTransformComponent->height = 64;
+	optionsButtonTransformComponent->width = 128;
+	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
+	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0);
+	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	optionsButton.addComponent<CollisionComponent>("button");
+	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
 
 void PauseScreenState::createSaveButton() const

@@ -13,3 +13,11 @@ void ButtonSpriteComponent::update()
 
     sourceRect.x = transform->width * currentRow;
 }
+
+
+void ButtonSpriteComponent::setTexture(const char * textureID)
+{
+	if (currentTexture != textureID) {
+		currentTexture = textureID;
+	}
+}
