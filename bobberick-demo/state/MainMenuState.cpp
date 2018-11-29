@@ -128,7 +128,8 @@ void MainMenuState::makeOptionsButton()
 	auto& optionsButton = entityManager.addEntity();
 	auto* optionsButtonComponent = new ButtonComponent([]()
 	{
-		std::cout << "Options button clicked" << std::endl;
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("SettingsScreen"));
 	});
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);

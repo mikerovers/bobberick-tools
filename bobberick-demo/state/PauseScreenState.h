@@ -20,6 +20,7 @@ private:
 	
 	void createPauseText() const;
 	void createResumeButton() const;
+	void makeOptionsButton() const;
 	void createHelpButton() const;
 	void createExitButton();
 };

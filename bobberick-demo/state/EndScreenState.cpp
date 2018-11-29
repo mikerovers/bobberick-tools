@@ -46,7 +46,7 @@ void EndScreenState::makeExitButton()
     exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
     auto* exitButtonTransformComponent = new TransformComponent();
 
-    exitButtonTransformComponent->position.x = 260;
+    exitButtonTransformComponent->position.x = 420;
     exitButtonTransformComponent->position.y = 400;
     exitButtonTransformComponent->height = 64;
     exitButtonTransformComponent->width = 128;
