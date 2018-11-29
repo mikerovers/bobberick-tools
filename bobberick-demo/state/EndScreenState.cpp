@@ -66,7 +66,7 @@ bool EndScreenState::shouldExit()
 void EndScreenState::makeText() const
 {
     auto& hurrayText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    hurrayText.addComponent<TransformComponent>(100, 50, 80, 450, 1);
+    hurrayText.addComponent<TransformComponent>(260, 50, 80, 450, 1);
     hurrayText.addComponent<TextComponent>("defaultLarge", "hurrayText", "Congratulations!");
 
     ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(hurrayText, getStateID());
