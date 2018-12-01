@@ -48,6 +48,7 @@ bool SkillScreenState::onEnter()
 	makeShdRecovText();
 
 	PlayerStatsService& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	playerStats.init();
 	updateHpText(playerStats);
 	updateAtText(playerStats);
 	updateDfText(playerStats);

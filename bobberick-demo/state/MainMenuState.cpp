@@ -104,7 +104,6 @@ void MainMenuState::makeStartGameButton()
 	auto* playGameButtonComponent = new ButtonComponent([]()
 	{
 		StateFactory factory{};
-		ServiceManager::Instance()->getService<PlayerStatsService>().init();
 		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("SkillScreenState"));
 	});
 
