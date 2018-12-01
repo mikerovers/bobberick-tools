@@ -94,7 +94,6 @@ private:
 	int shdRecovLv = 0;
 
 	// Internally used
-	bool alive; // Whether the player is alive.
 	RandomGenerator generator = RandomGenerator();
 };
 

@@ -4,10 +4,12 @@ void PlayerStatsService::init() {
 	normalWeapon = WeaponComponent("potion", "Training Bow of Nothing", false, 0, 60, "bullet");
 	magicWeapon = WeaponComponent("potion", "Training Staff of Nothing", false, 5, 120, "bolt");
 	gold = 0;
+	if (xp > 0) {
+		xpTotal += xp;
+	}
 	xp = 0;
 	shdActive = false;
 	fireCooldown = 0;
-	alive = true;
 
 	// TODO calculate all of this based on skills
 	hp = hpMax = getHPvalue(false);
@@ -71,10 +73,6 @@ void PlayerStatsService::update() {
 		shdActive = false;
 		shdTime = 0;
 		hp = 0;
-		if (alive) {
-			xpTotal += xp;
-			alive = false;
-		}
 	}
 }
 
