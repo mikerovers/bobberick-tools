@@ -55,6 +55,11 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/button/resumebutton.png", "resumeGameButton", renderer);
 	t.load("assets/image/button/loadbutton.png", "loadGameButton", renderer);
 	t.load("assets/image/button/savebutton.png", "saveGameButton", renderer);
+	t.load("assets/image/button/healthbutton.png", "healthButton", renderer);
+	t.load("assets/image/button/attackbutton.png", "attackButton", renderer);
+	t.load("assets/image/button/defensebutton.png", "defenseButton", renderer);
+	t.load("assets/image/button/shieldbutton.png", "shieldButton", renderer);
+	t.load("assets/image/button/recovbutton.png", "recoveryButton", renderer);
 	t.load("assets/image/button/togglemusicbutton.png", "toggleMusicButton", renderer);
 	t.load("assets/image/button/blank_green_button.png", "blankGreenButton", renderer);
 	t.load("assets/image/button/blank_red_button.png", "blankRedButton", renderer);

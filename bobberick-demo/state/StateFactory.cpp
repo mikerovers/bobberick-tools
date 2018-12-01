@@ -177,11 +177,11 @@ PauseScreenState *StateFactory::createPauseScreenState() const
 SkillScreenState* StateFactory::createSkillScreenState() const {
 	SkillScreenState* skillScreenState = new SkillScreenState();
 	skillScreenState->addSystem(
-		std::make_shared<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+		std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	skillScreenState->addSystem(
-		std::make_shared<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+		std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	skillScreenState->addSystem(
-		std::make_shared<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+		std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return skillScreenState;
 }
