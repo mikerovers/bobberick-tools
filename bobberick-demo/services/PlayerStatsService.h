@@ -86,7 +86,7 @@ private:
 	int fireCooldown; // The amount of ticks to wait before a weapon can be fired again.
 
 	// Metagame stats (skills and total XP)
-	int xpTotal = 250000000; // Total, spendable experience earned across all games.
+	int xpTotal = 0; // Total, spendable experience earned across all games.
 	int hpLv = 0;
 	int atLv = 0;
 	int dfLv = 0;
