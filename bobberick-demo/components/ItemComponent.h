@@ -13,7 +13,7 @@ public:
 		ItemComponent::texture = texture;
 		ItemComponent::name = name;
 	}
-	virtual void use() { }; // Impart an effect (or equip self) to this PlayerStatsComponent.
+	virtual void use() { }; // Impart an effect to the player stats.
 };
 
 #endif //BOBBERICK_TOOLS_ITEMCOMPONENT_H

@@ -9,7 +9,7 @@
 SplashScreenState::~SplashScreenState() = default;
 
 void SplashScreenState::update() {
-	for (const auto& system : systems) {
+	for (auto const& system : systems) {
 		system->update();
 	}
 }

@@ -11,6 +11,11 @@ public:
 	void init() override;
 private:
 	const int barWidth = 300; // The width boundary of the inner bars.
+	int fpsMiddlerCount = 0;
+	int const fpsMiddlerDivideBy = 20;
+	int fpsMiddlerResult = 0;
+	std::vector<int> fpsMiddlerVector;
+
 
 	Entity& hudBox; // The HUD background rectangle.
 	Entity& outerBox; // The outline for the health bar.
@@ -30,8 +35,7 @@ private:
 
 	Entity& fpsCounter;
 
-	// Add spaces to the specified string until its length equals the specified goal amount. If leading is false, the spaces are trailing.
-	std::string addSpaces(const std::string& string, const int goalChars, const bool leading);
+		
 };
 
 

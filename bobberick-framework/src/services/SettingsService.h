@@ -15,6 +15,7 @@ public:
 
 	int gameWidth;
 	int gameHeight;
+	bool music = true;
 };
 
 

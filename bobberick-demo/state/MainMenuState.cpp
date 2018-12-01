@@ -2,6 +2,8 @@
 #include "MainMenuState.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
+#include "../../bobberick-framework/src/services/SettingsService.h"
+#include "../services/PlayerStatsService.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
@@ -35,7 +37,9 @@ bool MainMenuState::onEnter()
 	createAnimatedBackground();
 
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("menu", -1);
-
+	if (!ServiceManager::Instance()->getService<SettingsService>().music) {
+		ServiceManager::Instance()->getService<SoundManager>().pauseMusic();
+	}
 	for (const auto& system : systems)
 	{
 		system->init();
@@ -88,10 +92,10 @@ void MainMenuState::createAnimatedBackground()
 	entityManager.addEntityToGroup(chicken, getStateID());
 	entities.push_back(&chicken);
 
-	auto& boss = enemyFactory.getBoss(10);
-	boss.getComponent<TransformComponent>().position = Vector2D{500, 350};
-	entityManager.addEntityToGroup(boss, getStateID());
-	entities.push_back(&boss);
+	//auto& boss = enemyFactory.getBoss(10);
+	//boss.getComponent<TransformComponent>().position = Vector2D{500, 350};
+	//entityManager.addEntityToGroup(boss, getStateID());
+	//entities.push_back(&boss);
 }
 
 void MainMenuState::makeStartGameButton()
@@ -100,8 +104,8 @@ void MainMenuState::makeStartGameButton()
 	auto* playGameButtonComponent = new ButtonComponent([]()
 	{
 		StateFactory factory{};
-		//ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("PlayState"));
-		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("SkillScreenState"));
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level1State"));
+		ServiceManager::Instance()->getService<PlayerStatsService>().init();
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
@@ -124,7 +128,8 @@ void MainMenuState::makeOptionsButton()
 	auto& optionsButton = entityManager.addEntity();
 	auto* optionsButtonComponent = new ButtonComponent([]()
 	{
-		std::cout << "Options button clicked" << std::endl;
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("SettingsScreen"));
 	});
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
@@ -145,7 +150,7 @@ void MainMenuState::makeAdvertisements()
 	auto& advertisement1 = entityManager.addEntity();
 	advertisement1.addComponent<TransformComponent>(20, 450, 224, 300, 1);
 	advertisement1.addComponent<SpriteComponent>("ad1");
-	advertisement1.addComponent<AdvertisementComponent>(1, 5);
+	advertisement1.addComponent<AdvertisementComponent>(1, 1, 5);
 	advertisement1.addComponent<TimerComponent>();
 	advertisement1.addComponent<CollisionComponent>("advertisement");
 	entityManager.addEntityToGroup(advertisement1, getStateID());
@@ -153,7 +158,7 @@ void MainMenuState::makeAdvertisements()
 	auto& advertisement2 = entityManager.addEntity();
 	advertisement2.addComponent<TransformComponent>(640, 450, 224, 300, 1);
 	advertisement2.addComponent<SpriteComponent>("ad3");
-	advertisement2.addComponent<AdvertisementComponent>(3, 5);
+	advertisement2.addComponent<AdvertisementComponent>(3, 1, 5);
 	advertisement2.addComponent<TimerComponent>();
 	advertisement2.addComponent<CollisionComponent>("advertisement");
 	entityManager.addEntityToGroup(advertisement2, getStateID());

@@ -1,7 +1,8 @@
 #include "HudSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SettingsService.h"
-#include "../components/PlayerStatsComponent.h"
+#include "../services/PlayerStatsService.h"
+#include "../components/PlayerComponent.h"
 #include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -31,78 +32,90 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
 
 void HudSystem::update()
 {
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>())
-	{
-		auto& playerStats = entity->getComponent<PlayerStatsComponent>();
-		auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
+	fpsMiddlerCount++;
+	//auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
+	auto fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
+	fpsMiddlerVector.push_back(fps);
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	if (fpsMiddlerCount == fpsMiddlerDivideBy) {
 
-		playerStats.update();
-		const auto healthWidth = static_cast<double>(playerStats.getHP()) / static_cast<double>(playerStats.getHPmax()) * barWidth;
-		const auto shieldWidth = playerStats.shdTime / playerStats.shdTimeMax * barWidth;
-		if (playerStats.shieldActive())
+		int fpsCount = 0;
+		for (auto &countedFps : fpsMiddlerVector)
 		{
-			// Bright blue bar if shield is currently active.
-			shieldBox.getComponent<RectangleComponent>().red = 102;
-			shieldBox.getComponent<RectangleComponent>().green = 255;
-			shieldBox.getComponent<RectangleComponent>().blue = 255;
-		}
-		else if (playerStats.shdTime / playerStats.shdTimeMax < 0.5)
-		{
-			// Dark blue bar if shield is not yet ready to activate.
-			shieldBox.getComponent<RectangleComponent>().red = 0;
-			shieldBox.getComponent<RectangleComponent>().green = 51;
-			shieldBox.getComponent<RectangleComponent>().blue = 153;
-		}
-		else
-		{
-			// Blue bar if shield is ready to activate.
-			shieldBox.getComponent<RectangleComponent>().red = 0;
-			shieldBox.getComponent<RectangleComponent>().green = 204;
-			shieldBox.getComponent<RectangleComponent>().blue = 255;
+			fpsCount += countedFps;
 		}
 
-		//if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
-		//	playerStats.toggleShield();
-		//}
-
-		// check player inventory en update accordingly
-		auto& inventory = entity->getComponent<InventoryComponent>();
-		auto* inventoryItem1 = inventory.getItem(0);
-		auto* inventoryItem2 = inventory.getItem(1);
-
-		if (inventoryItem1 != nullptr) {
-			inventorySlot1.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
-		}
-		else
-		{
-			if (inventorySlot1.hasComponent<SpriteComponent>())
-			{
-				inventorySlot1.removeComponent<SpriteComponent>();
-			}
-		}
-
-		if (inventoryItem2 != nullptr) {
-			inventorySlot2.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
-		}
-		else
-		{
-			if (inventorySlot2.hasComponent<SpriteComponent>())
-			{
-				inventorySlot2.removeComponent<SpriteComponent>();
-			}
-		}
-
-		healthBox.getComponent<TransformComponent>().width = healthWidth;
-		shieldBox.getComponent<TransformComponent>().width = shieldWidth;
-
-		TextFormatter textFormatter = TextFormatter{};
-		healthText.getComponent<TextComponent>().setText(
-			textFormatter.addSpaces(std::to_string(playerStats.getHP()), 6, true) + " / " + TextFormatter{}.addSpaces(
-				std::to_string(playerStats.getHPmax()), 6, false));
-		coinText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.gold), 6, false));
-		xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.xp), 6, false));
-		fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(fps, 6, false));
+		fpsMiddlerResult = fpsCount / fpsMiddlerDivideBy;
+		fpsMiddlerCount = 0;
+		fpsMiddlerVector.clear();
 	}
+
+	playerStats.update();
+	const auto healthWidth = static_cast<double>(playerStats.getHP()) / static_cast<double>(playerStats.getHPmax()) * barWidth;
+	const auto shieldWidth = static_cast<double>(playerStats.getSHD()) / static_cast<double>(playerStats.getSHDmax()) * barWidth;
+	if (playerStats.getSHDactive())
+	{
+		// Bright blue bar if shield is currently active.
+		shieldBox.getComponent<RectangleComponent>().red = 153;
+		shieldBox.getComponent<RectangleComponent>().green = 255;
+		shieldBox.getComponent<RectangleComponent>().blue = 255;
+	}
+	else if (playerStats.getSHD() / playerStats.getSHDmax() < 0.5)
+	{
+		// Dark blue bar if shield is not yet ready to activate.
+		shieldBox.getComponent<RectangleComponent>().red = 0;
+		shieldBox.getComponent<RectangleComponent>().green = 51;
+		shieldBox.getComponent<RectangleComponent>().blue = 153;
+	}
+	else
+	{
+		// Blue bar if shield is ready to activate.
+		shieldBox.getComponent<RectangleComponent>().red = 0;
+		shieldBox.getComponent<RectangleComponent>().green = 204;
+		shieldBox.getComponent<RectangleComponent>().blue = 255;
+	}
+
+	//if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
+	//	playerStats.toggleShield();
+	//}
+
+	// check player inventory en update accordingly
+	//auto& inventory = entity->getComponent<InventoryComponent>();
+	//auto* inventoryItem1 = inventory.getItem(0);
+	//auto* inventoryItem2 = inventory.getItem(1);
+
+	//if (inventoryItem1 != nullptr) {
+	//	inventorySlot1.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
+	//}
+	//else
+	//{
+	//	if (inventorySlot1.hasComponent<SpriteComponent>())
+	//	{
+	//		inventorySlot1.removeComponent<SpriteComponent>();
+	//	}
+	//}
+
+	//if (inventoryItem2 != nullptr) {
+	//	inventorySlot2.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
+	//}
+	//else
+	//{
+	//	if (inventorySlot2.hasComponent<SpriteComponent>())
+	//	{
+	//		inventorySlot2.removeComponent<SpriteComponent>();
+	//	}
+	//}
+
+	healthBox.getComponent<TransformComponent>().width = healthWidth;
+	shieldBox.getComponent<TransformComponent>().width = shieldWidth;
+
+	TextFormatter textFormatter = TextFormatter{};
+	healthText.getComponent<TextComponent>().setText(
+		textFormatter.addSpaces(std::to_string(playerStats.getHP()), 6, true) + " / " + TextFormatter{}.addSpaces(
+			std::to_string(playerStats.getHPmax()), 6, false));
+	coinText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.gold), 6, false));
+	xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.xp), 6, false));
+	fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(fpsMiddlerResult), 6, false));
 }
 
 void HudSystem::init()
@@ -148,11 +161,11 @@ void HudSystem::init()
 	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 40, 40, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 
-	fpsCounter.addComponent<TransformComponent>(gameWidth - 50, 0 + 65, 40, 40, 1);
+	fpsCounter.addComponent<TransformComponent>(gameWidth - 60, 0 + 65, 40, 55, 1);
 	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
 
 	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<
-		PlayerStatsComponent>();
+		PlayerComponent>();
 	for (auto player : players)
 	{
 		for (const auto& group : player->getGroups())
@@ -161,6 +174,7 @@ void HudSystem::init()
 			serviceManager.addEntityToGroup(hudBox, group);
 			serviceManager.addEntityToGroup(outerBox, group);
 			serviceManager.addEntityToGroup(innerBox, group);
+			serviceManager.addEntityToGroup(healthBox, group);
 			serviceManager.addEntityToGroup(shieldBox, group);
 			serviceManager.addEntityToGroup(coinImage, group);
 			serviceManager.addEntityToGroup(xpImage, group);

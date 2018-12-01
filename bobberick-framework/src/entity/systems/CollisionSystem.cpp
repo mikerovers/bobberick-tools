@@ -1,7 +1,10 @@
 #include "CollisionSystem.h"
 #include "../CollisionHelper.h"
+#include "../../../../bobberick-demo/services/PlayerStatsService.h"
+#include "../../services/ServiceManager.h"
 #include "../../../../bobberick-demo/components/HealthBarComponent.h"
-#include "../../../../bobberick-demo/components/PlayerStatsComponent.h"
+#include "../../../../bobberick-demo/components/StatsComponent.h"
+#include "../../../../bobberick-demo/components/PlayerComponent.h"
 #include "../../../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../../../bobberick-demo/components/PlayerMovementComponent.h"
@@ -17,12 +20,12 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		if (colliderA.entity->hasComponent<StatsComponent>())
 		{
 			auto& stats = colliderA.entity->getComponent<StatsComponent>();
-			stats.getHit(500, false);
+			stats.getHit(10, false);
 		}
-		else if (colliderA.entity->hasComponent<PlayerStatsComponent>())
+		else if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
-			auto& stats = colliderA.entity->getComponent<PlayerStatsComponent>();
-			stats.getHit(500, false);
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(10, false);
 		}
 	}
 
@@ -33,19 +36,19 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 			auto& stats = colliderA.entity->getComponent<StatsComponent>();
 			stats.healPercent(100);
 		}
-		else if (colliderA.entity->hasComponent<PlayerStatsComponent>())
+		else if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
-			auto& stats = colliderA.entity->getComponent<PlayerStatsComponent>();
-			stats.getHit(-100, true);
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.heal(5);
 		}
 	}
 
 	if (colliderB.tag == "monster_projectile")
 	{
-		if (colliderA.entity->hasComponent<PlayerStatsComponent>())
+		if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
-			auto& stats = colliderA.entity->getComponent<PlayerStatsComponent>();
-			stats.getHit(50, true);
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(5, true);
 			colliderB.entity->destroy();
 		}
 	}
@@ -126,7 +129,7 @@ void CollisionSystem::update()
 
 	auto collisionComponentEntities = entityManager.getAllEntitiesWithComponent<CollisionComponent>();
 	auto playerAndMonsterEntities = entityManager.getAllEntitiesWithComponent<StatsComponent>();
-	auto playerEntities = entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>();
+	auto playerEntities = entityManager.getAllEntitiesWithComponent<PlayerComponent>();
 	playerAndMonsterEntities.insert(std::end(playerAndMonsterEntities), std::begin(playerEntities),
 	                                std::end(playerEntities));
 

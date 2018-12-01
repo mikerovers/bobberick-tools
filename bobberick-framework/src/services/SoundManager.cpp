@@ -4,6 +4,7 @@
 SoundManager::SoundManager()
 {
 	Mix_OpenAudio(22050, AUDIO_S16, 2, 4096);
+	channelCount = 512;
 	Mix_AllocateChannels(channelCount);
 }
 
@@ -52,6 +53,9 @@ void SoundManager::playMusic(const std::string& id, int loop)
 void SoundManager::playSound(int const channel, std::string id, int loop)
 {
 	Mix_PlayChannel(channel, m_sfxs[id], loop);
+	if (id == "footsteps") {
+		std::cout << channel << "\n";
+	}
 }
 
 void SoundManager::stopMusic()
@@ -83,7 +87,8 @@ void SoundManager::stopSound(int const channel)
 
 void SoundManager::pauseSound(int const channel)
 {
-	Mix_Pause(channel);
+	//Mix_Pause(channel);
+	Mix_HaltChannel(channel);
 }
 
 void SoundManager::resumeSound(int const channel)

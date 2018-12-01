@@ -14,7 +14,7 @@ BobberGame.cpp BobberGame.h
 systems/PlayerMovementSystem.cpp systems/PlayerMovementSystem.h 
 components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h
 components/BulletMovementComponent.cpp components/BulletMovementComponent.h
-components/PlayerStatsComponent.cpp components/PlayerStatsComponent.h 
+components/PlayerComponent.cpp components/PlayerComponent.h 
 components/SpawnComponent.cpp components/SpawnComponent.h 
 components/ShootComponent.cpp components/ShootComponent.h 
 components/SpawnedComponent.cpp components/SpawnedComponent.h 
@@ -26,20 +26,25 @@ components/AdvertisementComponent.cpp components/AdvertisementComponent.h
 components/WeaponComponent.cpp components/WeaponComponent.h
 components/InventoryComponent.cpp components/InventoryComponent.h
 components/SkillsComponent.cpp components/SkillsComponent.h
+components/ButtonSettingComponent.cpp components/ButtonSettingComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/CheatSystem.cpp systems/CheatSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
 systems/ShieldSystem.cpp systems/ShieldSystem.h
+systems/LevelSystem.cpp systems/LevelSystem.h
 systems/HudSystem.cpp systems/HudSystem.h 
+systems/MenuSystem.cpp systems/MenuSystem.h 
+state/Level1State.cpp state/Level1State.h
 systems/AISystem.cpp systems/AISystem.h 
 systems/AdvertisementSystem.cpp systems/AdvertisementSystem.h 
-state/PlayState.cpp state/PlayState.h 		
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
 state/SkillScreenState.cpp state/SkillScreenState.h
 state/CreditScreenState.cpp state/CreditScreenState.h
+state/SettingsScreenState.cpp state/SettingsScreenState.h
 factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/WeaponFactory.cpp factory/WeaponFactory.h
+services/PlayerStatsService.cpp services/PlayerStatsService.h
 factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
 factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
@@ -49,10 +54,12 @@ factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h
 factory/enemies/EnemyManufactureFactory.cpp factory/enemies/EnemyManufactureFactory.h
 state/TestState.cpp state/TestState.h
 state/MainMenuState.cpp state/mainMenuState.h
-factory/enemies/EndBossFactory.cpp factory/enemies/EndBossFactory.h
+factory/enemies/EndBossFactory.cpp factory/enemies/EndBossFactory.h 
 factory/enemies/NullFactory.cpp factory/enemies/NullFactory.h 
 state/HelpScreenState.cpp state/HelpScreenState.h 
-state/EndScreenState.cpp state/EndScreenState.h
+state/EndScreenState.cpp state/EndScreenState.h 
+state/Level2State.cpp state/Level2State.h
+state/Level3State.cpp state/Level3State.h
 state/PauseScreenState.cpp state/PauseScreenState.h)
 
 add_executable(bobberick-demo ${SOURCE_FILES})

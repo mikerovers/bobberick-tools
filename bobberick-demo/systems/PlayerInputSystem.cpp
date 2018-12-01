@@ -3,10 +3,11 @@
 #include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
+#include "../services/PlayerStatsService.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../components/BulletMovementComponent.h"
 #include "../components/ShootComponent.h"
-#include "../components/PlayerStatsComponent.h"
+#include "../components/PlayerComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -39,16 +40,22 @@ void PlayerInputSystem::update()
 
 void PlayerInputSystem::handleKeyInput(Entity* entity)
 {
+	if (skipForRepeat > 600) {
+		skipForRepeat = 0;
+	}
+	else {
+		skipForRepeat++;
+	}
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
-	auto& playerStats = entity->getComponent<PlayerStatsComponent>();
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 
-	double speedModifier = playerStats.shieldActive() ? 0.5 : 1;
+	double speedModifier = playerStats.getSHDactive() ? 0.5 : 1;
 
 	if (inputHandler.isKeyDown(SDL_SCANCODE_SPACE))
 	{
-		if (!playerStats.shieldActive())
+		if (!playerStats.getSHDactive())
 		{
 			playerStats.toggleShield();
 		}
@@ -58,13 +65,13 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	     right = inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D),
 	     up = inputHandler.isKeyDown(SDL_SCANCODE_UP) || inputHandler.isKeyDown(SDL_SCANCODE_W),
 	     down = inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S),
-	     z = inputHandler.isKeyDown(SDL_SCANCODE_X),
-	     x = inputHandler.isKeyDown(SDL_SCANCODE_Z),
+	     z = inputHandler.isKeyDown(SDL_SCANCODE_Z),
+	     x = inputHandler.isKeyDown(SDL_SCANCODE_X),
 	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
-		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE),
-		 returnBtn = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2);
+		 ret = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2),
+		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
 
-	if (left || right || up || down || z || x || c || esc || returnBtn)
+	if (left || right || up || down)
 	{
 		const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
 		const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
@@ -116,50 +123,6 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		{
 			transform.velocity.y = 1 * speedModifier;
 		}
-
-		if (z)
-		{
-			ServiceManager::Instance()->getService<FrameHandler>().setTarget(
-				ServiceManager::Instance()->getService<FrameHandler>().getTarget() - 10);
-		}
-		else if (x)
-		{
-			ServiceManager::Instance()->getService<FrameHandler>().setTarget(
-				ServiceManager::Instance()->getService<FrameHandler>().getTarget() + 10);
-		}
-		else if (c)
-		{
-			ServiceManager::Instance()->getService<FrameHandler>().setTarget(60);
-		}
-
-		if (esc)
-		{
-			std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
-			ServiceManager::Instance()->getService<StateMachine>().popState();
-			ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("EndScreen"));
-			// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
-			// {
-			// 	std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
-			// 	ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("PauseScreenState"));
-			// }
-			// else
-			// {
-			// 	ServiceManager::Instance()->getService<StateMachine>().popState();
-			// }
-		}
-
-		if (returnBtn)
-		{
-			// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
-			// {
-				std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
-				ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("PauseScreenState"));
-			// }
-			// else
-			// {
-			// 	ServiceManager::Instance()->getService<StateMachine>().popState();
-			// }
-		}
 	}
 	else
 	{
@@ -168,6 +131,53 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		transform.velocity.x = 0;
 		ServiceManager::Instance()->getService<SoundManager>().stopSound(1);
 	}
+
+	if (z)
+	{
+		ServiceManager::Instance()->getService<FrameHandler>().setTarget(
+			ServiceManager::Instance()->getService<FrameHandler>().getTarget() - 10);
+	}
+	else if (x)
+	{
+		ServiceManager::Instance()->getService<FrameHandler>().setTarget(
+			ServiceManager::Instance()->getService<FrameHandler>().getTarget() + 10);
+	}
+	else if (c)
+	{
+		ServiceManager::Instance()->getService<FrameHandler>().setTarget(60);
+	}
+
+	if (ret)
+	{
+		std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
+		ServiceManager::Instance()->getService<StateMachine>().popState();
+		ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("EndScreen"));
+		// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
+		// {
+		// 	std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
+		// 	ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("PauseScreenState"));
+		// }
+		// else
+		// {
+		// 	ServiceManager::Instance()->getService<StateMachine>().popState();
+		// }
+	}
+
+	if (esc)
+	{
+		// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
+		// {
+			std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
+
+			ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("PauseScreenState"));
+		// }
+		// else
+		// {
+		// 	ServiceManager::Instance()->getService<StateMachine>().popState();
+		// }
+	}
+	
+
 
 	sprite.flip = inputHandler.getMousePosition()->x < transform.position.x;
 
@@ -184,12 +194,12 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& timer = entity->getComponent<TimerComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
-	auto& playerStats = entity->getComponent<PlayerStatsComponent>();
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 
 	if (inputHandler.getMouseButtonState(LEFT) || inputHandler.getMouseButtonState(RIGHT))
 	{
 		// shoot
-		if (timer.isTimerFinished() && !playerStats.shieldActive())
+		if (timer.isTimerFinished() && !playerStats.getSHDactive())
 		{
 			const auto playerX = transform.position.x;
 			const auto playerY = transform.position.y;

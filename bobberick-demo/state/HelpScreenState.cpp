@@ -92,7 +92,13 @@ void HelpScreenState::makeText()
 
 	auto& pauseText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	pauseText.addComponent<TransformComponent>(10, 420, 80, 450, 1);
-	pauseText.addComponent<TextComponent>("defaultLarge", "pauseText", "RETURN : Pause");
+	pauseText.addComponent<TextComponent>("defaultLarge", "pauseText", "ESCAPE : Pause");
 
-    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseText, getStateID());
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseText, getStateID());
+
+	auto& musicToggleText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	musicToggleText.addComponent<TransformComponent>(10, 520, 80, 450, 1);
+	musicToggleText.addComponent<TextComponent>("defaultLarge", "musicToggleText", "V : Toggle music");
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(musicToggleText, getStateID());
 }

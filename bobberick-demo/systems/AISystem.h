@@ -5,7 +5,7 @@
 #include "../../bobberick-framework/src/entity/systems/System.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
-#include "../../bobberick-demo/components/PlayerStatsComponent.h"
+#include "../../bobberick-demo/components/PlayerComponent.h"
 #include "../../bobberick-demo/components/ShootComponent.h"
 class AISystem : public System
 {

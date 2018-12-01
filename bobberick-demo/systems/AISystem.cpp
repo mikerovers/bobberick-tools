@@ -3,6 +3,7 @@
 #include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
+#include "../services/PlayerStatsService.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
@@ -15,7 +16,8 @@
 #include "../../bobberick-demo/components/AIComponent.h"
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../bobberick-demo/components/ShootComponent.h"
-#include "../../bobberick-demo/components/PlayerStatsComponent.h"
+#include "../../bobberick-demo/components/PlayerComponent.h"
+#include "../../bobberick-demo/components/StatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
 #include "../../bobberick-demo/components/SpawnComponent.h"
@@ -165,7 +167,7 @@ void AISystem::executeSpawner(Entity& entity)
 
 			bool isInRange = true;
 			bool isAttacked = spawnerStats.getHP() < spawnerStats.getHPmax();
-			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>())
+			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
 			{
 				if (!AISystem::isEntityInRange(entity, *player, 200)) {
 					isInRange = false;
@@ -231,7 +233,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 			double enemyX = transform.position.x;
 			double enemyY = transform.position.y;
 
-			for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerStatsComponent>())
+			for (auto& player : entityManager.getAllEntitiesWithComponent<PlayerComponent>())
 			{
 				channelCounter++;
 				auto& playerTransform = player->getComponent<TransformComponent>();
@@ -324,11 +326,8 @@ void AISystem::kill(Entity& entity)
 	{
 		// win
 	}
-	for (auto& player : ServiceManager::Instance()
-	                    ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerStatsComponent>())
-	{
-		player->getComponent<PlayerStatsComponent>().xp += entity.getComponent<StatsComponent>().getHPmax();
-	}
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	playerStats.xp += entity.getComponent<StatsComponent>().getHPmax();
 	// animate destruction
 
 	auto& healthBar = entity.getComponent<HealthBarComponent>();

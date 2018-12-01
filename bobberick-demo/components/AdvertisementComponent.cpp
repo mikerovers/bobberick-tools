@@ -1,14 +1,11 @@
 #include "AdvertisementComponent.h"
 
-int AdvertisementComponent::getCurrentAd() const {
-	return currentAd;
-}
-
-void AdvertisementComponent::increaseAd() {
-	if (currentAd < maxAd) {
+int AdvertisementComponent::getNextAd() {
+	if (currentAd < lastAd) {
 		currentAd++;
 	}
 	else {
-		currentAd = 1;
+		currentAd = firstAd;
 	}
+	return currentAd;
 }

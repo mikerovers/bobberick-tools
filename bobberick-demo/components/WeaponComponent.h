@@ -18,7 +18,6 @@ public:
 		WeaponComponent::fireDelay = fireDelay;
 		WeaponComponent::bulletTexture = bulletTexture;
 	}
-	//void use(PlayerStatsComponent* playerStats) override; // Equip self to this PlayerStatsComponent.
 };
 
 #endif //BOBBERICK_TOOLS_WEAPONCOMPONENT_H

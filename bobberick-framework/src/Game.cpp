@@ -101,9 +101,10 @@ void Game::update()
 		isRunning = false;
 		return;
 	}
-
+    
 	ServiceManager::Instance()->getService<FrameHandler>().updateTicks();
 
+	SDL_SetRenderDrawColor(renderer.get(), 0, 128, 255, 255);
 	SDL_RenderClear(renderer.get());
 	ServiceManager::Instance()->getService<EntityManager>().refresh();
 	ServiceManager::Instance()->getService<StateMachine>().update();
@@ -131,7 +132,7 @@ void Game::start()
 
 bool Game::setup()
 {
-	if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 720, 960,
+	if (init("Bobberick The Knight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 704, 960,
 	         static_cast<Uint32>(false)))
 	{
 		return true;

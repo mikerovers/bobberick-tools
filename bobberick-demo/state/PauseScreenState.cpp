@@ -4,6 +4,7 @@
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "StateFactory.h"
 #include "../../bobberick-framework/src/StateMachine.h"
+#include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 
 std::string PauseScreenState::getStateID() const
@@ -22,7 +23,7 @@ void PauseScreenState::update()
 bool PauseScreenState::onExit()
 {
 	std::cout << "Exited PauseScreenState" << std::endl;
-
+	ServiceManager::Instance()->getService<SoundManager>().resumeAllChannels();
 	return true;
 }
 
@@ -35,11 +36,12 @@ bool PauseScreenState::onEnter()
 {
 	createPauseText();
 	createResumeButton();
+	makeOptionsButton();
 	// createSaveButton();
 	// createLoadButton();
 	createHelpButton();
 	createExitButton();
-
+	ServiceManager::Instance()->getService<SoundManager>().pauseAllChannels();
 	return true;
 }
 
@@ -67,6 +69,28 @@ void PauseScreenState::createResumeButton() const
 	resumeGameButton.addComponent<CollisionComponent>("resumeButton");
 
 	entityManager.addEntityToGroup(resumeGameButton, getStateID());
+}
+
+void PauseScreenState::makeOptionsButton() const
+{
+	auto& optionsButton = entityManager.addEntity();
+	auto* optionsButtonComponent = new ButtonComponent([]()
+	{
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("SettingsScreen"));
+	});
+
+	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
+	auto* optionsButtonTransformComponent = new TransformComponent();
+	optionsButtonTransformComponent->position.x = 410;
+	optionsButtonTransformComponent->position.y = 240;
+	optionsButtonTransformComponent->height = 64;
+	optionsButtonTransformComponent->width = 128;
+	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
+	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0);
+	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	optionsButton.addComponent<CollisionComponent>("button");
+	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
 
 void PauseScreenState::createSaveButton() const
@@ -113,7 +137,7 @@ void PauseScreenState::createHelpButton() const
 	});
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
-	helpButton.addComponent<TransformComponent>(410, 400, 64, 128, 1);
+	helpButton.addComponent<TransformComponent>(410, 320, 64, 128, 1);
 	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
 	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
