@@ -47,6 +47,9 @@ bool Game::init(const char* title, int xPos, int yPos, int height, int width, in
 	serviceManager->addService<SettingsService>();
 	serviceManager->addService<SaveService>();
 
+	serviceManager->getService<SaveService>().load();
+	serviceManager->getService<SettingsService>().music = serviceManager->getService<SaveService>().get<bool>("sound_enabled");
+
 	serviceManager->getService<InputHandler>().initialiseJoysticks();
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)

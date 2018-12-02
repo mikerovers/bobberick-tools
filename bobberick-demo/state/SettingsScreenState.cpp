@@ -8,6 +8,7 @@
 #include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-demo/components/ButtonSettingComponent.h"
+#include "../../bobberick-framework/src/services/SaveService.h"
 
 bool SettingsScreenState::shouldExit()
 {
@@ -100,6 +101,8 @@ void SettingsScreenState::createExitButton()
 
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
+		ServiceManager::Instance()->getService<SaveService>().keep<bool>("sound_enabled",  ServiceManager::Instance()->getService<SettingsService>().music);
+		ServiceManager::Instance()->getService<SaveService>().flush();
 		hasPressedBack = true;
 		ServiceManager::Instance()->getService<StateMachine>().popState();
 	});
