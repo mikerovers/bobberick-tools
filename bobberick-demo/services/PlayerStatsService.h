@@ -48,6 +48,8 @@ public:
 	int xp; // Earned in the current game.
 
 	void save();
+	void load();
+	bool validateSave() const;
 private:
 	// Private in-game stats
 	int hp; // current hit points

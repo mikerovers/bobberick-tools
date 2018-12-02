@@ -193,10 +193,46 @@ void PlayerStatsService::save()
 	save.keep<int>("atMin", getATmin());
 	save.keep<int>("atMax", getATmax());
 	save.keep<int>("df", getDF());
-	save.keep<int>("xpTotal", getXPtotal());
+	save.keep<int>("gold", gold);
+	save.keep<int>("xpTotal", xp);
 	save.keep<double>("shdTime", shdTime);
-	save.keep<double>("sdhTimeMax", getSHDmax());
+	save.keep<double>("shdTimeMax", getSHDmax());
 	save.keep<double>("shdRecov", getSHDrecov());
 
 	save.flush();
+}
+
+void PlayerStatsService::load()
+{
+	auto& save = ServiceManager::Instance()->getService<SaveService>();
+	save.load();
+
+	setStats(
+		save.get<int>("hp"),
+		save.get<int>("hpMax"),
+		save.get<int>("atMin"),
+		save.get<int>("atMax"),
+		save.get<int>("df"),
+		save.get<double>("shdTime"),
+		save.get<double>("shdTimeMax"),
+		save.get<double>("shdRecov"),
+		save.get<int>("gold"),
+		save.get<int>("xpTotal")
+	);
+}
+
+bool PlayerStatsService::validateSave() const
+{
+	auto& save = ServiceManager::Instance()->getService<SaveService>();
+
+	return save.has("hp")
+	&& save.has("hpMax")
+	&& save.has("atMin")
+	&& save.has("atMax")
+	&& save.has("df")
+	&& save.has("shdTime")
+	&& save.has("shdTimeMax")
+	&& save.has("shdRecov")
+	&& save.has("gold")
+	&& save.has("xpTotal");
 }
