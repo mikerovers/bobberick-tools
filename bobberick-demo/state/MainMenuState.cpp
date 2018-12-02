@@ -52,6 +52,11 @@ bool MainMenuState::onEnter()
 	makeExitButton();
 	makeHelpButton();
 	makeAdvertisements();
+
+	if (ServiceManager::Instance()->getService<PlayerStatsService>().validateSave()) {
+		makeLoadButton();
+	}
+
 	return true;
 }
 
@@ -177,7 +182,7 @@ void MainMenuState::makeExitButton()
 	auto* exitButtonTransformComponent = new TransformComponent();
 
 	exitButtonTransformComponent->position.x = 420;
-	exitButtonTransformComponent->position.y = 300;
+	exitButtonTransformComponent->position.y = 380;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
@@ -207,4 +212,24 @@ void MainMenuState::makeHelpButton()
 	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
 	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	entityManager.addEntityToGroup(helpButton, getStateID());
+}
+
+void MainMenuState::makeLoadButton()
+{
+	auto& loadGameButton = entityManager.addEntity();
+	auto* loadGameButtonComponent = new ButtonComponent([]()
+														{
+															StateFactory factory{};
+															ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level1State"));
+															ServiceManager::Instance()->getService<PlayerStatsService>().init();
+															ServiceManager::Instance()->getService<PlayerStatsService>().load();
+														});
+
+	loadGameButton.addExistingComponent<ButtonComponent>(loadGameButtonComponent);
+	loadGameButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
+	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0);
+	loadGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	loadGameButton.addComponent<CollisionComponent>("loadButton");
+
+	entityManager.addEntityToGroup(loadGameButton, getStateID());
 }

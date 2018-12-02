@@ -6,6 +6,7 @@
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
+#include "../services/PlayerStatsService.h"
 
 std::string PauseScreenState::getStateID() const
 {
@@ -37,7 +38,7 @@ bool PauseScreenState::onEnter()
 	createPauseText();
 	createResumeButton();
 	makeOptionsButton();
-	// createSaveButton();
+	createSaveButton();
 	// createLoadButton();
 	createHelpButton();
 	createExitButton();
@@ -98,11 +99,12 @@ void PauseScreenState::createSaveButton() const
 	auto& saveGameButton = entityManager.addEntity();
 	auto* saveGameButtonComponent = new ButtonComponent([]()
 	{
-		// TODO: Save the game here.
+		ServiceManager::Instance()->getService<PlayerStatsService>().save();
+		ServiceManager::Instance()->getService<StateMachine>().popState();
 	});
 
 	saveGameButton.addExistingComponent<ButtonComponent>(saveGameButtonComponent);
-	saveGameButton.addComponent<TransformComponent>(410, 240, 64, 128, 1);
+	saveGameButton.addComponent<TransformComponent>(410, 320, 64, 128, 1);
 	saveGameButton.addComponent<ButtonSpriteComponent>("saveGameButton", 1, 3, 0);
 	saveGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	saveGameButton.addComponent<CollisionComponent>("saveButton");
@@ -137,7 +139,7 @@ void PauseScreenState::createHelpButton() const
 	});
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
-	helpButton.addComponent<TransformComponent>(410, 320, 64, 128, 1);
+	helpButton.addComponent<TransformComponent>(410, 400, 64, 128, 1);
 	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
 	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 

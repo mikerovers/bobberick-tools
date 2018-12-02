@@ -13,7 +13,6 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 include_directories(${SDL2_TTF_INCLUDE_DIRS})
 include_directories(${SDL2_MIXER_INCLUDE_DIR})
 
-
 set(
 	SOURCE_FILES 
 	src/entity/ECS.h 
@@ -54,9 +53,8 @@ set(
 	src/entity/components/Tile.cpp src/entity/components/Tile.h 
 	src/entity/components/TileObject.cpp src/entity/components/TileObject.h 
 	src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h 
-	src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h src/entity/systems/CollisionSystem.cpp src/entity/systems/CollisionSystem.h src/entity/CollisionHelper.cpp src/entity/CollisionHelper.h)
+	src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h src/entity/systems/CollisionSystem.cpp src/entity/systems/CollisionSystem.h src/entity/CollisionHelper.cpp src/entity/CollisionHelper.h src/services/SaveService.cpp src/services/SaveService.h externals/json/json.hpp)
 
 add_library(bobberick-framework ${SOURCE_FILES})
 target_link_libraries(bobberick-framework tmxlite)
-
 target_link_libraries(bobberick-framework ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARIES} ${SDL2_MIXER_LIBRARY})

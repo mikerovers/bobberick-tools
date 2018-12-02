@@ -46,6 +46,10 @@ public:
 	WeaponComponent magicWeapon = WeaponComponent("potion", "Training Staff of Nothing", false, 5, 120, "bolt");
 	int gold;
 	int xp; // Earned in the current game.
+
+	void save();
+	void load();
+	bool validateSave() const;
 private:
 	// Private in-game stats
 	int hp; // current hit points
