@@ -1,4 +1,6 @@
 #include "PlayerStatsService.h"
+#include "../../bobberick-framework/src/services/ServiceManager.h"
+#include "../../bobberick-framework/src/services/SaveService.h"
 
 void PlayerStatsService::init() {
 	normalWeapon = WeaponComponent("potion", "Training Bow of Nothing", false, 0, 60, "bullet");
@@ -181,4 +183,20 @@ void PlayerStatsService::changeATmax(const int amount) {
 
 void PlayerStatsService::setSHD(const int amount) {
 	shdTime = amount;
+}
+
+void PlayerStatsService::save()
+{
+	auto& save = ServiceManager::Instance()->getService<SaveService>();
+	save.keep<int>("hp", getHP());
+	save.keep<int>("hpMax", getHPmax());
+	save.keep<int>("atMin", getATmin());
+	save.keep<int>("atMax", getATmax());
+	save.keep<int>("df", getDF());
+	save.keep<int>("xpTotal", getXPtotal());
+	save.keep<double>("shdTime", shdTime);
+	save.keep<double>("sdhTimeMax", getSHDmax());
+	save.keep<double>("shdRecov", getSHDrecov());
+
+	save.flush();
 }

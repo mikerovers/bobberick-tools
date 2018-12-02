@@ -25,8 +25,13 @@ public:
         return j->operator[](key).get<T>();
     }
 
-    void load();
+    bool load();
     void flush() const;
+    bool has(std::string key) {
+        return j->find(key) != j->end();
+    }
+
+    void savePlayer();
 private:
     std::unique_ptr<nlohmann::json> j;
     const std::string fileName;

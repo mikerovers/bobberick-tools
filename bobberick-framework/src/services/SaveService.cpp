@@ -3,6 +3,7 @@
 #include <iomanip>
 #include "SaveService.h"
 #include "../../externals/json/json.hpp"
+#include "ServiceManager.h"
 
 SaveService::SaveService(): fileName("save.json"), j(std::make_unique<nlohmann::json>())
 {}
@@ -24,11 +25,17 @@ void SaveService::flush() const
     ofS << std::setw(4) << *j << std::endl;
 }
 
-void SaveService::load()
+bool SaveService::load()
 {
-    std::ifstream ifS;
-    ifS.open(fileName);
-    ifS >> *j;
+    try {
+        std::ifstream ifS;
+        ifS.open(fileName);
+        ifS >> *j;
 
-    std::cout << "Loaded save: " << std::endl << std::setw(4) << *j << std::endl;
+        std::cout << "Loaded save: " << std::endl << std::setw(4) << *j << std::endl;
+
+        return true;
+    } catch (...) {
+        return false;
+    }
 }
