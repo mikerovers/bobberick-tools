@@ -9,15 +9,15 @@ class StateMachine : public Service
 public:
     void init() override;
     void clean() override;
-    void pushState(GameState* pState);
-    void changeState(GameState* pState);
+    void pushState(std::unique_ptr<GameState> pState);
+    void changeState(std::unique_ptr<GameState> pState);
     void popState();
-    GameState* peekState();
+    GameState& peekState();
 	bool isEmpty() const;
 
     void update();
 private:
-    std::vector<GameState*> gameStates;
+    std::vector<std::unique_ptr<GameState>> gameStates;
 };
 
 
