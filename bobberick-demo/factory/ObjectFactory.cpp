@@ -88,7 +88,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
     if (object->name == "player_spawn")
 	{
 		auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-		player.addComponent<TransformComponent>(100, 100, 64, 32, 1);
+		player.addComponent<TransformComponent>(object->position->x, object->position->y, 64, 32, 1);
 		auto& spriteComponent = player.addComponent<SpriteComponent>("character", 6,
 																	 4, 5);
 		player.addComponent<PlayerMovementComponent>();
