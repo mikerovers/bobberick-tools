@@ -9,7 +9,6 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
-#include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/util/RandomGenerator.h"
 
@@ -24,7 +23,7 @@
 #include "../../bobberick-demo/components/SpawnedComponent.h"
 #include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
-#include "../../bobberick-demo/components/EnemyMovementComponent.h"
+#include "../../bobberick-demo/components/SprayComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
 #include <thread>
@@ -60,6 +59,11 @@ void AISystem::update()
 		executeSpawner(*entity);
 	}
 
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<SprayComponent>())
+	{
+		executeSprayShoot(*entity);
+	}
+
 	int channelCounter = 2;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>())
 	{
@@ -81,6 +85,30 @@ void AISystem::update()
 
 		transform.update();
 	}
+}
+
+void AISystem::executeSprayShoot(const Entity& entity)
+{
+	auto transformComponent = entity.getComponent<TransformComponent>();
+	// if (entity.hasComponent<TimerComponent>())
+	// {
+	// 	auto& timer = entity.getComponent<TimerComponent>();
+	// 	if (timer.isTimerFinished())
+	// 	{
+	for (auto i = 0; i < 360; i++)
+	{
+		auto& bulletEntity = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+		bulletEntity.addComponent<BulletMovementComponent>();
+		bulletEntity.addComponent<CollisionComponent>("monster_projectile");
+		auto& bulletTransform = bulletEntity.addComponent<TransformComponent>(
+			transformComponent.position.x, transformComponent.position.y, 10, 10, 1);
+		bulletTransform.velocity = Vector2D{100, 100};
+		bulletTransform.speed = 2;
+		bulletEntity.addComponent<SpriteComponent>("bolt");
+	}
+	// }
+
+	// }
 }
 
 void AISystem::executeSpell(Entity& entity)
@@ -167,16 +195,20 @@ void AISystem::executeSpawner(Entity& entity)
 
 			bool isInRange = true;
 			bool isAttacked = spawnerStats.getHP() < spawnerStats.getHPmax();
-			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
+			for (auto& player : ServiceManager::Instance()
+			                    ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
 			{
-				if (!AISystem::isEntityInRange(entity, *player, 200)) {
+				if (!AISystem::isEntityInRange(entity, *player, 200))
+				{
 					isInRange = false;
 				}
 			}
 
-			if (isInRange || isAttacked) {
+			if (isInRange || isAttacked)
+			{
 			}
-			else {
+			else
+			{
 				return;
 			}
 			int spawnCounter = 0;
@@ -348,7 +380,9 @@ bool AISystem::isEntityInRange(Entity& entity1, Entity& entity2, const int range
 	const double entity2XCenter = entity2Transform.position.x + entity2Transform.width / 2;
 	const double entity2YCenter = entity2Transform.position.y + entity2Transform.height / 2;
 
-	const double distance = sqrt((entity1XCenter - entity2XCenter) * (entity1XCenter - entity2XCenter) + (entity1YCenter - entity2YCenter) * (entity1YCenter - entity2YCenter));
+	const double distance = sqrt(
+		(entity1XCenter - entity2XCenter) * (entity1XCenter - entity2XCenter) + (entity1YCenter - entity2YCenter) * (
+			entity1YCenter - entity2YCenter));
 
 	return distance < range;
 }
@@ -422,13 +456,15 @@ void AISystem::applyMovement(Entity& entity)
 	const double yVel = speed * sin(moveAngle);
 
 
-	if (moveChance < 2 || enemyMovement.collided) {
+	if (moveChance < 2 || enemyMovement.collided)
+	{
 		enemyMovement.collided = false;
 		transform.velocity.x = xVel;
 		transform.velocity.y = yVel;
 		sprite.flip = xVel < 0;
 	}
-	else if (moveChance < 3) {
+	else if (moveChance < 3)
+	{
 		enemyMovement.collided = false;
 	}
 	transform.update();
