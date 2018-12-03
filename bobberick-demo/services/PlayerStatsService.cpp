@@ -1,4 +1,5 @@
 #include "PlayerStatsService.h"
+#include <algorithm>
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SaveService.h"
 
@@ -237,7 +238,7 @@ int PlayerStatsService::getHPcost() const {
 }
 int PlayerStatsService::getATcost() const {
 	if (getATminValue(true) != -1) {
-		return pow(getATminValue(true) * 1000, 1.1);
+		return static_cast<int>(pow(getATminValue(true) * 1000, 1.1));
 	}
 	else {
 		return -1;
@@ -245,7 +246,7 @@ int PlayerStatsService::getATcost() const {
 }
 int PlayerStatsService::getDFcost() const {
 	if (getDFvalue(true) != -1) {
-		return pow(getDFvalue(true) * 60, 1.7);
+		return static_cast<int>(pow(getDFvalue(true) * 60, 1.7));
 	}
 	else {
 		return -1;
@@ -253,7 +254,7 @@ int PlayerStatsService::getDFcost() const {
 }
 int PlayerStatsService::getSHDcost() const {
 	if (getSHDvalue(true) != -1) {
-		return pow((getSHDlevel() + 1) * 90, 1.6);
+		return static_cast<int>(pow((getSHDlevel() + 1) * 90, 1.6));
 	}
 	else {
 		return -1;
@@ -261,7 +262,7 @@ int PlayerStatsService::getSHDcost() const {
 }
 int PlayerStatsService::getSHDrecovCost() const {
 	if (getSHDrecovValue(true) != -1) {
-		return pow((getSHDrecovLevel()+1) * 120, 1.6);
+		return static_cast<int>(pow((getSHDrecovLevel() + 1) * 120, 1.6));
 	}
 	else {
 		return -1;
@@ -270,11 +271,11 @@ int PlayerStatsService::getSHDrecovCost() const {
 
 int PlayerStatsService::getHPvalue(bool next) const {
 	if (!next) {
-		return __min(100 * (pow(1.1, hpLv)), 500000);
+		return (int) std::min(100 * (pow(1.1, hpLv)), 500000.0);
 	}
 	else {
 		if (getHPvalue(false) < 500000) {
-			return __min(100 * (pow(1.1, hpLv + 1)), 500000);
+			return (int) std::min(100 * (pow(1.1, hpLv + 1)), 500000.0);
 		}
 		else {
 			return -1;
@@ -283,11 +284,11 @@ int PlayerStatsService::getHPvalue(bool next) const {
 }
 int PlayerStatsService::getATminValue(bool next) const {
 	if (!next) {
-		return __min(pow(atLv + 1, 1.3), 400);
+		return (int) std::min(pow(atLv + 1, 1.3), 400.0);
 	}
 	else {
 		if (getATminValue(false) < 400) {
-			return __min(pow(atLv + 2, 1.3), 400);
+			return (int) std::min(pow(atLv + 2, 1.3), 400.0);
 		}
 		else {
 			return -1;
@@ -297,17 +298,17 @@ int PlayerStatsService::getATminValue(bool next) const {
 int PlayerStatsService::getATmaxValue(bool next) const {
 	int value = getATminValue(next);
 	if (value > -1) {
-		value = (value * 1.5) + 1;
+		value = static_cast<int>((value * 1.5) + 1);
 	}
-	return __min(value, 600);
+	return std::min(value, 600);
 }
 int PlayerStatsService::getDFvalue(bool next) const {
 	if (!next) {
-		return __min(dfLv, 100);
+		return std::min(dfLv, 100);
 	}
 	else {
 		if (getDFvalue(false) < 100) {
-			return __min(dfLv + 1, 100);
+			return std::min(dfLv + 1, 100);
 		}
 		else {
 			return -1;
@@ -316,11 +317,11 @@ int PlayerStatsService::getDFvalue(bool next) const {
 }
 int PlayerStatsService::getSHDvalue(bool next) const {
 	if (!next) {
-		return __min(120 + (10 * pow(shdTimeLv, 0.9)), 999);
+		return (int) std::min(120 + (10 * pow(shdTimeLv, 0.9)), 999.0);
 	}
 	else {
 		if (getSHDvalue(false) < 999) {
-			return __min(120 + (10 * pow(shdTimeLv + 1, 0.9)), 999);
+			return (int) std::min(120 + (10 * pow(shdTimeLv + 1, 0.9)), 999.0);
 		}
 		else {
 			return -1;
@@ -330,11 +331,11 @@ int PlayerStatsService::getSHDvalue(bool next) const {
 }
 double PlayerStatsService::getSHDrecovValue(bool next) const {
 	if (!next) {
-		return __min(0.1 + ((shdRecovLv) * 0.01), 1);
+		return std::min(0.1 + ((shdRecovLv) * 0.01), 1.0);
 	}
 	else {
 		if (getSHDrecovValue(false) < 1) {
-			return __min(0.1 + ((shdRecovLv + 1) * 0.01), 1);
+			return std::min(0.1 + ((shdRecovLv + 1) * 0.01), 1.0);
 		}
 		else {
 			return -1;
