@@ -14,14 +14,9 @@ bool BobberGame::setup()
 		preloadTextures();
 		preloadMusicAndSounds();
 
-		stateFactory = std::make_shared<StateFactory>();
+		stateFactory = std::make_unique<StateFactory>();
 
 		ServiceManager::Instance()->getService<StateMachine>().pushState(stateFactory->createState("MainMenuState"));
-		//getStateMachine()->pushState(stateFactory->createState("MainMenuState"));
-		//getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
-        //getStateMachine()->peekState()->onEnter();
-		//getStateMachine()->pushState(stateFactory->createState("TestState"));
-        //ServiceManager::Instance()->getService<StateMachine>().peekState()->onEnter();
 
 		return true;
 	}
