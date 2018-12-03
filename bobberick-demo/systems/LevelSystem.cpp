@@ -21,13 +21,13 @@ void LevelSystem::handleLevelFinished() const {
 	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID();
 	std::string newStateId = "";
 	if (stateId == "level_one") {
-		newStateId = "Level2State";
+			newStateId = "Level2State";
 	}
 	else if (stateId == "level_two") {
-		newStateId = "Level3State";
+			newStateId = "Level3State";
 	}
 	else if (stateId == "level_three") {
-		newStateId = "EndScreen";
+			newStateId = "EndScreen";
 	}
 	if (newStateId != "") {
 		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState(newStateId));
@@ -64,5 +64,5 @@ bool LevelSystem::checkIfPlayerDied() const {
 
 void LevelSystem::handlePlayerDied() const {
 	StateFactory factory{};
-	ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState("MainMenuState"));
+	ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState("GameOverState"));
 }

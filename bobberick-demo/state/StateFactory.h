@@ -13,6 +13,7 @@
 #include "Level3State.h"
 #include "PauseScreenState.h"
 #include "SettingsScreenState.h"
+#include "GameOverState.h"
 
 class StateFactory {
 
@@ -30,6 +31,7 @@ private:
     EndScreenState* createEndScreenState() const;
     PauseScreenState* createPauseScreenState() const;
 	SettingsScreenState* createSettingsScreenState() const;
+	GameOverState* createGameOverState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H
