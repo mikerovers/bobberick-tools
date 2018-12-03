@@ -346,7 +346,10 @@ void AISystem::kill(Entity& entity)
 	                                             47, 47,
 	                                             entityTransform.getScale() * 2);
 	bloodPuddle.addComponent<SpriteComponent>("blood2");
-
+	for (const auto& group : entity.getGroups())
+	{
+		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(bloodPuddle, group);
+	}
 	entity.destroy();
 }
 
