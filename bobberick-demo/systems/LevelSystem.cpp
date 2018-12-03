@@ -18,7 +18,7 @@ LevelSystem::LevelSystem(EntityManager &entityManager) : System(entityManager)
 
 void LevelSystem::handleLevelFinished() const {
 	StateFactory factory{};
-	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID();
+	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
 	std::string newStateId = "";
 	if (stateId == "level_one") {
 			newStateId = "Level2State";
