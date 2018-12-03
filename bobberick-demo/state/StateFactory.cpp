@@ -34,10 +34,12 @@ GameState* StateFactory::createState(const std::string& type)
 	else if (type == "Level1State")
 	{
 		return createPlayState();
-	} else if (type == "Level2State")
+	} 
+	else if (type == "Level2State")
 	{
 		return createLevel2State();
-	} else if (type == "Level3State")
+	} 
+	else if (type == "Level3State")
     {
 	    return createLevel3State();
     }
@@ -47,7 +49,8 @@ GameState* StateFactory::createState(const std::string& type)
 	else if (type == "CreditScreenState")
 	{
 		return createCreditScreenState();
-	} else if (type == "HelpScreen")
+	} 
+	else if (type == "HelpScreen")
 	{
 		return createHelpScreenState();
 	}
@@ -61,6 +64,10 @@ GameState* StateFactory::createState(const std::string& type)
 	else if (type == "SettingsScreen")
 	{
 		return createSettingsScreenState();
+	} 
+	else if (type == "SkillScreenState")
+	{
+		return createSkillScreenState();
 	}
 
 	return nullptr;
@@ -169,6 +176,18 @@ PauseScreenState *StateFactory::createPauseScreenState() const
 		std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return pauseScreenState;
+}
+
+SkillScreenState* StateFactory::createSkillScreenState() const {
+	SkillScreenState* skillScreenState = new SkillScreenState();
+	skillScreenState->addSystem(
+		std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	skillScreenState->addSystem(
+		std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	skillScreenState->addSystem(
+		std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return skillScreenState;
 }
 
 Level1State* StateFactory::createPlayState()

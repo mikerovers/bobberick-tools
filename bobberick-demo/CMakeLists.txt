@@ -38,6 +38,7 @@ systems/AISystem.cpp systems/AISystem.h
 systems/AdvertisementSystem.cpp systems/AdvertisementSystem.h 
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
+state/SkillScreenState.cpp state/SkillScreenState.h
 state/CreditScreenState.cpp state/CreditScreenState.h
 state/SettingsScreenState.cpp state/SettingsScreenState.h
 factory/ObjectFactory.cpp factory/ObjectFactory.h

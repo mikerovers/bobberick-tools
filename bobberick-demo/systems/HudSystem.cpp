@@ -79,32 +79,12 @@ void HudSystem::update()
 	//	playerStats.toggleShield();
 	//}
 
-	// check player inventory en update accordingly
-	//auto& inventory = entity->getComponent<InventoryComponent>();
-	//auto* inventoryItem1 = inventory.getItem(0);
-	//auto* inventoryItem2 = inventory.getItem(1);
+	// check player weapons and update accordingly
+	//auto inventoryItem1 = playerStats.normalWeapon;
+	//auto inventoryItem2 = playerStats.magicWeapon;
 
-	//if (inventoryItem1 != nullptr) {
-	//	inventorySlot1.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
-	//}
-	//else
-	//{
-	//	if (inventorySlot1.hasComponent<SpriteComponent>())
-	//	{
-	//		inventorySlot1.removeComponent<SpriteComponent>();
-	//	}
-	//}
-
-	//if (inventoryItem2 != nullptr) {
-	//	inventorySlot2.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
-	//}
-	//else
-	//{
-	//	if (inventorySlot2.hasComponent<SpriteComponent>())
-	//	{
-	//		inventorySlot2.removeComponent<SpriteComponent>();
-	//	}
-	//}
+	//inventorySlot1.addComponent<SpriteComponent>(inventoryItem1.texture.c_str(), true);
+	//inventorySlot2.addComponent<SpriteComponent>(inventoryItem2.texture.c_str(), true);
 
 	healthBox.getComponent<TransformComponent>().width = healthWidth;
 	shieldBox.getComponent<TransformComponent>().width = shieldWidth;

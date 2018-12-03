@@ -12,6 +12,7 @@
 #include "Level2State.h"
 #include "Level3State.h"
 #include "PauseScreenState.h"
+#include "SkillScreenState.h"
 #include "SettingsScreenState.h"
 #include "GameOverState.h"
 
@@ -30,6 +31,7 @@ private:
 	HelpScreenState* createHelpScreenState() const;
     EndScreenState* createEndScreenState() const;
     PauseScreenState* createPauseScreenState() const;
+	SkillScreenState* createSkillScreenState() const;
 	SettingsScreenState* createSettingsScreenState() const;
 	GameOverState* createGameOverState() const;
 };

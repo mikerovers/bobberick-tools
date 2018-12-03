@@ -60,12 +60,12 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic,
 		//std::cout << "Fire Delay: " << fireDelay << std::endl;
 
 		// Assign sprites: these might vary depending on weapon type and weapon rank.
-		std::string const sprite = "assets/items/potion.png"; // TODO: assign based on core numbers
+		std::string const sprite = "potion"; // TODO: assign based on core numbers
 		std::string bulletSprite;
 		if (magic) {
-			bulletSprite = "assets/projectiles/bolt.png";
+			bulletSprite = "bolt";
 		} else {
-			bulletSprite = "assets/projectiles/bullet_ball_grey.png";
+			bulletSprite = "bullet";
 		}
 
 		return std::make_unique<WeaponComponent>(WeaponComponent(sprite, name, magic, power, fireDelay, bulletSprite));
