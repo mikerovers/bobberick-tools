@@ -12,7 +12,7 @@ class RectangleManager : public Service
 public:
     void init() override;
     void clean() override;
-    void draw(SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, int red, int green, int blue, bool filled);
+    void draw(SDL_Rect *destinationRect, SDL_RendererPointer renderer, int red, int green, int blue, bool filled);
 };
 
 

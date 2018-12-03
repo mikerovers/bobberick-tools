@@ -9,7 +9,7 @@ void RenderService::init()
 {
 }
 
-bool RenderService::createRenderer(std::shared_ptr<SDL_Window> window)
+bool RenderService::createRenderer(SDL_WindowPointer window)
 {
     renderer = SDL_RendererPointer(SDL_CreateRenderer(window.get(), -1, 0));
 
