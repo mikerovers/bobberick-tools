@@ -2,6 +2,10 @@
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
+#include "../components/PlayerComponent.h"
+#include "../components/ShootComponent.h"
+#include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 
 Entity& ObjectFactory::getObject(const TileObject* object)
@@ -80,6 +84,24 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
         return manufacturer;
     }
+
+    if (object->name == "player_spawn")
+	{
+		auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+		player.addComponent<TransformComponent>(object->position->x, object->position->y, 64, 32, 1);
+		auto& spriteComponent = player.addComponent<SpriteComponent>("character", 6,
+																	 4, 5);
+		player.addComponent<PlayerMovementComponent>();
+
+		// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
+		player.addComponent<PlayerComponent>();
+
+		player.addComponent<TimerComponent>();
+		player.addComponent<ShootComponent>();
+		player.addComponent<CollisionComponent>("player");
+
+		return player;
+	}
 
 	return *new Entity();
 }

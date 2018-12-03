@@ -96,18 +96,7 @@ Entity &Level2State::makeTileMap() const
 
 void Level2State::makePlayer() const
 {
-    auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    player.addComponent<TransformComponent>(100, 100, 64, 32, 1);
-    auto& spriteComponent = player.addComponent<SpriteComponent>("character", 6,
-                                                                 4, 5);
-    player.addComponent<PlayerMovementComponent>();
-
-    // 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
-    player.addComponent<PlayerComponent>();
-
-    player.addComponent<TimerComponent>();
-    player.addComponent<ShootComponent>();
-    player.addComponent<CollisionComponent>("player");
-    //player.addComponent<InventoryComponent>(&player.getComponent<PlayerComponent>());
-    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(player, getStateID());
+    for(auto& p : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>()) {
+        ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(*p, getStateID());
+    }
 }
