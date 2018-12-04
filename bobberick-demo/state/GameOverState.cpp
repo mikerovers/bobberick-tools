@@ -6,6 +6,7 @@
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "StateFactory.h"
 #include "../services/PlayerStatsService.h"
+#include "../services/HighscoreService.h"
 
 std::string GameOverState::getStateID() const
 {
@@ -14,8 +15,13 @@ std::string GameOverState::getStateID() const
 
 bool GameOverState::onEnter()
 {
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	highscorePos = ServiceManager::Instance()->getService<HighscoreService>().saveScore(playerStats.xp);
+
 	makeText();
 	makeGui();
+
+	playerStats.init();
 
 	return true;
 }
@@ -44,6 +50,7 @@ void GameOverState::makeText() const
 {
 	makeGameOverText();
 	makeXPText();
+	makeHighscoreText();
 }
 
 void GameOverState::makeGameOverText() const
@@ -62,6 +69,17 @@ void GameOverState::makeXPText() const
 	xpGainedText.addComponent<TextComponent>("monoMedium", "xpGainedText", "Total XP gained this game: " + std::to_string(ServiceManager::Instance()->getService<PlayerStatsService>().xp));
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(xpGainedText, getStateID());
+}
+
+void GameOverState::makeHighscoreText() const
+{
+	auto& highscoreText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	highscoreText.addComponent<TransformComponent>(100, 350, 80, 800, 1);
+	if (highscorePos > 0) {
+		highscoreText.addComponent<TextComponent>("monoMedium", "highscoreText", "New highscore at position: " + std::to_string(highscorePos));
+	}
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(highscoreText, getStateID());
 }
 
 void GameOverState::makeGui()

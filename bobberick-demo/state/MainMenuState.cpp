@@ -49,6 +49,7 @@ bool MainMenuState::onEnter()
 
 	makeStartGameButton();
 	makeOptionsButton();
+	makeScoresButton();
 	makeExitButton();
 	makeHelpButton();
 	makeAdvertisements();
@@ -181,7 +182,7 @@ void MainMenuState::makeExitButton()
 	auto* exitButtonTransformComponent = new TransformComponent();
 
 	exitButtonTransformComponent->position.x = 420;
-	exitButtonTransformComponent->position.y = 380;
+	exitButtonTransformComponent->position.y = 460;
 	exitButtonTransformComponent->height = 64;
 	exitButtonTransformComponent->width = 128;
 	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
@@ -213,6 +214,27 @@ void MainMenuState::makeHelpButton()
 	entityManager.addEntityToGroup(helpButton, getStateID());
 }
 
+void MainMenuState::makeScoresButton() 
+{
+	auto& scoresButton = entityManager.addEntity();
+	auto* scoresButtonComponent = new ButtonComponent([]()
+	{
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("HighscoreScreen"));
+	});
+
+	scoresButton.addExistingComponent<ButtonComponent>(scoresButtonComponent);
+	auto* scoresButtonTransformComponent = new TransformComponent();
+	scoresButtonTransformComponent->position.x = 420;
+	scoresButtonTransformComponent->position.y = 300;
+	scoresButtonTransformComponent->height = 64;
+	scoresButtonTransformComponent->width = 128;
+	scoresButton.addExistingComponent<TransformComponent>(scoresButtonTransformComponent);
+	scoresButton.addComponent<ButtonSpriteComponent>("scoresButton", 1, 3, 0);
+	scoresButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	entityManager.addEntityToGroup(scoresButton, getStateID());
+}
+
 void MainMenuState::makeLoadButton()
 {
 	auto& loadGameButton = entityManager.addEntity();
@@ -225,7 +247,7 @@ void MainMenuState::makeLoadButton()
 														});
 
 	loadGameButton.addExistingComponent<ButtonComponent>(loadGameButtonComponent);
-	loadGameButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
+	loadGameButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
 	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0);
 	loadGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	loadGameButton.addComponent<CollisionComponent>("loadButton");

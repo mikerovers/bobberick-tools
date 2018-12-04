@@ -6,7 +6,7 @@
 #include "SplashScreenState.h"
 #include "Level1State.h"
 #include "MainMenuState.h"
-#include "../state/CreditScreenState.h"
+#include "CreditScreenState.h"
 #include "HelpScreenState.h"
 #include "EndScreenState.h"
 #include "Level2State.h"
@@ -14,6 +14,7 @@
 #include "PauseScreenState.h"
 #include "SkillScreenState.h"
 #include "SettingsScreenState.h"
+#include "HighscoreState.h"
 #include "GameOverState.h"
 
 class StateFactory {
@@ -28,6 +29,7 @@ private:
 	std::unique_ptr<Level3State> createLevel3State() const;
 	std::unique_ptr<MainMenuState> createMainMenuState();
 	std::unique_ptr<CreditScreenState> createCreditScreenState() const;
+	std::unique_ptr<HighscoreState> createHighscoreState() const;
 	std::unique_ptr<HelpScreenState> createHelpScreenState() const;
 	std::unique_ptr<EndScreenState> createEndScreenState() const;
 	std::unique_ptr<PauseScreenState> createPauseScreenState() const;

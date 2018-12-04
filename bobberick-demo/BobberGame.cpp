@@ -1,6 +1,7 @@
 #include "BobberGame.h"
 #include "state/Level1State.h"
 #include "services/PlayerStatsService.h"
+#include "services/HighscoreService.h"
 #include "../bobberick-framework/src/services/RenderService.h"
 #include "../bobberick-framework/src/services/TextureManager.h"
 #include "../bobberick-framework/src/services/SoundManager.h"
@@ -10,6 +11,8 @@ bool BobberGame::setup()
 	if (Game::setup()) {
 		ServiceManager::Instance()->addService<PlayerStatsService>();
 		ServiceManager::Instance()->getService<PlayerStatsService>().init();
+		ServiceManager::Instance()->addService<HighscoreService>();
+		ServiceManager::Instance()->getService<HighscoreService>().init();
 
 		preloadTextures();
 		preloadMusicAndSounds();
@@ -55,6 +58,8 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/button/defensebutton.png", "defenseButton", renderer);
 	t.load("assets/image/button/shieldbutton.png", "shieldButton", renderer);
 	t.load("assets/image/button/recovbutton.png", "recoveryButton", renderer);
+	t.load("assets/image/button/scoresbutton.png", "scoresButton", renderer);
+	t.load("assets/image/button/clearbutton.png", "clearButton", renderer);
 	t.load("assets/image/button/togglemusicbutton.png", "toggleMusicButton", renderer);
 	t.load("assets/image/button/blank_green_button.png", "blankGreenButton", renderer);
 	t.load("assets/image/button/blank_red_button.png", "blankRedButton", renderer);

@@ -23,6 +23,7 @@ private:
 	void makeOptionsButton();
 	void makeAdvertisements();
 	void makeLoadButton();
+	void makeScoresButton();
 	void makeExitButton();
 	void makeHelpButton();
 };
