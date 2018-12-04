@@ -59,7 +59,7 @@ void GameOverState::makeXPText() const
 {
 	auto& xpGainedText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	xpGainedText.addComponent<TransformComponent>(100, 250, 80, 800, 1);
-	xpGainedText.addComponent<TextComponent>("monoMedium", "xpGainedText", "Total XP gained this game: " + std::to_string(ServiceManager::Instance()->getService<PlayerStatsService>().getXPtotal()));
+	xpGainedText.addComponent<TextComponent>("monoMedium", "xpGainedText", "Total XP gained this game: " + std::to_string(ServiceManager::Instance()->getService<PlayerStatsService>().xp));
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(xpGainedText, getStateID());
 }
