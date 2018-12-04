@@ -114,7 +114,7 @@ void HighscoreState::makeHighscoreText() {
 
 void HighscoreState::updateHighscoreText() {
 	highscores = highscoreService.getScores();
-	for (int i = 0; i < highscores.size(); i++) {
+	for (int i = 0; i < highscoreTexts.size(); i++) {
 		highscoreTexts[i]->getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(i + 1), 2, true) + ". " + textFormatter.addSpaces(std::to_string(highscores[i]), 10, true) + " XP");
 	}
 }
