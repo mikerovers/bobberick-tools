@@ -62,8 +62,13 @@ void BobberGame::preloadTextures()
 	// character
 	t.load("assets/image/character/character.png", "character", renderer);
 	t.load("assets/image/character/character_casting.png", "characterCasting", renderer);
+	t.load("assets/image/character/character_casting_1.png", "characterCasting_1", renderer);
+	t.load("assets/image/character/character_casting_2.png", "characterCasting_2", renderer);
 	t.load("assets/image/character/character_shield.png", "characterShield", renderer);
 	t.load("assets/image/character/character_shooting.png", "characterShooting", renderer);
+	t.load("assets/image/character/character_shooting_1.png", "characterShooting_1", renderer);
+	t.load("assets/image/character/character_shooting_2.png", "characterShooting_2", renderer);
+	t.load("assets/image/character/character_shooting_3.png", "characterShooting_3", renderer);
 
 	// enemies
 	t.load("assets/image/Enemies/birds1.png", "birds", renderer);
@@ -85,6 +90,13 @@ void BobberGame::preloadTextures()
 
 	// items
 	t.load("assets/image/items/potion.png", "potion", renderer);
+	// staffs
+	t.load("assets/image/items/staff_1.png", "staff_1", renderer);
+	t.load("assets/image/items/staff_2.png", "staff_2", renderer);
+	// bows
+	t.load("assets/image/items/bow_1.png", "bow_1", renderer);
+	t.load("assets/image/items/bow_2.png", "bow_2", renderer);
+	t.load("assets/image/items/bow_3.png", "bow_3", renderer);
 
 	// projectiles
 	t.load("assets/image/projectiles/bolt.png", "bolt", renderer);

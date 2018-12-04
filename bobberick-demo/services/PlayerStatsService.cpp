@@ -1,8 +1,8 @@
 #include "PlayerStatsService.h"
 
 void PlayerStatsService::init() {
-	normalWeapon = WeaponComponent("potion", "Training Bow of Nothing", false, 0, 60, "bullet");
-	magicWeapon = WeaponComponent("potion", "Training Staff of Nothing", false, 5, 120, "bolt");
+	normalWeapon = WeaponComponent("characterShooting", "Training Bow of Nothing", false, 0, 60, "bullet");
+	magicWeapon = WeaponComponent("characterCasting", "Training Staff of Nothing", false, 5, 120, "bolt");
 	gold = 0;
 	xp = 0;
 	shdActive = false;

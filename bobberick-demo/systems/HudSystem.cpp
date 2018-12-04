@@ -11,6 +11,7 @@
 #include "../../bobberick-framework/src/services/FrameHandler.h"
 #include "../../bobberick-framework/src/util/TextFormatter.h"
 #include <string>
+#include "../components/InventorySlotComponent.h"
 
 HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
                                                      hudBox(entityManager.addEntity()),
@@ -75,9 +76,28 @@ void HudSystem::update()
 		shieldBox.getComponent<RectangleComponent>().blue = 255;
 	}
 
+
 	//if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
 	//	playerStats.toggleShield();
 	//}
+
+	if (inventorySlot1.getComponent<InventorySlotComponent>().textureID != "null")
+	{
+		if (inventorySlot1.hasComponent<SpriteComponent>())
+		{
+			inventorySlot1.removeComponent<SpriteComponent>();
+		}
+		inventorySlot1.addComponent<SpriteComponent>(inventorySlot1.getComponent<InventorySlotComponent>().textureID.c_str(), true);
+	}
+
+	if (inventorySlot2.getComponent<InventorySlotComponent>().textureID != "null")
+	{
+		if (inventorySlot2.hasComponent<SpriteComponent>())
+		{
+			inventorySlot2.removeComponent<SpriteComponent>();
+		}
+		inventorySlot2.addComponent<SpriteComponent>(inventorySlot2.getComponent<InventorySlotComponent>().textureID.c_str(), true);
+	}
 
 	// check player inventory en update accordingly
 	//auto& inventory = entity->getComponent<InventoryComponent>();
@@ -152,14 +172,16 @@ void HudSystem::init()
 	xpText.addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
 	xpText.addComponent<TextComponent>("monoMedium", "xpText", " ");
 
-	inventory.addComponent<TransformComponent>(10, gameHeight - 60, 50, 120, 1);
+	inventory.addComponent<TransformComponent>(10, gameHeight - 60, 60, 130, 1);
 	inventory.addComponent<RectangleComponent>(161, 64, 5, true);
 
-	inventorySlot1.addComponent<TransformComponent>(20, gameHeight - 55, 40, 40, 1);
+	inventorySlot1.addComponent<TransformComponent>(20, gameHeight - 55, 50, 50, 1);
 	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
+	inventorySlot1.addComponent<InventorySlotComponent>();
 
-	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 40, 40, 1);
+	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
+	inventorySlot2.addComponent<InventorySlotComponent>();
 
 	fpsCounter.addComponent<TransformComponent>(gameWidth - 60, 0 + 65, 40, 55, 1);
 	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
