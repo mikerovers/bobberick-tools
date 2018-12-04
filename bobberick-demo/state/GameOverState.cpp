@@ -25,6 +25,9 @@ void GameOverState::update()
 	for (const auto& system : systems)
 	{
 		system->update();
+
+		if (exiting)
+			break;
 	}
 }
 
