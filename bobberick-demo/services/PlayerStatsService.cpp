@@ -1,8 +1,8 @@
 #include "PlayerStatsService.h"
 
 void PlayerStatsService::init() {
-	normalWeapon = WeaponComponent("characterShooting", "Training Bow of Nothing", false, 0, 60, "bullet");
-	magicWeapon = WeaponComponent("characterCasting", "Training Staff of Nothing", false, 5, 120, "bolt");
+	// normalWeapon = WeaponComponent("characterShooting", "Training Bow of Nothing", false, 0, 60, "bullet");
+	// magicWeapon = WeaponComponent("characterCasting", "Training Staff of Nothing", false, 5, 120, "bolt");
 	gold = 0;
 	xp = 0;
 	shdActive = false;
@@ -34,6 +34,16 @@ void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin
 void PlayerStatsService::setWeapons(WeaponComponent normal, WeaponComponent magic) {
 	normalWeapon = normal;
 	magicWeapon = magic;
+}
+
+void PlayerStatsService::setMagicWeapon(WeaponComponent weapon)
+{
+	magicWeapon = weapon;
+}
+
+void PlayerStatsService::setNormalWeapon(WeaponComponent weapon)
+{
+	normalWeapon = weapon;
 }
 
 void PlayerStatsService::update() {

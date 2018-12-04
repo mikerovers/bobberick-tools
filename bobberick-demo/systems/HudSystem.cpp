@@ -81,23 +81,23 @@ void HudSystem::update()
 	//	playerStats.toggleShield();
 	//}
 
-	if (inventorySlot1.getComponent<InventorySlotComponent>().textureID != "null")
-	{
-		if (inventorySlot1.hasComponent<SpriteComponent>())
-		{
-			inventorySlot1.removeComponent<SpriteComponent>();
-		}
-		inventorySlot1.addComponent<SpriteComponent>(inventorySlot1.getComponent<InventorySlotComponent>().textureID.c_str(), true);
-	}
-
-	if (inventorySlot2.getComponent<InventorySlotComponent>().textureID != "null")
-	{
-		if (inventorySlot2.hasComponent<SpriteComponent>())
-		{
-			inventorySlot2.removeComponent<SpriteComponent>();
-		}
-		inventorySlot2.addComponent<SpriteComponent>(inventorySlot2.getComponent<InventorySlotComponent>().textureID.c_str(), true);
-	}
+	// if (inventorySlot1.getComponent<InventorySlotComponent>().textureID != "null")
+	// {
+	// 	if (inventorySlot1.hasComponent<SpriteComponent>())
+	// 	{
+	// 		inventorySlot1.removeComponent<SpriteComponent>();
+	// 	}
+	// 	inventorySlot1.addComponent<SpriteComponent>(inventorySlot1.getComponent<InventorySlotComponent>().textureID.c_str(), true);
+	// }
+	//
+	// if (inventorySlot2.getComponent<InventorySlotComponent>().textureID != "null")
+	// {
+	// 	if (inventorySlot2.hasComponent<SpriteComponent>())
+	// 	{
+	// 		inventorySlot2.removeComponent<SpriteComponent>();
+	// 	}
+	// 	inventorySlot2.addComponent<SpriteComponent>(inventorySlot2.getComponent<InventorySlotComponent>().textureID.c_str(), true);
+	// }
 
 	// check player inventory en update accordingly
 	//auto& inventory = entity->getComponent<InventoryComponent>();

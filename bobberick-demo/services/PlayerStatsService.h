@@ -37,13 +37,15 @@ public:
 	void changeATmin(const int amount);
 	void changeATmax(const int amount);
 	void setSHD(const int amount);
+	void setNormalWeapon(const WeaponComponent weapon);
+	void setMagicWeapon(const WeaponComponent weapon);
 
 	// Getters for metagame stats
 	int getXPtotal() const;
 
 	// Public in-game stats
-	WeaponComponent normalWeapon = WeaponComponent("potion", "Training Bow of Nothing", false, 0, 60, "bullet");
-	WeaponComponent magicWeapon = WeaponComponent("potion", "Training Staff of Nothing", false, 5, 120, "bolt");
+	WeaponComponent normalWeapon = WeaponComponent("characterShooting", "Training Bow of Nothing", false, 0, 60, "bullet");
+	WeaponComponent magicWeapon = WeaponComponent("characterCasting", "Training Staff of Nothing", false, 5, 120, "bolt");
 	int gold;
 	int xp; // Earned in the current game.
 private:

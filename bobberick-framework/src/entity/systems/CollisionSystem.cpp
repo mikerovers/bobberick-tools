@@ -54,16 +54,57 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 				{
 					if (iEntity->getComponent<InventorySlotComponent>().textureID == "null")
 					{
+						auto playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+						if (colliderB.entity->hasComponent<WeaponComponent>())
+						{
+							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
+
+							if (weapon.isMagic)
+							{
+								playerStats.setMagicWeapon(weapon);
+								// playerStats.magicWeapon = weapon;
+							}
+							else
+							{
+								playerStats.setNormalWeapon(weapon);
+								// playerStats.normalWeapon = weapon;
+							}
+						}
+
+						auto test = ServiceManager::Instance()->getService<PlayerStatsService>();
+						auto test1 = test.normalWeapon;
+						auto test2 = test.magicWeapon;
+
 						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
 						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
 						break;
 					}
+					// else if ((iEntity->getComponent<InventorySlotComponent>().textureID == "staff_1" || iEntity->getComponent<InventorySlotComponent>().textureID == "staff_2")
+					// 	&& colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					// {
+					// 	iEntity->getComponent<InventorySlotComponent>().textureID;
+					// }
 				}
 
-				colliderA.entity->getComponent<InventoryComponent>().pickUp(colliderB.entity->getComponent<WeaponComponent>());
+				// auto playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+				// if (colliderB.entity->hasComponent<WeaponComponent>())
+				// {
+				// 	auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
+				//
+				// 	if (weapon.isMagic)
+				// 	{
+				// 		playerStats.magicWeapon = weapon;
+				// 	}
+				// 	else
+				// 	{
+				// 		playerStats.normalWeapon = weapon;
+				// 	}
+				// }
+				
+				// colliderA.entity->getComponent<InventoryComponent>().pickUp(colliderB.entity->getComponent<WeaponComponent>());
 				for (const auto& group : colliderB.entity->getGroups())
 				{
-					colliderB.entity->removeGroup(group);
+					// colliderB.entity->removeGroup(group);
 					colliderB.entity->destroy();
 				}
 			}

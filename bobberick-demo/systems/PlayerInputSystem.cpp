@@ -191,12 +191,12 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 				// if (entityWithWeapon->hasComponent<PlayerComponent>())
 				// {
 					auto newWeapon = entityWithWeapon->getComponent<WeaponComponent>();
-
+	
 					// sprite.setTexture(newWeapon.textureID.c_str());
-
+	
 					// auto const curNormalWeapon = WeaponComponent{ playerStats.normalWeapon.textureID, playerStats.normalWeapon.name, playerStats.normalWeapon.isMagic, playerStats.normalWeapon.power, playerStats.normalWeapon.fireDelay, playerStats.normalWeapon.bulletTexture };;
 					// auto const curMagicWeapon = WeaponComponent{ playerStats.magicWeapon.textureID, playerStats.magicWeapon.name, playerStats.magicWeapon.isMagic, playerStats.magicWeapon.power, playerStats.magicWeapon.fireDelay, playerStats.magicWeapon.bulletTexture };
-
+	
 					if (newWeapon.isMagic)
 					{
 						playerStats.magicWeapon = newWeapon;
@@ -209,7 +209,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 						// playerStats.setWeapons(newWeapon, curMagicWeapon);
 						// playerStats.setWeapon(newWeapon.textureID, newWeapon.name, newWeapon.isMagic, newWeapon.power, newWeapon.fireDelay, newWeapon.bulletTexture);
 					}
-
+	
 					for (auto inventorySlotEntity : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>())
 					{
 						// for (auto group : inventorySlotEntity->getGroups())
@@ -219,7 +219,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 							break;
 						}
 					}
-
+	
 					// for (auto group : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>())
 					// {
 					// 	
@@ -228,17 +228,17 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 			}
 		}
 	}
-
+	
 	if (num2)
 	{
 		if (!inventory.items.empty())
 		{
 			auto const weapon = inventory.getItem(1);
 			sprite.setTexture(weapon->textureID.c_str());
-
+	
 			auto const curNormalWeapon = playerStats.normalWeapon;
 			auto const curMagicWeapon = playerStats.magicWeapon;
-
+	
 			if (weapon->entity->getComponent<WeaponComponent>().isMagic)
 			{
 				playerStats.setWeapons(curNormalWeapon, weapon->entity->getComponent<WeaponComponent>());
@@ -247,7 +247,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 			{
 				playerStats.setWeapons(weapon->entity->getComponent<WeaponComponent>(), curMagicWeapon);
 			}
-
+	
 			for (auto inventorySlotEntity : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>())
 			{
 				// for (auto group : inventorySlotEntity->getGroups())
@@ -257,7 +257,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 					break;
 				}
 			}
-
+	
 			// for (auto group : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>())
 			// {
 			// 	
