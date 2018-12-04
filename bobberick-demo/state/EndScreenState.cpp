@@ -40,10 +40,10 @@ void EndScreenState::update()
     }
 }
 
-void EndScreenState::makeExitButton()
+void EndScreenState::makeExitButton() const
 {
     auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* exitButtonComponent = new ButtonComponent([this]()
+    auto* exitButtonComponent = new ButtonComponent([]()
                                                     {
                                                         std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
                                                         ServiceManager::Instance()->getService<StateMachine>().changeState(sFactory->createState("MainMenuState"));
