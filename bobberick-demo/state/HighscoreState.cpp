@@ -33,6 +33,7 @@ bool HighscoreState::onEnter()
 
 	makeClearButton();
 	makeExitButton();
+	makeTitleText();
 	makeHighscoreText();
 	updateHighscoreText();
 
@@ -55,6 +56,7 @@ void HighscoreState::makeClearButton()
 	auto& clearButton = entityManager.addEntity();
 	auto* clearButtonComponent = new ButtonComponent([this]()
 	{
+		highscoreService.resetScores();
 		highscores = highscoreService.getScores();
 		updateHighscoreText();
 	});
@@ -96,9 +98,16 @@ void HighscoreState::makeExitButton()
 	entityManager.addEntityToGroup(exitButton, getStateID());
 }
 
+void HighscoreState::makeTitleText() {
+	auto& title = entityManager.addEntity();
+	entityManager.addEntityToGroup(title, getStateID());
+	title.addComponent<TransformComponent>(300, 10, 64, 360, 1);
+	title.addComponent<TextComponent>("defaultLarge", "scoresTitle", "Hall of Fame");
+}
+
 void HighscoreState::makeHighscoreText() {
 	for (int i = 0; i < highscoreTexts.size(); i++) {
-		highscoreTexts[i]->addComponent<TransformComponent>(10, 80 + (30 * i), 30, 940, 1);
+		highscoreTexts[i]->addComponent<TransformComponent>(320, 80 + (30 * i), 30, 320, 1);
 		highscoreTexts[i]->addComponent<TextComponent>("monoMedium", ("highscore" + std::to_string(i + 1)).c_str(), " ");
 	}
 }
@@ -106,6 +115,6 @@ void HighscoreState::makeHighscoreText() {
 void HighscoreState::updateHighscoreText() {
 	highscores = highscoreService.getScores();
 	for (int i = 0; i < highscores.size(); i++) {
-		highscoreTexts[i]->getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(i + 1), 2, true) + ". " + textFormatter.addSpaces(std::to_string(highscores[i]), 40, true) + " XP");
+		highscoreTexts[i]->getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(i + 1), 2, true) + ". " + textFormatter.addSpaces(std::to_string(highscores[i]), 10, true) + " XP");
 	}
 }

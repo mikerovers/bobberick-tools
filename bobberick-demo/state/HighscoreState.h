@@ -31,6 +31,7 @@ private:
 	void makeClearButton();
 	void makeExitButton();
 
+	void makeTitleText();
 	void makeHighscoreText();
 	void updateHighscoreText();
 
