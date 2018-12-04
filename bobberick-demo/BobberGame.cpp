@@ -3,7 +3,12 @@
 #include "services/PlayerStatsService.h"
 #include "../bobberick-framework/src/services/RenderService.h"
 #include "../bobberick-framework/src/services/TextureManager.h"
+#include "../bobberick-framework/src/services/SettingsService.h"
 #include "../bobberick-framework/src/services/SoundManager.h"
+#include <experimental/filesystem>
+#include <regex>
+
+using std::experimental::filesystem::recursive_directory_iterator;
 
 bool BobberGame::setup()
 {
@@ -96,9 +101,17 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/projectiles/bullet_ball_grey.png", "bullet", renderer);
 
 	// advertisements
-	t.load("assets/image/advertisements/zombie.jpg", "ad1", renderer);
-	t.load("assets/image/advertisements/ketchup.jpg", "ad2", renderer);
-	t.load("assets/image/advertisements/knight.jpg", "ad3", renderer);
-	t.load("assets/image/advertisements/avans.jpg", "ad4", renderer);
-	t.load("assets/image/advertisements/dark_souls.jpg", "ad5", renderer);
+	int advertisementCounter = 0;
+	for (auto& dirEntry : recursive_directory_iterator("assets/image/advertisements")) {
+		std::regex rx(".*\\.(?:jpg|png)$");
+		bool match = std::tr1::regex_match(dirEntry.path().string().c_str(), rx);
+		if (match) {
+			std::cout << dirEntry.path().string().c_str() << std::endl;
+			t.load(dirEntry.path().string().c_str(), "ad" + std::to_string(advertisementCounter), renderer);
+			advertisementCounter++;
+		}
+	}
+
+	ServiceManager::Instance()->getService<SettingsService>().advertisementCount = advertisementCounter;
+
 }

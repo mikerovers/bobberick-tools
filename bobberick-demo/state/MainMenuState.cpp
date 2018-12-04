@@ -151,10 +151,11 @@ void MainMenuState::makeOptionsButton()
 
 void MainMenuState::makeAdvertisements()
 {
+	int const advertisementCount = ServiceManager::Instance()->getService<SettingsService>().advertisementCount - 1;
 	auto& advertisement1 = entityManager.addEntity();
 	advertisement1.addComponent<TransformComponent>(20, 450, 224, 300, 1);
 	advertisement1.addComponent<SpriteComponent>("ad1");
-	advertisement1.addComponent<AdvertisementComponent>(1, 1, 5);
+	advertisement1.addComponent<AdvertisementComponent>(0, 0, advertisementCount);
 	advertisement1.addComponent<TimerComponent>();
 	advertisement1.addComponent<CollisionComponent>("advertisement");
 	entityManager.addEntityToGroup(advertisement1, getStateID());
@@ -162,7 +163,7 @@ void MainMenuState::makeAdvertisements()
 	auto& advertisement2 = entityManager.addEntity();
 	advertisement2.addComponent<TransformComponent>(640, 450, 224, 300, 1);
 	advertisement2.addComponent<SpriteComponent>("ad3");
-	advertisement2.addComponent<AdvertisementComponent>(3, 1, 5);
+	advertisement2.addComponent<AdvertisementComponent>(2, 0, advertisementCount);
 	advertisement2.addComponent<TimerComponent>();
 	advertisement2.addComponent<CollisionComponent>("advertisement");
 	entityManager.addEntityToGroup(advertisement2, getStateID());

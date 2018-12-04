@@ -10,7 +10,6 @@ public:
 	explicit AdvertisementSystem(EntityManager& entityManager);
 	void update() override;
 private:
-	int maxAds;
 };
 
 
