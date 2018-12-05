@@ -38,13 +38,13 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		{
 			// Weapon is a magic weapon
 			WeaponComponent wComponent = *wFactory.generateWeapon(true, 1, 10, -7, 7);
-			entity.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture);
+			entity.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture, wComponent.attackingTextureID);
 		}
 		else
 		{
 			// Weapon is a non-magic weapon
 			WeaponComponent wComponent = *wFactory.generateWeapon(false, 1, 10, -7, 7);
-			entity.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture);
+			entity.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture, wComponent.attackingTextureID);
 		}
 
 		entity.addComponent<SpriteComponent>(entity.getComponent<WeaponComponent>().textureID.c_str());

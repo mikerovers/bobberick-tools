@@ -44,8 +44,8 @@ public:
 	int getXPtotal() const;
 
 	// Public in-game stats
-	WeaponComponent normalWeapon = WeaponComponent("characterShooting", "Training Bow of Nothing", false, 0, 60, "bullet");
-	WeaponComponent magicWeapon = WeaponComponent("characterCasting", "Training Staff of Nothing", false, 5, 120, "bolt");
+	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 0, 60, "bullet", "characterShooting");
+	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", false, 5, 120, "bolt", "characterShooting");
 	int gold;
 	int xp; // Earned in the current game.
 private:

@@ -34,7 +34,6 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
 void HudSystem::update()
 {
 	fpsMiddlerCount++;
-	//auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
 	auto fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
 	fpsMiddlerVector.push_back(fps);
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
@@ -75,56 +74,6 @@ void HudSystem::update()
 		shieldBox.getComponent<RectangleComponent>().green = 204;
 		shieldBox.getComponent<RectangleComponent>().blue = 255;
 	}
-
-
-	//if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
-	//	playerStats.toggleShield();
-	//}
-
-	// if (inventorySlot1.getComponent<InventorySlotComponent>().textureID != "null")
-	// {
-	// 	if (inventorySlot1.hasComponent<SpriteComponent>())
-	// 	{
-	// 		inventorySlot1.removeComponent<SpriteComponent>();
-	// 	}
-	// 	inventorySlot1.addComponent<SpriteComponent>(inventorySlot1.getComponent<InventorySlotComponent>().textureID.c_str(), true);
-	// }
-	//
-	// if (inventorySlot2.getComponent<InventorySlotComponent>().textureID != "null")
-	// {
-	// 	if (inventorySlot2.hasComponent<SpriteComponent>())
-	// 	{
-	// 		inventorySlot2.removeComponent<SpriteComponent>();
-	// 	}
-	// 	inventorySlot2.addComponent<SpriteComponent>(inventorySlot2.getComponent<InventorySlotComponent>().textureID.c_str(), true);
-	// }
-
-	// check player inventory en update accordingly
-	//auto& inventory = entity->getComponent<InventoryComponent>();
-	//auto* inventoryItem1 = inventory.getItem(0);
-	//auto* inventoryItem2 = inventory.getItem(1);
-
-	//if (inventoryItem1 != nullptr) {
-	//	inventorySlot1.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
-	//}
-	//else
-	//{
-	//	if (inventorySlot1.hasComponent<SpriteComponent>())
-	//	{
-	//		inventorySlot1.removeComponent<SpriteComponent>();
-	//	}
-	//}
-
-	//if (inventoryItem2 != nullptr) {
-	//	inventorySlot2.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
-	//}
-	//else
-	//{
-	//	if (inventorySlot2.hasComponent<SpriteComponent>())
-	//	{
-	//		inventorySlot2.removeComponent<SpriteComponent>();
-	//	}
-	//}
 
 	healthBox.getComponent<TransformComponent>().width = healthWidth;
 	shieldBox.getComponent<TransformComponent>().width = shieldWidth;

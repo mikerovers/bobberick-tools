@@ -13,12 +13,14 @@ public:
 	int fireDelay; // The amount of frames between each bullet and the next. 60 = one bullet per second.
 	std::string bulletTexture; // The asset path for the sprite for bullets fired by this weapon.
 	std::string textureID;
-	WeaponComponent(const std::string textureID, const std::string name, const bool isMagic, const int power, const int fireDelay, const std::string bulletTexture) : ItemComponent(textureID, name) {
+	std::string attackingTextureID;
+	WeaponComponent(const std::string textureID, const std::string name, const bool isMagic, const int power, const int fireDelay, const std::string bulletTexture, const std::string attackingTextureID) : ItemComponent(textureID, name) {
 		WeaponComponent::isMagic = isMagic;
 		WeaponComponent::power = power;
 		WeaponComponent::fireDelay = fireDelay;
 		WeaponComponent::bulletTexture = bulletTexture;
 		WeaponComponent::textureID = textureID;
+		WeaponComponent::attackingTextureID = attackingTextureID;
 	}
 };
 

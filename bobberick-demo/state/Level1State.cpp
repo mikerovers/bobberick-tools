@@ -111,7 +111,7 @@ Entity& Level1State::makePlayer() const
 	player.addComponent<TimerComponent>();
 	player.addComponent<ShootComponent>();
 	player.addComponent<CollisionComponent>("player");
-	player.addComponent<InventoryComponent>(/*&player.getComponent<PlayerComponent>()*/);
+	player.addComponent<InventoryComponent>();
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(player, getStateID());
 
 	return player;

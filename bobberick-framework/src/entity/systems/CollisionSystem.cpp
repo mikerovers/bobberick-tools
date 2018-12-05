@@ -52,9 +52,11 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 				std::vector<Entity*> iEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>();
 				for (Entity* iEntity : iEntities)
 				{
-					if (iEntity->getComponent<InventorySlotComponent>().textureID == "null")
+					std::string curInventoryWeaponTextureID = iEntity->getComponent<InventorySlotComponent>().textureID;
+					// Initial, if inventory is empty
+					if (curInventoryWeaponTextureID == "null")
 					{
-						auto playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 						if (colliderB.entity->hasComponent<WeaponComponent>())
 						{
 							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
@@ -71,58 +73,54 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							}
 						}
 
-						auto test = ServiceManager::Instance()->getService<PlayerStatsService>();
-						auto test1 = test.normalWeapon;
-						auto test2 = test.magicWeapon;
-
 						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
 						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
 						break;
 					}
-					// else if ((iEntity->getComponent<InventorySlotComponent>().textureID == "staff_1" || iEntity->getComponent<InventorySlotComponent>().textureID == "staff_2")
-					// 	&& colliderB.entity->getComponent<WeaponComponent>().isMagic)
-					// {
-					// 	iEntity->getComponent<InventorySlotComponent>().textureID;
-					// }
+					// If inventory is not empty, current slot has magic weapon AND new weapon is magic: replace it
+					else if ((curInventoryWeaponTextureID == "staff_1" || curInventoryWeaponTextureID == "staff_2")
+								&& colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					{
+						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+						if (colliderB.entity->hasComponent<WeaponComponent>())
+						{
+							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
+							playerStats.setMagicWeapon(weapon);
+						}
+
+						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
+						// This causes an error...
+						// iEntity->removeComponent<SpriteComponent>();
+						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						break;
+					}
+					// If inventory is not empty, current slot has normal weapon AND new weapon is normal: replace it
+					else if ((curInventoryWeaponTextureID == "bow_1" || curInventoryWeaponTextureID == "bow_2" || curInventoryWeaponTextureID == "bow_3")
+						&& !colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					{
+						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+						if (colliderB.entity->hasComponent<WeaponComponent>())
+						{
+							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
+							playerStats.setNormalWeapon(weapon);
+						}
+
+						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
+						// This causes an error...
+						// iEntity->removeComponent<SpriteComponent>();
+						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						break;
+					}
 				}
 
-				// auto playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
-				// if (colliderB.entity->hasComponent<WeaponComponent>())
-				// {
-				// 	auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
-				//
-				// 	if (weapon.isMagic)
-				// 	{
-				// 		playerStats.magicWeapon = weapon;
-				// 	}
-				// 	else
-				// 	{
-				// 		playerStats.normalWeapon = weapon;
-				// 	}
-				// }
-				
-				// colliderA.entity->getComponent<InventoryComponent>().pickUp(colliderB.entity->getComponent<WeaponComponent>());
 				for (const auto& group : colliderB.entity->getGroups())
 				{
-					// colliderB.entity->removeGroup(group);
+					colliderB.entity->removeGroup(group);
 					colliderB.entity->destroy();
 				}
 			}
 		}
 	}
-	// if (colliderB.tag == "healthkit")
-	// {
-	// 	if (colliderA.entity->hasComponent<StatsComponent>())
-	// 	{
-	// 		auto& stats = colliderA.entity->getComponent<StatsComponent>();
-	// 		stats.healPercent(100);
-	// 	}
-	// 	else if (colliderA.entity->hasComponent<PlayerComponent>())
-	// 	{
-	// 		auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-	// 		stats.heal(5);
-	// 	}
-	// }
 
 	if (colliderB.tag == "monster_projectile")
 	{

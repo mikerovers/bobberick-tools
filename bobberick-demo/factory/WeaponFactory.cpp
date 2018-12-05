@@ -60,8 +60,8 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic,
 		//std::cout << "Fire Delay: " << fireDelay << std::endl;
 
 		// Assign sprites: these might vary depending on weapon type and weapon rank.
-		// std::string const spriteID = "staff_1"; // TODO: assign based on core numbers
 		std::string spriteID;
+		std::string attackingTextureID;
 		if (magic)
 		{
 			int const spriteDeterminator = generator.getRandomNumber(0, 10);
@@ -69,10 +69,12 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic,
 			if (spriteDeterminator < 6)
 			{
 				spriteID = "staff_1";
+				attackingTextureID = "characterCasting_1";
 			}
 			else
 			{
 				spriteID = "staff_2";
+				attackingTextureID = "characterCasting_2";
 			}
 		} else {
 			int const spriteDeterminator = generator.getRandomNumber(0, 30);
@@ -80,14 +82,17 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic,
 			if (spriteDeterminator < 10)
 			{
 				spriteID = "bow_1";
+				attackingTextureID = "characterShooting_1";
 			}
 			else if (spriteDeterminator > 9 && spriteDeterminator < 21)
 			{
 				spriteID = "bow_2";
+				attackingTextureID = "characterShooting_2";
 			}
 			else
 			{
 				spriteID = "bow_3";
+				attackingTextureID = "characterShooting_3";
 			}
 		}
 
@@ -98,7 +103,7 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic,
 			bulletSprite = "assets/projectiles/bullet_ball_grey.png";
 		}
 
-		return std::make_unique<WeaponComponent>(spriteID, name, magic, power, fireDelay, bulletSprite);
+		return std::make_unique<WeaponComponent>(spriteID, name, magic, power, fireDelay, bulletSprite, attackingTextureID);
 	} else {
 		return nullptr;
 	}
