@@ -8,6 +8,9 @@
 #include "../../../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../../../bobberick-demo/components/PlayerMovementComponent.h"
+#include "../../../../bobberick-demo/components/PickUpComponent.h"
+#include "../../../../bobberick-demo/components/InventoryComponent.h"
+#include "../../../../bobberick-demo/components/InventorySlotComponent.h"
 
 CollisionSystem::CollisionSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -29,17 +32,93 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		}
 	}
 
-	if (colliderB.tag == "healthkit")
+	if (colliderB.entity->hasComponent<PickUpComponent>())
 	{
-		if (colliderA.entity->hasComponent<StatsComponent>())
+		if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
-			auto& stats = colliderA.entity->getComponent<StatsComponent>();
-			stats.healPercent(100);
-		}
-		else if (colliderA.entity->hasComponent<PlayerComponent>())
-		{
-			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-			stats.heal(5);
+			auto const serviceManager = ServiceManager::Instance();
+			if (colliderB.tag == "healthkit")
+			{
+				serviceManager->getService<PlayerStatsService>().heal(20);;
+				colliderB.entity->setActive(false);
+				for (const auto& group : colliderB.entity->getGroups())
+				{
+					colliderB.entity->removeGroup(group);
+					colliderB.entity->destroy();
+				}
+			}
+			else if (colliderB.tag == "weapon_spawn")
+			{
+				std::vector<Entity*> iEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>();
+				for (Entity* iEntity : iEntities)
+				{
+					std::string curInventoryWeaponTextureID = iEntity->getComponent<InventorySlotComponent>().textureID;
+					// Initial, if inventory is empty
+					if (curInventoryWeaponTextureID == "null")
+					{
+						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+						if (colliderB.entity->hasComponent<WeaponComponent>())
+						{
+							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
+
+							if (weapon.isMagic)
+							{
+								playerStats.setMagicWeapon(weapon);
+								// playerStats.magicWeapon = weapon;
+							}
+							else
+							{
+								playerStats.setNormalWeapon(weapon);
+								// playerStats.normalWeapon = weapon;
+							}
+						}
+
+						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
+						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						break;
+					}
+					// If inventory is not empty, current slot has magic weapon AND new weapon is magic: replace it
+					else if ((curInventoryWeaponTextureID == "staff_1" || curInventoryWeaponTextureID == "staff_2")
+								&& colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					{
+						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+						if (colliderB.entity->hasComponent<WeaponComponent>())
+						{
+							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
+							playerStats.setMagicWeapon(weapon);
+						}
+
+						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
+						// This causes an error...
+						// iEntity->removeComponent<SpriteComponent>();
+						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						break;
+					}
+					// If inventory is not empty, current slot has normal weapon AND new weapon is normal: replace it
+					else if ((curInventoryWeaponTextureID == "bow_1" || curInventoryWeaponTextureID == "bow_2" || curInventoryWeaponTextureID == "bow_3")
+						&& !colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					{
+						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+						if (colliderB.entity->hasComponent<WeaponComponent>())
+						{
+							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
+							playerStats.setNormalWeapon(weapon);
+						}
+
+						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
+						// This causes an error...
+						// iEntity->removeComponent<SpriteComponent>();
+						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						break;
+					}
+				}
+
+				for (const auto& group : colliderB.entity->getGroups())
+				{
+					colliderB.entity->removeGroup(group);
+					colliderB.entity->destroy();
+				}
+			}
 		}
 	}
 

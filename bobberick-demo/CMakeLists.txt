@@ -26,6 +26,8 @@ components/AdvertisementComponent.cpp components/AdvertisementComponent.h
 components/WeaponComponent.cpp components/WeaponComponent.h
 components/InventoryComponent.cpp components/InventoryComponent.h
 components/ButtonSettingComponent.cpp components/ButtonSettingComponent.h
+components/PickUpComponent.cpp components/PickUpComponent.h
+components/InventorySlotComponent.cpp components/InventorySlotComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/CheatSystem.cpp systems/CheatSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h

@@ -7,6 +7,12 @@
 #include "../components/ShootComponent.h"
 #include "../components/PlayerMovementComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../components/PickUpComponent.h"
+#include "../components/ItemComponent.h"
+#include "../../bobberick-framework/src/util/RandomGenerator.h"
+#include "../components/WeaponComponent.h"
+#include "WeaponFactory.h"
+#include "../components/InventoryComponent.h"
 
 Entity& ObjectFactory::getObject(const TileObject* object)
 {
@@ -17,6 +23,37 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		entity.addComponent<SpriteComponent>("potion");
 		entity.addComponent<CollisionComponent>(object->name, object->position->x, object->position->y, 48,
 		                                        32);
+		entity.addComponent<PickUpComponent>();
+
+		return entity;
+	}
+
+	if (object->name == "weapon_spawn")
+	{
+		auto& entity = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+		entity.addComponent<TransformComponent>(object->position->x, object->position->y, 48, 32, 1);
+		entity.addComponent<CollisionComponent>(object->name, object->position->x, object->position->y, 48, 32);
+
+
+		WeaponFactory wFactory{};
+		RandomGenerator generator = RandomGenerator{};
+		int const weaponDeterminator = generator.getRandomNumber(1, 10);
+
+		if (weaponDeterminator < 6)
+		{
+			// Weapon is a magic weapon
+			WeaponComponent wComponent = *wFactory.generateWeapon(true, 1, 10, -7, 7);
+			entity.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture, wComponent.attackingTextureID);
+		}
+		else
+		{
+			// Weapon is a non-magic weapon
+			WeaponComponent wComponent = *wFactory.generateWeapon(false, 1, 10, -7, 7);
+			entity.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture, wComponent.attackingTextureID);
+		}
+
+		entity.addComponent<SpriteComponent>(entity.getComponent<WeaponComponent>().textureID.c_str());
+		entity.addComponent<PickUpComponent>();
 
 		return entity;
 	}
@@ -99,6 +136,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		player.addComponent<TimerComponent>();
 		player.addComponent<ShootComponent>();
 		player.addComponent<CollisionComponent>("player");
+		player.addComponent<InventoryComponent>();
 
 		return player;
 	}
