@@ -391,6 +391,7 @@ void PlayerStatsService::setSHD(const int amount) {
 void PlayerStatsService::save()
 {
 	auto& save = ServiceManager::Instance()->getService<SaveService>();
+
 	save.keep<int>("hp", getHP());
 	save.keep<int>("hpMax", getHPmax());
 	save.keep<int>("atMin", getATmin());
@@ -401,6 +402,22 @@ void PlayerStatsService::save()
 	save.keep<double>("shdTime", shdTime);
 	save.keep<double>("shdTimeMax", getSHDmax());
 	save.keep<double>("shdRecov", getSHDrecov());
+
+	save.keep<bool>("w1IsMagic", normalWeapon.isMagic);
+	save.keep<int>("w1Power", normalWeapon.power);
+	save.keep<int>("w1FireDelay", normalWeapon.fireDelay);
+	save.keep<std::string>("w1BulletTexture", normalWeapon.bulletTexture);
+	save.keep<std::string>("w1TextureID", normalWeapon.textureID);
+	save.keep<std::string>("w1Name", normalWeapon.name);
+	save.keep<std::string>("w1AttackingTextureID", normalWeapon.attackingTextureID);
+
+	save.keep<bool>("w2IsMagic", magicWeapon.isMagic);
+	save.keep<int>("w2Power", magicWeapon.power);
+	save.keep<int>("w2FireDelay", magicWeapon.fireDelay);
+	save.keep<std::string>("w2BulletTexture", magicWeapon.bulletTexture);
+	save.keep<std::string>("w2TextureID", magicWeapon.textureID);
+	save.keep<std::string>("w2Name", magicWeapon.name);
+	save.keep<std::string>("w2AttackingTextureID", magicWeapon.attackingTextureID);
 
 	save.flush();
 }
@@ -422,6 +439,26 @@ void PlayerStatsService::load()
 		save.get<int>("gold"),
 		save.get<int>("xpTotal")
 	);
+
+	normalWeapon = WeaponComponent(
+		save.get<std::string>("w1TextureID"),
+		save.get<std::string>("w1Name"),
+		save.get<bool>("w1IsMagic"),
+		save.get<int>("w1Power"),
+		save.get<int>("w1FireDelay"),
+		save.get<std::string>("w1BulletTexture"),
+		save.get<std::string>("w1AttackingTextureID")
+	);
+
+	magicWeapon = WeaponComponent(
+			save.get<std::string>("w2TextureID"),
+			save.get<std::string>("w2Name"),
+			save.get<bool>("w2IsMagic"),
+			save.get<int>("w2Power"),
+			save.get<int>("w2FireDelay"),
+			save.get<std::string>("w2BulletTexture"),
+			save.get<std::string>("w2AttackingTextureID")
+	);
 }
 
 bool PlayerStatsService::validateSave() const
@@ -437,5 +474,19 @@ bool PlayerStatsService::validateSave() const
 	&& save.has("shdTimeMax")
 	&& save.has("shdRecov")
 	&& save.has("gold")
-	&& save.has("xpTotal");
+	&& save.has("xpTotal")
+	&& save.has("w1IsMagic")
+	&& save.has("w1IsMagic")
+	&& save.has("w1FireDelay")
+	&& save.has("w1BulletTexture")
+	&& save.has("w1TextureID")
+	&& save.has("w1AttackingTextureID")
+	&& save.has("w1Name")
+	&& save.has("w2IsMagic")
+	&& save.has("w2Power")
+	&& save.has("w2FireDelay")
+	&& save.has("w2BulletTexture")
+	&& save.has("w2TextureID")
+	&& save.has("w2AttackingTextureID")
+   	&& save.has("w2Name");
 }
