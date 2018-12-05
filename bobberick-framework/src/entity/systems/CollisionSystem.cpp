@@ -47,7 +47,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 					colliderB.entity->destroy();
 				}
 			}
-			else if (colliderB.tag == "weapon")
+			else if (colliderB.tag == "weapon_spawn")
 			{
 				std::vector<Entity*> iEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>();
 				for (Entity* iEntity : iEntities)

@@ -167,16 +167,20 @@ void AISystem::executeSpawner(Entity& entity)
 
 			bool isInRange = true;
 			bool isAttacked = spawnerStats.getHP() < spawnerStats.getHPmax();
-			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
+			for (auto& player : ServiceManager::Instance()
+			                    ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
 			{
-				if (!AISystem::isEntityInRange(entity, *player, 200)) {
+				if (!AISystem::isEntityInRange(entity, *player, 200))
+				{
 					isInRange = false;
 				}
 			}
 
-			if (isInRange || isAttacked) {
+			if (isInRange || isAttacked)
+			{
 			}
-			else {
+			else
+			{
 				return;
 			}
 			int spawnCounter = 0;
@@ -334,6 +338,18 @@ void AISystem::kill(Entity& entity)
 	healthBar.healthBox.destroy();
 	healthBar.outerBox.destroy();
 	healthBar.innerBox.destroy();
+
+	auto& entityTransform = entity.getComponent<TransformComponent>();
+
+	auto& bloodPuddle = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	bloodPuddle.addComponent<TransformComponent>(entityTransform.position.x, entityTransform.position.y,
+	                                             47, 47,
+	                                             entityTransform.getScale() * 2);
+	bloodPuddle.addComponent<SpriteComponent>("blood2");
+	for (const auto& group : entity.getGroups())
+	{
+		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(bloodPuddle, group);
+	}
 	entity.destroy();
 }
 
@@ -348,7 +364,9 @@ bool AISystem::isEntityInRange(Entity& entity1, Entity& entity2, const int range
 	const double entity2XCenter = entity2Transform.position.x + entity2Transform.width / 2;
 	const double entity2YCenter = entity2Transform.position.y + entity2Transform.height / 2;
 
-	const double distance = sqrt((entity1XCenter - entity2XCenter) * (entity1XCenter - entity2XCenter) + (entity1YCenter - entity2YCenter) * (entity1YCenter - entity2YCenter));
+	const double distance = sqrt(
+		(entity1XCenter - entity2XCenter) * (entity1XCenter - entity2XCenter) + (entity1YCenter - entity2YCenter) * (
+			entity1YCenter - entity2YCenter));
 
 	return distance < range;
 }
@@ -422,13 +440,15 @@ void AISystem::applyMovement(Entity& entity)
 	const double yVel = speed * sin(moveAngle);
 
 
-	if (moveChance < 2 || enemyMovement.collided) {
+	if (moveChance < 2 || enemyMovement.collided)
+	{
 		enemyMovement.collided = false;
 		transform.velocity.x = xVel;
 		transform.velocity.y = yVel;
 		sprite.flip = xVel < 0;
 	}
-	else if (moveChance < 3) {
+	else if (moveChance < 3)
+	{
 		enemyMovement.collided = false;
 	}
 	transform.update();

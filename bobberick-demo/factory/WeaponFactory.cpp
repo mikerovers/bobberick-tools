@@ -98,9 +98,9 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic,
 
 		std::string bulletSprite;
 		if (magic) {
-			bulletSprite = "assets/projectiles/bolt.png";
+			bulletSprite = "bolt";
 		} else {
-			bulletSprite = "assets/projectiles/bullet_ball_grey.png";
+			bulletSprite = "bullet";
 		}
 
 		return std::make_unique<WeaponComponent>(spriteID, name, magic, power, fireDelay, bulletSprite, attackingTextureID);

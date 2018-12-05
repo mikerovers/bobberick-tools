@@ -221,6 +221,8 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 			projectileTransform.velocity.x = dx;
 			projectileTransform.velocity.y = dy;
 
+			auto& playerComponent = entity->getComponent<PlayerComponent>();
+
 			if (inputHandler.getMouseButtonState(LEFT))
 			{
 				auto weapon = playerStats.normalWeapon;
@@ -228,7 +230,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				projectile.addComponent<SpriteComponent>("bullet");
 				projectile.addComponent<CollisionComponent>("arrow");
-				timer.setTimer(250);
+				timer.setTimer(playerComponent.shootingTimeout);
 			}
 
 			if (inputHandler.getMouseButtonState(RIGHT))
@@ -238,7 +240,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
 				projectile.addComponent<SpriteComponent>("bolt");
 				projectile.addComponent<CollisionComponent>("bolt");
-				timer.setTimer(400);
+				timer.setTimer(playerComponent.shootingTimeout * 2);
 			}
 
 			for (const auto& group : entity->getGroups())

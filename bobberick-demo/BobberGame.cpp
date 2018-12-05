@@ -14,14 +14,9 @@ bool BobberGame::setup()
 		preloadTextures();
 		preloadMusicAndSounds();
 
-		stateFactory = std::make_shared<StateFactory>();
+		stateFactory = std::make_unique<StateFactory>();
 
 		ServiceManager::Instance()->getService<StateMachine>().pushState(stateFactory->createState("MainMenuState"));
-		//getStateMachine()->pushState(stateFactory->createState("MainMenuState"));
-		//getStateMachine()->pushState(stateFactory->createState("SplashScreenState"));
-        //getStateMachine()->peekState()->onEnter();
-		//getStateMachine()->pushState(stateFactory->createState("TestState"));
-        //ServiceManager::Instance()->getService<StateMachine>().peekState()->onEnter();
 
 		return true;
 	}
@@ -55,6 +50,11 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/button/resumebutton.png", "resumeGameButton", renderer);
 	t.load("assets/image/button/loadbutton.png", "loadGameButton", renderer);
 	t.load("assets/image/button/savebutton.png", "saveGameButton", renderer);
+	t.load("assets/image/button/healthbutton.png", "healthButton", renderer);
+	t.load("assets/image/button/attackbutton.png", "attackButton", renderer);
+	t.load("assets/image/button/defensebutton.png", "defenseButton", renderer);
+	t.load("assets/image/button/shieldbutton.png", "shieldButton", renderer);
+	t.load("assets/image/button/recovbutton.png", "recoveryButton", renderer);
 	t.load("assets/image/button/togglemusicbutton.png", "toggleMusicButton", renderer);
 	t.load("assets/image/button/blank_green_button.png", "blankGreenButton", renderer);
 	t.load("assets/image/button/blank_red_button.png", "blankRedButton", renderer);
@@ -82,6 +82,11 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/Enemies/magic_circle.png", "magicCircle", renderer);
 	t.load("assets/image/Enemies/orc_piratess.png", "orc", renderer);
 	t.load("assets/image/Enemies/zombie.png", "zombie", renderer);
+	t.load("assets/image/Enemies/blood/blood1.png", "blood1", renderer);
+	t.load("assets/image/Enemies/blood/blood2.png", "blood2", renderer);
+	t.load("assets/image/Enemies/blood/blood3.png", "blood3", renderer);
+	t.load("assets/image/Enemies/blood/blood4.png", "blood4", renderer);
+	t.load("assets/image/Enemies/blood/blood5.png", "blood5", renderer);
 
 	// gui
 	t.load("assets/image/gui/hud_gold.png", "hudGold", renderer);

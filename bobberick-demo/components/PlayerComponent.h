@@ -5,7 +5,8 @@
 
 class PlayerComponent : public Component
 {
-
+public:
+	int shootingTimeout{250};
 };
 
 #endif //BOBBERICK_TOOLS_PLAYERCOMPONENT_H

@@ -17,8 +17,9 @@
 #include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
+#include "GameOverState.h"
 
-GameState* StateFactory::createState(const std::string& type)
+std::unique_ptr<GameState> StateFactory::createState(const std::string& type)
 {
 	if (type == "SplashScreenState")
 	{
@@ -33,38 +34,48 @@ GameState* StateFactory::createState(const std::string& type)
 	else if (type == "Level1State")
 	{
 		return createPlayState();
-	} else if (type == "Level2State")
+	} 
+	else if (type == "Level2State")
 	{
 		return createLevel2State();
-	} else if (type == "Level3State")
+	} 
+	else if (type == "Level3State")
     {
 	    return createLevel3State();
     }
 	else if (type == "TestState") {
-		return new TestState();
+		return std::make_unique<TestState>();
 	}
 	else if (type == "CreditScreenState")
 	{
 		return createCreditScreenState();
-	} else if (type == "HelpScreen")
+	} 
+	else if (type == "HelpScreen")
 	{
 		return createHelpScreenState();
 	}
 	else if (type == "EndScreen")
 	{
 		return createEndScreenState();
+	} else if (type == "GameOverState")
+	{
+		return createGameOverState();
 	}
 	else if (type == "SettingsScreen")
 	{
 		return createSettingsScreenState();
+	} 
+	else if (type == "SkillScreenState")
+	{
+		return createSkillScreenState();
 	}
 
 	return nullptr;
 }
 
-SplashScreenState* StateFactory::createSplashScreenState()
+std::unique_ptr<SplashScreenState> StateFactory::createSplashScreenState()
 {
-	SplashScreenState* splashScreen = new SplashScreenState();
+	auto splashScreen = std::make_unique<SplashScreenState>();
 	splashScreen->addSystem(
 		std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	splashScreen->addSystem(
@@ -73,9 +84,9 @@ SplashScreenState* StateFactory::createSplashScreenState()
 	return splashScreen;
 }
 
-MainMenuState* StateFactory::createMainMenuState()
+std::unique_ptr<MainMenuState> StateFactory::createMainMenuState()
 {
-    MainMenuState * mainMenuState = new MainMenuState();
+    auto mainMenuState = std::make_unique<MainMenuState>();
     mainMenuState->addSystem(
 	    std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
     mainMenuState->addSystem(
@@ -92,9 +103,9 @@ MainMenuState* StateFactory::createMainMenuState()
     return mainMenuState;
 }
 
-SettingsScreenState* StateFactory::createSettingsScreenState() const
+std::unique_ptr<SettingsScreenState> StateFactory::createSettingsScreenState() const
 {
-	SettingsScreenState * settingsScreenState = new SettingsScreenState();
+	auto settingsScreenState = std::make_unique<SettingsScreenState>();
 	settingsScreenState->addSystem(
 	    std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	settingsScreenState->addSystem(
@@ -107,9 +118,9 @@ SettingsScreenState* StateFactory::createSettingsScreenState() const
     return settingsScreenState;
 }
 
-CreditScreenState* StateFactory::createCreditScreenState() const
+std::unique_ptr<CreditScreenState> StateFactory::createCreditScreenState() const
 {
-	auto creditScreen = new CreditScreenState();
+	auto creditScreen = std::make_unique<CreditScreenState>();
 	creditScreen->addSystem(
 	std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	creditScreen->addSystem(
@@ -118,9 +129,9 @@ CreditScreenState* StateFactory::createCreditScreenState() const
 	return creditScreen;
 }
 
-HelpScreenState *StateFactory::createHelpScreenState() const
+std::unique_ptr<HelpScreenState> StateFactory::createHelpScreenState() const
 {
-	auto* helpScreenState = new HelpScreenState();
+	auto helpScreenState = std::make_unique<HelpScreenState>();
 
 	helpScreenState->addSystem(
 		std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
@@ -134,9 +145,9 @@ HelpScreenState *StateFactory::createHelpScreenState() const
 	return helpScreenState;
 }
 
-EndScreenState *StateFactory::createEndScreenState() const
+std::unique_ptr<EndScreenState> StateFactory::createEndScreenState() const
 {
-	auto *endScreenState = new EndScreenState();
+	auto endScreenState = std::make_unique<EndScreenState>();
 	endScreenState->addSystem(
 			std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	endScreenState->addSystem(
@@ -151,9 +162,9 @@ EndScreenState *StateFactory::createEndScreenState() const
 	return endScreenState;
 }
 
-PauseScreenState *StateFactory::createPauseScreenState() const
+std::unique_ptr<PauseScreenState> StateFactory::createPauseScreenState() const
 {
-	auto* pauseScreenState = new PauseScreenState();
+	auto pauseScreenState = std::make_unique<PauseScreenState>();
 
 	pauseScreenState->addSystem(
 		std::make_unique<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
@@ -167,9 +178,21 @@ PauseScreenState *StateFactory::createPauseScreenState() const
 	return pauseScreenState;
 }
 
-Level1State* StateFactory::createPlayState()
+std::unique_ptr<SkillScreenState> StateFactory::createSkillScreenState() const {
+	auto skillScreenState = std::make_unique<SkillScreenState>();
+	skillScreenState->addSystem(
+		std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	skillScreenState->addSystem(
+		std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	skillScreenState->addSystem(
+		std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return skillScreenState;
+}
+
+std::unique_ptr<Level1State> StateFactory::createPlayState()
 {
-	Level1State* playState = new Level1State();
+	auto playState = std::make_unique<Level1State>();
 	playState->addSystem(std::make_unique<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
@@ -185,9 +208,9 @@ Level1State* StateFactory::createPlayState()
 	return playState;
 }
 
-Level2State *StateFactory::createLevel2State() const
+std::unique_ptr<Level2State> StateFactory::createLevel2State() const
 {
-	Level2State* playState = new Level2State();
+	auto playState = std::make_unique<Level2State>();
 	playState->addSystem(std::make_unique<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
@@ -203,9 +226,9 @@ Level2State *StateFactory::createLevel2State() const
 	return playState;
 }
 
-Level3State *StateFactory::createLevel3State() const
+std::unique_ptr<Level3State> StateFactory::createLevel3State() const
 {
-	Level3State* playState = new Level3State();
+	auto playState = std::make_unique<Level3State>();
 	playState->addSystem(std::make_unique<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
@@ -219,4 +242,15 @@ Level3State *StateFactory::createLevel3State() const
 	playState->addSystem(std::make_unique<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return playState;
+}
+
+std::unique_ptr<GameOverState> StateFactory::createGameOverState() const
+{
+	auto gameOverState = std::make_unique<GameOverState>();
+
+	gameOverState->addSystem(std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	gameOverState->addSystem(std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	gameOverState->addSystem(std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return gameOverState;
 }

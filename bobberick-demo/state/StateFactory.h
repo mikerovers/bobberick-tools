@@ -12,24 +12,28 @@
 #include "Level2State.h"
 #include "Level3State.h"
 #include "PauseScreenState.h"
+#include "SkillScreenState.h"
 #include "SettingsScreenState.h"
+#include "GameOverState.h"
 
 class StateFactory {
 
 public:
-	GameState* createState(const std::string& type);
+	std::unique_ptr<GameState> createState(const std::string& type);
 
 private:
-	SplashScreenState* createSplashScreenState();
-	Level1State* createPlayState();
-	Level2State* createLevel2State() const;
-    Level3State* createLevel3State() const;
-	MainMenuState* createMainMenuState();
-	CreditScreenState* createCreditScreenState() const;
-	HelpScreenState* createHelpScreenState() const;
-    EndScreenState* createEndScreenState() const;
-    PauseScreenState* createPauseScreenState() const;
-	SettingsScreenState* createSettingsScreenState() const;
+	std::unique_ptr<SplashScreenState> createSplashScreenState();
+	std::unique_ptr<Level1State> createPlayState();
+	std::unique_ptr<Level2State> createLevel2State() const;
+	std::unique_ptr<Level3State> createLevel3State() const;
+	std::unique_ptr<MainMenuState> createMainMenuState();
+	std::unique_ptr<CreditScreenState> createCreditScreenState() const;
+	std::unique_ptr<HelpScreenState> createHelpScreenState() const;
+	std::unique_ptr<EndScreenState> createEndScreenState() const;
+	std::unique_ptr<PauseScreenState> createPauseScreenState() const;
+	std::unique_ptr<SkillScreenState> createSkillScreenState() const;
+	std::unique_ptr<SettingsScreenState> createSettingsScreenState() const;
+	std::unique_ptr<GameOverState> createGameOverState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H
