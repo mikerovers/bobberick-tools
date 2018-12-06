@@ -30,18 +30,29 @@ void EndScreenState::update()
 {
     for (const auto& system : systems)
     {
+	    if (exiting)
+			break;
+
         system->update();
     }
 }
 
-void EndScreenState::makeExitButton() const
+void EndScreenState::makeExitButton()
 {
     auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* exitButtonComponent = new ButtonComponent([]()
-                                                    {
-                                                        std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
-                                                        ServiceManager::Instance()->getService<StateMachine>().changeState(sFactory->createState("MainMenuState"));
-                                                    });
+  //   auto* exitButtonComponent = new ButtonComponent([this]()
+  //   {
+		// readyForExit = true;
+  //       std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
+  //       ServiceManager::Instance()->getService<StateMachine>().changeState(sFactory->createState("MainMenuState"));
+  //   });
+
+	auto* exitButtonComponent = new ButtonComponent([this]()
+	{
+		readyForExit = true;
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState("MainMenuState"));
+	});
 
     exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
     auto* exitButtonTransformComponent = new TransformComponent();

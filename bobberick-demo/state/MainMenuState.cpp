@@ -36,6 +36,8 @@ bool MainMenuState::onEnter()
 {
 	createAnimatedBackground();
 
+	readyForExit = false;
+
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("menu", -1);
 	if (!ServiceManager::Instance()->getService<SettingsService>().music) {
 		ServiceManager::Instance()->getService<SoundManager>().pauseMusic();
