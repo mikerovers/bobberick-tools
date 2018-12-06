@@ -185,9 +185,31 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 				enemyMovement.collided = true;
 				transform.position.x += -transform.velocity.x * 5;
 				transform.position.y += -transform.velocity.y * 5;
+				transform.velocity.zero();
 			}
-			transform.velocity.zero();
+			
 		}
+	}
+}
+
+void CollisionSystem::handle_collision_aabb_direction(CollisionComponent& colliderA, CollisionComponent& colliderB, int direction)
+{
+	if (colliderA.entity->hasComponent<TransformComponent>())
+	{
+		auto& transform = colliderA.entity->getComponent<TransformComponent>();
+		if ((direction & 1) != 0) {
+			transform.position.x += transform.speed;
+		}
+		if ((direction & 2) != 0) {
+			transform.position.x -= transform.speed;
+		}
+		if ((direction & 4) != 0) {
+			transform.position.y -= transform.speed;
+		}
+		if ((direction & 8) != 0) {
+			transform.position.y += transform.speed;
+		}
+		transform.velocity.zero();
 	}
 }
 
@@ -243,10 +265,15 @@ void CollisionSystem::update()
 			for (auto& otherEntity : collisionComponentEntities)
 			{
 				auto& colliderB = otherEntity->getComponent<CollisionComponent>();
-
 				if (colliderA.tag != colliderB.tag && helper.AABB(colliderA, colliderB))
 				{
-					handle_collision_aabb(colliderA, colliderB);
+					int direction = helper.AABBDirection(colliderA, colliderB);
+					if (colliderB.tag == "aabb_rectangle" && direction > 0) {
+						handle_collision_aabb_direction(colliderA, colliderB, direction);
+					}
+					else {
+						handle_collision_aabb(colliderA, colliderB);
+					}
 				}
 			}
 		}
