@@ -51,6 +51,7 @@ bool MainMenuState::onEnter()
 
 	makeStartGameButton();
 	makeOptionsButton();
+	makeScoresButton();
 	makeExitButton();
 	makeHelpButton();
 	makeAdvertisements();
@@ -162,7 +163,7 @@ void MainMenuState::makeExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(420, 460, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0).setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("button");
 
@@ -182,6 +183,21 @@ void MainMenuState::makeHelpButton() const
 	helpButton.addComponent<TransformComponent>(420, 220, 64, 128, 1);
 	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0).setStaticAnimation(true);
 	entityManager.addEntityToGroup(helpButton, getStateID());
+}
+
+void MainMenuState::makeScoresButton() const
+{
+	auto& scoresButton = entityManager.addEntity();
+	auto* scoresButtonComponent = new ButtonComponent([]()
+	{
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("HighscoreScreen"));
+	});
+
+	scoresButton.addExistingComponent<ButtonComponent>(scoresButtonComponent);
+	scoresButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
+	scoresButton.addComponent<ButtonSpriteComponent>("scoresButton", 1, 3, 0).setStaticAnimation(true);
+	entityManager.addEntityToGroup(scoresButton, getStateID());
 }
 
 void MainMenuState::makeLoadButton() const

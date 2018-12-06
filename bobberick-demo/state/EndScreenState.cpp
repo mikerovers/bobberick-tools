@@ -1,4 +1,6 @@
 #include "EndScreenState.h"
+#include "../services/HighscoreService.h"
+#include "../services/PlayerStatsService.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
@@ -10,8 +12,12 @@
 
 bool EndScreenState::onEnter()
 {
-	makeExitButton();
-	makeText();
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	ServiceManager::Instance()->getService<HighscoreService>().saveScore(playerStats.xp);
+	playerStats.init();
+
+    makeExitButton();
+    makeText();
 
 	return true;
 }

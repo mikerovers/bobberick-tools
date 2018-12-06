@@ -23,6 +23,7 @@ private:
 	void makeOptionsButton() const;
 	void makeAdvertisements() const;
 	void makeLoadButton() const;
+	void makeScoresButton() const;
 	void makeExitButton();
 	void makeHelpButton() const;
 };
