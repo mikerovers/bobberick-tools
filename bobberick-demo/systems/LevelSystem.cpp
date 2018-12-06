@@ -24,7 +24,8 @@ void LevelSystem::handleLevelFinished() const {
 			newStateId = "Level2State";
 	}
 	else if (stateId == "level_two") {
-			newStateId = "Level3State";
+		newStateId = "EndScreen";
+		// newStateId = "Level3State";
 	}
 	else if (stateId == "level_three") {
 			newStateId = "EndScreen";

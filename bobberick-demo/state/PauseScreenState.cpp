@@ -82,12 +82,7 @@ void PauseScreenState::makeOptionsButton() const
 	});
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
-	auto* optionsButtonTransformComponent = new TransformComponent();
-	optionsButtonTransformComponent->position.x = 410;
-	optionsButtonTransformComponent->position.y = 240;
-	optionsButtonTransformComponent->height = 64;
-	optionsButtonTransformComponent->width = 128;
-	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
+	optionsButton.addComponent<TransformComponent>(410, 240, 64, 128, 1);
 	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0);
 	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	optionsButton.addComponent<CollisionComponent>("button");
