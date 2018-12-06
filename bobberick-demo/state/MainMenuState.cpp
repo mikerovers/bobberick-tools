@@ -98,7 +98,6 @@ void MainMenuState::createAnimatedBackground()
 
 	auto& chicken = enemyFactory.getEnemy(10, "chicken");
 	chicken.getComponent<TransformComponent>().position = Vector2D{300, 300};
-	chicken.addComponent<SprayComponent>();
 	entityManager.addEntityToGroup(chicken, getStateID());
 	entities.push_back(&chicken);
 }

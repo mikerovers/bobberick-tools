@@ -90,25 +90,32 @@ void AISystem::update()
 void AISystem::executeSprayShoot(const Entity& entity)
 {
 	auto transformComponent = entity.getComponent<TransformComponent>();
-	// if (entity.hasComponent<TimerComponent>())
-	// {
-	// 	auto& timer = entity.getComponent<TimerComponent>();
-	// 	if (timer.isTimerFinished())
-	// 	{
-	for (auto i = 0; i < 360; i++)
+	if (entity.hasComponent<TimerComponent>())
 	{
-		auto& bulletEntity = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-		bulletEntity.addComponent<BulletMovementComponent>();
-		bulletEntity.addComponent<CollisionComponent>("monster_projectile");
-		auto& bulletTransform = bulletEntity.addComponent<TransformComponent>(
-			transformComponent.position.x, transformComponent.position.y, 10, 10, 1);
-		bulletTransform.velocity = Vector2D{100, 100};
-		bulletTransform.speed = 2;
-		bulletEntity.addComponent<SpriteComponent>("bolt");
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished())
+		{
+			for (auto i = 0; i < 80; ++i)
+			{
+				auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+				projectile.addComponent<BulletMovementComponent>();
+				auto& projectileTransform = projectile.addComponent<TransformComponent>(transformComponent.position.x, transformComponent.position.y, 10, 10, 1);
+				const int moveAngle = i * 4;
+				const double xVel = 1 * cos(moveAngle);
+				const double yVel = 1 * sin(moveAngle);
+				projectileTransform.velocity.x = xVel;
+				projectileTransform.velocity.y = yVel;
+				ServiceManager::Instance()->getService<SoundManager>().playSound(100 + i, "bolt", 0);
+				projectile.addComponent<SpriteComponent>("bolt");
+				projectile.addComponent<CollisionComponent>("monster_projectile");
+				for (const auto& group : entity.getGroups())
+				{
+					ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(projectile, group);
+				}
+				timer.setTimer(entity.getComponent<SprayComponent>().sprayTimer);
+			}
+		}
 	}
-	// }
-
-	// }
 }
 
 void AISystem::executeSpell(Entity& entity)
@@ -321,38 +328,6 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					sprite.setTexture("fireWizard");
 				}
 			}
-		}
-	}
-
-	if (entity.hasComponent<SprayComponent>() && entity.hasComponent<TimerComponent>())
-	{
-		auto& timer = entity.getComponent<TimerComponent>();
-		if (timer.isTimerFinished())
-		{
-			timer.setTimer(5000);
-			auto& transform = entity.getComponent<TransformComponent>();
-
-
-			double enemyX = transform.position.x;
-			double enemyY = transform.position.y;
-
-			// shoot 60 bullets around
-			for (auto i = 0; i < 10; ++i)
-			{
-				auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-				projectile.addComponent<BulletMovementComponent>();
-				auto& projectileTransform = projectile.addComponent<TransformComponent>(
-					2 * 25, 2 * 25, 10, 10, 1);
-				projectileTransform.velocity.x = 800;
-				projectileTransform.velocity.y = 800;
-
-				ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
-				projectile.addComponent<SpriteComponent>("bolt");
-				projectile.addComponent<CollisionComponent>("monster_projectile");
-			}
-
-			transform.velocity.x = 0;
-			transform.velocity.y = 0;
 		}
 	}
 }
