@@ -109,7 +109,7 @@ void BobberGame::preloadTextures()
 		tinydir_readfile(&dir, &file);
 		std::regex rx(".*\\.(?:jpg|png)$");
 
-		bool match = std::tr1::regex_match(file.path, rx);
+		bool match = std::regex_match(file.path, rx);
 		if (match) {
 			t.load(file.path, "ad" + std::to_string(advertisementCounter), renderer);
 			advertisementCounter++;
