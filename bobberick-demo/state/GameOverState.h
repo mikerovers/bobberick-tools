@@ -11,11 +11,13 @@ public:
 	bool onExit() override;
 	bool shouldExit() override;
 	void makeXPText() const;
+	void makeHighscoreText() const;
 	void makeGameOverText() const;
 
 	std::string getStateID() const override;
 private:
 	bool exitPressed = false;
+	int highscorePos = 0;
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 
 	void makeGui();

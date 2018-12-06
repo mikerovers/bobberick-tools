@@ -11,6 +11,8 @@
 #include "../../../../bobberick-demo/components/PickUpComponent.h"
 #include "../../../../bobberick-demo/components/InventoryComponent.h"
 #include "../../../../bobberick-demo/components/InventorySlotComponent.h"
+#include <algorithm>
+#include <SDL.h>
 
 CollisionSystem::CollisionSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -49,37 +51,15 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 			}
 			else if (colliderB.tag == "weapon_spawn")
 			{
-				std::vector<Entity*> iEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>();
+				std::vector<Entity*> iEntities = ServiceManager::Instance()
+				                                 ->getService<EntityManager>().getAllEntitiesWithComponent<
+					                                 InventorySlotComponent>();
 				for (Entity* iEntity : iEntities)
 				{
 					std::string curInventoryWeaponTextureID = iEntity->getComponent<InventorySlotComponent>().textureID;
-					// Initial, if inventory is empty
-					if (curInventoryWeaponTextureID == "null")
-					{
-						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
-						if (colliderB.entity->hasComponent<WeaponComponent>())
-						{
-							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
-
-							if (weapon.isMagic)
-							{
-								playerStats.setMagicWeapon(weapon);
-								// playerStats.magicWeapon = weapon;
-							}
-							else
-							{
-								playerStats.setNormalWeapon(weapon);
-								// playerStats.normalWeapon = weapon;
-							}
-						}
-
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
-						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
-						break;
-					}
-					// If inventory is not empty, current slot has magic weapon AND new weapon is magic: replace it
-					else if ((curInventoryWeaponTextureID == "staff_1" || curInventoryWeaponTextureID == "staff_2")
-								&& colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					
+					// If new weapon is magic: place it in the second (right) inventory slot. If occupied, the old weapon gets replaced by the new one.
+					if (curInventoryWeaponTextureID == "magic" && colliderB.entity->getComponent<WeaponComponent>().isMagic)
 					{
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 						if (colliderB.entity->hasComponent<WeaponComponent>())
@@ -88,15 +68,13 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							playerStats.setMagicWeapon(weapon);
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), true);
 						break;
 					}
-					// If inventory is not empty, current slot has normal weapon AND new weapon is normal: replace it
-					else if ((curInventoryWeaponTextureID == "bow_1" || curInventoryWeaponTextureID == "bow_2" || curInventoryWeaponTextureID == "bow_3")
-						&& !colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					// If new weapon is normal: place it in the first (left) inventory slot. If occupied, the old weapon gets replaced by the new one.
+					else if (curInventoryWeaponTextureID == "normal" && !colliderB.entity->getComponent<WeaponComponent>().isMagic)
 					{
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 						if (colliderB.entity->hasComponent<WeaponComponent>())
@@ -105,10 +83,9 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							playerStats.setNormalWeapon(weapon);
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), true);
 						break;
 					}
 				}
@@ -185,9 +162,62 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 				enemyMovement.collided = true;
 				transform.position.x += -transform.velocity.x * 5;
 				transform.position.y += -transform.velocity.y * 5;
+				transform.velocity.zero();
 			}
-			transform.velocity.zero();
+			
 		}
+	}
+
+	if (colliderB.tag == "chicken")
+	{
+
+		if (colliderA.entity->hasComponent<PlayerComponent>())
+		{
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(0.01, false);
+		}
+	}
+
+	if (colliderB.tag == "orc")
+	{
+
+		if (colliderA.entity->hasComponent<PlayerComponent>())
+		{
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(0.1, false);
+		}
+	}
+
+	
+
+	if (colliderB.tag == "zombie")
+	{
+		if (colliderA.entity->hasComponent<PlayerComponent>())
+		{
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(0.5, false);
+		}
+	}
+}
+
+void CollisionSystem::handle_collision_aabb_direction(CollisionComponent& colliderA, CollisionComponent& colliderB, int const direction)
+{
+	if (colliderA.entity->hasComponent<TransformComponent>())
+	{
+		auto& transform = colliderA.entity->getComponent<TransformComponent>();
+		if ((direction & 1) != 0) {
+			transform.position.x += transform.speed;
+		}
+		if ((direction & 2) != 0) {
+			transform.position.x -= transform.speed;
+		}
+		if ((direction & 4) != 0) {
+			transform.position.y -= transform.speed;
+		}
+		if ((direction & 8) != 0) {
+			transform.position.y += transform.speed;
+		}
+		transform.velocity.zero();
 	}
 }
 
@@ -215,13 +245,13 @@ void CollisionSystem::update()
 	auto nonMonsterProjectileComponentEntities = entityManager.getAllEntitiesWithComponent<CollisionComponent>();
 	nonMonsterProjectileComponentEntities.erase(
 		std::remove_if(nonMonsterProjectileComponentEntities.begin(), nonMonsterProjectileComponentEntities.end(),
-			[](Entity* entity)
-	{
-		auto tag = entity->getComponent<CollisionComponent>().tag;
-		return tag == "monster_projectile" || tag == "chicken" || tag == "zombie" || tag == "orc" || tag == "fireWizard" || tag == "manufacturer";
-
-	}), nonMonsterProjectileComponentEntities.end()
-		);
+		               [](Entity* entity)
+		               {
+			               auto tag = entity->getComponent<CollisionComponent>().tag;
+			               return tag == "monster_projectile" || tag == "chicken" || tag == "zombie" || tag == "orc" ||
+				               tag == "fireWizard" || tag == "manufacturer";
+		               }), nonMonsterProjectileComponentEntities.end()
+	);
 
 	for (auto& entity : playerAndMonsterEntities)
 	{
@@ -243,10 +273,15 @@ void CollisionSystem::update()
 			for (auto& otherEntity : collisionComponentEntities)
 			{
 				auto& colliderB = otherEntity->getComponent<CollisionComponent>();
-
 				if (colliderA.tag != colliderB.tag && helper.AABB(colliderA, colliderB))
 				{
-					handle_collision_aabb(colliderA, colliderB);
+					int direction = helper.AABBDirection(colliderA, colliderB);
+					if (colliderB.tag == "aabb_rectangle" && direction > 0) {
+						handle_collision_aabb_direction(colliderA, colliderB, direction);
+					}
+					else {
+						handle_collision_aabb(colliderA, colliderB);
+					}
 				}
 			}
 		}

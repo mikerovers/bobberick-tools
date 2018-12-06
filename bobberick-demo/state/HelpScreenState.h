@@ -17,7 +17,7 @@ public:
 private:
     bool hasPressedBack;
     void makeGui();
-    void makeText();
+    void makeText() const;
 };
 
 

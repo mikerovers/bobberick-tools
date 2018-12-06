@@ -9,6 +9,7 @@ class CollisionSystem : public System
 public:
     explicit CollisionSystem(EntityManager& entityManager);
 	void handle_collision_aabb(CollisionComponent& colliderA, CollisionComponent& colliderB);
+	void handle_collision_aabb_direction(CollisionComponent& colliderA, CollisionComponent& colliderB, int const direction);
 	void update() override;
 };
 

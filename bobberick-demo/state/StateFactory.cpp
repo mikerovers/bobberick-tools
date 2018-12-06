@@ -14,7 +14,6 @@
 #include "../state/TestState.h"
 #include "../systems/ShieldSystem.h"
 #include "../systems/LevelSystem.h"
-#include "../state/CreditScreenState.h"
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
 #include "GameOverState.h"
@@ -68,6 +67,10 @@ std::unique_ptr<GameState> StateFactory::createState(const std::string& type)
 	else if (type == "SkillScreenState")
 	{
 		return createSkillScreenState();
+	}
+	else if (type == "HighscoreScreen")
+	{
+		return createHighscoreState();
 	}
 
 	return nullptr;
@@ -253,4 +256,15 @@ std::unique_ptr<GameOverState> StateFactory::createGameOverState() const
 	gameOverState->addSystem(std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return gameOverState;
+}
+
+std::unique_ptr<HighscoreState> StateFactory::createHighscoreState() const
+{
+	auto highscoreState = std::make_unique<HighscoreState>();
+
+	highscoreState->addSystem(std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	highscoreState->addSystem(std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	highscoreState->addSystem(std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return highscoreState;
 }

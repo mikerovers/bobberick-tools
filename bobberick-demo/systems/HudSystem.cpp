@@ -128,13 +128,16 @@ void HudSystem::init()
 
 	inventorySlot1.addComponent<TransformComponent>(20, gameHeight - 55, 50, 50, 1);
 	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
-	inventorySlot1.addComponent<InventorySlotComponent>();
-	inventorySlot1.addComponent<SpriteComponent>("", true);
 
 	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 	inventorySlot2.addComponent<InventorySlotComponent>();
 	inventorySlot2.addComponent<SpriteComponent>("", true);
+	inventorySlot1.addComponent<InventorySlotComponent>("normal");
+
+	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);
+	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
+	inventorySlot2.addComponent<InventorySlotComponent>("magic");
 
 	fpsCounter.addComponent<TransformComponent>(gameWidth - 60, 0 + 65, 40, 55, 1);
 	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
