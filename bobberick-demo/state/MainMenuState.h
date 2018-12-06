@@ -19,12 +19,12 @@ private:
 
 	void createAnimatedBackground();
 
-	void makeStartGameButton();
-	void makeOptionsButton();
-	void makeAdvertisements();
-	void makeLoadButton();
+	void makeStartGameButton() const;
+	void makeOptionsButton() const;
+	void makeAdvertisements() const;
+	void makeLoadButton() const;
 	void makeExitButton();
-	void makeHelpButton();
+	void makeHelpButton() const;
 };
 
 #endif // BOBBERICK_TOOLS_MAINMENUSTATE_H

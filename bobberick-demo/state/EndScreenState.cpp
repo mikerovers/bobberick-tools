@@ -28,28 +28,27 @@ bool EndScreenState::onExit()
 
 void EndScreenState::update()
 {
-	for (const auto& system : systems)
-	{
-		system->update();
-	}
+    for (const auto& system : systems)
+    {
+	    if (exiting)
+			break;
+
+        system->update();
+    }
 }
 
-void EndScreenState::makeExitButton() const
+void EndScreenState::makeExitButton()
 {
-	auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	exitButton.addComponent<ButtonComponent>([]()
+    auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
-		auto sFactory = std::make_unique<StateFactory>();
-		ServiceManager::Instance()->getService<StateMachine>().changeState(sFactory->createState("MainMenuState"));
+		readyForExit = true;
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState("MainMenuState"));
 	});
 
-	auto& exitButtonTransformComponent = exitButton.addComponent<TransformComponent>();
-
-	exitButtonTransformComponent.position.x = 420;
-	exitButtonTransformComponent.position.y = 400;
-	exitButtonTransformComponent.height = 64;
-	exitButtonTransformComponent.width = 128;
-	
+	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
+	exitButton.addComponent<TransformComponent>(420, 400, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
 	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("button");

@@ -141,12 +141,7 @@ void Level1State::makeGui()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	auto* exitButtonTransformComponent = new TransformComponent();
-	exitButtonTransformComponent->position.x = 10;
-	exitButtonTransformComponent->position.y = 60;
-	exitButtonTransformComponent->height = 64;
-	exitButtonTransformComponent->width = 128;
-	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
+	exitButton.addComponent<TransformComponent>(10, 60, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
 	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 }

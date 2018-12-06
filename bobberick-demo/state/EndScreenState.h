@@ -14,7 +14,7 @@ public:
 
 private:
     bool readyForExit = false;
-    void makeExitButton() const;
+    void makeExitButton();
     void makeText() const;
 };
 
