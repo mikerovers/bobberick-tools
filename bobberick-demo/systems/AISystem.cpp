@@ -9,7 +9,6 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
-#include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/util/RandomGenerator.h"
 
@@ -24,7 +23,7 @@
 #include "../../bobberick-demo/components/SpawnedComponent.h"
 #include "../../bobberick-demo/components/EnemyMovementComponent.h"
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
-#include "../../bobberick-demo/components/EnemyMovementComponent.h"
+#include "../../bobberick-demo/components/SprayComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
 
 #include <thread>
@@ -60,6 +59,11 @@ void AISystem::update()
 		executeSpawner(*entity);
 	}
 
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<SprayComponent>())
+	{
+		executeSprayShoot(*entity);
+	}
+
 	int channelCounter = 2;
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<AIComponent>())
 	{
@@ -80,6 +84,40 @@ void AISystem::update()
 		//std::cout << transform.position.x << "\n";
 
 		transform.update();
+	}
+}
+
+void AISystem::executeSprayShoot(const Entity& entity)
+{
+	auto transformComponent = entity.getComponent<TransformComponent>();
+	if (entity.hasComponent<TimerComponent>())
+	{
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished())
+		{
+			const auto numberOfBullets = 80;
+			const auto angleStep = 360 / numberOfBullets;
+			for (auto i = 0; i < numberOfBullets; ++i)
+			{
+				auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+				projectile.addComponent<BulletMovementComponent>();
+				auto& projectileTransform = projectile.addComponent<TransformComponent>(
+					transformComponent.position.x, transformComponent.position.y, 10, 10, 1);
+				const int moveAngle = i * angleStep;
+				const double xVel = 1 * cos(moveAngle);
+				const double yVel = 1 * sin(moveAngle);
+				projectileTransform.velocity.x = xVel;
+				projectileTransform.velocity.y = yVel;
+				ServiceManager::Instance()->getService<SoundManager>().playSound(100 + i, "bolt", 0);
+				projectile.addComponent<SpriteComponent>("bolt");
+				projectile.addComponent<CollisionComponent>("monster_projectile");
+				for (const auto& group : entity.getGroups())
+				{
+					ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(projectile, group);
+				}
+				timer.setTimer(entity.getComponent<SprayComponent>().sprayTimer);
+			}
+		}
 	}
 }
 

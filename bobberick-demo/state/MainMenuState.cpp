@@ -18,6 +18,7 @@
 #include "StateFactory.h"
 #include "../components/SpawnMinionsSpellComponent.h"
 #include "../components/AdvertisementComponent.h"
+#include "../components/SprayComponent.h"
 
 std::string MainMenuState::getStateID() const
 {

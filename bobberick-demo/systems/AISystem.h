@@ -7,6 +7,7 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-demo/components/PlayerComponent.h"
 #include "../../bobberick-demo/components/ShootComponent.h"
+
 class AISystem : public System
 {
 public:
@@ -15,9 +16,11 @@ public:
 	void init() override;
 
 private:
-	void executeShoot(Entity& entity, int &channelCounter);
+	void executeShoot(Entity& entity, int& channelCounter);
 	static void executeSpell(Entity& entity);
 	static void executeSpawner(Entity& entity);
+	static void executeSprayShoot(const Entity& entity);
+
 	static void initHealthBar(Entity& entity);
 	static void applyHealthBar(Entity& entity);
 	static void applyMovement(Entity& entity);

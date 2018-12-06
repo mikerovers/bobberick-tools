@@ -2,14 +2,7 @@
 #include "../systems/PlayerInputSystem.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
-#include "../../bobberick-framework/src/entity/systems/DrawSystem.h"
-#include "../../bobberick-framework/src/entity/systems/InputSystem.h"
-#include "../components/PlayerMovementComponent.h"
-#include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
-#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
-#include "../components/StatsComponent.h"
-#include "../components/SpawnComponent.h"
-#include "../components/ShootComponent.h"
+#include "../components/SprayComponent.h"
 #include "../components/PlayerComponent.h"
 #include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
@@ -20,6 +13,7 @@
 #include "../factory/ObjectFactory.h"
 #include "../factory/enemies/EnemyFactory.h"
 #include "../factory/WeaponFactory.h"
+#include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 
 std::string Level1State::getStateID() const
 {
@@ -41,14 +35,14 @@ bool Level1State::onEnter()
 	makePlayer();
 
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "arrow",
-		SOUND_SFX);
+	                                                            SOUND_SFX);
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg",
-		"footsteps", SOUND_SFX);
+	                                                            "footsteps", SOUND_SFX);
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
-		SOUND_SFX);
+	                                                            SOUND_SFX);
 
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1",
-		SOUND_MUSIC);
+	                                                            SOUND_MUSIC);
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
 
 	WeaponFactory().generateWeapon(false, 0, 10, -9, 9); // For testing purposes
@@ -82,8 +76,8 @@ Entity& Level1State::makeTileMap() const
 	// Use LevelFactory to load and create tilemap components.
 	LevelFactory levelFactory;
 	const auto tilesetComponent = levelFactory.Load("assets/maps/map2.tmx",
-		ServiceManager::Instance()
-		->getService<RenderService>().getRenderer());
+	                                                ServiceManager::Instance()
+	                                                ->getService<RenderService>().getRenderer());
 	level.addExistingComponent<TilesetComponent>(tilesetComponent);
 
 	ObjectFactory objectFactory;
@@ -98,7 +92,9 @@ Entity& Level1State::makeTileMap() const
 
 void Level1State::makePlayer() const
 {
-	for(auto& p : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>()) {
+	for (auto& p : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent
+	     >())
+	{
 		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(*p, getStateID());
 	}
 }
@@ -126,6 +122,13 @@ void Level1State::makeEnemies() const
 			enemyTransform.position.y = 350 + 25 * y;
 		}
 	}
+	auto& enemy = enemyFactory.getEnemy(10, "chicken");
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());
+	enemy.addComponent<SprayComponent>();
+	enemy.addComponent<TimerComponent>();
+	auto& enemyTransform = enemy.getComponent<TransformComponent>();
+	enemyTransform.position.x = 50 + 25;
+	enemyTransform.position.y = 350 + 25;
 }
 
 void Level1State::makeGui()
