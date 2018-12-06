@@ -7,7 +7,6 @@ class InventorySlotComponent : public Component
 public:
 	std::string textureID;
 
-	InventorySlotComponent();
 	InventorySlotComponent(std::string textureID);
 };
 
