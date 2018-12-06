@@ -4,6 +4,7 @@
 #include "../../../bobberick-framework/src/entity/Entity.h"
 #include "BaseEnemyFactory.h"
 #include <map>
+#include <memory>
 
 class EnemyFactory
 {

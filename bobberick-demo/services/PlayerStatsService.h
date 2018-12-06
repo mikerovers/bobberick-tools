@@ -15,7 +15,7 @@ public:
 	void update(); // Call this every frame in an in-game state.
 
 	// In-game events
-	void getHit(int attack, const bool pierceDF); // Mitigate attack with DF in offensive mode or absorb it in shield mode.
+	void getHit(double attack, const bool pierceDF); // Mitigate attack with DF in offensive mode or absorb it in shield mode.
 	void heal(const int amount); // Heal the player by the specified number of points.
 	// Generate an attack and modify it based on the power of one of the weapons. Returns -1 if the firing cooldown has not elapsed (do not generate a bullet).
 	int attack(const bool magic); // Call this every frame when the player is holding a fire button.
@@ -34,9 +34,9 @@ public:
 	int getATmin() const;
 	int getATmax() const;
 	int getDF() const;
-	double getSHD() const;
-	double getSHDmax() const;
-	double getSHDrecov() const;
+	int getSHD() const;
+	int getSHDmax() const;
+	int getSHDrecov() const;
 	bool getSHDactive() const;
 
 	// Cheats
@@ -67,40 +67,40 @@ public:
 	int getATmaxValue(bool next) const;
 	int getDFvalue(bool next) const;
 	int getSHDvalue(bool next) const;
-	double getSHDrecovValue(bool next) const;
+	int getSHDrecovValue(bool next) const;
 
 	// Public in-game stats
 	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 0, 60, "bullet", "characterShooting");
 	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", false, 5, 120, "bolt", "characterShooting");
-	int gold;
-	int xp; // Earned in the current game.
+	int gold{};
+	int xp{}; // Earned in the current game.
 
 	void save();
 	void load();
 	bool validateSave() const;
 private:
 	// Private in-game stats
-	int hp; // current hit points
-	int hpMax; // maximum hit points
-	int atMin; // minimum attack
-	int atMax; // maximum attack
-	int df; // natural defense (in offensive mode)
-	double shdTime; // The amount of ticks the shield can still be active.
-	double shdTimeMax; // The amount of ticks the shield can be active at most.
-	double shdRecov; // The amount of shdTime recovered every tick (when shield is inactive).
-	bool shdActive;
-	int fireCooldown; // The amount of ticks to wait before a weapon can be fired again.
+	double hp{}; // current hit points
+	double hpMax{}; // maximum hit points
+	double atMin{}; // minimum attack
+	double atMax{}; // maximum attack
+	double df{}; // natural defense (in offensive mode)
+	double shdTime{}; // The amount of ticks the shield can still be active.
+	double shdTimeMax{}; // The amount of ticks the shield can be active at most.
+	double shdRecov{}; // The amount of shdTime recovered every tick (when shield is inactive).
+	bool shdActive{};
+	int fireCooldown{}; // The amount of ticks to wait before a weapon can be fired again.
 
 	// Metagame stats (skills and total XP)
-	int xpTotal = 0; // Total, spendable experience earned across all games.
-	int hpLv = 0;
-	int atLv = 0;
-	int dfLv = 0;
-	int shdTimeLv = 0;
-	int shdRecovLv = 0;
+	int xpTotal{0}; // Total, spendable experience earned across all games.
+	int hpLv{0};
+	int atLv{0};
+	int dfLv{0};
+	int shdTimeLv{0};
+	int shdRecovLv{0};
 
 	// Internally used
-	RandomGenerator generator = RandomGenerator();
+	RandomGenerator generator{};
 };
 
 #endif // BOBBERICK_TOOLS_PLAYERSTATSSERVICE_H

@@ -3,9 +3,11 @@
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SaveService.h"
 
-void PlayerStatsService::init() {
+void PlayerStatsService::init()
+{
 	gold = 0;
-	if (xp > 0) {
+	if (xp > 0)
+	{
 		xpTotal += xp;
 	}
 	xp = 0;
@@ -21,7 +23,10 @@ void PlayerStatsService::init() {
 	shdRecov = getSHDrecovValue(false);
 }
 
-void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin, const int atMax, const int df, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp) {
+void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin, const int atMax, const int df,
+                                  const double shdTime, const double shdTimeMax, const double shdRecov, const int gold,
+                                  const int xp)
+{
 	PlayerStatsService::hp = hp;
 	PlayerStatsService::hpMax = hpMax;
 	PlayerStatsService::atMin = atMin;
@@ -34,7 +39,8 @@ void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin
 	PlayerStatsService::xp = xp;
 }
 
-void PlayerStatsService::setWeapons(WeaponComponent normal, WeaponComponent magic) {
+void PlayerStatsService::setWeapons(WeaponComponent normal, WeaponComponent magic)
+{
 	normalWeapon = normal;
 	magicWeapon = magic;
 }
@@ -49,7 +55,9 @@ void PlayerStatsService::setNormalWeapon(WeaponComponent weapon)
 	normalWeapon = weapon;
 }
 
-void PlayerStatsService::setMetaStats(const int xpTotal, const int hpLv, const int atLv, const int dfLv, const int shdTimeLv, const int shdRecovLv) {
+void PlayerStatsService::setMetaStats(const int xpTotal, const int hpLv, const int atLv, const int dfLv,
+                                      const int shdTimeLv, const int shdRecovLv)
+{
 	PlayerStatsService::xpTotal = xpTotal;
 	PlayerStatsService::hpLv = hpLv;
 	PlayerStatsService::atLv = atLv;
@@ -58,333 +66,469 @@ void PlayerStatsService::setMetaStats(const int xpTotal, const int hpLv, const i
 	PlayerStatsService::shdRecovLv = shdRecovLv;
 }
 
-void PlayerStatsService::update() {
-	if (gold > 999999) {
+void PlayerStatsService::update()
+{
+	if (gold > 999999)
+	{
 		gold = 999999;
 	}
-	if (xp > 999999) {
+	if (xp > 999999)
+	{
 		xp = 999999;
 	}
-	if (hp > 0) { // Shield recovery freezes when the player is dead.
-		if (shdActive) {
- 			shdTime -= 1;
-			if (shdTime <= 0) {
+	if (hp > 0)
+	{
+		// Shield recovery freezes when the player is dead.
+		if (shdActive)
+		{
+			shdTime -= 1;
+			if (shdTime <= 0)
+			{
 				shdActive = false;
 			}
-		} else { // The shield mode only recovers when inactive.
+		}
+		else
+		{
+			// The shield mode only recovers when inactive.
 			shdTime += shdRecov;
-			if (shdTime > shdTimeMax) {
+			if (shdTime > shdTimeMax)
+			{
 				shdTime = shdTimeMax;
 			}
 		}
-		if (fireCooldown > 0) {
+		if (fireCooldown > 0)
+		{
 			fireCooldown--;
 		}
-	} else {
+	}
+	else
+	{
 		shdActive = false;
 		shdTime = 0;
 		hp = 0;
 	}
 }
 
-void PlayerStatsService::getHit(int attack, const bool pierceDF) {
-	if (!shdActive) {
-		if (!pierceDF) {
+void PlayerStatsService::getHit(double attack, const bool pierceDF)
+{
+	if (!shdActive)
+	{
+		if (!pierceDF)
+		{
 			attack -= df;
-			if (attack < 1) {
-				attack = 1; // Attacks will always do damage.
-			}
 		}
 		hp -= attack;
-		if (hp < 0) {
+		if (hp < 0)
+		{
 			hp = 0;
 		}
 	}
 }
 
-void PlayerStatsService::heal(const int amount) {
+void PlayerStatsService::heal(const int amount)
+{
 	hp += amount;
-	if (hp > hpMax) {
+	if (hp > hpMax)
+	{
 		hp = hpMax;
 	}
 }
 
-int PlayerStatsService::attack(const bool magic) {
-	if (fireCooldown <= 0) {
+int PlayerStatsService::attack(const bool magic)
+{
+	if (fireCooldown <= 0)
+	{
 		int basePow = generator.getRandomNumber(atMin, atMax);
-		if (magic) {
+		if (magic)
+		{
 			fireCooldown = magicWeapon.fireDelay;
 			return basePow + magicWeapon.power;
-		} else {
+		}
+		else
+		{
 			fireCooldown = normalWeapon.fireDelay;
 			return basePow + normalWeapon.power;
 		}
-	} else {
+	}
+	else
+	{
 		return -1; // Cannot fire a bullet yet.
 	}
 }
 
-void PlayerStatsService::toggleShield() {
-	if (!shdActive && shdTime / shdTimeMax >= 0.5) {
+void PlayerStatsService::toggleShield()
+{
+	if (!shdActive && shdTime / shdTimeMax >= 0.5)
+	{
 		shdActive = true;
-	} else if (shdActive) {
+	}
+	else if (shdActive)
+	{
 		shdActive = false;
 	}
 }
 
-bool PlayerStatsService::upgradeHPlevel() {
-	if (getHPcost() > -1 && xpTotal >= getHPcost()) {
+bool PlayerStatsService::upgradeHPlevel()
+{
+	if (getHPcost() > -1 && xpTotal >= getHPcost())
+	{
 		xpTotal -= getHPcost();
 		hpLv++;
 		init();
 		return true;
 	}
-	else {
+	else
+	{
 		return false;
 	}
 }
-bool PlayerStatsService::upgradeATlevel() {
-	if (getATcost() > -1 && xpTotal >= getATcost()) {
+
+bool PlayerStatsService::upgradeATlevel()
+{
+	if (getATcost() > -1 && xpTotal >= getATcost())
+	{
 		xpTotal -= getATcost();
 		atLv++;
 		init();
 		return true;
 	}
-	else {
+	else
+	{
 		return false;
 	}
 }
-bool PlayerStatsService::upgradeDFlevel() {
-	if (getDFcost() > -1 && xpTotal >= getDFcost()) {
+
+bool PlayerStatsService::upgradeDFlevel()
+{
+	if (getDFcost() > -1 && xpTotal >= getDFcost())
+	{
 		xpTotal -= getDFcost();
 		dfLv++;
 		init();
 		return true;
 	}
-	else {
+	else
+	{
 		return false;
 	}
 }
-bool PlayerStatsService::upgradeSHDlevel() {
-	if (getSHDcost() > -1 && xpTotal >= getSHDcost()) {
+
+bool PlayerStatsService::upgradeSHDlevel()
+{
+	if (getSHDcost() > -1 && xpTotal >= getSHDcost())
+	{
 		xpTotal -= getSHDcost();
 		shdTimeLv++;
 		init();
 		return true;
 	}
-	else {
+	else
+	{
 		return false;
 	}
 }
-bool PlayerStatsService::upgradeSHDrecovLevel() {
-	if (getSHDrecovCost() > -1 && xpTotal >= getSHDrecovCost()) {
+
+bool PlayerStatsService::upgradeSHDrecovLevel()
+{
+	if (getSHDrecovCost() > -1 && xpTotal >= getSHDrecovCost())
+	{
 		xpTotal -= getSHDrecovCost();
 		shdRecovLv++;
 		init();
 		return true;
 	}
-	else {
+	else
+	{
 		return false;
 	}
 }
 
 // Getters
-int PlayerStatsService::getHP() const {
+int PlayerStatsService::getHP() const
+{
 	return hp;
 }
-int PlayerStatsService::getHPmax() const {
+
+int PlayerStatsService::getHPmax() const
+{
 	return hpMax;
 }
-int PlayerStatsService::getATmin() const {
+
+int PlayerStatsService::getATmin() const
+{
 	return atMin;
 }
-int PlayerStatsService::getATmax() const {
+
+int PlayerStatsService::getATmax() const
+{
 	return atMax;
 }
-int PlayerStatsService::getDF() const {
+
+int PlayerStatsService::getDF() const
+{
 	return df;
 }
-double PlayerStatsService::getSHD() const {
+
+int PlayerStatsService::getSHD() const
+{
 	return shdTime;
 }
-double PlayerStatsService::getSHDmax() const {
+
+int PlayerStatsService::getSHDmax() const
+{
 	return shdTimeMax;
 }
-double PlayerStatsService::getSHDrecov() const {
+
+int PlayerStatsService::getSHDrecov() const
+{
 	return shdRecov;
 }
-bool PlayerStatsService::getSHDactive() const {
+
+bool PlayerStatsService::getSHDactive() const
+{
 	return shdActive;
 }
-int PlayerStatsService::getXPtotal() const {
+
+int PlayerStatsService::getXPtotal() const
+{
 	return xpTotal;
 }
 
-int PlayerStatsService::getHPlevel() const {
+int PlayerStatsService::getHPlevel() const
+{
 	return hpLv;
 }
-int PlayerStatsService::getATlevel() const {
+
+int PlayerStatsService::getATlevel() const
+{
 	return atLv;
 }
-int PlayerStatsService::getDFlevel() const {
+
+int PlayerStatsService::getDFlevel() const
+{
 	return dfLv;
 }
-int PlayerStatsService::getSHDlevel() const {
+
+int PlayerStatsService::getSHDlevel() const
+{
 	return shdTimeLv;
 }
-int PlayerStatsService::getSHDrecovLevel() const {
+
+int PlayerStatsService::getSHDrecovLevel() const
+{
 	return shdRecovLv;
 }
 
-int PlayerStatsService::getHPcost() const {
-	if (getHPvalue(true) != -1) {
+int PlayerStatsService::getHPcost() const
+{
+	if (getHPvalue(true) != -1)
+	{
 		return getHPvalue(true) * 10;
 	}
-	else {
-		return -1;
-	}
-}
-int PlayerStatsService::getATcost() const {
-	if (getATminValue(true) != -1) {
-		return static_cast<int>(pow(getATminValue(true) * 1000, 1.1));
-	}
-	else {
-		return -1;
-	}
-}
-int PlayerStatsService::getDFcost() const {
-	if (getDFvalue(true) != -1) {
-		return static_cast<int>(pow(getDFvalue(true) * 60, 1.7));
-	}
-	else {
-		return -1;
-	}
-}
-int PlayerStatsService::getSHDcost() const {
-	if (getSHDvalue(true) != -1) {
-		return static_cast<int>(pow((getSHDlevel() + 1) * 90, 1.6));
-	}
-	else {
-		return -1;
-	}
-}
-int PlayerStatsService::getSHDrecovCost() const {
-	if (getSHDrecovValue(true) != -1) {
-		return static_cast<int>(pow((getSHDrecovLevel() + 1) * 120, 1.6));
-	}
-	else {
+	else
+	{
 		return -1;
 	}
 }
 
-int PlayerStatsService::getHPvalue(bool next) const {
-	if (!next) {
-		return (int) std::min(100 * (pow(1.1, hpLv)), 500000.0);
+int PlayerStatsService::getATcost() const
+{
+	if (getATminValue(true) != -1)
+	{
+		return static_cast<int>(pow(getATminValue(true) * 1000, 1.1));
 	}
-	else {
-		if (getHPvalue(false) < 500000) {
-			return (int) std::min(100 * (pow(1.1, hpLv + 1)), 500000.0);
+	else
+	{
+		return -1;
+	}
+}
+
+int PlayerStatsService::getDFcost() const
+{
+	if (getDFvalue(true) != -1)
+	{
+		return static_cast<int>(pow(getDFvalue(true) * 60, 1.7));
+	}
+	else
+	{
+		return -1;
+	}
+}
+
+int PlayerStatsService::getSHDcost() const
+{
+	if (getSHDvalue(true) != -1)
+	{
+		return static_cast<int>(pow((getSHDlevel() + 1) * 90, 1.6));
+	}
+	else
+	{
+		return -1;
+	}
+}
+
+int PlayerStatsService::getSHDrecovCost() const
+{
+	if (getSHDrecovValue(true) != -1)
+	{
+		return static_cast<int>(pow((getSHDrecovLevel() + 1) * 120, 1.6));
+	}
+	else
+	{
+		return -1;
+	}
+}
+
+int PlayerStatsService::getHPvalue(bool next) const
+{
+	if (!next)
+	{
+		return (int)std::min(100 * (pow(1.1, hpLv)), 500000.0);
+	}
+	else
+	{
+		if (getHPvalue(false) < 500000)
+		{
+			return (int)std::min(100 * (pow(1.1, hpLv + 1)), 500000.0);
 		}
-		else {
+		else
+		{
 			return -1;
 		}
 	}
 }
-int PlayerStatsService::getATminValue(bool next) const {
-	if (!next) {
-		return (int) std::min(pow(atLv + 1, 1.3), 400.0);
+
+int PlayerStatsService::getATminValue(bool next) const
+{
+	if (!next)
+	{
+		return (int)std::min(pow(atLv + 1, 1.3), 400.0);
 	}
-	else {
-		if (getATminValue(false) < 400) {
-			return (int) std::min(pow(atLv + 2, 1.3), 400.0);
+	else
+	{
+		if (getATminValue(false) < 400)
+		{
+			return (int)std::min(pow(atLv + 2, 1.3), 400.0);
 		}
-		else {
+		else
+		{
 			return -1;
 		}
 	}
 }
-int PlayerStatsService::getATmaxValue(bool next) const {
+
+int PlayerStatsService::getATmaxValue(bool next) const
+{
 	int value = getATminValue(next);
-	if (value > -1) {
+	if (value > -1)
+	{
 		value = static_cast<int>((value * 1.5) + 1);
 	}
 	return std::min(value, 600);
 }
-int PlayerStatsService::getDFvalue(bool next) const {
-	if (!next) {
+
+int PlayerStatsService::getDFvalue(bool next) const
+{
+	if (!next)
+	{
 		return std::min(dfLv, 100);
 	}
-	else {
-		if (getDFvalue(false) < 100) {
+	else
+	{
+		if (getDFvalue(false) < 100)
+		{
 			return std::min(dfLv + 1, 100);
 		}
-		else {
+		else
+		{
 			return -1;
 		}
 	}
 }
-int PlayerStatsService::getSHDvalue(bool next) const {
-	if (!next) {
-		return (int) std::min(120 + (10 * pow(shdTimeLv, 0.9)), 999.0);
-	}
-	else {
-		if (getSHDvalue(false) < 999) {
-			return (int) std::min(120 + (10 * pow(shdTimeLv + 1, 0.9)), 999.0);
-		}
-		else {
-			return -1;
-		}
 
+int PlayerStatsService::getSHDvalue(bool next) const
+{
+	if (!next)
+	{
+		return (int)std::min(120 + (10 * pow(shdTimeLv, 0.9)), 999.0);
+	}
+	else
+	{
+		if (getSHDvalue(false) < 999)
+		{
+			return (int)std::min(120 + (10 * pow(shdTimeLv + 1, 0.9)), 999.0);
+		}
+		else
+		{
+			return -1;
+		}
 	}
 }
-double PlayerStatsService::getSHDrecovValue(bool next) const {
-	if (!next) {
+
+int PlayerStatsService::getSHDrecovValue(bool next) const
+{
+	if (!next)
+	{
 		return std::min(0.1 + ((shdRecovLv) * 0.01), 1.0);
 	}
-	else {
-		if (getSHDrecovValue(false) < 1) {
+	else
+	{
+		if (getSHDrecovValue(false) < 1)
+		{
 			return std::min(0.1 + ((shdRecovLv + 1) * 0.01), 1.0);
 		}
-		else {
+		else
+		{
 			return -1;
 		}
 	}
 }
 
-void PlayerStatsService::changeHPmax(const int amount) {
+void PlayerStatsService::changeHPmax(const int amount)
+{
 	hpMax += amount;
-	if (hpMax < 1) {
+	if (hpMax < 1)
+	{
 		hpMax = 1;
 	}
-	if (hpMax > 999999) {
+	if (hpMax > 999999)
+	{
 		hpMax = 999999;
 	}
-	if (hp > hpMax) {
+	if (hp > hpMax)
+	{
 		hp = hpMax;
 	}
 }
 
-void PlayerStatsService::changeATmin(const int amount) {
+void PlayerStatsService::changeATmin(const int amount)
+{
 	atMin += amount;
-	if (atMin < 0) {
+	if (atMin < 0)
+	{
 		atMin = 0;
 	}
-	if (atMin > atMax) {
+	if (atMin > atMax)
+	{
 		atMin = atMax;
 	}
 }
 
-void PlayerStatsService::changeATmax(const int amount) {
+void PlayerStatsService::changeATmax(const int amount)
+{
 	atMax += amount;
-	if (atMax < 1) {
+	if (atMax < 1)
+	{
 		atMax = 1;
 	}
-	if (atMin > atMax) {
+	if (atMin > atMax)
+	{
 		atMin = atMax;
 	}
 }
 
-void PlayerStatsService::setSHD(const int amount) {
+void PlayerStatsService::setSHD(const int amount)
+{
 	shdTime = amount;
 }
 
@@ -429,13 +573,13 @@ bool PlayerStatsService::validateSave() const
 	auto& save = ServiceManager::Instance()->getService<SaveService>();
 
 	return save.has("hp")
-	&& save.has("hpMax")
-	&& save.has("atMin")
-	&& save.has("atMax")
-	&& save.has("df")
-	&& save.has("shdTime")
-	&& save.has("shdTimeMax")
-	&& save.has("shdRecov")
-	&& save.has("gold")
-	&& save.has("xpTotal");
+		&& save.has("hpMax")
+		&& save.has("atMin")
+		&& save.has("atMax")
+		&& save.has("df")
+		&& save.has("shdTime")
+		&& save.has("shdTimeMax")
+		&& save.has("shdRecov")
+		&& save.has("gold")
+		&& save.has("xpTotal");
 }
