@@ -7,7 +7,7 @@ class InventorySlotComponent : public Component
 public:
 	std::string textureID;
 
-	InventorySlotComponent(std::string textureID);
+	explicit InventorySlotComponent(std::string textureID);
 };
 
 #endif //BOBBERICK_TOOLS_INVENTORYSLOTCOMPONENT
