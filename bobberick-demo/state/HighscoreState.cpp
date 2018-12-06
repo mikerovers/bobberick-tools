@@ -62,16 +62,9 @@ void HighscoreState::makeClearButton()
 	});
 
 	clearButton.addExistingComponent<ButtonComponent>(clearButtonComponent);
-	auto* clearButtonTransformComponent = new TransformComponent();
-	clearButtonTransformComponent->position.x = 822;
-	clearButtonTransformComponent->position.y = 10;
-	clearButtonTransformComponent->height = 64;
-	clearButtonTransformComponent->width = 128;
-	clearButton.addExistingComponent<TransformComponent>(clearButtonTransformComponent);
-	clearButton.addComponent<ButtonSpriteComponent>("clearButton", 1,
-	                                                   3, 0);
-	clearButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
-
+	clearButton.addComponent<TransformComponent>(822, 10, 64, 128, 1);
+	clearButton.addComponent<ButtonSpriteComponent>("clearButton", 1, 3, 0).setStaticAnimation(true);
+	
 	entityManager.addEntityToGroup(clearButton, getStateID());
 }
 
@@ -85,15 +78,8 @@ void HighscoreState::makeExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	auto* exitButtonTransformComponent = new TransformComponent();
-
-	exitButtonTransformComponent->position.x = 10;
-	exitButtonTransformComponent->position.y = 10;
-	exitButtonTransformComponent->height = 64;
-	exitButtonTransformComponent->width = 128;
-	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
-	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
-	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addComponent<TransformComponent>(10, 10, 64, 128, 1);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0).setStaticAnimation(true);
 
 	entityManager.addEntityToGroup(exitButton, getStateID());
 }
