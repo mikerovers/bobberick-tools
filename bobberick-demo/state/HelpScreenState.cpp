@@ -58,19 +58,14 @@ void HelpScreenState::makeGui()
     });
 
     exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-    auto* exitButtonTransformComponent = new TransformComponent();
-    exitButtonTransformComponent->position.x = 10;
-    exitButtonTransformComponent->position.y = 60;
-    exitButtonTransformComponent->height = 64;
-    exitButtonTransformComponent->width = 128;
-    exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
+	exitButton.addComponent<TransformComponent>(10, 60, 64, 128, 1);
     exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
     exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
     ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
 }
 
-void HelpScreenState::makeText()
+void HelpScreenState::makeText() const
 {
     auto& walkText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     walkText.addComponent<TransformComponent>(10, 120, 80, 400, 1);

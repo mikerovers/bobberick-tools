@@ -7,7 +7,7 @@ void TextureManager::clearTexture(std::string id)
     textures.erase(id);
 }
 
-bool TextureManager::load(const char* fileName, std::string id, std::shared_ptr<SDL_Renderer> renderer)
+bool TextureManager::load(const char *fileName, std::string id, SDL_RendererPointer renderer)
 {
 	if (textures[id]) {
 		return true;
@@ -22,7 +22,7 @@ bool TextureManager::load(const char* fileName, std::string id, std::shared_ptr<
 	return addTextureFromSurface(pTempSurface, id, renderer);
 }
 
-bool TextureManager::addTextureFromSurface(SDL_SurfacePointer surface, std::string id, std::shared_ptr<SDL_Renderer> renderer) {
+bool TextureManager::addTextureFromSurface(SDL_SurfacePointer surface, std::string id, SDL_RendererPointer renderer) {
 	SDL_TexturePointer pTexture = SDL_TexturePointer(SDL_CreateTextureFromSurface(renderer.get(), surface.get()));
 	if (pTexture != nullptr) {
 		textures[id] = pTexture;
@@ -32,7 +32,8 @@ bool TextureManager::addTextureFromSurface(SDL_SurfacePointer surface, std::stri
 	}
 }
 
-void TextureManager::draw(std::string id, SDL_Rect* sourceRect, SDL_Rect* destinationRect, std::shared_ptr<SDL_Renderer> renderer, bool flip, double nScale)
+void TextureManager::draw(std::string id, SDL_Rect *sourceRect, SDL_Rect *destinationRect, SDL_RendererPointer renderer,
+						  bool flip, double nScale)
 {
 	auto scaledDest = SDL_Rect{};
 	int width = destinationRect->w;

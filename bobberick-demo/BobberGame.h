@@ -11,7 +11,7 @@ public:
     void start() override;
 
 private:
-	std::shared_ptr<StateFactory> stateFactory;
+	std::unique_ptr<StateFactory> stateFactory;
 	void preloadTextures();
 	void preloadMusicAndSounds();
 };

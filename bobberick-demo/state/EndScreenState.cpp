@@ -1,4 +1,6 @@
 #include "EndScreenState.h"
+#include "../services/HighscoreService.h"
+#include "../services/PlayerStatsService.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
@@ -10,26 +12,33 @@
 
 bool EndScreenState::onEnter()
 {
+	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	ServiceManager::Instance()->getService<HighscoreService>().saveScore(playerStats.xp);
+	playerStats.init();
+
     makeExitButton();
     makeText();
 
-    return true;
+	return true;
 }
 
 std::string EndScreenState::getStateID() const
 {
-    return "end_screen_state";
+	return "end_screen_state";
 }
 
 bool EndScreenState::onExit()
 {
-    return true;
+	return true;
 }
 
 void EndScreenState::update()
 {
     for (const auto& system : systems)
     {
+	    if (exiting)
+			break;
+
         system->update();
     }
 }
@@ -37,37 +46,32 @@ void EndScreenState::update()
 void EndScreenState::makeExitButton()
 {
     auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto* exitButtonComponent = new ButtonComponent([this]()
-                                                    {
-                                                        std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
-                                                        ServiceManager::Instance()->getService<StateMachine>().changeState(sFactory->createState("MainMenuState"));
-                                                    });
+	auto* exitButtonComponent = new ButtonComponent([this]()
+	{
+		readyForExit = true;
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState("MainMenuState"));
+	});
 
-    exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-    auto* exitButtonTransformComponent = new TransformComponent();
+	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
+	exitButton.addComponent<TransformComponent>(420, 400, 64, 128, 1);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
+	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addComponent<CollisionComponent>("button");
 
-    exitButtonTransformComponent->position.x = 420;
-    exitButtonTransformComponent->position.y = 400;
-    exitButtonTransformComponent->height = 64;
-    exitButtonTransformComponent->width = 128;
-    exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
-    exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
-    exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
-    exitButton.addComponent<CollisionComponent>("button");
-
-    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
 }
 
 bool EndScreenState::shouldExit()
 {
-    return readyForExit;
+	return readyForExit;
 }
 
 void EndScreenState::makeText() const
 {
-    auto& hurrayText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    hurrayText.addComponent<TransformComponent>(100, 50, 80, 450, 1);
-    hurrayText.addComponent<TextComponent>("defaultLarge", "hurrayText", "Congratulations!");
+	auto& hurrayText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	hurrayText.addComponent<TransformComponent>(100, 50, 80, 450, 1);
+	hurrayText.addComponent<TextComponent>("defaultLarge", "hurrayText", "Congratulations!");
 
-    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(hurrayText, getStateID());
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(hurrayText, getStateID());
 }

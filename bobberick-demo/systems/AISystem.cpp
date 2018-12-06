@@ -366,6 +366,18 @@ void AISystem::kill(Entity& entity)
 	healthBar.healthBox.destroy();
 	healthBar.outerBox.destroy();
 	healthBar.innerBox.destroy();
+
+	auto& entityTransform = entity.getComponent<TransformComponent>();
+
+	auto& bloodPuddle = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	bloodPuddle.addComponent<TransformComponent>(entityTransform.position.x, entityTransform.position.y,
+	                                             47, 47,
+	                                             entityTransform.getScale() * 2);
+	bloodPuddle.addComponent<SpriteComponent>("blood2");
+	for (const auto& group : entity.getGroups())
+	{
+		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(bloodPuddle, group);
+	}
 	entity.destroy();
 }
 

@@ -27,6 +27,8 @@ components/WeaponComponent.cpp components/WeaponComponent.h
 components/InventoryComponent.cpp components/InventoryComponent.h
 components/ButtonSettingComponent.cpp components/ButtonSettingComponent.h
 components/SprayComponent.cpp components/SprayComponent.h
+components/PickUpComponent.cpp components/PickUpComponent.h
+components/InventorySlotComponent.cpp components/InventorySlotComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/CheatSystem.cpp systems/CheatSystem.h
 systems/BulletSystem.cpp systems/BulletSystem.h
@@ -39,11 +41,14 @@ systems/AISystem.cpp systems/AISystem.h
 systems/AdvertisementSystem.cpp systems/AdvertisementSystem.h 
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
+state/SkillScreenState.cpp state/SkillScreenState.h
+state/HighscoreState.cpp state/HighscoreState.h
 state/CreditScreenState.cpp state/CreditScreenState.h
 state/SettingsScreenState.cpp state/SettingsScreenState.h
 factory/ObjectFactory.cpp factory/ObjectFactory.h
 factory/WeaponFactory.cpp factory/WeaponFactory.h
 services/PlayerStatsService.cpp services/PlayerStatsService.h
+services/HighscoreService.cpp services/HighscoreService.h
 factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
 factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
@@ -59,7 +64,9 @@ state/HelpScreenState.cpp state/HelpScreenState.h
 state/EndScreenState.cpp state/EndScreenState.h 
 state/Level2State.cpp state/Level2State.h
 state/Level3State.cpp state/Level3State.h
-state/PauseScreenState.cpp state/PauseScreenState.h)
+state/PauseScreenState.cpp state/PauseScreenState.h
+state/GameOverState.cpp state/GameOverState.h
+)
 
 add_executable(bobberick-demo ${SOURCE_FILES})
 

@@ -23,7 +23,7 @@ bool FontManager::loadFont(const char* fileName, const std::string fontId, const
 	}
 }
 
-bool FontManager::createText(std::string fontId, std::string textureId, std::string text, std::shared_ptr<SDL_Renderer> renderer) {
+bool FontManager::createText(std::string fontId, std::string textureId, std::string text, SDL_RendererPointer renderer) {
 	SDL_Color color { 0, 0, 0 };
 	if (fonts[fontId] != nullptr) {
 		SDL_SurfacePointer pTempSurface = SDL_SurfacePointer(TTF_RenderText_Blended(fonts[fontId], text.c_str(), color));

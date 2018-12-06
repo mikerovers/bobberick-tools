@@ -14,7 +14,7 @@ public:
 
     void init() override;
     void clean() override;
-    bool createRenderer(std::shared_ptr<SDL_Window> window);
+    bool createRenderer(SDL_WindowPointer window);
     SDL_RendererPointer getRenderer();
     SDL_RendererPointer renderer;
 private:

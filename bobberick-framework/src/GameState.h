@@ -3,6 +3,7 @@
 
 #include <string>
 #include "entity/systems/System.h"
+#include <vector>
 
 class GameState {
 public:

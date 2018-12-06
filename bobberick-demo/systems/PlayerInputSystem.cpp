@@ -15,6 +15,8 @@
 #include "../../bobberick-framework/src/services/FrameHandler.h"
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "../state/StateFactory.h"
+#include "../components/InventoryComponent.h"
+#include "../components/InventorySlotComponent.h"
 
 PlayerInputSystem::PlayerInputSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -70,7 +72,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
 		 ret = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2),
 		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
-
+	
 	if (left || right || up || down)
 	{
 		const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
@@ -176,8 +178,6 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		// 	ServiceManager::Instance()->getService<StateMachine>().popState();
 		// }
 	}
-	
-
 
 	sprite.flip = inputHandler.getMousePosition()->x < transform.position.x;
 
@@ -225,7 +225,8 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 
 			if (inputHandler.getMouseButtonState(LEFT))
 			{
-				sprite.setTexture("characterShooting");
+				auto& weapon = playerStats.normalWeapon;
+				sprite.setTexture(weapon.attackingTextureID.c_str());
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				projectile.addComponent<SpriteComponent>("bullet");
 				projectile.addComponent<CollisionComponent>("arrow");
@@ -234,7 +235,8 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 
 			if (inputHandler.getMouseButtonState(RIGHT))
 			{
-				sprite.setTexture("characterCasting");
+				auto& weapon = playerStats.magicWeapon;
+				sprite.setTexture(weapon.attackingTextureID.c_str());
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
 				projectile.addComponent<SpriteComponent>("bolt");
 				projectile.addComponent<CollisionComponent>("bolt");

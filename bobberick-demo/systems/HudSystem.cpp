@@ -11,6 +11,7 @@
 #include "../../bobberick-framework/src/services/FrameHandler.h"
 #include "../../bobberick-framework/src/util/TextFormatter.h"
 #include <string>
+#include "../components/InventorySlotComponent.h"
 
 HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
                                                      hudBox(entityManager.addEntity()),
@@ -33,7 +34,6 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
 void HudSystem::update()
 {
 	fpsMiddlerCount++;
-	//auto fps = std::to_string(ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps());
 	auto fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
 	fpsMiddlerVector.push_back(fps);
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
@@ -74,37 +74,8 @@ void HudSystem::update()
 		shieldBox.getComponent<RectangleComponent>().green = 204;
 		shieldBox.getComponent<RectangleComponent>().blue = 255;
 	}
-
-	//if (playerStats.shdTime == playerStats.shdTimeMax) { // For testing purposes
-	//	playerStats.toggleShield();
-	//}
-
-	// check player inventory en update accordingly
-	//auto& inventory = entity->getComponent<InventoryComponent>();
-	//auto* inventoryItem1 = inventory.getItem(0);
-	//auto* inventoryItem2 = inventory.getItem(1);
-
-	//if (inventoryItem1 != nullptr) {
-	//	inventorySlot1.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
-	//}
-	//else
-	//{
-	//	if (inventorySlot1.hasComponent<SpriteComponent>())
-	//	{
-	//		inventorySlot1.removeComponent<SpriteComponent>();
-	//	}
-	//}
-
-	//if (inventoryItem2 != nullptr) {
-	//	inventorySlot2.addComponent<SpriteComponent>(inventoryItem2->texture.c_str(), true);
-	//}
-	//else
-	//{
-	//	if (inventorySlot2.hasComponent<SpriteComponent>())
-	//	{
-	//		inventorySlot2.removeComponent<SpriteComponent>();
-	//	}
-	//}
+	inventorySlot1.getComponent<SpriteComponent>().setTexture(playerStats.normalWeapon.textureID.c_str());
+	inventorySlot2.getComponent<SpriteComponent>().setTexture(playerStats.magicWeapon.textureID.c_str());
 
 	healthBox.getComponent<TransformComponent>().width = healthWidth;
 	shieldBox.getComponent<TransformComponent>().width = shieldWidth;
@@ -152,14 +123,21 @@ void HudSystem::init()
 	xpText.addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
 	xpText.addComponent<TextComponent>("monoMedium", "xpText", " ");
 
-	inventory.addComponent<TransformComponent>(10, gameHeight - 60, 50, 120, 1);
+	inventory.addComponent<TransformComponent>(10, gameHeight - 60, 60, 130, 1);
 	inventory.addComponent<RectangleComponent>(161, 64, 5, true);
 
-	inventorySlot1.addComponent<TransformComponent>(20, gameHeight - 55, 40, 40, 1);
+	inventorySlot1.addComponent<TransformComponent>(20, gameHeight - 55, 50, 50, 1);
 	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
 
-	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 40, 40, 1);
+	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
+	inventorySlot2.addComponent<InventorySlotComponent>();
+	inventorySlot2.addComponent<SpriteComponent>("", true);
+	inventorySlot1.addComponent<InventorySlotComponent>("normal");
+
+	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);
+	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
+	inventorySlot2.addComponent<InventorySlotComponent>("magic");
 
 	fpsCounter.addComponent<TransformComponent>(gameWidth - 60, 0 + 65, 40, 55, 1);
 	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
