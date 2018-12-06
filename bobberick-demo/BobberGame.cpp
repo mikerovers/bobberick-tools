@@ -4,7 +4,10 @@
 #include "services/HighscoreService.h"
 #include "../bobberick-framework/src/services/RenderService.h"
 #include "../bobberick-framework/src/services/TextureManager.h"
+#include "../bobberick-framework/src/services/SettingsService.h"
 #include "../bobberick-framework/src/services/SoundManager.h"
+#include <regex>
+#include "../bobberick-framework/src/util/tinydir.h"
 
 bool BobberGame::setup()
 {
@@ -113,9 +116,33 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/projectiles/bullet_ball_grey.png", "bullet", renderer);
 
 	// advertisements
-	t.load("assets/image/advertisements/zombie.jpg", "ad1", renderer);
-	t.load("assets/image/advertisements/ketchup.jpg", "ad2", renderer);
-	t.load("assets/image/advertisements/knight.jpg", "ad3", renderer);
-	t.load("assets/image/advertisements/avans.jpg", "ad4", renderer);
-	t.load("assets/image/advertisements/dark_souls.jpg", "ad5", renderer);
+	int advertisementCounter = 0;
+	tinydir_dir dir;
+	tinydir_open(&dir, "assets/image/advertisements");
+
+	while (dir.has_next)
+	{
+		tinydir_file file;
+		tinydir_readfile(&dir, &file);
+		std::regex rx(".*\\.(?:jpg|png)$");
+
+		bool match = std::regex_match(file.path, rx);
+		if (match) {
+			t.load(file.path, "ad" + std::to_string(advertisementCounter), renderer);
+			advertisementCounter++;
+		}
+		printf("%s", file.name);
+		if (file.is_dir)
+		{
+			printf("/");
+		}
+		printf("\n");
+
+		tinydir_next(&dir);
+	}
+
+	tinydir_close(&dir);
+
+	ServiceManager::Instance()->getService<SettingsService>().advertisementCount = advertisementCounter;
+
 }

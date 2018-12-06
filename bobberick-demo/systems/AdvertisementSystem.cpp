@@ -7,7 +7,7 @@
 
 AdvertisementSystem::AdvertisementSystem(EntityManager &entityManager) : System(entityManager)
 {
-	maxAds = 5;
+
 }
 
 void AdvertisementSystem::update()

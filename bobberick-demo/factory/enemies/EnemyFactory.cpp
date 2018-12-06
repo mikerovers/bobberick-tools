@@ -10,6 +10,7 @@
 #include "ChickenFactory.h"
 #include "EnemyManufactureFactory.h"
 #include "../../../bobberick-framework/src/util/RandomGenerator.h"
+#include <memory>
 
 
 Entity& EnemyFactory::getRandomEnemy(const int level)
