@@ -7,6 +7,7 @@
 #include "../bobberick-framework/src/services/SoundManager.h"
 #include <experimental/filesystem>
 #include <regex>
+#include "../bobberick-framework/src/util/tinydir.h"
 
 using std::experimental::filesystem::recursive_directory_iterator;
 
@@ -102,15 +103,31 @@ void BobberGame::preloadTextures()
 
 	// advertisements
 	int advertisementCounter = 0;
-	for (auto& dirEntry : recursive_directory_iterator("assets/image/advertisements")) {
+	tinydir_dir dir;
+	tinydir_open(&dir, "assets/image/advertisements");
+
+	while (dir.has_next)
+	{
+		tinydir_file file;
+		tinydir_readfile(&dir, &file);
 		std::regex rx(".*\\.(?:jpg|png)$");
-		bool match = std::tr1::regex_match(dirEntry.path().string().c_str(), rx);
+
+		bool match = std::tr1::regex_match(file.path, rx);
 		if (match) {
-			std::cout << dirEntry.path().string().c_str() << std::endl;
-			t.load(dirEntry.path().string().c_str(), "ad" + std::to_string(advertisementCounter), renderer);
+			t.load(file.path, "ad" + std::to_string(advertisementCounter), renderer);
 			advertisementCounter++;
 		}
+		printf("%s", file.name);
+		if (file.is_dir)
+		{
+			printf("/");
+		}
+		printf("\n");
+
+		tinydir_next(&dir);
 	}
+
+	tinydir_close(&dir);
 
 	ServiceManager::Instance()->getService<SettingsService>().advertisementCount = advertisementCounter;
 
