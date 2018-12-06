@@ -323,6 +323,41 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 			}
 		}
 	}
+
+	if (entity.hasComponent<SprayComponent>() && entity.hasComponent<TimerComponent>())
+	{
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished())
+		{
+			auto& transform = entity.getComponent<TransformComponent>();
+			auto& sprite = entity.getComponent<SpriteComponent>();
+			auto& collision = entity.getComponent<CollisionComponent>();
+
+			auto& stats = entity.getComponent<StatsComponent>();
+			auto& healthBar = entity.getComponent<HealthBarComponent>();
+
+			double enemyX = transform.position.x;
+			double enemyY = transform.position.y;
+
+
+			for (auto i = 0; i < 360; ++i)
+			{
+				auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+				projectile.addComponent<BulletMovementComponent>();
+				auto& projectileTransform = projectile.addComponent<TransformComponent>(
+					1 * 25, 1 * 25, 10, 10, 1);
+				projectileTransform.velocity.x = 1;
+				projectileTransform.velocity.y = 1;
+
+				ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
+				projectile.addComponent<SpriteComponent>("bolt");
+				projectile.addComponent<CollisionComponent>("monster_projectile");
+			}
+
+			transform.velocity.x = 0;
+			transform.velocity.y = 0;
+		}
+	}
 }
 
 void AISystem::initHealthBar(Entity& entity)
