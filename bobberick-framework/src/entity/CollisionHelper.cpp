@@ -13,8 +13,8 @@ bool CollisionHelper::AABB(const CollisionComponent &a, const CollisionComponent
 int CollisionHelper::AABBDirection(const CollisionComponent &a, const CollisionComponent &b)
 {
 	int returnValue = 0;
-	auto& const movingObject = a.collider;
-	auto& const stationaryObject = b.collider;
+	auto& movingObject = a.collider;
+	auto& stationaryObject = b.collider;
 
 	// what side of the stationaryObject does the movingObject collide on?
 	bool intersectsTop = false;
