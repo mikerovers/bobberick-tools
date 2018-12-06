@@ -74,6 +74,8 @@ void HudSystem::update()
 		shieldBox.getComponent<RectangleComponent>().green = 204;
 		shieldBox.getComponent<RectangleComponent>().blue = 255;
 	}
+	inventorySlot1.getComponent<SpriteComponent>().setTexture(playerStats.normalWeapon.textureID.c_str());
+	inventorySlot2.getComponent<SpriteComponent>().setTexture(playerStats.magicWeapon.textureID.c_str());
 
 	healthBox.getComponent<TransformComponent>().width = healthWidth;
 	shieldBox.getComponent<TransformComponent>().width = shieldWidth;
@@ -126,6 +128,11 @@ void HudSystem::init()
 
 	inventorySlot1.addComponent<TransformComponent>(20, gameHeight - 55, 50, 50, 1);
 	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
+
+	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);
+	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
+	inventorySlot2.addComponent<InventorySlotComponent>();
+	inventorySlot2.addComponent<SpriteComponent>("", true);
 	inventorySlot1.addComponent<InventorySlotComponent>("normal");
 
 	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);

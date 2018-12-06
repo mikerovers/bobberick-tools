@@ -31,7 +31,6 @@ public:
         return j->find(key) != j->end();
     }
 
-    void savePlayer();
 private:
     std::unique_ptr<nlohmann::json> j;
     const std::string fileName;

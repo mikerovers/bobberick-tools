@@ -225,7 +225,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 
 			if (inputHandler.getMouseButtonState(LEFT))
 			{
-				auto weapon = playerStats.normalWeapon;
+				auto& weapon = playerStats.normalWeapon;
 				sprite.setTexture(weapon.attackingTextureID.c_str());
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				projectile.addComponent<SpriteComponent>("bullet");
@@ -235,7 +235,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 
 			if (inputHandler.getMouseButtonState(RIGHT))
 			{
-				auto weapon = playerStats.magicWeapon;
+				auto& weapon = playerStats.magicWeapon;
 				sprite.setTexture(weapon.attackingTextureID.c_str());
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
 				projectile.addComponent<SpriteComponent>("bolt");
