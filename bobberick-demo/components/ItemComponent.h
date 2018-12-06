@@ -7,10 +7,10 @@
 
 class ItemComponent : public Component {
 public:
-	std::string texture; // The asset path for the texture belonging to this item. Could be used when the item is in the inventory view.
+	std::string textureID; // The asset path for the texture belonging to this item. Could be used when the item is in the inventory view.
 	std::string name; // The name for this item. Might be randomly generated as well.
-	ItemComponent(std::string const texture, std::string const name) {
-		ItemComponent::texture = texture;
+	ItemComponent(std::string const textureID, std::string const name) {
+		ItemComponent::textureID = textureID;
 		ItemComponent::name = name;
 	}
 	virtual void use() { }; // Impart an effect to the player stats.

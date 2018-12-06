@@ -4,8 +4,6 @@
 #include "../../bobberick-framework/src/services/SaveService.h"
 
 void PlayerStatsService::init() {
-	normalWeapon = WeaponComponent("potion", "Training Bow of Nothing", false, 0, 60, "bullet");
-	magicWeapon = WeaponComponent("potion", "Training Staff of Nothing", false, 5, 120, "bolt");
 	gold = 0;
 	if (xp > 0) {
 		xpTotal += xp;
@@ -39,6 +37,16 @@ void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin
 void PlayerStatsService::setWeapons(WeaponComponent normal, WeaponComponent magic) {
 	normalWeapon = normal;
 	magicWeapon = magic;
+}
+
+void PlayerStatsService::setMagicWeapon(WeaponComponent weapon)
+{
+	magicWeapon = weapon;
+}
+
+void PlayerStatsService::setNormalWeapon(WeaponComponent weapon)
+{
+	normalWeapon = weapon;
 }
 
 void PlayerStatsService::setMetaStats(const int xpTotal, const int hpLv, const int atLv, const int dfLv, const int shdTimeLv, const int shdRecovLv) {
