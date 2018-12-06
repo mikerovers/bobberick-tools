@@ -212,7 +212,7 @@ void MainMenuState::makeLoadButton() const
 	});
 
 	loadGameButton.addExistingComponent<ButtonComponent>(loadGameButtonComponent);
-	loadGameButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
+	loadGameButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
 	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0).setStaticAnimation(true);
 	loadGameButton.addComponent<CollisionComponent>("loadButton");
 
