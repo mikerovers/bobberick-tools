@@ -192,7 +192,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 	}
 }
 
-void CollisionSystem::handle_collision_aabb_direction(CollisionComponent& colliderA, CollisionComponent& colliderB, int direction)
+void CollisionSystem::handle_collision_aabb_direction(CollisionComponent& colliderA, CollisionComponent& colliderB, int const direction)
 {
 	if (colliderA.entity->hasComponent<TransformComponent>())
 	{
