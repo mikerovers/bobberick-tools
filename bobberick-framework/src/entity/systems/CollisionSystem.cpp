@@ -68,13 +68,9 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							playerStats.setMagicWeapon(weapon);
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB
-						                                                            .entity->getComponent<
-							                                                            WeaponComponent>().textureID;
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(
-							iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), true);
 						break;
 					}
 					// If new weapon is normal: place it in the first (left) inventory slot. If occupied, the old weapon gets replaced by the new one.
@@ -87,13 +83,9 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							playerStats.setNormalWeapon(weapon);
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB
-						                                                            .entity->getComponent<
-							                                                            WeaponComponent>().textureID;
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(
-							iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), true);
 						break;
 					}
 				}
