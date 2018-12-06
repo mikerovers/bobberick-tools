@@ -329,25 +329,22 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 		auto& timer = entity.getComponent<TimerComponent>();
 		if (timer.isTimerFinished())
 		{
+			timer.setTimer(5000);
 			auto& transform = entity.getComponent<TransformComponent>();
-			auto& sprite = entity.getComponent<SpriteComponent>();
-			auto& collision = entity.getComponent<CollisionComponent>();
 
-			auto& stats = entity.getComponent<StatsComponent>();
-			auto& healthBar = entity.getComponent<HealthBarComponent>();
 
 			double enemyX = transform.position.x;
 			double enemyY = transform.position.y;
 
-
-			for (auto i = 0; i < 360; ++i)
+			// shoot 60 bullets around
+			for (auto i = 0; i < 10; ++i)
 			{
 				auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 				projectile.addComponent<BulletMovementComponent>();
 				auto& projectileTransform = projectile.addComponent<TransformComponent>(
-					1 * 25, 1 * 25, 10, 10, 1);
-				projectileTransform.velocity.x = 1;
-				projectileTransform.velocity.y = 1;
+					2 * 25, 2 * 25, 10, 10, 1);
+				projectileTransform.velocity.x = 800;
+				projectileTransform.velocity.y = 800;
 
 				ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
 				projectile.addComponent<SpriteComponent>("bolt");

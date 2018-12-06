@@ -4,15 +4,12 @@
 #include "../../services/FrameHandler.h"
 
 
-bool TimerComponent::isTimerFinished()
+bool TimerComponent::isTimerFinished() const
 {
-	unsigned int currentTime = ServiceManager::Instance()->getService<FrameHandler>().getStartClock();
-	unsigned int fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
+	const unsigned int currentTime = ServiceManager::Instance()->getService<FrameHandler>().getStartClock();
+	const unsigned int fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
 
-	if (currentTime > lastTime + timerCount * 60 / (fps > 0 ? fps : 1)) {
-		return true;
-	}
-	return false;
+	return currentTime > lastTime + timerCount * 60 / (fps > 0 ? fps : 1);
 }
 
 void TimerComponent::setTimer(unsigned int timer)

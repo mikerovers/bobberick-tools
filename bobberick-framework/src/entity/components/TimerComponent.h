@@ -6,7 +6,7 @@
 class TimerComponent : public Component
 {
 public:
-	bool isTimerFinished();
+	bool isTimerFinished() const;
 	void setTimer(unsigned int timer);
 
 	unsigned int lastTime = 0;
