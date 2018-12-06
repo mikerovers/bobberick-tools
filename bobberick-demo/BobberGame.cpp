@@ -5,11 +5,8 @@
 #include "../bobberick-framework/src/services/TextureManager.h"
 #include "../bobberick-framework/src/services/SettingsService.h"
 #include "../bobberick-framework/src/services/SoundManager.h"
-#include <experimental/filesystem>
 #include <regex>
 #include "../bobberick-framework/src/util/tinydir.h"
-
-using std::experimental::filesystem::recursive_directory_iterator;
 
 bool BobberGame::setup()
 {
