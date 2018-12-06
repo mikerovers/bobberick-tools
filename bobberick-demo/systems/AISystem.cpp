@@ -95,12 +95,15 @@ void AISystem::executeSprayShoot(const Entity& entity)
 		auto& timer = entity.getComponent<TimerComponent>();
 		if (timer.isTimerFinished())
 		{
-			for (auto i = 0; i < 80; ++i)
+			const auto numberOfBullets = 80;
+			const auto angleStep = 360 / numberOfBullets;
+			for (auto i = 0; i < numberOfBullets; ++i)
 			{
 				auto& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 				projectile.addComponent<BulletMovementComponent>();
-				auto& projectileTransform = projectile.addComponent<TransformComponent>(transformComponent.position.x, transformComponent.position.y, 10, 10, 1);
-				const int moveAngle = i * 4;
+				auto& projectileTransform = projectile.addComponent<TransformComponent>(
+					transformComponent.position.x, transformComponent.position.y, 10, 10, 1);
+				const int moveAngle = i * angleStep;
 				const double xVel = 1 * cos(moveAngle);
 				const double yVel = 1 * sin(moveAngle);
 				projectileTransform.velocity.x = xVel;
