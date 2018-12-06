@@ -57,36 +57,9 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 				for (Entity* iEntity : iEntities)
 				{
 					std::string curInventoryWeaponTextureID = iEntity->getComponent<InventorySlotComponent>().textureID;
-					// Initial, if inventory is empty
-					if (curInventoryWeaponTextureID == "null")
-					{
-						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
-						if (colliderB.entity->hasComponent<WeaponComponent>())
-						{
-							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
-
-							if (weapon.isMagic)
-							{
-								playerStats.setMagicWeapon(weapon);
-								// playerStats.magicWeapon = weapon;
-							}
-							else
-							{
-								playerStats.setNormalWeapon(weapon);
-								// playerStats.normalWeapon = weapon;
-							}
-						}
-
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB
-						                                                            .entity->getComponent<
-							                                                            WeaponComponent>().textureID;
-						iEntity->addComponent<SpriteComponent>(
-							iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
-						break;
-					}
-						// If inventory is not empty, current slot has magic weapon AND new weapon is magic: replace it
-					else if ((curInventoryWeaponTextureID == "staff_1" || curInventoryWeaponTextureID == "staff_2")
-						&& colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					
+					// If new weapon is magic: place it in the second (right) inventory slot. If occupied, the old weapon gets replaced by the new one.
+					if (curInventoryWeaponTextureID == "magic" && colliderB.entity->getComponent<WeaponComponent>().isMagic)
 					{
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 						if (colliderB.entity->hasComponent<WeaponComponent>())
@@ -95,19 +68,13 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							playerStats.setMagicWeapon(weapon);
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB
-						                                                            .entity->getComponent<
-							                                                            WeaponComponent>().textureID;
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(
-							iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), true);
 						break;
 					}
-						// If inventory is not empty, current slot has normal weapon AND new weapon is normal: replace it
-					else if ((curInventoryWeaponTextureID == "bow_1" || curInventoryWeaponTextureID == "bow_2" ||
-							curInventoryWeaponTextureID == "bow_3")
-						&& !colliderB.entity->getComponent<WeaponComponent>().isMagic)
+					// If new weapon is normal: place it in the first (left) inventory slot. If occupied, the old weapon gets replaced by the new one.
+					else if (curInventoryWeaponTextureID == "normal" && !colliderB.entity->getComponent<WeaponComponent>().isMagic)
 					{
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 						if (colliderB.entity->hasComponent<WeaponComponent>())
@@ -116,13 +83,9 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							playerStats.setNormalWeapon(weapon);
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB
-						                                                            .entity->getComponent<
-							                                                            WeaponComponent>().textureID;
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(
-							iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), true);
 						break;
 					}
 				}

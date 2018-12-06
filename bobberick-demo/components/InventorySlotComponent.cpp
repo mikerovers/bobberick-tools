@@ -1,10 +1,5 @@
 #include "InventorySlotComponent.h"
 
-InventorySlotComponent::InventorySlotComponent()
-{
-	textureID = "null";
-}
-
-InventorySlotComponent::InventorySlotComponent(std::string textureID): textureID(nullptr)
+InventorySlotComponent::InventorySlotComponent(std::string textureID): textureID(textureID)
 {
 }
