@@ -11,6 +11,8 @@
 #include "../../../../bobberick-demo/components/PickUpComponent.h"
 #include "../../../../bobberick-demo/components/InventoryComponent.h"
 #include "../../../../bobberick-demo/components/InventorySlotComponent.h"
+#include <algorithm>
+#include <SDL.h>
 
 CollisionSystem::CollisionSystem(EntityManager& entityManager) : System(entityManager)
 {
@@ -49,7 +51,9 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 			}
 			else if (colliderB.tag == "weapon_spawn")
 			{
-				std::vector<Entity*> iEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<InventorySlotComponent>();
+				std::vector<Entity*> iEntities = ServiceManager::Instance()
+				                                 ->getService<EntityManager>().getAllEntitiesWithComponent<
+					                                 InventorySlotComponent>();
 				for (Entity* iEntity : iEntities)
 				{
 					std::string curInventoryWeaponTextureID = iEntity->getComponent<InventorySlotComponent>().textureID;
@@ -73,13 +77,16 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							}
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
-						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB
+						                                                            .entity->getComponent<
+							                                                            WeaponComponent>().textureID;
+						iEntity->addComponent<SpriteComponent>(
+							iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
 						break;
 					}
-					// If inventory is not empty, current slot has magic weapon AND new weapon is magic: replace it
+						// If inventory is not empty, current slot has magic weapon AND new weapon is magic: replace it
 					else if ((curInventoryWeaponTextureID == "staff_1" || curInventoryWeaponTextureID == "staff_2")
-								&& colliderB.entity->getComponent<WeaponComponent>().isMagic)
+						&& colliderB.entity->getComponent<WeaponComponent>().isMagic)
 					{
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 						if (colliderB.entity->hasComponent<WeaponComponent>())
@@ -88,14 +95,18 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							playerStats.setMagicWeapon(weapon);
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
+						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB
+						                                                            .entity->getComponent<
+							                                                            WeaponComponent>().textureID;
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(
+							iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
 						break;
 					}
-					// If inventory is not empty, current slot has normal weapon AND new weapon is normal: replace it
-					else if ((curInventoryWeaponTextureID == "bow_1" || curInventoryWeaponTextureID == "bow_2" || curInventoryWeaponTextureID == "bow_3")
+						// If inventory is not empty, current slot has normal weapon AND new weapon is normal: replace it
+					else if ((curInventoryWeaponTextureID == "bow_1" || curInventoryWeaponTextureID == "bow_2" ||
+							curInventoryWeaponTextureID == "bow_3")
 						&& !colliderB.entity->getComponent<WeaponComponent>().isMagic)
 					{
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
@@ -105,10 +116,13 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							playerStats.setNormalWeapon(weapon);
 						}
 
-						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB.entity->getComponent<WeaponComponent>().textureID;
+						iEntity->getComponent<InventorySlotComponent>().textureID = colliderB
+						                                                            .entity->getComponent<
+							                                                            WeaponComponent>().textureID;
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(
+							iEntity->getComponent<InventorySlotComponent>().textureID.c_str(), true);
 						break;
 					}
 				}
@@ -189,6 +203,37 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 			transform.velocity.zero();
 		}
 	}
+
+	if (colliderB.tag == "chicken")
+	{
+
+		if (colliderA.entity->hasComponent<PlayerComponent>())
+		{
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(0.01, false);
+		}
+	}
+
+	if (colliderB.tag == "orc")
+	{
+
+		if (colliderA.entity->hasComponent<PlayerComponent>())
+		{
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(0.1, false);
+		}
+	}
+
+	
+
+	if (colliderB.tag == "zombie")
+	{
+		if (colliderA.entity->hasComponent<PlayerComponent>())
+		{
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(0.5, false);
+		}
+	}
 }
 
 void CollisionSystem::update()
@@ -215,13 +260,13 @@ void CollisionSystem::update()
 	auto nonMonsterProjectileComponentEntities = entityManager.getAllEntitiesWithComponent<CollisionComponent>();
 	nonMonsterProjectileComponentEntities.erase(
 		std::remove_if(nonMonsterProjectileComponentEntities.begin(), nonMonsterProjectileComponentEntities.end(),
-			[](Entity* entity)
-	{
-		auto tag = entity->getComponent<CollisionComponent>().tag;
-		return tag == "monster_projectile" || tag == "chicken" || tag == "zombie" || tag == "orc" || tag == "fireWizard" || tag == "manufacturer";
-
-	}), nonMonsterProjectileComponentEntities.end()
-		);
+		               [](Entity* entity)
+		               {
+			               auto tag = entity->getComponent<CollisionComponent>().tag;
+			               return tag == "monster_projectile" || tag == "chicken" || tag == "zombie" || tag == "orc" ||
+				               tag == "fireWizard" || tag == "manufacturer";
+		               }), nonMonsterProjectileComponentEntities.end()
+	);
 
 	for (auto& entity : playerAndMonsterEntities)
 	{

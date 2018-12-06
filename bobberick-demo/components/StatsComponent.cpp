@@ -1,7 +1,9 @@
 #include "StatsComponent.h"
 #include <random>
 
-StatsComponent::StatsComponent(const int hp, const int hpMax, const int atMin, const int atMax, const int df, const int level) {
+StatsComponent::StatsComponent(const double hp, const double hpMax, const double atMin, const double atMax, const double df,
+                               const int level)
+{
 	changeHPmax(hpMax);
 	healPoints(hp);
 	changeATmax(atMax);
@@ -12,103 +14,138 @@ StatsComponent::StatsComponent(const int hp, const int hpMax, const int atMin, c
 	generator = RandomGenerator();
 }
 
-void StatsComponent::healPoints(const int points) {
-	if (points > 0) {
+void StatsComponent::healPoints(const double points)
+{
+	if (points > 0)
+	{
 		hp += points;
-		if (hp > hpMax) {
+		if (hp > hpMax)
+		{
 			hp = hpMax;
 		}
 	}
 }
 
-void StatsComponent::healPercent(const int percent) {
-	if (percent > 0) {
-		const int points = (double)(hpMax / 100 * percent);
+void StatsComponent::healPercent(const double percent)
+{
+	if (percent > 0)
+	{
+		const int points = double(hpMax / 100 * percent);
 		healPoints(points);
 	}
 }
 
-void StatsComponent::getHit(int attack, const bool pierceDF) {
-	if (!pierceDF) {
+void StatsComponent::getHit(double attack, const bool pierceDF)
+{
+	if (!pierceDF)
+	{
 		// Is this what we want, or do we want a more complex algorithm for mitigating an attack with DF?
 		// For that matter, should natural defense (in offensive mode) even exist for the player/enemies?
 		attack -= df;
-		if (attack < 0) {
+		if (attack < 0)
+		{
 			attack = 0;
 		}
 	}
 	hp -= attack;
-	if (hp < 0) {
+	if (hp < 0)
+	{
 		hp = 0;
 	}
 }
 
-int StatsComponent::attack() {
+int StatsComponent::attack() const
+{
 	return generator.getRandomNumber(atMin, atMax);
 }
 
-const int StatsComponent::getHP() {
+double StatsComponent::getHP() const
+{
 	return hp;
 }
-const int StatsComponent::getHPmax() {
+
+double StatsComponent::getHPmax() const
+{
 	return hpMax;
 }
-const int StatsComponent::getATmin() {
+
+double StatsComponent::getATmin() const
+{
 	return atMin;
 }
-const int StatsComponent::getATmax() {
+
+double StatsComponent::getATmax() const
+{
 	return atMax;
 }
-const int StatsComponent::getDF() {
+
+double StatsComponent::getDF() const
+{
 	return df;
 }
-const int StatsComponent::getLevel() {
+
+int StatsComponent::getLevel() const
+{
 	return level;
 }
 
-void StatsComponent::changeHPmax(const int amount) {
+void StatsComponent::changeHPmax(const double amount)
+{
 	hpMax += amount;
-	if (hpMax < 1) {
+	if (hpMax < 1)
+	{
 		hpMax = 1;
 	}
-	if (hpMax > 999999) {
+	if (hpMax > 999999)
+	{
 		hpMax = 999999;
 	}
-	if (hp > hpMax) {
+	if (hp > hpMax)
+	{
 		hp = hpMax;
 	}
 }
 
-void StatsComponent::changeATmin(const int amount) {
+void StatsComponent::changeATmin(const double amount)
+{
 	atMin += amount;
-	if (atMin < 0) {
+	if (atMin < 0)
+	{
 		atMin = 0;
 	}
-	if (atMin > atMax) {
+	if (atMin > atMax)
+	{
 		atMin = atMax;
 	}
 }
 
-void StatsComponent::changeATmax(const int amount) {
+void StatsComponent::changeATmax(const double amount)
+{
 	atMax += amount;
-	if (atMax < 1) {
+	if (atMax < 1)
+	{
 		atMax = 1;
 	}
-	if (atMin > atMax) {
+	if (atMin > atMax)
+	{
 		atMin = atMax;
 	}
 }
 
-void StatsComponent::changeDF(const int amount) {
+void StatsComponent::changeDF(const double amount)
+{
 	df += amount;
-	if (df < 0) {
+	if (df < 0)
+	{
 		df = 0;
 	}
 }
 
-void StatsComponent::changeLevel(const int amount) {
+void StatsComponent::changeLevel(const int amount)
+{
 	level += amount;
-	if (level < 0) {
+	if (level < 0)
+	{
 		level = 0;
 	}
 }
