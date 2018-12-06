@@ -36,6 +36,8 @@ bool MainMenuState::onEnter()
 {
 	createAnimatedBackground();
 
+	readyForExit = false;
+
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("menu", -1);
 	if (!ServiceManager::Instance()->getService<SettingsService>().music) {
 		ServiceManager::Instance()->getService<SoundManager>().pauseMusic();
@@ -97,14 +99,9 @@ void MainMenuState::createAnimatedBackground()
 	chicken.getComponent<TransformComponent>().position = Vector2D{300, 300};
 	entityManager.addEntityToGroup(chicken, getStateID());
 	entities.push_back(&chicken);
-
-	//auto& boss = enemyFactory.getBoss(10);
-	//boss.getComponent<TransformComponent>().position = Vector2D{500, 350};
-	//entityManager.addEntityToGroup(boss, getStateID());
-	//entities.push_back(&boss);
 }
 
-void MainMenuState::makeStartGameButton()
+void MainMenuState::makeStartGameButton() const
 {
 	auto& playGameButton = entityManager.addEntity();
 	auto* playGameButtonComponent = new ButtonComponent([]()
@@ -114,21 +111,14 @@ void MainMenuState::makeStartGameButton()
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
-	auto* playGameButtonTransformComponent = new TransformComponent();
-	playGameButtonTransformComponent->position.x = 420;
-	playGameButtonTransformComponent->position.y = 60;
-	playGameButtonTransformComponent->height = 64;
-	playGameButtonTransformComponent->width = 128;
-	playGameButton.addExistingComponent<TransformComponent>(playGameButtonTransformComponent);
-	playGameButton.addComponent<ButtonSpriteComponent>("startGameButton", 1,
-	                                                   3, 0);
-	playGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	playGameButton.addComponent<TransformComponent>(420, 60, 64, 128, 1);
+	playGameButton.addComponent<ButtonSpriteComponent>("startGameButton", 1, 3, 0).setStaticAnimation(true);
 	playGameButton.addComponent<CollisionComponent>("button");
 
 	entityManager.addEntityToGroup(playGameButton, getStateID());
 }
 
-void MainMenuState::makeOptionsButton()
+void MainMenuState::makeOptionsButton() const
 {
 	auto& optionsButton = entityManager.addEntity();
 	auto* optionsButtonComponent = new ButtonComponent([]()
@@ -138,19 +128,13 @@ void MainMenuState::makeOptionsButton()
 	});
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
-	auto* optionsButtonTransformComponent = new TransformComponent();
-	optionsButtonTransformComponent->position.x = 420;
-	optionsButtonTransformComponent->position.y = 140;
-	optionsButtonTransformComponent->height = 64;
-	optionsButtonTransformComponent->width = 128;
-	optionsButton.addExistingComponent<TransformComponent>(optionsButtonTransformComponent);
-	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0);
-	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	optionsButton.addComponent<TransformComponent>(420, 140, 64, 128, 1);
+	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0).setStaticAnimation(true);
 	optionsButton.addComponent<CollisionComponent>("button");
 	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
 
-void MainMenuState::makeAdvertisements()
+void MainMenuState::makeAdvertisements() const
 {
 	auto& advertisement1 = entityManager.addEntity();
 	advertisement1.addComponent<TransformComponent>(20, 450, 224, 300, 1);
@@ -179,21 +163,14 @@ void MainMenuState::makeExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	auto* exitButtonTransformComponent = new TransformComponent();
-
-	exitButtonTransformComponent->position.x = 420;
-	exitButtonTransformComponent->position.y = 460;
-	exitButtonTransformComponent->height = 64;
-	exitButtonTransformComponent->width = 128;
-	exitButton.addExistingComponent<TransformComponent>(exitButtonTransformComponent);
-	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
-	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addComponent<TransformComponent>(420, 460, 64, 128, 1);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0).setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("button");
 
 	entityManager.addEntityToGroup(exitButton, getStateID());
 }
 
-void MainMenuState::makeHelpButton()
+void MainMenuState::makeHelpButton() const
 {
 	auto& helpButton = entityManager.addEntity();
 	auto* helpButtonComponent = new ButtonComponent([]()
@@ -203,18 +180,12 @@ void MainMenuState::makeHelpButton()
 	});
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
-	auto* helpButtonTransformComponent = new TransformComponent();
-	helpButtonTransformComponent->position.x = 420;
-	helpButtonTransformComponent->position.y = 220;
-	helpButtonTransformComponent->height = 64;
-	helpButtonTransformComponent->width = 128;
-	helpButton.addExistingComponent<TransformComponent>(helpButtonTransformComponent);
-	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
-	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	helpButton.addComponent<TransformComponent>(420, 220, 64, 128, 1);
+	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0).setStaticAnimation(true);
 	entityManager.addEntityToGroup(helpButton, getStateID());
 }
 
-void MainMenuState::makeScoresButton() 
+void MainMenuState::makeScoresButton() const
 {
 	auto& scoresButton = entityManager.addEntity();
 	auto* scoresButtonComponent = new ButtonComponent([]()
@@ -224,32 +195,25 @@ void MainMenuState::makeScoresButton()
 	});
 
 	scoresButton.addExistingComponent<ButtonComponent>(scoresButtonComponent);
-	auto* scoresButtonTransformComponent = new TransformComponent();
-	scoresButtonTransformComponent->position.x = 420;
-	scoresButtonTransformComponent->position.y = 300;
-	scoresButtonTransformComponent->height = 64;
-	scoresButtonTransformComponent->width = 128;
-	scoresButton.addExistingComponent<TransformComponent>(scoresButtonTransformComponent);
-	scoresButton.addComponent<ButtonSpriteComponent>("scoresButton", 1, 3, 0);
-	scoresButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	scoresButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
+	scoresButton.addComponent<ButtonSpriteComponent>("scoresButton", 1, 3, 0).setStaticAnimation(true);
 	entityManager.addEntityToGroup(scoresButton, getStateID());
 }
 
-void MainMenuState::makeLoadButton()
+void MainMenuState::makeLoadButton() const
 {
 	auto& loadGameButton = entityManager.addEntity();
 	auto* loadGameButtonComponent = new ButtonComponent([]()
-														{
-															StateFactory factory{};
-															ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level1State"));
-															ServiceManager::Instance()->getService<PlayerStatsService>().init();
-															ServiceManager::Instance()->getService<PlayerStatsService>().load();
-														});
+	{
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level1State"));
+		ServiceManager::Instance()->getService<PlayerStatsService>().init();
+		ServiceManager::Instance()->getService<PlayerStatsService>().load();
+	});
 
 	loadGameButton.addExistingComponent<ButtonComponent>(loadGameButtonComponent);
-	loadGameButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
-	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0);
-	loadGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	loadGameButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
+	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0).setStaticAnimation(true);
 	loadGameButton.addComponent<CollisionComponent>("loadButton");
 
 	entityManager.addEntityToGroup(loadGameButton, getStateID());

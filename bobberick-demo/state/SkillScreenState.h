@@ -66,7 +66,7 @@ private:
 	bool readyForExit = false;
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 
-	void makeStartGameButton();
+	void makeStartGameButton() const;
 	void makeHpButton();
 	void makeAtButton();
 	void makeDfButton();
@@ -74,11 +74,11 @@ private:
 	void makeShdRecovButton();
 	void makeExitButton();
 
-	void makeHpText();
-	void makeAtText();
-	void makeDfText();
-	void makeShdTimeText();
-	void makeShdRecovText();
+	void makeHpText() const;
+	void makeAtText() const;
+	void makeDfText() const;
+	void makeShdTimeText() const;
+	void makeShdRecovText() const;
 
 	void updateHpText(PlayerStatsService& playerStats);
 	void updateAtText(PlayerStatsService& playerStats);
