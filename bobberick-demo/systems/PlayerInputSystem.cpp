@@ -7,6 +7,7 @@
 #include "../components/PlayerMovementComponent.h"
 #include "../components/BulletMovementComponent.h"
 #include "../components/ShootComponent.h"
+#include "../components/DamageComponent.h"
 #include "../components/PlayerComponent.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
@@ -192,15 +193,26 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
-	auto& timer = entity->getComponent<TimerComponent>();
+	//auto& timer = entity->getComponent<TimerComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 
 	if (inputHandler.getMouseButtonState(LEFT) || inputHandler.getMouseButtonState(RIGHT))
 	{
 		// shoot
-		if (timer.isTimerFinished() && !playerStats.getSHDactive())
+		if (/*timer.isTimerFinished() && */!playerStats.getSHDactive())
 		{
+			double playerAttack;
+			if (inputHandler.getMouseButtonState(LEFT)) {
+				playerAttack = playerStats.attack(false);
+			} else {
+				playerAttack = playerStats.attack(true);
+			}
+
+			if (playerAttack == -1) {
+				return;
+			}
+
 			const auto playerX = transform.position.x;
 			const auto playerY = transform.position.y;
 
@@ -216,6 +228,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 
 			Entity& projectile = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 			projectile.addComponent<BulletMovementComponent>();
+			projectile.addComponent<DamageComponent>(playerAttack);
 			auto& projectileTransform = projectile.addComponent<TransformComponent>(
 				playerXCenter + dx * 25, playerYCenter + dy * 25, 10, 10, 1);
 			projectileTransform.velocity.x = dx;
@@ -230,7 +243,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				projectile.addComponent<SpriteComponent>("bullet");
 				projectile.addComponent<CollisionComponent>("arrow");
-				timer.setTimer(playerComponent.shootingTimeout);
+				//timer.setTimer(playerComponent.shootingTimeout);
 			}
 
 			if (inputHandler.getMouseButtonState(RIGHT))
@@ -240,7 +253,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
 				projectile.addComponent<SpriteComponent>("bolt");
 				projectile.addComponent<CollisionComponent>("bolt");
-				timer.setTimer(playerComponent.shootingTimeout * 2);
+				//timer.setTimer(playerComponent.shootingTimeout * 2);
 			}
 
 			for (const auto& group : entity->getGroups())

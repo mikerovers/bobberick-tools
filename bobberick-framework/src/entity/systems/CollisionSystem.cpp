@@ -4,6 +4,7 @@
 #include "../../services/ServiceManager.h"
 #include "../../../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../../../bobberick-demo/components/StatsComponent.h"
+#include "../../../../bobberick-demo/components/DamageComponent.h"
 #include "../../../../bobberick-demo/components/PlayerComponent.h"
 #include "../../../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../../../bobberick-demo/components/EnemyMovementComponent.h"
@@ -109,22 +110,13 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		}
 	}
 
-	if (colliderB.tag == "arrow")
+	if (colliderB.tag == "arrow" || colliderB.tag == "bolt")
 	{
-		if (colliderA.entity->hasComponent<StatsComponent>())
+		if (colliderA.entity->hasComponent<StatsComponent>() && colliderB.entity->hasComponent<DamageComponent>())
 		{
 			auto& stats = colliderA.entity->getComponent<StatsComponent>();
-			stats.getHit(40, true);
-			colliderB.entity->destroy();
-		}
-	}
-
-	if (colliderB.tag == "bolt")
-	{
-		if (colliderA.entity->hasComponent<StatsComponent>())
-		{
-			auto& stats = colliderA.entity->getComponent<StatsComponent>();
-			stats.getHit(80, true);
+			auto& dmg = colliderB.entity->getComponent<DamageComponent>();
+			stats.getHit(dmg.damage, true);
 			colliderB.entity->destroy();
 		}
 	}

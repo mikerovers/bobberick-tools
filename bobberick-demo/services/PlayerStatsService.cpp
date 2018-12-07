@@ -14,7 +14,9 @@ void PlayerStatsService::init()
 	shdActive = false;
 	fireCooldown = 0;
 
-	// TODO calculate all of this based on skills
+	normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 5, 30, "bullet", "characterShooting");
+	magicWeapon = WeaponComponent("", "Training Staff of Nothing", false, 10, 60, "bolt", "characterCasting");
+
 	hp = hpMax = getHPvalue(false);
 	atMin = getATminValue(false);
 	atMax = getATmaxValue(false);

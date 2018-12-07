@@ -28,6 +28,7 @@ components/InventoryComponent.cpp components/InventoryComponent.h
 components/ButtonSettingComponent.cpp components/ButtonSettingComponent.h
 components/SprayComponent.cpp components/SprayComponent.h
 components/PickUpComponent.cpp components/PickUpComponent.h
+components/DamageComponent.cpp components/DamageComponent.h
 components/InventorySlotComponent.cpp components/InventorySlotComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/CheatSystem.cpp systems/CheatSystem.h
