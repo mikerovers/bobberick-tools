@@ -20,6 +20,9 @@ public:
 	// Generate an attack and modify it based on the power of one of the weapons. Returns -1 if the firing cooldown has not elapsed (do not generate a bullet).
 	int attack(const bool magic); // Call this every frame when the player is holding a fire button.
 	void toggleShield(); // Activate the shield, if it's charged enough (must be at least 50% charged).
+	void setNormalWeapon(const WeaponComponent weapon);
+	void setMagicWeapon(const WeaponComponent weapon);
+	void equipComparingWeapon(); // Confirm equipping the currently compared weapon and set it to null.
 
 	// Metagame events
 	bool upgradeHPlevel();
@@ -44,8 +47,6 @@ public:
 	void changeATmin(const int amount);
 	void changeATmax(const int amount);
 	void setSHD(const int amount);
-	void setNormalWeapon(const WeaponComponent weapon);
-	void setMagicWeapon(const WeaponComponent weapon);
 
 	// Getters for metagame stats
 	int getXPtotal() const;
@@ -71,7 +72,8 @@ public:
 
 	// Public in-game stats
 	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 0, 30, "bullet", "characterShooting");
-	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", false, 5, 60, "bolt", "characterCasting");
+	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 5, 60, "bolt", "characterCasting");
+	std::unique_ptr<WeaponComponent> comparingWeapon = nullptr; // The weapon the player is currently standing on. Can be compared in the HUD.
 	int gold{};
 	int xp{}; // Earned in the current game.
 

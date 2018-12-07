@@ -24,6 +24,8 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
                                                      coinText(entityManager.addEntity()),
                                                      xpImage(entityManager.addEntity()),
                                                      xpText(entityManager.addEntity()),
+													 oldWeaponText(entityManager.addEntity()),
+													 newWeaponText(entityManager.addEntity()),
                                                      inventory(entityManager.addEntity()),
                                                      inventorySlot1(entityManager.addEntity()),
                                                      inventorySlot2(entityManager.addEntity()),
@@ -87,12 +89,24 @@ void HudSystem::update()
 	coinText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.gold), 6, false));
 	xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.xp), 6, false));
 	fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(fpsMiddlerResult), 6, false));
+
+	if (!comparing && playerStats.comparingWeapon != nullptr) {
+		if (playerStats.comparingWeapon->isMagic) {
+			startCompare(playerStats.magicWeapon, *playerStats.comparingWeapon);
+		} else {
+			startCompare(playerStats.normalWeapon, *playerStats.comparingWeapon);
+		}
+	} else if (comparing && playerStats.comparingWeapon == nullptr) {
+		stopCompare();
+	}
 }
 
 void HudSystem::init()
 {
 	const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
 	const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
+	TextFormatter textFormatter = TextFormatter{};
+
 	hudBox.addComponent<TransformComponent>(0, 0, 50, gameWidth, 1);
 	hudBox.addComponent<RectangleComponent>(51, 51, 204, true);
 
@@ -122,6 +136,12 @@ void HudSystem::init()
 
 	xpText.addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
 	xpText.addComponent<TextComponent>("monoMedium", "xpText", " ");
+
+	oldWeaponText.addComponent<TransformComponent>(barWidth + 350, 7, 20, 300, 1);
+	oldWeaponText.addComponent<TextComponent>("monoSmall", "oldWeaponText", " ");
+
+	newWeaponText.addComponent<TransformComponent>(barWidth + 350, 27, 20, 300, 1);
+	newWeaponText.addComponent<TextComponent>("monoSmall", "newWeaponText", " ");
 
 	inventory.addComponent<TransformComponent>(10, gameHeight - 60, 60, 130, 1);
 	inventory.addComponent<RectangleComponent>(161, 64, 5, true);
@@ -167,4 +187,17 @@ void HudSystem::init()
 			serviceManager.addEntityToGroup(fpsCounter, group);
 		}
 	}
+}
+
+void HudSystem::startCompare(WeaponComponent oldWeapon, WeaponComponent newWeapon) {
+	TextFormatter textFormatter = TextFormatter();
+	comparing = true;
+	oldWeaponText.getComponent<TextComponent>().setText(textFormatter.addSpaces("Old weapon: Power " + std::to_string(oldWeapon.power) + ", Delay " + std::to_string(oldWeapon.fireDelay), 35, false));
+	newWeaponText.getComponent<TextComponent>().setText(textFormatter.addSpaces("New weapon: Power " + std::to_string(newWeapon.power) + ", Delay " + std::to_string(newWeapon.fireDelay), 35, false));
+}
+
+void HudSystem::stopCompare() {
+	comparing = false;
+	oldWeaponText.getComponent<TextComponent>().setText(" ");
+	newWeaponText.getComponent<TextComponent>().setText(" ");
 }

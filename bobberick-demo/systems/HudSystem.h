@@ -2,6 +2,7 @@
 #define BOBBERICK_TOOLS_HUDSYSTEM_H
 
 #include "../../bobberick-framework/src/entity/systems/System.h"
+#include "../components/WeaponComponent.h"
 
 class HudSystem : public System
 {
@@ -9,13 +10,15 @@ public:
     explicit HudSystem(EntityManager& entityManager);
     void update() override;
 	void init() override;
+	void startCompare(WeaponComponent oldWeapon, WeaponComponent newWeapon);
+	void stopCompare();
 private:
 	const int barWidth = 300; // The width boundary of the inner bars.
 	int fpsMiddlerCount = 0;
 	int const fpsMiddlerDivideBy = 20;
 	int fpsMiddlerResult = 0;
 	std::vector<int> fpsMiddlerVector;
-
+	bool comparing = false;
 
 	Entity& hudBox; // The HUD background rectangle.
 	Entity& outerBox; // The outline for the health bar.
@@ -28,6 +31,8 @@ private:
 	Entity& coinText;
 	Entity& xpImage;
 	Entity& xpText;
+	Entity& oldWeaponText;
+	Entity& newWeaponText;
 
 	Entity& inventory;
 	Entity& inventorySlot1;

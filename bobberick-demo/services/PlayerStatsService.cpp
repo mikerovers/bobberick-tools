@@ -15,7 +15,8 @@ void PlayerStatsService::init()
 	fireCooldown = 0;
 
 	normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 5, 30, "bullet", "characterShooting");
-	magicWeapon = WeaponComponent("", "Training Staff of Nothing", false, 10, 60, "bolt", "characterCasting");
+	magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 10, 60, "bolt", "characterCasting");
+	comparingWeapon = nullptr;
 
 	hp = hpMax = getHPvalue(false);
 	atMin = getATminValue(false);
