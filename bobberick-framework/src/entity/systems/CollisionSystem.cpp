@@ -102,10 +102,11 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 
 	if (colliderB.tag == "monster_projectile")
 	{
-		if (colliderA.entity->hasComponent<PlayerComponent>())
+		if (colliderA.entity->hasComponent<PlayerComponent>() && colliderB.entity->hasComponent<DamageComponent>())
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-			stats.getHit(5, true);
+			auto& dmg = colliderB.entity->getComponent<DamageComponent>();
+			stats.getHit(dmg.damage, true);
 			colliderB.entity->destroy();
 		}
 	}
