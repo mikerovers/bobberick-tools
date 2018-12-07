@@ -34,9 +34,9 @@ public:
 	int getATmin() const;
 	int getATmax() const;
 	int getDF() const;
-	int getSHD() const;
+	double getSHD() const;
 	int getSHDmax() const;
-	int getSHDrecov() const;
+	double getSHDrecov() const;
 	bool getSHDactive() const;
 
 	// Cheats
@@ -67,7 +67,7 @@ public:
 	int getATmaxValue(bool next) const;
 	int getDFvalue(bool next) const;
 	int getSHDvalue(bool next) const;
-	int getSHDrecovValue(bool next) const;
+	double getSHDrecovValue(bool next) const;
 
 	// Public in-game stats
 	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 0, 60, "bullet", "characterShooting");

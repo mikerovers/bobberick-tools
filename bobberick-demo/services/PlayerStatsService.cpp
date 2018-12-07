@@ -269,7 +269,7 @@ int PlayerStatsService::getDF() const
 	return df;
 }
 
-int PlayerStatsService::getSHD() const
+double PlayerStatsService::getSHD() const
 {
 	return shdTime;
 }
@@ -279,7 +279,7 @@ int PlayerStatsService::getSHDmax() const
 	return shdTimeMax;
 }
 
-int PlayerStatsService::getSHDrecov() const
+double PlayerStatsService::getSHDrecov() const
 {
 	return shdRecov;
 }
@@ -465,7 +465,7 @@ int PlayerStatsService::getSHDvalue(bool next) const
 	}
 }
 
-int PlayerStatsService::getSHDrecovValue(bool next) const
+double PlayerStatsService::getSHDrecovValue(bool next) const
 {
 	if (!next)
 	{
