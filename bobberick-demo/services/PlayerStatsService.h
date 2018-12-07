@@ -11,7 +11,7 @@ public:
 	void setStats(const int hp, const int hpMax, const int atMin, const int atMax, const int df, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp); // Set stats when loading a in-progress game.
 	void setWeapons(const WeaponComponent normal, const WeaponComponent magic); // Set initial weapons when loading a 'New Game +' save file(?)
 	void setMetaStats(const int totalXP, const int hpLv, const int atLv, const int dfLv, const int shdTimeLv, const int shdRecovLv); // Initialize skills when loading a save file.
-	void clean() override {};
+	void clean() override { };
 	void update(); // Call this every frame in an in-game state.
 
 	// In-game events
@@ -73,7 +73,9 @@ public:
 	// Public in-game stats
 	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 0, 30, "bullet", "characterShooting");
 	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 5, 60, "bolt", "characterCasting");
-	std::unique_ptr<WeaponComponent> comparingWeapon = nullptr; // The weapon the player is currently standing on. Can be compared in the HUD.
+	WeaponComponent comparingWeapon = WeaponComponent("", "", false, 0, 0, "", "");
+	int compareTime = 0; // When >0, the hud system should show the compared weapon. Depicts the amount of frames the compared weapon is valid.
+	bool compareConfirmed = false; // When true, this is a message to the collision system to destroy the colliding weapon and set this back to false when done.
 	int gold{};
 	int xp{}; // Earned in the current game.
 

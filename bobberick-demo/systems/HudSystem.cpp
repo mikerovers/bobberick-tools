@@ -90,13 +90,13 @@ void HudSystem::update()
 	xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.xp), 6, false));
 	fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(fpsMiddlerResult), 6, false));
 
-	if (!comparing && playerStats.comparingWeapon != nullptr) {
-		if (playerStats.comparingWeapon->isMagic) {
-			startCompare(playerStats.magicWeapon, *playerStats.comparingWeapon);
+	if (!comparing && playerStats.compareTime > 0) {
+		if (playerStats.comparingWeapon.isMagic) {
+			startCompare(playerStats.magicWeapon, playerStats.comparingWeapon);
 		} else {
-			startCompare(playerStats.normalWeapon, *playerStats.comparingWeapon);
+			startCompare(playerStats.normalWeapon, playerStats.comparingWeapon);
 		}
-	} else if (comparing && playerStats.comparingWeapon == nullptr) {
+	} else if (comparing && playerStats.compareTime <= 0) {
 		stopCompare();
 	}
 }

@@ -65,8 +65,12 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 						if (colliderB.entity->hasComponent<WeaponComponent>())
 						{
-							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
-							playerStats.setMagicWeapon(weapon);
+							auto weapon = colliderB.entity->getComponent<WeaponComponent>();
+							playerStats.comparingWeapon = weapon;
+							playerStats.compareTime = 2;
+							if (!playerStats.compareConfirmed) {
+								return; // Do not remove the colliding weapon until the swap is confirmed.
+							}
 						}
 
 						// This causes an error...
@@ -78,10 +82,15 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 					else if (curInventoryWeaponTextureID == "normal" && !colliderB.entity->getComponent<WeaponComponent>().isMagic)
 					{
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+
 						if (colliderB.entity->hasComponent<WeaponComponent>())
 						{
-							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
-							playerStats.setNormalWeapon(weapon);
+							auto weapon = colliderB.entity->getComponent<WeaponComponent>();
+							playerStats.comparingWeapon = weapon;
+							playerStats.compareTime = 2;
+							if (!playerStats.compareConfirmed) {
+								return; // Do not remove the colliding weapon until the swap is confirmed.
+							}
 						}
 
 						// This causes an error...
