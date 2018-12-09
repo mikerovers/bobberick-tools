@@ -18,7 +18,7 @@ Entity & EndBossFactory::getEnemy(const int level)
 {
 	auto& endBoss = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = endBoss.addComponent<TransformComponent>(-1, -1, 91, 128, 1);
-	auto& spriteComponent = endBoss.addComponent<SpriteComponent>("endBoss", 7, 7, 12);
+	auto& spriteComponent = endBoss.addComponent<SpriteComponent>("endBoss", 7, 7, 12, 6);
 	//spriteComponent.addTexture("assets/image/enemies/fire_wizard_casting.png", "fire_wizard_casting");
 	auto* collisionComponent = new HealthBarComponent();
 	endBoss.addExistingComponent<HealthBarComponent>(collisionComponent);

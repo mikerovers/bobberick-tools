@@ -89,9 +89,8 @@ void SettingsScreenState::createMusicToggleButton() const
 
 	musicToggleButton.addExistingComponent<ButtonComponent>(musicToggleButtonComponent);
 	musicToggleButton.addComponent<TransformComponent>(560, 165, 64, 128, 1);
-	musicToggleButton.addComponent<ButtonSpriteComponent>("blank_green_button", 1, 3, 0);
+	musicToggleButton.addComponent<ButtonSpriteComponent>("blank_green_button", 1, 3, 0, 1).setStaticAnimation(true);
 	musicToggleButton.addComponent<ButtonSettingComponent>("music");
-	musicToggleButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(musicToggleButton, getStateID());
 }
@@ -109,8 +108,7 @@ void SettingsScreenState::createExitButton()
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	exitButton.addComponent<TransformComponent>(410, 420, 64, 128, 1);
-	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
-	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
 }

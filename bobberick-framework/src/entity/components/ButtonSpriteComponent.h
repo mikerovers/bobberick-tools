@@ -7,7 +7,7 @@
 class ButtonSpriteComponent : public SpriteComponent
 {
 public:
-    ButtonSpriteComponent(const char* textureID, int animCols, int animFrames, int animRate);
+    ButtonSpriteComponent(const char* textureID, int animCols, int animFrames, int animRate, int zIndex = 1);
     void update() override;
 	void setTexture(const char * textureID);
 };

@@ -51,14 +51,27 @@ void SpriteComponent::render()
     ServiceManager::Instance()->getService<TextureManager>().draw(currentTexture, &sourceRect, &destinationRect, ServiceManager::Instance()->getService<RenderService>().getRenderer(), flip);
 }
 
-SpriteComponent::SpriteComponent(const char *textureID, const bool guiLayer): staticAnimation(false)
+SpriteComponent::SpriteComponent(const char *textureID, const int zIndex): staticAnimation(false)
 {
 	currentTexture = textureID;
 	currentFrame = -1;
-	SpriteComponent::guiLayer = guiLayer;
+
+	// zIndex currently has a max. of 10 and a min. of 1.
+	if (zIndex > 0 && zIndex < 11)
+	{
+		SpriteComponent::zIndex = zIndex;
+	}
+	else if (zIndex <= 0)
+	{
+		SpriteComponent::zIndex = 1;
+	}
+	else
+	{
+		SpriteComponent::zIndex = 10;
+	}
 }
 
-SpriteComponent::SpriteComponent(const char *textureID, const int animCols, const int animFrames, const int animRate): staticAnimation(false)
+SpriteComponent::SpriteComponent(const char *textureID, const int animCols, const int animFrames, const int animRate, const int zIndex): staticAnimation(false)
 {
 	currentTexture = textureID;
 	SpriteComponent::animCols = animCols;
@@ -66,6 +79,20 @@ SpriteComponent::SpriteComponent(const char *textureID, const int animCols, cons
 	SpriteComponent::animRate = animRate;
 	animTimer = animRate;
 	currentFrame = 0;
+
+	// zIndex currently has a max. of 10 and a min. of 1.
+	if (zIndex > 0 && zIndex < 11)
+	{
+		SpriteComponent::zIndex = zIndex;
+	}
+	else if (zIndex <= 0)
+	{
+		SpriteComponent::zIndex = 1;
+	}
+	else
+	{
+		SpriteComponent::zIndex = 10;
+	}
 }
 
 void SpriteComponent::setTexture(const char * textureID) 

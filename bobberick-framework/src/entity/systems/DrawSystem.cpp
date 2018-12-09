@@ -10,6 +10,7 @@
 #include "../components/TilesetComponent.h"
 #include "../../services/RenderService.h"
 #include "../../../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../components/ButtonSpriteComponent.h"
 
 DrawSystem::DrawSystem(EntityManager &entityManager) : System(entityManager)
 {
@@ -35,17 +36,6 @@ void DrawSystem::update()
 		auto & fade = entity->getComponent<FadeComponent>();
 		fade.update();
 	}
-
-	// Draw in-game sprites under the GUI.
-    for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
-		if (!entity->getComponent<SpriteComponent>().guiLayer) {
-			auto &spr = entity->getComponent<SpriteComponent>();
-			auto &transform = entity->getComponent<TransformComponent>();
-
-			spr.update();
-			ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
-		} 
-    }
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
 		auto & spr = entity->getComponent<RectangleComponent>();
@@ -80,13 +70,32 @@ void DrawSystem::update()
 		delete destRect;
 	}
 
-	// Draw sprites on top of the GUI.
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
-		if (entity->getComponent<SpriteComponent>().guiLayer) {
-			auto & spr = entity->getComponent<SpriteComponent>();
+	// Draw in order of zIndex. Higher zIndex means further to the back.
+	// Current max. zIndex is 10 and minimum is 1.
+	for (int i = 10; i > 0; --i)
+	{
+		// Draw sprites first
+		for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
+			if (entity->getComponent<SpriteComponent>().zIndex == i)
+			{
+				auto &spr = entity->getComponent<SpriteComponent>();
+				auto &transform = entity->getComponent<TransformComponent>();
 
-			spr.update();
-			spr.render();
+				spr.update();
+				ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
+				spr.render();
+			}
+		}
+
+		// Draw button sprites last, they need to be on top of everything (gui).
+		for (auto& entity : entityManager.getAllEntitiesWithComponent<ButtonSpriteComponent>()) {
+			if (entity->getComponent<ButtonSpriteComponent>().zIndex == i)
+			{
+				auto &spr = entity->getComponent<ButtonSpriteComponent>();
+
+				spr.update();
+				spr.render();
+			}
 		}
 	}
 }

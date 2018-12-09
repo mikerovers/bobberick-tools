@@ -228,7 +228,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				auto& weapon = playerStats.normalWeapon;
 				sprite.setTexture(weapon.attackingTextureID.c_str());
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
-				projectile.addComponent<SpriteComponent>("bullet");
+				projectile.addComponent<SpriteComponent>("bullet", 4);
 				projectile.addComponent<CollisionComponent>("arrow");
 				timer.setTimer(playerComponent.shootingTimeout);
 			}
@@ -238,7 +238,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				auto& weapon = playerStats.magicWeapon;
 				sprite.setTexture(weapon.attackingTextureID.c_str());
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "bolt", 0);
-				projectile.addComponent<SpriteComponent>("bolt");
+				projectile.addComponent<SpriteComponent>("bolt", 4);
 				projectile.addComponent<CollisionComponent>("bolt");
 				timer.setTimer(playerComponent.shootingTimeout * 2);
 			}

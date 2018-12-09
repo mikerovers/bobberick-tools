@@ -70,7 +70,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), 1);
 						break;
 					}
 					// If new weapon is normal: place it in the first (left) inventory slot. If occupied, the old weapon gets replaced by the new one.
@@ -85,7 +85,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 
 						// This causes an error...
 						// iEntity->removeComponent<SpriteComponent>();
-						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), true);
+						iEntity->addComponent<SpriteComponent>(colliderB.entity->getComponent<WeaponComponent>().textureID.c_str(), 1);
 						break;
 					}
 				}

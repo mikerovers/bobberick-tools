@@ -11,8 +11,8 @@ class SpriteComponent : public Component
 {
 public:
     SpriteComponent();
-	SpriteComponent(const char* textureID, const bool guiLayer = false);
-    SpriteComponent(const char* textureID, int animCols, int animFrames, int animRate);
+	SpriteComponent(const char* textureID, int zIndex = 1);
+    SpriteComponent(const char* textureID, int animCols, int animFrames, int animRate, int zIndex = 1);
 
 	void setTexture(const char * textureID);
     void setCurrentFrame(const int frame);
@@ -26,7 +26,7 @@ public:
     void update() override;
     void render() override;
 
-	bool guiLayer{}; // Set this to true to always render this sprite on top of any rectangles and text; used for drawing sprites on a GUI box.
+	int zIndex{}; // Higher number means further to the back
 	bool moving{};
 	bool flip = false;
 protected:

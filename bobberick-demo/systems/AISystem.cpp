@@ -109,7 +109,7 @@ void AISystem::executeSprayShoot(const Entity& entity)
 				projectileTransform.velocity.x = xVel;
 				projectileTransform.velocity.y = yVel;
 				ServiceManager::Instance()->getService<SoundManager>().playSound(100 + i, "bolt", 0);
-				projectile.addComponent<SpriteComponent>("bolt");
+				projectile.addComponent<SpriteComponent>("bolt", 4);
 				projectile.addComponent<CollisionComponent>("monster_projectile");
 				for (const auto& group : entity.getGroups())
 				{
@@ -317,7 +317,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					transform.velocity.y = 0;
 
 					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
-					projectile.addComponent<SpriteComponent>("bolt");
+					projectile.addComponent<SpriteComponent>("bolt", 4);
 					projectile.addComponent<CollisionComponent>("monster_projectile");
 					for (const auto& group : entity.getGroups())
 					{
@@ -383,7 +383,7 @@ void AISystem::kill(Entity& entity)
 	bloodPuddle.addComponent<TransformComponent>(entityTransform.position.x, entityTransform.position.y,
 	                                             47, 47,
 	                                             entityTransform.getScale() * 2);
-	bloodPuddle.addComponent<SpriteComponent>("blood2");
+	bloodPuddle.addComponent<SpriteComponent>("blood2", 10);
 	for (const auto& group : entity.getGroups())
 	{
 		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(bloodPuddle, group);

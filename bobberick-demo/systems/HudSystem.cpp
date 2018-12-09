@@ -109,10 +109,10 @@ void HudSystem::init()
 	shieldBox.addComponent<RectangleComponent>(0, 255, 255, true);
 
 	coinImage.addComponent<TransformComponent>(barWidth + 17, 1, 48, 48, 1);
-	coinImage.addComponent<SpriteComponent>("hudGold", true);
+	coinImage.addComponent<SpriteComponent>("hudGold", 1);
 
 	xpImage.addComponent<TransformComponent>(barWidth + 177, 1, 48, 48, 1);
-	xpImage.addComponent<SpriteComponent>("hudXp", true);
+	xpImage.addComponent<SpriteComponent>("hudXp", 1);
 
 	healthText.addComponent<TransformComponent>(20, 10, 30, 280, 1);
 	healthText.addComponent<TextComponent>("monoMedium", "healthText", " ");
@@ -129,12 +129,12 @@ void HudSystem::init()
 	inventorySlot1.addComponent<TransformComponent>(20, gameHeight - 55, 50, 50, 1);
 	inventorySlot1.addComponent<RectangleComponent>(212, 154, 44, true);
 	inventorySlot1.addComponent<InventorySlotComponent>("");
-	inventorySlot1.addComponent<SpriteComponent>("", true);
+	inventorySlot1.addComponent<SpriteComponent>("", 1);
 
 	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 	inventorySlot2.addComponent<InventorySlotComponent>("");
-	inventorySlot2.addComponent<SpriteComponent>("", true);
+	inventorySlot2.addComponent<SpriteComponent>("", 1);
 	inventorySlot1.addComponent<InventorySlotComponent>("normal");
 
 	inventorySlot2.addComponent<TransformComponent>(80, gameHeight - 55, 50, 50, 1);
