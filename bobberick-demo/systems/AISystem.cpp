@@ -16,6 +16,7 @@
 #include "../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../bobberick-demo/components/ShootComponent.h"
 #include "../../bobberick-demo/components/PlayerComponent.h"
+#include "../../bobberick-demo/components/DamageComponent.h"
 #include "../../bobberick-demo/components/StatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
@@ -90,9 +91,10 @@ void AISystem::update()
 void AISystem::executeSprayShoot(const Entity& entity)
 {
 	auto transformComponent = entity.getComponent<TransformComponent>();
-	if (entity.hasComponent<TimerComponent>())
+	if (entity.hasComponent<TimerComponent>() && entity.hasComponent<StatsComponent>())
 	{
 		auto& timer = entity.getComponent<TimerComponent>();
+		auto& stats = entity.getComponent<StatsComponent>();
 		if (timer.isTimerFinished())
 		{
 			const auto numberOfBullets = 80;
@@ -111,6 +113,7 @@ void AISystem::executeSprayShoot(const Entity& entity)
 				ServiceManager::Instance()->getService<SoundManager>().playSound(100 + i, "bolt", 0);
 				projectile.addComponent<SpriteComponent>("bolt");
 				projectile.addComponent<CollisionComponent>("monster_projectile");
+				projectile.addComponent<DamageComponent>(stats.attack());
 				for (const auto& group : entity.getGroups())
 				{
 					ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(projectile, group);
@@ -319,6 +322,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					ServiceManager::Instance()->getService<SoundManager>().playSound(channelCounter, "bolt", 0);
 					projectile.addComponent<SpriteComponent>("bolt");
 					projectile.addComponent<CollisionComponent>("monster_projectile");
+					projectile.addComponent<DamageComponent>(stats.attack());
 					for (const auto& group : entity.getGroups())
 					{
 						ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(projectile, group);

@@ -11,7 +11,7 @@ public:
 	void setStats(const int hp, const int hpMax, const int atMin, const int atMax, const int df, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp); // Set stats when loading a in-progress game.
 	void setWeapons(const WeaponComponent normal, const WeaponComponent magic); // Set initial weapons when loading a 'New Game +' save file(?)
 	void setMetaStats(const int totalXP, const int hpLv, const int atLv, const int dfLv, const int shdTimeLv, const int shdRecovLv); // Initialize skills when loading a save file.
-	void clean() override {};
+	void clean() override { };
 	void update(); // Call this every frame in an in-game state.
 
 	// In-game events
@@ -20,6 +20,9 @@ public:
 	// Generate an attack and modify it based on the power of one of the weapons. Returns -1 if the firing cooldown has not elapsed (do not generate a bullet).
 	int attack(const bool magic); // Call this every frame when the player is holding a fire button.
 	void toggleShield(); // Activate the shield, if it's charged enough (must be at least 50% charged).
+	void setNormalWeapon(const WeaponComponent weapon);
+	void setMagicWeapon(const WeaponComponent weapon);
+	void equipComparingWeapon(); // Confirm equipping the currently compared weapon.
 
 	// Metagame events
 	bool upgradeHPlevel();
@@ -34,9 +37,9 @@ public:
 	int getATmin() const;
 	int getATmax() const;
 	int getDF() const;
-	int getSHD() const;
+	double getSHD() const;
 	int getSHDmax() const;
-	int getSHDrecov() const;
+	double getSHDrecov() const;
 	bool getSHDactive() const;
 
 	// Cheats
@@ -44,8 +47,6 @@ public:
 	void changeATmin(const int amount);
 	void changeATmax(const int amount);
 	void setSHD(const int amount);
-	void setNormalWeapon(const WeaponComponent weapon);
-	void setMagicWeapon(const WeaponComponent weapon);
 
 	// Getters for metagame stats
 	int getXPtotal() const;
@@ -67,11 +68,14 @@ public:
 	int getATmaxValue(bool next) const;
 	int getDFvalue(bool next) const;
 	int getSHDvalue(bool next) const;
-	int getSHDrecovValue(bool next) const;
+	double getSHDrecovValue(bool next) const;
 
 	// Public in-game stats
-	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 0, 60, "bullet", "characterShooting");
-	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", false, 5, 120, "bolt", "characterShooting");
+	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 0, 30, "bullet", "characterShooting");
+	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 5, 60, "bolt", "characterCasting");
+	WeaponComponent comparingWeapon = WeaponComponent("", "", false, 0, 0, "", "");
+	int compareTime = 0; // When >0, the hud system should show the compared weapon. Depicts the amount of frames the compared weapon is valid.
+	bool compareConfirmed = false; // When true, this is a message to the collision system to destroy the colliding weapon and set this back to false when done.
 	int gold{};
 	int xp{}; // Earned in the current game.
 
