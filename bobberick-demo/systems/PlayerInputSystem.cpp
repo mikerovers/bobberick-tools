@@ -271,4 +271,16 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 	{
 		sprite.setTexture("character");
 	}
+
+	if (inputHandler.isKeyDown(SDL_SCANCODE_F11))
+	{
+		auto& settings = ServiceManager::Instance()->getService<SettingsService>();
+		settings.fps = false;
+	}
+
+	if (inputHandler.isKeyDown(SDL_SCANCODE_F12))
+	{
+		auto& settings = ServiceManager::Instance()->getService<SettingsService>();
+		settings.fps = true;
+	}
 }
