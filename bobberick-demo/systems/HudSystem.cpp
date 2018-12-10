@@ -181,6 +181,8 @@ void HudSystem::init()
 			serviceManager.addEntityToGroup(healthText, group);
 			serviceManager.addEntityToGroup(coinText, group);
 			serviceManager.addEntityToGroup(xpText, group);
+			serviceManager.addEntityToGroup(oldWeaponText, group);
+			serviceManager.addEntityToGroup(newWeaponText, group);
 			serviceManager.addEntityToGroup(inventory, group);
 			serviceManager.addEntityToGroup(inventorySlot1, group);
 			serviceManager.addEntityToGroup(inventorySlot2, group);

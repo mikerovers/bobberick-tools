@@ -71,6 +71,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	     z = inputHandler.isKeyDown(SDL_SCANCODE_Z),
 	     x = inputHandler.isKeyDown(SDL_SCANCODE_X),
 	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
+		 shift = inputHandler.isKeyDown(SDL_SCANCODE_LSHIFT) || inputHandler.isKeyDown(SDL_SCANCODE_RSHIFT),
 		 ret = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2),
 		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
 	
@@ -148,6 +149,11 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	else if (c)
 	{
 		ServiceManager::Instance()->getService<FrameHandler>().setTarget(60);
+	}
+
+	if (shift) 
+	{
+		ServiceManager::Instance()->getService<PlayerStatsService>().equipComparingWeapon();
 	}
 
 	if (ret)
@@ -245,8 +251,7 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 				projectile.addComponent<CollisionComponent>("arrow");
 				//timer.setTimer(playerComponent.shootingTimeout);
 			}
-
-			if (inputHandler.getMouseButtonState(RIGHT))
+			else if (inputHandler.getMouseButtonState(RIGHT))
 			{
 				auto& weapon = playerStats.magicWeapon;
 				sprite.setTexture(weapon.attackingTextureID.c_str());

@@ -59,7 +59,7 @@ void PlayerStatsService::setNormalWeapon(WeaponComponent weapon)
 }
 
 void PlayerStatsService::equipComparingWeapon() {
-	if (compareTime > 0) {
+	if (compareTime > 0 && !compareConfirmed) {
 		if (comparingWeapon.isMagic) {
 			magicWeapon = comparingWeapon;
 		} else {

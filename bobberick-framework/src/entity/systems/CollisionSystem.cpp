@@ -71,6 +71,8 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							if (!playerStats.compareConfirmed) {
 								return; // Do not remove the colliding weapon until the swap is confirmed.
 							}
+							playerStats.compareTime = 0;
+							playerStats.compareConfirmed = false;
 						}
 
 						// This causes an error...
@@ -91,6 +93,8 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 							if (!playerStats.compareConfirmed) {
 								return; // Do not remove the colliding weapon until the swap is confirmed.
 							}
+							playerStats.compareTime = 0;
+							playerStats.compareConfirmed = false;
 						}
 
 						// This causes an error...

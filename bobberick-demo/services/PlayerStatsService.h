@@ -22,7 +22,7 @@ public:
 	void toggleShield(); // Activate the shield, if it's charged enough (must be at least 50% charged).
 	void setNormalWeapon(const WeaponComponent weapon);
 	void setMagicWeapon(const WeaponComponent weapon);
-	void equipComparingWeapon(); // Confirm equipping the currently compared weapon and set it to null.
+	void equipComparingWeapon(); // Confirm equipping the currently compared weapon.
 
 	// Metagame events
 	bool upgradeHPlevel();
