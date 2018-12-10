@@ -34,9 +34,9 @@ bool Level3State::onEnter()
     ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
                                                                 SOUND_SFX);
 
-    ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1",
+    ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_3.wav", "level3",
                                                                 SOUND_MUSIC);
-    ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
+	ServiceManager::Instance()->getService<SoundManager>().playMusic("level3", -1);
 
     auto& level = makeTileMap();
     makePlayer();
