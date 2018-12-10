@@ -16,7 +16,7 @@ Entity & FireWizardFactory::getEnemy(const int level)
 {
 	auto& fireWizard = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = fireWizard.addComponent<TransformComponent>(-1, -1, 59, 54, 1);
-	auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("fireWizard", 5, 5, 12);
+	auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("fireWizard", 5, 5, 12, 6);
 	fireWizard.addComponent<HealthBarComponent>();
 	fireWizard.addComponent<EnemyMovementComponent>();
 	fireWizard.addComponent<AIComponent>();

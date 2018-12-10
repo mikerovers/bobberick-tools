@@ -63,7 +63,7 @@ void HighscoreState::makeClearButton()
 
 	clearButton.addExistingComponent<ButtonComponent>(clearButtonComponent);
 	clearButton.addComponent<TransformComponent>(822, 10, 64, 128, 1);
-	clearButton.addComponent<ButtonSpriteComponent>("clearButton", 1, 3, 0).setStaticAnimation(true);
+	clearButton.addComponent<ButtonSpriteComponent>("clearButton", 1, 3, 0, 1).setStaticAnimation(true);
 	
 	entityManager.addEntityToGroup(clearButton, getStateID());
 }
@@ -79,7 +79,7 @@ void HighscoreState::makeExitButton()
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	exitButton.addComponent<TransformComponent>(10, 10, 64, 128, 1);
-	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0).setStaticAnimation(true);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	entityManager.addEntityToGroup(exitButton, getStateID());
 }

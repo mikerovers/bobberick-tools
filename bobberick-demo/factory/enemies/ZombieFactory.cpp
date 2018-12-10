@@ -14,7 +14,7 @@ Entity & ZombieFactory::getEnemy(const int level)
 {
 	auto& zombie = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = zombie.addComponent<TransformComponent>(-1, -1, 51, 51, 1);
-	auto& spriteComponent = zombie.addComponent<SpriteComponent>("zombie", 6, 4, 10);
+	auto& spriteComponent = zombie.addComponent<SpriteComponent>("zombie", 6, 4, 10, 6);
 	zombie.addComponent<HealthBarComponent>();
 	zombie.addComponent<EnemyMovementComponent>();
 	zombie.addComponent<AIComponent>();

@@ -65,8 +65,7 @@ void PauseScreenState::createResumeButton() const
 
 	resumeGameButton.addExistingComponent<ButtonComponent>(resumeGameButtonComponent);
 	resumeGameButton.addComponent<TransformComponent>(410, 160, 64, 128, 1);
-	resumeGameButton.addComponent<ButtonSpriteComponent>("resumeGameButton", 1, 3, 0);
-	resumeGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	resumeGameButton.addComponent<ButtonSpriteComponent>("resumeGameButton", 1, 3, 0, 1).setStaticAnimation(true);
 	resumeGameButton.addComponent<CollisionComponent>("resumeButton");
 
 	entityManager.addEntityToGroup(resumeGameButton, getStateID());
@@ -83,8 +82,7 @@ void PauseScreenState::makeOptionsButton() const
 
 	optionsButton.addExistingComponent<ButtonComponent>(optionsButtonComponent);
 	optionsButton.addComponent<TransformComponent>(410, 240, 64, 128, 1);
-	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0);
-	optionsButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	optionsButton.addComponent<ButtonSpriteComponent>("optionsButton", 1, 3, 0, 1).setStaticAnimation(true);
 	optionsButton.addComponent<CollisionComponent>("button");
 	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
@@ -100,8 +98,7 @@ void PauseScreenState::createSaveButton() const
 
 	saveGameButton.addExistingComponent<ButtonComponent>(saveGameButtonComponent);
 	saveGameButton.addComponent<TransformComponent>(410, 320, 64, 128, 1);
-	saveGameButton.addComponent<ButtonSpriteComponent>("saveGameButton", 1, 3, 0);
-	saveGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	saveGameButton.addComponent<ButtonSpriteComponent>("saveGameButton", 1, 3, 0, 1).setStaticAnimation(true);
 	saveGameButton.addComponent<CollisionComponent>("saveButton");
 
 	entityManager.addEntityToGroup(saveGameButton, getStateID());
@@ -117,8 +114,7 @@ void PauseScreenState::createLoadButton() const
 
 	loadGameButton.addExistingComponent<ButtonComponent>(loadGameButtonComponent);
 	loadGameButton.addComponent<TransformComponent>(410, 320, 64, 128, 1);
-	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0);
-	loadGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0, 1).setStaticAnimation(true);
 	loadGameButton.addComponent<CollisionComponent>("loadButton");
 
 	entityManager.addEntityToGroup(loadGameButton, getStateID());
@@ -135,8 +131,7 @@ void PauseScreenState::createHelpButton() const
 
 	helpButton.addExistingComponent<ButtonComponent>(helpButtonComponent);
 	helpButton.addComponent<TransformComponent>(410, 400, 64, 128, 1);
-	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0);
-	helpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	helpButton.addComponent<ButtonSpriteComponent>("helpButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	entityManager.addEntityToGroup(helpButton, getStateID());
 }
@@ -153,8 +148,7 @@ void PauseScreenState::createExitButton()
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	exitButton.addComponent<TransformComponent>(410, 480, 64, 128, 1);
-	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
-	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("exitButton");
 
 	entityManager.addEntityToGroup(exitButton, getStateID());

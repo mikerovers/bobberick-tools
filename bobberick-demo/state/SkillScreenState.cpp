@@ -56,7 +56,7 @@ bool SkillScreenState::onEnter()
 	updateShdRecovText(playerStats);
 
 	xpImage.addComponent<TransformComponent>(10, 1, 48, 48, 1);
-	xpImage.addComponent<SpriteComponent>("hudXp", true);
+	xpImage.addComponent<SpriteComponent>("hudXp", 1);
 	xpText.addComponent<TransformComponent>(60, 10, 30, 270, 1);
 	xpText.addComponent<TextComponent>("monoMedium", "xpText", textFormatter.addSpaces(std::to_string(playerStats.getXPtotal()), 15, false));
 
@@ -85,9 +85,7 @@ void SkillScreenState::makeStartGameButton() const
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
 	playGameButton.addComponent<TransformComponent>(550, 60, 64, 128, 1);
-	playGameButton.addComponent<ButtonSpriteComponent>("startGameButton", 1,
-	                                                   3, 0);
-	playGameButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	playGameButton.addComponent<ButtonSpriteComponent>("startGameButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	entityManager.addEntityToGroup(playGameButton, getStateID());
 }
@@ -105,8 +103,7 @@ void SkillScreenState::makeHpButton()
 
 	hpButton.addExistingComponent<ButtonComponent>(hpButtonComponent);
 	hpButton.addComponent<TransformComponent>(420, 140, 64, 128, 1);
-	hpButton.addComponent<ButtonSpriteComponent>("healthButton", 1, 3, 0);
-	hpButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	hpButton.addComponent<ButtonSpriteComponent>("healthButton", 1, 3, 0, 1).setStaticAnimation(true);
 	entityManager.addEntityToGroup(hpButton, getStateID());
 }
 
@@ -123,8 +120,7 @@ void SkillScreenState::makeAtButton()
 
 	atButton.addExistingComponent<ButtonComponent>(atButtonComponent);
 	atButton.addComponent<TransformComponent>(420, 220, 64, 128, 1);
-	atButton.addComponent<ButtonSpriteComponent>("attackButton", 1, 3, 0);
-	atButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	atButton.addComponent<ButtonSpriteComponent>("attackButton", 1, 3, 0, 1).setStaticAnimation(true);
 	entityManager.addEntityToGroup(atButton, getStateID());
 }
 
@@ -141,8 +137,7 @@ void SkillScreenState::makeDfButton()
 
 	dfButton.addExistingComponent<ButtonComponent>(dfButtonComponent);
 	dfButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
-	dfButton.addComponent<ButtonSpriteComponent>("defenseButton", 1, 3, 0);
-	dfButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	dfButton.addComponent<ButtonSpriteComponent>("defenseButton", 1, 3, 0, 1).setStaticAnimation(true);
 	entityManager.addEntityToGroup(dfButton, getStateID());
 }
 
@@ -159,8 +154,7 @@ void SkillScreenState::makeShdTimeButton()
 
 	shdTimeButton.addExistingComponent<ButtonComponent>(shdTimeButtonComponent);
 	shdTimeButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
-	shdTimeButton.addComponent<ButtonSpriteComponent>("shieldButton", 1, 3, 0);
-	shdTimeButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	shdTimeButton.addComponent<ButtonSpriteComponent>("shieldButton", 1, 3, 0, 1).setStaticAnimation(true);
 	entityManager.addEntityToGroup(shdTimeButton, getStateID());
 }
 
@@ -177,8 +171,7 @@ void SkillScreenState::makeShdRecovButton()
 
 	shdRecovButton.addExistingComponent<ButtonComponent>(shdRecovButtonComponent);
 	shdRecovButton.addComponent<TransformComponent>(420, 460, 64, 128, 1);
-	shdRecovButton.addComponent<ButtonSpriteComponent>("recoveryButton", 1, 3, 0);
-	shdRecovButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	shdRecovButton.addComponent<ButtonSpriteComponent>("recoveryButton", 1, 3, 0, 1).setStaticAnimation(true);
 	entityManager.addEntityToGroup(shdRecovButton, getStateID());
 }
 
@@ -193,8 +186,7 @@ void SkillScreenState::makeExitButton()
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	exitButton.addComponent<TransformComponent>(290, 60, 64, 128, 1);
-	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
-	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	entityManager.addEntityToGroup(exitButton, getStateID());
 }
