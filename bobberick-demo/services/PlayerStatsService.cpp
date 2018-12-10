@@ -14,7 +14,10 @@ void PlayerStatsService::init()
 	shdActive = false;
 	fireCooldown = 0;
 
-	// TODO calculate all of this based on skills
+	normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 5, 30, "bullet", "characterShooting");
+	magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 10, 60, "bolt", "characterCasting");
+	comparingWeapon = WeaponComponent("", "", false, 0, 0, "", "");
+
 	hp = hpMax = getHPvalue(false);
 	atMin = getATminValue(false);
 	atMax = getATmaxValue(false);
@@ -53,6 +56,18 @@ void PlayerStatsService::setMagicWeapon(WeaponComponent weapon)
 void PlayerStatsService::setNormalWeapon(WeaponComponent weapon)
 {
 	normalWeapon = weapon;
+}
+
+void PlayerStatsService::equipComparingWeapon() {
+	if (compareTime > 0 && !compareConfirmed) {
+		if (comparingWeapon.isMagic) {
+			magicWeapon = comparingWeapon;
+		} else {
+			normalWeapon = comparingWeapon;
+		}
+		compareTime = 0;
+		compareConfirmed = true;
+	}
 }
 
 void PlayerStatsService::setMetaStats(const int xpTotal, const int hpLv, const int atLv, const int dfLv,
@@ -106,6 +121,9 @@ void PlayerStatsService::update()
 		shdActive = false;
 		shdTime = 0;
 		hp = 0;
+	}
+	if (compareTime > 0) {
+		compareTime--;
 	}
 }
 
