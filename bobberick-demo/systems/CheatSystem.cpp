@@ -3,6 +3,7 @@
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../components/PlayerComponent.h"
 #include "../services/PlayerStatsService.h"
+#include <SDL.h>
 
 CheatSystem::CheatSystem(EntityManager& entityManager) : System(entityManager)
 {
