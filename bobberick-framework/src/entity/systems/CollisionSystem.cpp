@@ -4,6 +4,7 @@
 #include "../../services/ServiceManager.h"
 #include "../../../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../../../bobberick-demo/components/StatsComponent.h"
+#include "../../../../bobberick-demo/components/DamageComponent.h"
 #include "../../../../bobberick-demo/components/PlayerComponent.h"
 #include "../../../../bobberick-demo/components/BulletMovementComponent.h"
 #include "../../../../bobberick-demo/components/EnemyMovementComponent.h"
@@ -64,8 +65,14 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 						if (colliderB.entity->hasComponent<WeaponComponent>())
 						{
-							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
-							playerStats.setMagicWeapon(weapon);
+							auto weapon = colliderB.entity->getComponent<WeaponComponent>();
+							playerStats.comparingWeapon = weapon;
+							playerStats.compareTime = 2;
+							if (!playerStats.compareConfirmed) {
+								return; // Do not remove the colliding weapon until the swap is confirmed.
+							}
+							playerStats.compareTime = 0;
+							playerStats.compareConfirmed = false;
 						}
 
 						// This causes an error...
@@ -77,10 +84,17 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 					else if (curInventoryWeaponTextureID == "normal" && !colliderB.entity->getComponent<WeaponComponent>().isMagic)
 					{
 						auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+
 						if (colliderB.entity->hasComponent<WeaponComponent>())
 						{
-							auto const weapon = colliderB.entity->getComponent<WeaponComponent>();
-							playerStats.setNormalWeapon(weapon);
+							auto weapon = colliderB.entity->getComponent<WeaponComponent>();
+							playerStats.comparingWeapon = weapon;
+							playerStats.compareTime = 2;
+							if (!playerStats.compareConfirmed) {
+								return; // Do not remove the colliding weapon until the swap is confirmed.
+							}
+							playerStats.compareTime = 0;
+							playerStats.compareConfirmed = false;
 						}
 
 						// This causes an error...
@@ -101,30 +115,22 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 
 	if (colliderB.tag == "monster_projectile")
 	{
-		if (colliderA.entity->hasComponent<PlayerComponent>())
+		if (colliderA.entity->hasComponent<PlayerComponent>() && colliderB.entity->hasComponent<DamageComponent>())
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-			stats.getHit(5, true);
+			auto& dmg = colliderB.entity->getComponent<DamageComponent>();
+			stats.getHit(dmg.damage, true);
 			colliderB.entity->destroy();
 		}
 	}
 
-	if (colliderB.tag == "arrow")
+	if (colliderB.tag == "arrow" || colliderB.tag == "bolt")
 	{
-		if (colliderA.entity->hasComponent<StatsComponent>())
+		if (colliderA.entity->hasComponent<StatsComponent>() && colliderB.entity->hasComponent<DamageComponent>())
 		{
 			auto& stats = colliderA.entity->getComponent<StatsComponent>();
-			stats.getHit(40, true);
-			colliderB.entity->destroy();
-		}
-	}
-
-	if (colliderB.tag == "bolt")
-	{
-		if (colliderA.entity->hasComponent<StatsComponent>())
-		{
-			auto& stats = colliderA.entity->getComponent<StatsComponent>();
-			stats.getHit(80, true);
+			auto& dmg = colliderB.entity->getComponent<DamageComponent>();
+			stats.getHit(dmg.damage, true);
 			colliderB.entity->destroy();
 		}
 	}
