@@ -19,6 +19,7 @@
 #include "../components/SpawnMinionsSpellComponent.h"
 #include "../components/AdvertisementComponent.h"
 #include "../components/SprayComponent.h"
+#include "../../bobberick-framework/src/entity/components/ParticleSystemComponent.h"
 
 std::string MainMenuState::getStateID() const
 {

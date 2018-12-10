@@ -11,7 +11,7 @@ class SpriteComponent : public Component
 {
 public:
     SpriteComponent();
-	SpriteComponent(const char* textureID, const bool guiLayer = false);
+	explicit SpriteComponent(const std::string textureID, const bool guiLayer = false);
     SpriteComponent(const char* textureID, int animCols, int animFrames, int animRate);
 
 	void setTexture(const char * textureID);

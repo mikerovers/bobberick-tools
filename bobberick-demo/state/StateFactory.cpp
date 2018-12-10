@@ -5,6 +5,7 @@
 #include "../../bobberick-framework/src/entity/systems/InputSystem.h"
 #include "../systems/HudSystem.h"
 #include "../../bobberick-framework/src/entity/systems/GuiSystem.h"
+#include "../../bobberick-framework/src/entity/systems/ParticleSystem.h"
 #include "../../bobberick-framework/src/entity/systems/CollisionSystem.h"
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
@@ -214,6 +215,7 @@ std::unique_ptr<Level1State> StateFactory::createPlayState()
 	playState->addSystem(std::make_unique<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<ParticleSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return playState;
 }

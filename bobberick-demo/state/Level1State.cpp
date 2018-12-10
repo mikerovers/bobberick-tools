@@ -14,6 +14,7 @@
 #include "../factory/enemies/EnemyFactory.h"
 #include "../factory/WeaponFactory.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
+#include "../../bobberick-framework/src/entity/components/ParticleSystemComponent.h"
 
 std::string Level1State::getStateID() const
 {
@@ -47,6 +48,11 @@ bool Level1State::onEnter()
 
 	WeaponFactory().generateWeapon(false, 0, 10, -9, 9); // For testing purposes
 	WeaponFactory().generateWeapon(true, 0, 10, -9, 9); // For testing purposes
+
+	auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	particleSystem.addComponent<TransformComponent>(100, 100, 32, 32, 1);
+	particleSystem.addComponent<ParticleSystemComponent>("blood3", 5000, 200, 5000);
+	particleSystem.addComponent<SpriteComponent>("bow_1", false);
 
 	instantiateSystems();
 
