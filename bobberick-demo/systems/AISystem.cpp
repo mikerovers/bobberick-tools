@@ -368,6 +368,19 @@ void AISystem::initHealthBar(Entity& entity)
 
 void AISystem::kill(Entity& entity)
 {
+	if (entity.hasComponent<SpawnComponent>()) {
+		auto& killedTransform = entity.getComponent<TransformComponent>();
+		EnemyFactory enemyFactory = EnemyFactory{};
+		auto& enemy = enemyFactory.getBoss(entity.getComponent<StatsComponent>().getLevel());
+		auto& enemyTransform = enemy.getComponent<TransformComponent>();
+		enemyTransform.position.x = killedTransform.position.x;
+		enemyTransform.position.y = killedTransform.position.y + 50;
+		initHealthBar(enemy);
+		for (const auto& group : entity.getGroups())
+		{
+			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
+		}
+	}
 	if (entity.hasComponent<EndBossComponent>())
 	{
 		// win
