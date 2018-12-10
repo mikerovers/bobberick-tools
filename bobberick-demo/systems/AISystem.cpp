@@ -2,6 +2,7 @@
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/services/SettingsService.h"
 #include "../../bobberick-framework/src/services/SoundManager.h"
+#include "../../bobberick-framework/src/StateMachine.h"
 #include "../../bobberick-framework/src/services/InputHandler.h"
 #include "../services/PlayerStatsService.h"
 #include "../../bobberick-framework/src/entity/components/TransformComponent.h"
@@ -380,9 +381,24 @@ void AISystem::kill(Entity& entity)
 		{
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
 		}
+		ServiceManager::Instance()->getService<SoundManager>().playMusic("boss", -1);
 	}
 	if (entity.hasComponent<EndBossComponent>())
 	{
+		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
+		if (endBossEntities.size() < 2) { 
+			std::string state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
+			if (state == "level_one") {
+				ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
+			}
+			else if (state == "level_two") {
+				ServiceManager::Instance()->getService<SoundManager>().playMusic("level2", -1);
+			}
+			else if (state == "level_three") {
+				ServiceManager::Instance()->getService<SoundManager>().playMusic("level3", -1);
+			}
+		}
+
 		// win
 	}
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();

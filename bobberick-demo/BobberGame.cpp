@@ -37,6 +37,8 @@ void BobberGame::start()
 void BobberGame::preloadMusicAndSounds() {
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/menu.wav", "menu",
 		SOUND_MUSIC);
+	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/boss.wav", "boss",
+		SOUND_MUSIC);
 }
 
 void BobberGame::preloadTextures()
