@@ -20,7 +20,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 	{
 		auto& entity = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 		entity.addComponent<TransformComponent>(object->position->x, object->position->y, 48, 32, 1);
-		entity.addComponent<SpriteComponent>("potion");
+		entity.addComponent<SpriteComponent>("potion", 5);
 		entity.addComponent<CollisionComponent>(object->name, object->position->x, object->position->y, 48,
 		                                        32);
 		entity.addComponent<PickUpComponent>();
@@ -52,7 +52,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 			entity.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture, wComponent.attackingTextureID);
 		}
 
-		entity.addComponent<SpriteComponent>(entity.getComponent<WeaponComponent>().textureID.c_str());
+		entity.addComponent<SpriteComponent>(entity.getComponent<WeaponComponent>().textureID.c_str(), 5);
 		entity.addComponent<PickUpComponent>();
 
 		return entity;
@@ -127,7 +127,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		auto& player = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 		player.addComponent<TransformComponent>(object->position->x, object->position->y, 64, 32, 1);
 		auto& spriteComponent = player.addComponent<SpriteComponent>("character", 6,
-																	 4, 5);
+																	 4, 5, 3);
 		player.addComponent<PlayerMovementComponent>();
 
 		// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.

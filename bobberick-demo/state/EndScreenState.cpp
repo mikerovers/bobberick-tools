@@ -55,8 +55,7 @@ void EndScreenState::makeExitButton()
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
 	exitButton.addComponent<TransformComponent>(420, 400, 64, 128, 1);
-	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0);
-	exitButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("button");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());

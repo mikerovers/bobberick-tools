@@ -10,6 +10,7 @@
 #include "../components/TilesetComponent.h"
 #include "../../services/RenderService.h"
 #include "../../../../bobberick-framework/src/entity/components/CollisionComponent.h"
+#include "../components/ButtonSpriteComponent.h"
 
 DrawSystem::DrawSystem(EntityManager &entityManager) : System(entityManager)
 {
@@ -35,17 +36,6 @@ void DrawSystem::update()
 		auto & fade = entity->getComponent<FadeComponent>();
 		fade.update();
 	}
-
-	// Draw in-game sprites under the GUI.
-    for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
-		if (!entity->getComponent<SpriteComponent>().guiLayer) {
-			auto &spr = entity->getComponent<SpriteComponent>();
-			auto &transform = entity->getComponent<TransformComponent>();
-
-			spr.update();
-			ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
-		} 
-    }
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
 		auto & spr = entity->getComponent<RectangleComponent>();
@@ -80,13 +70,36 @@ void DrawSystem::update()
 		delete destRect;
 	}
 
-	// Draw sprites on top of the GUI.
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<SpriteComponent>()) {
-		if (entity->getComponent<SpriteComponent>().guiLayer) {
-			auto & spr = entity->getComponent<SpriteComponent>();
+	// Draw sprites in order of zIndex.
+	// Higher zIndex means further to the back.
+	auto sortedEntitiesWithSpriteComponent = entityManager.getAllEntitiesWithComponent<SpriteComponent>();
+	std::sort(sortedEntitiesWithSpriteComponent.begin(), sortedEntitiesWithSpriteComponent.end(), [](Entity* a, Entity* b)
+	{
+		return a->getComponent<SpriteComponent>().zIndex > b->getComponent<SpriteComponent>().zIndex;
+	});
+	for (auto& entity : sortedEntitiesWithSpriteComponent)
+	{
+		auto &spr = entity->getComponent<SpriteComponent>();
+		auto &transform = entity->getComponent<TransformComponent>();
+	
+		spr.update();
+		ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
+		spr.render();
+	}
 
-			spr.update();
-			spr.render();
-		}
+	// Draw button sprites in order of zIndex.
+	// Higher zIndex means further to the back.
+	// This MUST come after normal sprites, otherwise buttons won't be drawn atop the rest.
+	auto sortedEntitiesWithButtonSpriteComponent = entityManager.getAllEntitiesWithComponent<ButtonSpriteComponent>();
+	std::sort(sortedEntitiesWithButtonSpriteComponent.begin(), sortedEntitiesWithButtonSpriteComponent.end(), [](Entity* a, Entity* b)
+	{
+		return a->getComponent<ButtonSpriteComponent>().zIndex > b->getComponent<ButtonSpriteComponent>().zIndex;
+	});
+	for (auto& entity : sortedEntitiesWithButtonSpriteComponent)
+	{
+		auto &spr = entity->getComponent<ButtonSpriteComponent>();
+
+		spr.update();
+		spr.render();
 	}
 }
