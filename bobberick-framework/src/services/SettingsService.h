@@ -17,7 +17,7 @@ public:
 	int gameHeight;
 	int advertisementCount;
 	bool music = true;
-	bool fps = true;
+	bool fps = false;
 };
 
 

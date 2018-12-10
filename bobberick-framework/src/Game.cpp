@@ -50,7 +50,11 @@ bool Game::init(const char* title, int xPos, int yPos, int height, int width, in
 	serviceManager->getService<SaveService>().load();
 	if (serviceManager->getService<SaveService>().has("sound_enabled")) {
 		serviceManager->getService<SettingsService>().music = serviceManager->getService<SaveService>().get<bool>(
-				"sound_enabled");
+			"sound_enabled");
+	}
+	if (serviceManager->getService<SaveService>().has("fps_enabled")) {
+		serviceManager->getService<SettingsService>().fps = serviceManager->getService<SaveService>().get<bool>(
+			"fps_enabled");
 	}
 
 	serviceManager->getService<InputHandler>().initialiseJoysticks();

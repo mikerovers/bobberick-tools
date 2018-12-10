@@ -26,6 +26,14 @@ void MenuSystem::update()
 					spriteComponent.setTexture("blankRedButton");
 				}
 			}
+			if (buttonSettingComponent.getSetting() == "fps") {
+				if (ServiceManager::Instance()->getService<SettingsService>().fps) {
+					spriteComponent.setTexture("blankGreenButton");
+				}
+				else {
+					spriteComponent.setTexture("blankRedButton");
+				}
+			}
 		}
 	}
 }

@@ -110,7 +110,7 @@ void SettingsScreenState::createFPSToggleButton() const
 	{
 		auto& settings = ServiceManager::Instance()->getService<SettingsService>();
 
-		settings.music = !settings.music;
+		settings.fps = !settings.fps;
 	});
 
 	fpsToggleButton.addExistingComponent<ButtonComponent>(fpsToggleButtonComponent);
@@ -120,6 +120,8 @@ void SettingsScreenState::createFPSToggleButton() const
 	fpsToggleButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsToggleButton, getStateID());
+
+
 }
 void SettingsScreenState::createExitButton()
 {
@@ -128,6 +130,7 @@ void SettingsScreenState::createExitButton()
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
 		ServiceManager::Instance()->getService<SaveService>().keep<bool>("sound_enabled",  ServiceManager::Instance()->getService<SettingsService>().music);
+		ServiceManager::Instance()->getService<SaveService>().keep<bool>("fps_enabled",  ServiceManager::Instance()->getService<SettingsService>().fps);
 		ServiceManager::Instance()->getService<SaveService>().flush();
 		hasPressedBack = true;
 		ServiceManager::Instance()->getService<StateMachine>().popState();
