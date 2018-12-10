@@ -4,6 +4,7 @@
 #include "../../bobberick-framework/src/services/SoundManager.h"
 #include "../components/SprayComponent.h"
 #include "../components/PlayerComponent.h"
+#include "../components/StatsComponent.h"
 #include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
@@ -84,6 +85,9 @@ Entity& Level1State::makeTileMap() const
 	for (auto object : level.getComponent<TilesetComponent>().objects)
 	{
 		auto& objEntity = objectFactory.getObject(object);
+		if (objEntity.hasComponent<SpawnComponent>()) {
+			objEntity.getComponent<StatsComponent>().changeLevel(1);
+		}
 		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
 	}
 

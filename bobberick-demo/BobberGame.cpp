@@ -88,6 +88,10 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/Enemies/factory.png", "factory", renderer);
 	t.load("assets/image/Enemies/fire_wizard.png", "fireWizard", renderer);
 	t.load("assets/image/Enemies/fire_wizard_casting.png", "fireWizardCasting", renderer);
+	t.load("assets/image/Enemies/ice_wizard.png", "iceWizard", renderer);
+	t.load("assets/image/Enemies/ice_wizard_casting.png", "iceWizardCasting", renderer);
+	t.load("assets/image/Enemies/metal_wizard.png", "metalWizard", renderer);
+	t.load("assets/image/Enemies/metal_wizard_casting.png", "metalWizardCasting", renderer);
 	t.load("assets/image/Enemies/house.png", "house", renderer);
 	t.load("assets/image/Enemies/magic_circle.png", "magicCircle", renderer);
 	t.load("assets/image/Enemies/orc_piratess.png", "orc", renderer);

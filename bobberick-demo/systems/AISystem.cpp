@@ -248,7 +248,7 @@ void AISystem::executeSpawner(Entity& entity)
 			auto& statsComponent = entity.getComponent<StatsComponent>();
 			auto& transformComponent = entity.getComponent<TransformComponent>();
 
-			auto& enemy = EnemyFactory{}.spawnEnemy(1, spawnComponent.type, spawnComponent.id);
+			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 2, statsComponent.getLevel() + 2, spawnComponent.type, spawnComponent.id);
 			for (const auto& group : entity.getGroups())
 			{
 				ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
@@ -314,7 +314,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					projectileTransform.velocity.x = dx;
 					projectileTransform.velocity.y = dy;
 
-					sprite.setTexture("fireWizardCasting");
+					stats.getLevel() < 6 ? sprite.setTexture("fireWizardCasting") : stats.getLevel() < 9 ? sprite.setTexture("iceWizardCasting") : sprite.setTexture("metalWizardCasting");
 					// change to set entity to casting state (and change sprite accordingly)
 
 					transform.velocity.x = 0;
@@ -333,7 +333,8 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				}
 				else
 				{
-					sprite.setTexture("fireWizard");
+					stats.getLevel() < 6 ? sprite.setTexture("fireWizard") : stats.getLevel() < 9 ? sprite.setTexture("iceWizard") : sprite.setTexture("metalWizard");
+
 				}
 			}
 		}

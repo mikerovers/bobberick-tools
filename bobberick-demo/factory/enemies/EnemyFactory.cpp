@@ -29,8 +29,20 @@ Entity& EnemyFactory::getEnemy(const int level, const std::string type)
 	return EnemyFactory::getFactory(type)->getEnemy(level);
 }
 
+Entity& EnemyFactory::getEnemy(const int minLevel, const int maxLevel, const std::string type)
+{
+	const int level = RandomGenerator{}.getRandomNumber(minLevel, maxLevel);
+	return getRandomFactory()->getEnemy(level);
+}
+
 Entity& EnemyFactory::spawnEnemy(const int level, const std::string type, const int spawnerId)
 {
+	return EnemyFactory::getFactory(type)->getEnemy(level, spawnerId);
+}
+
+Entity& EnemyFactory::spawnEnemy(const int minLevel, const int maxLevel, const std::string type, const int spawnerId)
+{
+	const int level = RandomGenerator{}.getRandomNumber(minLevel, maxLevel);
 	return EnemyFactory::getFactory(type)->getEnemy(level, spawnerId);
 }
 

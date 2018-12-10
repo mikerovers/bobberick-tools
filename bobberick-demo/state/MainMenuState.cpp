@@ -81,17 +81,17 @@ void MainMenuState::createAnimatedBackground()
 {
 	EnemyFactory enemyFactory;
 
-	auto& fireWizard = enemyFactory.getEnemy(10, "fireWizard");
+	auto& fireWizard = enemyFactory.getEnemy(1, "fireWizard");
 	fireWizard.getComponent<TransformComponent>().position = Vector2D{20, 20};
 	entityManager.addEntityToGroup(fireWizard, getStateID());
 	entities.push_back(&fireWizard);
 
-	auto& zombie = enemyFactory.getEnemy(10, "zombie");
+	auto& zombie = enemyFactory.getEnemy(1, "zombie");
 	zombie.getComponent<TransformComponent>().position = Vector2D{560, 140};
 	entityManager.addEntityToGroup(zombie, getStateID());
 	entities.push_back(&zombie);
 
-	auto& orc = enemyFactory.getEnemy(10, "orc");
+	auto& orc = enemyFactory.getEnemy(1, "orc");
 	orc.getComponent<TransformComponent>().position = Vector2D{-1, 260};
 	entityManager.addEntityToGroup(orc, getStateID());
 	entities.push_back(&orc);
