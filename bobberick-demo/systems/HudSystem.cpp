@@ -33,22 +33,27 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
 
 void HudSystem::update()
 {
-	fpsMiddlerCount++;
-	auto fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
-	fpsMiddlerVector.push_back(fps);
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
-	if (fpsMiddlerCount == fpsMiddlerDivideBy) {
+	const bool fps = ServiceManager::Instance()->getService<SettingsService>().fps;
+	if (fps) {
+		fpsMiddlerCount++;
+		auto fps = ServiceManager::Instance()->getService<FrameHandler>().getCurrentFps();
+		fpsMiddlerVector.push_back(fps);
 
-		int fpsCount = 0;
-		for (auto &countedFps : fpsMiddlerVector)
-		{
-			fpsCount += countedFps;
+		if (fpsMiddlerCount == fpsMiddlerDivideBy) {
+
+			int fpsCount = 0;
+			for (auto &countedFps : fpsMiddlerVector)
+			{
+				fpsCount += countedFps;
+			}
+
+			fpsMiddlerResult = fpsCount / fpsMiddlerDivideBy;
+			fpsMiddlerCount = 0;
+			fpsMiddlerVector.clear();
 		}
-
-		fpsMiddlerResult = fpsCount / fpsMiddlerDivideBy;
-		fpsMiddlerCount = 0;
-		fpsMiddlerVector.clear();
 	}
+
 
 	playerStats.update();
 	const auto healthWidth = static_cast<double>(playerStats.getHP()) / static_cast<double>(playerStats.getHPmax()) * barWidth;

@@ -44,6 +44,7 @@ bool SettingsScreenState::onEnter()
 	// createSaveButton();
 	// createLoadButton();
 	createMusicToggleButton();
+	createFPSToggleButton();
 	createExitButton();
 
     return true;
@@ -68,6 +69,12 @@ void SettingsScreenState::createTexts() const
 	musicText.addComponent<TextComponent>("monoMedium", "musicText", "Music");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(musicText, getStateID());
+
+	auto& fpsText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	fpsText.addComponent<TransformComponent>(200, 280, 30, 100, 1);
+	fpsText.addComponent<TextComponent>("monoMedium", "fpsText", "FPS");
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsText, getStateID());
 }
 
 void SettingsScreenState::createMusicToggleButton() const
@@ -94,6 +101,25 @@ void SettingsScreenState::createMusicToggleButton() const
 	musicToggleButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(musicToggleButton, getStateID());
+}
+
+void SettingsScreenState::createFPSToggleButton() const
+{
+	auto& fpsToggleButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* fpsToggleButtonComponent = new ButtonComponent([this]()
+	{
+		auto& settings = ServiceManager::Instance()->getService<SettingsService>();
+
+		settings.music = !settings.music;
+	});
+
+	fpsToggleButton.addExistingComponent<ButtonComponent>(fpsToggleButtonComponent);
+	fpsToggleButton.addComponent<TransformComponent>(560, 265, 64, 128, 1);
+	fpsToggleButton.addComponent<ButtonSpriteComponent>("blank_green_button", 1, 3, 0);
+	fpsToggleButton.addComponent<ButtonSettingComponent>("fps");
+	fpsToggleButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsToggleButton, getStateID());
 }
 void SettingsScreenState::createExitButton()
 {

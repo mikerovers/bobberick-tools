@@ -17,8 +17,8 @@ public:
 private:
     bool hasPressedBack;
 	void createTexts() const;
-	void createSettingsText() const;
 	void createMusicToggleButton() const;
+	void createFPSToggleButton() const;
 	void createExitButton();
 };
 
