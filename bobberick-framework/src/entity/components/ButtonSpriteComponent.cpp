@@ -1,15 +1,15 @@
 #include "ButtonSpriteComponent.h"
 
 ButtonSpriteComponent::ButtonSpriteComponent(const char *textureID, int animCols, int animFrames,
-                                             int animRate) : SpriteComponent(textureID, animCols, animFrames,
-                                                                             animRate)
+                                             int animRate, const int zIndex) : SpriteComponent(textureID, animCols, animFrames,
+                                                                             animRate, zIndex)
 {
 
 }
 
 void ButtonSpriteComponent::update()
 {
-    int currentRow = currentFrame / animCols;
+	const int currentRow = currentFrame / animCols;
 
     sourceRect.x = transform->width * currentRow;
 }
