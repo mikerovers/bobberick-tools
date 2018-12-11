@@ -31,7 +31,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		else if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-			stats.getHit(10, false);
+			stats.getHit(10);
 		}
 	}
 
@@ -119,7 +119,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
 			auto& dmg = colliderB.entity->getComponent<DamageComponent>();
-			stats.getHit(dmg.damage, true);
+			stats.getHit(dmg.damage);
 			colliderB.entity->destroy();
 		}
 	}
@@ -151,7 +151,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 			else if (colliderA.tag == "player")
 			{
 				auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-				stats.getHit(9999999, true); // kill the player
+				stats.getHit(999999); // kill the player
 			}
 			else
 			{
@@ -211,7 +211,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-			stats.getHit(0.01, false);
+			stats.getHit(0.01);
 		}
 	}
 
@@ -221,7 +221,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-			stats.getHit(0.1, false);
+			stats.getHit(0.1);
 		}
 	}
 
@@ -231,7 +231,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-			stats.getHit(0.1, false);
+			stats.getHit(0.1);
 		}
 	}
 
@@ -242,7 +242,7 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		if (colliderA.entity->hasComponent<PlayerComponent>())
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
-			stats.getHit(0.5, false);
+			stats.getHit(0.5);
 		}
 	}
 }
