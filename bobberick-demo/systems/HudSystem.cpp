@@ -99,7 +99,7 @@ void HudSystem::update()
 				fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(fpsMiddlerResult), 6, false));
 			}
 		else {
-			fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces("-", 6, false));
+			fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(" ", 6, false));
 		}
 	}
 
