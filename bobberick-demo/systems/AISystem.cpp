@@ -20,6 +20,7 @@
 #include "../../bobberick-demo/components/DamageComponent.h"
 #include "../../bobberick-demo/components/StatsComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
+#include "../../bobberick-demo/components/ChaseComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
 #include "../../bobberick-demo/components/SpawnComponent.h"
 #include "../../bobberick-demo/components/SpawnedComponent.h"
@@ -78,6 +79,7 @@ void AISystem::update()
 		// make shooting dependant on enemy type (cast/shoot/change of sprite)
 		// make smoother
 
+		executeChase(*entity);
 		executeShoot(*entity, channelCounter);
 		executeSpell(*entity);
 		applyHealthBar(*entity);
@@ -86,6 +88,73 @@ void AISystem::update()
 		//std::cout << transform.position.x << "\n";
 
 		transform.update();
+		if (entity->hasComponent<CollisionComponent>())
+		{
+			auto& collisionComponent = entity->getComponent<CollisionComponent>();
+			collisionComponent.collider.x = transform.position.x;
+			collisionComponent.collider.y = transform.position.y;
+			collisionComponent.collider.w = transform.width;
+			collisionComponent.collider.h = transform.height;
+		}
+	}
+}
+
+void AISystem::executeChase(Entity& entity)
+{
+	auto transformComponent = entity.getComponent<TransformComponent>();
+	if (entity.hasComponent<TimerComponent>() && entity.hasComponent<ChaseComponent>())
+	{
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished())
+		{
+			auto& transform = entity.getComponent<TransformComponent>();
+			auto& sprite = entity.getComponent<SpriteComponent>();
+			auto& collision = entity.getComponent<CollisionComponent>();
+
+			auto& stats = entity.getComponent<StatsComponent>();
+			auto& healthBar = entity.getComponent<HealthBarComponent>();
+
+			double enemyX = transform.position.x;
+			double enemyY = transform.position.y;
+
+			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
+			{
+				auto& playerTransform = player->getComponent<TransformComponent>();
+				RandomGenerator random = RandomGenerator{};
+				bool isInCloseRange = AISystem::isEntityInRange(entity, *player, 200);
+				bool isInFarRange = AISystem::isEntityInRange(entity, *player, 350);
+				int rangeModifier = isInCloseRange ? 50 : isInFarRange ? 250 : 400;
+			//	int rangeModifier = !isInFarRange ? !isInCloseRange ? 350 : 250 : 50;
+
+				int deviationX = random.getRandomNumber(0, 1 * rangeModifier);
+				int deviationY = random.getRandomNumber(0, 1 * rangeModifier);
+
+				const double enemyXCenter = enemyX + transform.width / 2;
+				const double enemyYCenter = enemyY + transform.height / 2;
+
+				const auto angleX = playerTransform.position.x - enemyXCenter + deviationX;
+				const auto angleY = playerTransform.position.y - enemyYCenter + deviationY;
+
+				if (angleX < 0)
+				{
+					sprite.flip = true;
+				}
+				else if (angleX > 0)
+				{
+					sprite.flip = false;
+				}
+
+				const float vectorLength = sqrt(angleX * angleX + angleY * angleY);
+				const float dx = angleX / vectorLength;
+				const float dy = angleY / vectorLength;
+
+				transform.velocity.x = dx * transform.speed / 3;
+				transform.velocity.y = dy * transform.speed / 3;
+				sprite.moving = true;
+			}
+			timer.setTimer(100);
+		}
+		
 	}
 }
 
@@ -179,8 +248,8 @@ void AISystem::executeSpell(Entity& entity)
 				{
 					auto& enemy = enemyFactory.getEnemy(1, enemy_type);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
-					enemyTransform.position.x = enemyX - 50 * randomXPosition;
-					enemyTransform.position.y = enemyY - 50 + i * 50;
+					enemyTransform.position.x = enemyX - 3 * randomXPosition;
+					enemyTransform.position.y = enemyY - 2 + i * 2;
 
 					for (const auto& group : entity.getGroups())
 					{
@@ -290,7 +359,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				const auto angleX = playerTransform.position.x - enemyXCenter;
 				const auto angleY = playerTransform.position.y - enemyYCenter;
 
-				bool isInRange = AISystem::isEntityInRange(*player, entity, 300);
+				bool isInRange = AISystem::isEntityInRange(*player, entity, (500 + (stats.getLevel() * 40)));
 
 				if (isInRange)
 				{
@@ -494,7 +563,7 @@ void AISystem::applyHealthBar(Entity& entity)
 
 void AISystem::applyMovement(Entity& entity)
 {
-	if (!entity.hasComponent<EnemyMovementComponent>())
+	if (!entity.hasComponent<EnemyMovementComponent>() || entity.hasComponent<ChaseComponent>())
 	{
 		return;
 	}
@@ -523,7 +592,6 @@ void AISystem::applyMovement(Entity& entity)
 	{
 		enemyMovement.collided = false;
 	}
-	transform.update();
 
 	double x = transform.position.x;
 	double y = transform.position.y;
@@ -548,12 +616,4 @@ void AISystem::applyMovement(Entity& entity)
 
 	sprite.moving = !(transform.velocity.x == 0 && transform.velocity.y == 0);
 
-	if (entity.hasComponent<CollisionComponent>())
-	{
-		auto& collisionComponent = entity.getComponent<CollisionComponent>();
-		collisionComponent.collider.x = transform.position.x;
-		collisionComponent.collider.y = transform.position.y;
-		collisionComponent.collider.w = transform.width;
-		collisionComponent.collider.h = transform.height;
-	}
 }

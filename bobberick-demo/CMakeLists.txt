@@ -29,6 +29,7 @@ components/ButtonSettingComponent.cpp components/ButtonSettingComponent.h
 components/SprayComponent.cpp components/SprayComponent.h
 components/PickUpComponent.cpp components/PickUpComponent.h
 components/DamageComponent.cpp components/DamageComponent.h
+components/ChaseComponent.cpp components/ChaseComponent.h
 components/InventorySlotComponent.cpp components/InventorySlotComponent.h
 systems/PlayerInputSystem.cpp systems/PlayerInputSystem.h
 systems/CheatSystem.cpp systems/CheatSystem.h
@@ -55,6 +56,7 @@ factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
 factory/enemies/ChickenFactory.cpp factory/enemies/ChickenFactory.h
 factory/enemies/ZombieFactory.cpp factory/enemies/ZombieFactory.h
+factory/enemies/BirdFactory.cpp factory/enemies/BirdFactory.h
 factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h
 factory/enemies/EnemyManufactureFactory.cpp factory/enemies/EnemyManufactureFactory.h
 state/TestState.cpp state/TestState.h

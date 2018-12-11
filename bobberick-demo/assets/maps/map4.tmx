@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="32" tileheight="32" infinite="0" nextobjectid="19">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="20">
  <tileset firstgid="1" name="grassland_2" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="grassland_2.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="257" name="grassland_2" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="grassland_2.png" width="512" height="512"/>
  </tileset>
- <layer name="ground" width="30" height="22">
+ <layer id="1" name="ground" width="30" height="22">
   <data>
    <tile gid="1"/>
    <tile gid="3"/>
@@ -670,7 +670,7 @@
    <tile gid="69"/>
   </data>
  </layer>
- <layer name="trunk" width="30" height="22">
+ <layer id="2" name="trunk" width="30" height="22">
   <data>
    <tile/>
    <tile/>
@@ -1334,7 +1334,7 @@
    <tile/>
   </data>
  </layer>
- <objectgroup name="aabb_rectangle">
+ <objectgroup id="3" name="aabb_rectangle">
   <object id="1" name="aabb_rectangle" x="742.73" y="193.87" width="90.3851" height="56.327"/>
   <object id="4" name="aabb_rectangle" x="413.938" y="445.376" width="98.2447" height="73.356"/>
   <object id="5" name="aabb_rectangle" x="704.742" y="479.434" width="93.005" height="66.8064"/>
@@ -1346,17 +1346,20 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="player">
+ <objectgroup id="4" name="player">
   <object id="18" name="player_spawn" x="197.411" y="181.723">
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="spawners">
+ <objectgroup id="5" name="spawners">
   <object id="14" name="firewizard_spawner" x="610.265" y="282.938">
    <point/>
   </object>
+  <object id="19" name="bird_spawner" x="347" y="280">
+   <point/>
+  </object>
  </objectgroup>
- <objectgroup name="health">
+ <objectgroup id="6" name="health">
   <object id="11" name="healthkit" x="198.465" y="517.333">
    <point/>
   </object>

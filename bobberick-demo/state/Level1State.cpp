@@ -119,6 +119,7 @@ void Level1State::makeEnemies() const
 		for (auto y = 0; y < 3; y++)
 		{
 			auto& enemy = enemyFactory.getRandomEnemy(1, 2);
+			//auto& enemy = enemyFactory.getEnemy(1, "bird");
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());
 
 			auto& enemyTransform = enemy.getComponent<TransformComponent>();
