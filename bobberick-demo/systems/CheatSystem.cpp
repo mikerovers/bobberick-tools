@@ -21,11 +21,6 @@ void CheatSystem::handleKeyInput(Entity* entity)
 {
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
-	auto&& playerEntities = ServiceManager::Instance()
-	                        ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>();
-
-	auto& playerComponent = playerEntities[0]->getComponent<PlayerComponent>();
-
 
 	if (inputHandler.isKeyDown(SDL_SCANCODE_GRAVE))
 	{
@@ -63,12 +58,8 @@ void CheatSystem::handleKeyInput(Entity* entity)
 		else if (inputHandler.isKeyDown(SDL_SCANCODE_EQUALS))
 		{
 			// set super shooting speed
-			playerComponent.shootingTimeout = 10;
-		}
-		else if (inputHandler.isKeyDown(SDL_SCANCODE_MINUS))
-		{
-			// set normal shooting speed
-			playerComponent.shootingTimeout = 250;
+			playerStats.normalWeapon.fireDelay = 1;
+			playerStats.magicWeapon.fireDelay = 1;
 		}
 	}
 }
