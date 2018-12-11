@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="32" tileheight="32" infinite="0" nextobjectid="30">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="80">
  <tileset firstgid="1" name="dungeon_landscape" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="dungeon_landscape.png" width="512" height="512"/>
  </tileset>
- <layer name="background" width="30" height="22">
+ <layer id="1" name="background" width="30" height="22">
   <data>
    <tile gid="3"/>
    <tile gid="3"/>
@@ -667,7 +667,11 @@
    <tile/>
   </data>
  </layer>
- <layer name="walls" width="30" height="22">
+ <objectgroup id="9" name="pit">
+  <object id="36" name="pit" x="623.303" y="204.236" width="67.393" height="41.529"/>
+  <object id="37" name="pit" x="206.303" y="398.236" width="67.393" height="41.529"/>
+ </objectgroup>
+ <layer id="2" name="walls" width="30" height="22">
   <data>
    <tile gid="17"/>
    <tile gid="18"/>
@@ -834,7 +838,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -858,14 +862,14 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="79"/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -887,6 +891,9 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="79"/>
+   <tile gid="79"/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -894,10 +901,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -918,6 +922,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -926,8 +931,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -957,8 +961,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="79"/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -988,7 +992,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1069,7 +1073,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1098,8 +1102,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="79"/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1126,9 +1130,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="79"/>
+   <tile gid="79"/>
+   <tile gid="79"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1331,7 +1335,7 @@
    <tile gid="119"/>
   </data>
  </layer>
- <layer name="clutter" width="30" height="22">
+ <layer id="3" name="clutter" width="30" height="22">
   <data>
    <tile/>
    <tile/>
@@ -1995,33 +1999,41 @@
    <tile/>
   </data>
  </layer>
- <objectgroup name="health">
+ <objectgroup id="4" name="health">
   <object id="2" name="healthkit" x="447.201" y="350.535">
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="aabb_rectangle">
+ <objectgroup id="5" name="aabb_rectangle">
   <object id="8" name="aabb_rectangle" x="-5.03778" y="-5.03778" width="902.393" height="70.529"/>
   <object id="10" name="aabb_rectangle" x="-6.51783" y="-5.20794" width="73.8875" height="685.226"/>
-  <object id="16" name="aabb_rectangle" x="607.489" y="195.077" width="95.5748" height="94.2655"/>
-  <object id="19" name="aabb_rectangle" x="192.459" y="386.227" width="95.5748" height="95.5748"/>
   <object id="24" name="aabb_rectangle" x="890.285" y="-19.6386" width="72.0084" height="699.136"/>
   <object id="25" name="aabb_rectangle" x="-11.7832" y="631.055" width="983.242" height="81.1731"/>
+  <object id="68" name="aabb_rectangle" x="226.379" y="479.413" width="93.242" height="30.1731"/>
+  <object id="69" name="aabb_rectangle" x="287.379" y="447.913" width="63.242" height="30.1731"/>
+  <object id="70" name="aabb_rectangle" x="479.379" y="190.913" width="63.242" height="30.1731"/>
+  <object id="71" name="aabb_rectangle" x="257.379" y="221.913" width="93.242" height="30.1731"/>
+  <object id="72" name="aabb_rectangle" x="289.379" y="194.913" width="30.242" height="92.1731"/>
+  <object id="75" name="aabb_rectangle" x="574.879" y="222.913" width="30.242" height="92.1731"/>
+  <object id="76" name="aabb_rectangle" x="608.879" y="285.913" width="28.242" height="61.1731"/>
+  <object id="77" name="aabb_rectangle" x="480.879" y="159.913" width="28.242" height="34.1731"/>
+  <object id="79" name="aabb_rectangle" x="322.879" y="415.913" width="28.242" height="34.1731"/>
  </objectgroup>
- <objectgroup name="player">
+ <objectgroup id="11" name="walls"/>
+ <objectgroup id="6" name="player">
   <object id="29" name="player_spawn" x="199.16" y="173.418">
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="spawners">
-  <object id="26" name="firewziard_spawner" x="329.929" y="551.191">
+ <objectgroup id="7" name="spawners">
+  <object id="26" name="bird_spawner" x="526.929" y="475.191">
    <point/>
   </object>
-  <object id="27" name="firewizard_spawner" x="765.907" y="367.897">
+  <object id="27" name="firewizard_spawner" x="719.907" y="386.897">
    <point/>
   </object>
  </objectgroup>
- <layer name="holes" width="30" height="22">
+ <layer id="8" name="holes" width="30" height="22">
   <data>
    <tile/>
    <tile/>

@@ -16,13 +16,21 @@ Entity & FireWizardFactory::getEnemy(const int level)
 {
 	auto& fireWizard = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	auto& transformComponent = fireWizard.addComponent<TransformComponent>(-1, -1, 59, 54, 1);
-	auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("fireWizard", 5, 5, 12, 6);
 	fireWizard.addComponent<HealthBarComponent>();
 	fireWizard.addComponent<EnemyMovementComponent>();
 	fireWizard.addComponent<AIComponent>();
 	fireWizard.addComponent<ShootComponent>();
 	fireWizard.addComponent<TimerComponent>();
 	fireWizard.addComponent<CollisionComponent>("fireWizard");
+	if (level < 6) {
+		auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("fireWizard", 5, 5, 12);
+	}
+	else if (level < 9) {
+		auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("iceWizard", 5, 5, 12);
+	}
+	else {
+		auto& spriteComponent = fireWizard.addComponent<SpriteComponent>("metalWizard", 5, 5, 12);
+	}
 
 	transformComponent.speed = 1.5;
 
