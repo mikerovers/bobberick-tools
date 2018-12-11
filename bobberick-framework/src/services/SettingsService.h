@@ -13,6 +13,8 @@ public:
     void init() override;
     void clean() override;
 
+	static const char* getHumanReadableScancode(SDL_Scancode scancode);
+
 	int gameWidth;
 	int gameHeight;
 	int advertisementCount;

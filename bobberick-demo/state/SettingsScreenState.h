@@ -20,6 +20,7 @@ private:
 	void createMusicToggleButton() const;
 	void createFPSToggleButton() const;
 	void createExitButton();
+	void createKeyMappingButton();
 };
 
 

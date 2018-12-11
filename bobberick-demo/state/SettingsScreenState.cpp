@@ -46,6 +46,7 @@ bool SettingsScreenState::onEnter()
 	createMusicToggleButton();
 	createFPSToggleButton();
 	createExitButton();
+	createKeyMappingButton();
 
     return true;
 }
@@ -75,6 +76,12 @@ void SettingsScreenState::createTexts() const
 	fpsText.addComponent<TextComponent>("monoMedium", "fpsText", "FPS");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsText, getStateID());
+
+	auto& keyMappingText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	fpsText.addComponent<TransformComponent>(200, 380, 30, 200, 1);
+	fpsText.addComponent<TextComponent>("monoMedium", "keyMappingText", "Key Mapping");
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(keyMappingText, getStateID());
 }
 
 void SettingsScreenState::createMusicToggleButton() const
@@ -136,8 +143,25 @@ void SettingsScreenState::createExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(410, 420, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(410, 520, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
+}
+
+void SettingsScreenState::createKeyMappingButton()
+{
+	auto& keyMappingButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+
+	auto* keyMappingButtonComponent = new ButtonComponent([]()
+	{
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("KeyMappingScreen"));
+	});
+
+	keyMappingButton.addExistingComponent<ButtonComponent>(keyMappingButtonComponent);
+	keyMappingButton.addComponent<TransformComponent>(560, 365, 64, 128, 1);
+	keyMappingButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(keyMappingButton, getStateID());
 }

@@ -67,6 +67,7 @@ state/Level2State.cpp state/Level2State.h
 state/Level3State.cpp state/Level3State.h
 state/PauseScreenState.cpp state/PauseScreenState.h
 state/GameOverState.cpp state/GameOverState.h
+state/KeyMappingState.cpp state/KeyMappingState.h
 )
 
 add_executable(bobberick-demo ${SOURCE_FILES})

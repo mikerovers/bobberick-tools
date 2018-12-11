@@ -16,6 +16,7 @@
 #include "SettingsScreenState.h"
 #include "HighscoreState.h"
 #include "GameOverState.h"
+#include "KeyMappingState.h"
 
 class StateFactory {
 
@@ -36,6 +37,7 @@ private:
 	std::unique_ptr<SkillScreenState> createSkillScreenState() const;
 	std::unique_ptr<SettingsScreenState> createSettingsScreenState() const;
 	std::unique_ptr<GameOverState> createGameOverState() const;
+	std::unique_ptr<KeyMappingState> createKeyMappingState() const;
 };
 
 #endif //BOBBERICK_TOOLS_STATEFACTORY_H
