@@ -17,8 +17,10 @@ public:
 
 private:
 	void executeShoot(Entity& entity, int& channelCounter);
+	static void executeChase(Entity& entity);
 	static void executeSpell(Entity& entity);
 	static void executeSpawner(Entity& entity);
+	static void executeLimitedTime(Entity& entity);
 	static void executeSprayShoot(const Entity& entity);
 
 	static void initHealthBar(Entity& entity);
