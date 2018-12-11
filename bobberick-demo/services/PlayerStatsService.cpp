@@ -21,12 +21,11 @@ void PlayerStatsService::init()
 	hp = hpMax = getHPvalue(false);
 	atMin = getATminValue(false);
 	atMax = getATmaxValue(false);
-	df = getDFvalue(false);
 	shdTime = shdTimeMax = getSHDvalue(false);
 	shdRecov = getSHDrecovValue(false);
 }
 
-void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin, const int atMax, const int df,
+void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin, const int atMax,
                                   const double shdTime, const double shdTimeMax, const double shdRecov, const int gold,
                                   const int xp)
 {
@@ -34,7 +33,6 @@ void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin
 	PlayerStatsService::hpMax = hpMax;
 	PlayerStatsService::atMin = atMin;
 	PlayerStatsService::atMax = atMax;
-	PlayerStatsService::df = df;
 	PlayerStatsService::shdTime = shdTime;
 	PlayerStatsService::shdTimeMax = shdTimeMax;
 	PlayerStatsService::shdRecov = shdRecov;
@@ -70,13 +68,12 @@ void PlayerStatsService::equipComparingWeapon() {
 	}
 }
 
-void PlayerStatsService::setMetaStats(const int xpTotal, const int hpLv, const int atLv, const int dfLv,
+void PlayerStatsService::setMetaStats(const int xpTotal, const int hpLv, const int atLv,
                                       const int shdTimeLv, const int shdRecovLv)
 {
 	PlayerStatsService::xpTotal = xpTotal;
 	PlayerStatsService::hpLv = hpLv;
 	PlayerStatsService::atLv = atLv;
-	PlayerStatsService::dfLv = dfLv;
 	PlayerStatsService::shdTimeLv = shdTimeLv;
 	PlayerStatsService::shdRecovLv = shdRecovLv;
 }
@@ -127,14 +124,10 @@ void PlayerStatsService::update()
 	}
 }
 
-void PlayerStatsService::getHit(double attack, const bool pierceDF)
+void PlayerStatsService::getHit(double attack)
 {
 	if (!shdActive)
 	{
-		if (!pierceDF)
-		{
-			attack -= df;
-		}
 		hp -= attack;
 		if (hp < 0)
 		{
@@ -216,21 +209,6 @@ bool PlayerStatsService::upgradeATlevel()
 	}
 }
 
-bool PlayerStatsService::upgradeDFlevel()
-{
-	if (getDFcost() > -1 && xpTotal >= getDFcost())
-	{
-		xpTotal -= getDFcost();
-		dfLv++;
-		init();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
 bool PlayerStatsService::upgradeSHDlevel()
 {
 	if (getSHDcost() > -1 && xpTotal >= getSHDcost())
@@ -282,11 +260,6 @@ int PlayerStatsService::getATmax() const
 	return atMax;
 }
 
-int PlayerStatsService::getDF() const
-{
-	return df;
-}
-
 double PlayerStatsService::getSHD() const
 {
 	return shdTime;
@@ -322,11 +295,6 @@ int PlayerStatsService::getATlevel() const
 	return atLv;
 }
 
-int PlayerStatsService::getDFlevel() const
-{
-	return dfLv;
-}
-
 int PlayerStatsService::getSHDlevel() const
 {
 	return shdTimeLv;
@@ -354,18 +322,6 @@ int PlayerStatsService::getATcost() const
 	if (getATminValue(true) != -1)
 	{
 		return static_cast<int>(pow(getATminValue(true) * 1000, 1.1));
-	}
-	else
-	{
-		return -1;
-	}
-}
-
-int PlayerStatsService::getDFcost() const
-{
-	if (getDFvalue(true) != -1)
-	{
-		return static_cast<int>(pow(getDFvalue(true) * 60, 1.7));
 	}
 	else
 	{
@@ -443,25 +399,6 @@ int PlayerStatsService::getATmaxValue(bool next) const
 		value = static_cast<int>((value * 1.5) + 1);
 	}
 	return std::min(value, 600);
-}
-
-int PlayerStatsService::getDFvalue(bool next) const
-{
-	if (!next)
-	{
-		return std::min(dfLv, 100);
-	}
-	else
-	{
-		if (getDFvalue(false) < 100)
-		{
-			return std::min(dfLv + 1, 100);
-		}
-		else
-		{
-			return -1;
-		}
-	}
 }
 
 int PlayerStatsService::getSHDvalue(bool next) const
@@ -558,12 +495,11 @@ void PlayerStatsService::save()
 	save.keep<int>("hpMax", getHPmax());
 	save.keep<int>("atMin", getATmin());
 	save.keep<int>("atMax", getATmax());
-	save.keep<int>("df", getDF());
 	save.keep<int>("gold", gold);
-	save.keep<int>("xpTotal", xp);
 	save.keep<double>("shdTime", shdTime);
 	save.keep<double>("shdTimeMax", getSHDmax());
 	save.keep<double>("shdRecov", getSHDrecov());
+	save.keep<int>("xp", xp);
 
 	save.keep<bool>("w1IsMagic", normalWeapon.isMagic);
 	save.keep<int>("w1Power", normalWeapon.power);
@@ -594,12 +530,11 @@ void PlayerStatsService::load()
 		save.get<int>("hpMax"),
 		save.get<int>("atMin"),
 		save.get<int>("atMax"),
-		save.get<int>("df"),
 		save.get<double>("shdTime"),
 		save.get<double>("shdTimeMax"),
 		save.get<double>("shdRecov"),
 		save.get<int>("gold"),
-		save.get<int>("xpTotal")
+		save.get<int>("xp")
 	);
 
 	normalWeapon = WeaponComponent(
@@ -631,12 +566,9 @@ bool PlayerStatsService::validateSave() const
 	&& save.has("hpMax")
 	&& save.has("atMin")
 	&& save.has("atMax")
-	&& save.has("df")
-	&& save.has("shdTime")
 	&& save.has("shdTimeMax")
 	&& save.has("shdRecov")
 	&& save.has("gold")
-	&& save.has("xpTotal")
 	&& save.has("w1IsMagic")
 	&& save.has("w1IsMagic")
 	&& save.has("w1FireDelay")
@@ -651,4 +583,42 @@ bool PlayerStatsService::validateSave() const
 	&& save.has("w2TextureID")
 	&& save.has("w2AttackingTextureID")
    	&& save.has("w2Name");
+}
+
+void PlayerStatsService::saveMeta()
+{
+	auto& save = ServiceManager::Instance()->getService<SaveService>();
+
+	save.keep<int>("xpTotal", getXPtotal());
+	save.keep<int>("hpLv", getHPmax());
+	save.keep<int>("atLv", getATmin());
+	save.keep<int>("shdTimeLv", shdTime);
+	save.keep<int>("shdRecovLv", getSHDrecov());
+
+	save.flush();
+}
+
+void PlayerStatsService::loadMeta()
+{
+	auto& save = ServiceManager::Instance()->getService<SaveService>();
+	save.load();
+
+	setMetaStats(
+		save.get<int>("xpTotal"),
+		save.get<int>("hpLv"),
+		save.get<int>("atLv"),
+		save.get<int>("shdTimeLv"),
+		save.get<int>("shdRecovLv")
+	);
+}
+
+bool PlayerStatsService::validateSaveMeta() const
+{
+	auto& save = ServiceManager::Instance()->getService<SaveService>();
+
+	return save.has("xpTotal")
+		&& save.has("hpLv")
+		&& save.has("atLv")
+		&& save.has("shdTimeLv")
+		&& save.has("shdRecovLv");
 }

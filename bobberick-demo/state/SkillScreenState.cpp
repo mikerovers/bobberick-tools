@@ -36,14 +36,12 @@ bool SkillScreenState::onEnter()
 	makeStartGameButton();
 	makeHpButton();
 	makeAtButton();
-	makeDfButton();
 	makeShdTimeButton();
 	makeShdRecovButton();
 	makeExitButton();
 
 	makeHpText();
 	makeAtText();
-	makeDfText();
 	makeShdTimeText();
 	makeShdRecovText();
 
@@ -51,7 +49,6 @@ bool SkillScreenState::onEnter()
 	playerStats.init();
 	updateHpText(playerStats);
 	updateAtText(playerStats);
-	updateDfText(playerStats);
 	updateShdTimeText(playerStats);
 	updateShdRecovText(playerStats);
 
@@ -124,23 +121,6 @@ void SkillScreenState::makeAtButton()
 	entityManager.addEntityToGroup(atButton, getStateID());
 }
 
-void SkillScreenState::makeDfButton()
-{
-	auto& dfButton = entityManager.addEntity();
-	auto* dfButtonComponent = new ButtonComponent([this]()
-	{
-		PlayerStatsService& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
-		playerStats.upgradeDFlevel();
-		xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.getXPtotal()), 15, false));
-		updateDfText(playerStats);
-	});
-
-	dfButton.addExistingComponent<ButtonComponent>(dfButtonComponent);
-	dfButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
-	dfButton.addComponent<ButtonSpriteComponent>("defenseButton", 1, 3, 0, 1).setStaticAnimation(true);
-	entityManager.addEntityToGroup(dfButton, getStateID());
-}
-
 void SkillScreenState::makeShdTimeButton()
 {
 	auto& shdTimeButton = entityManager.addEntity();
@@ -153,7 +133,7 @@ void SkillScreenState::makeShdTimeButton()
 	});
 
 	shdTimeButton.addExistingComponent<ButtonComponent>(shdTimeButtonComponent);
-	shdTimeButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
+	shdTimeButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
 	shdTimeButton.addComponent<ButtonSpriteComponent>("shieldButton", 1, 3, 0, 1).setStaticAnimation(true);
 	entityManager.addEntityToGroup(shdTimeButton, getStateID());
 }
@@ -170,7 +150,7 @@ void SkillScreenState::makeShdRecovButton()
 	});
 
 	shdRecovButton.addExistingComponent<ButtonComponent>(shdRecovButtonComponent);
-	shdRecovButton.addComponent<TransformComponent>(420, 460, 64, 128, 1);
+	shdRecovButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
 	shdRecovButton.addComponent<ButtonSpriteComponent>("recoveryButton", 1, 3, 0, 1).setStaticAnimation(true);
 	entityManager.addEntityToGroup(shdRecovButton, getStateID());
 }
@@ -215,39 +195,27 @@ void SkillScreenState::makeAtText() const
 	atNext.addComponent<TextComponent>("monoMedium", "atNext", " ");
 }
 
-void SkillScreenState::makeDfText() const
-{
-	dfCost.addComponent<TransformComponent>(145, 330, 30, 270, 1);
-	dfCost.addComponent<TextComponent>("monoMedium", "dfCost", " ");
-	dfLevel.addComponent<TransformComponent>(145, 300, 30, 270, 1);
-	dfLevel.addComponent<TextComponent>("monoMedium", "dfLevel", " ");
-	dfValue.addComponent<TransformComponent>(555, 300, 30, 270, 1);
-	dfValue.addComponent<TextComponent>("monoMedium", "dfValue", " ");
-	dfNext.addComponent<TransformComponent>(555, 330, 30, 270, 1);
-	dfNext.addComponent<TextComponent>("monoMedium", "dfNext", " ");
-}
-
 void SkillScreenState::makeShdTimeText() const
 {
-	shdTimeCost.addComponent<TransformComponent>(145, 410, 30, 270, 1);
+	shdTimeCost.addComponent<TransformComponent>(145, 330, 30, 270, 1);
 	shdTimeCost.addComponent<TextComponent>("monoMedium", "shdTimeCost", " ");
-	shdTimeLevel.addComponent<TransformComponent>(145, 380, 30, 270, 1);
+	shdTimeLevel.addComponent<TransformComponent>(145, 300, 30, 270, 1);
 	shdTimeLevel.addComponent<TextComponent>("monoMedium", "shdTimeLevel", " ");
-	shdTimeValue.addComponent<TransformComponent>(555, 380, 30, 270, 1);
+	shdTimeValue.addComponent<TransformComponent>(555, 300, 30, 270, 1);
 	shdTimeValue.addComponent<TextComponent>("monoMedium", "shdTimeValue", " ");
-	shdTimeNext.addComponent<TransformComponent>(555, 410, 30, 270, 1);
+	shdTimeNext.addComponent<TransformComponent>(555, 330, 30, 270, 1);
 	shdTimeNext.addComponent<TextComponent>("monoMedium", "shdTimeNext", " ");
 }
 
 void SkillScreenState::makeShdRecovText() const
 {
-	shdRecovCost.addComponent<TransformComponent>(145, 490, 30, 270, 1);
+	shdRecovCost.addComponent<TransformComponent>(145, 410, 30, 270, 1);
 	shdRecovCost.addComponent<TextComponent>("monoMedium", "shdRecovCost", " ");
-	shdRecovLevel.addComponent<TransformComponent>(145, 460, 30, 270, 1);
+	shdRecovLevel.addComponent<TransformComponent>(145, 380, 30, 270, 1);
 	shdRecovLevel.addComponent<TextComponent>("monoMedium", "shdRecovLevel", " ");
-	shdRecovValue.addComponent<TransformComponent>(555, 460, 30, 270, 1);
+	shdRecovValue.addComponent<TransformComponent>(555, 380, 30, 270, 1);
 	shdRecovValue.addComponent<TextComponent>("monoMedium", "shdRecovValue", " ");
-	shdRecovNext.addComponent<TransformComponent>(555, 490, 30, 270, 1);
+	shdRecovNext.addComponent<TransformComponent>(555, 410, 30, 270, 1);
 	shdRecovNext.addComponent<TextComponent>("monoMedium", "shdRecovNext", " ");
 }
 
@@ -273,18 +241,6 @@ void SkillScreenState::updateAtText(PlayerStatsService& playerStats) {
 	} else {
 		atCost.getComponent<TextComponent>().setText(" ");
 		atNext.getComponent<TextComponent>().setText(" ");
-	}
-}
-
-void SkillScreenState::updateDfText(PlayerStatsService& playerStats) {
-	dfLevel.getComponent<TextComponent>().setText(textFormatter.addSpaces("Level: " + std::to_string(playerStats.getDFlevel()), 15, true));
-	dfValue.getComponent<TextComponent>().setText(textFormatter.addSpaces("Value: " + std::to_string(playerStats.getDFvalue(false)), 15, false));
-	if (playerStats.getDFcost() > -1) {
-		dfCost.getComponent<TextComponent>().setText(textFormatter.addSpaces("Cost: " + std::to_string(playerStats.getDFcost()), 15, true));
-		dfNext.getComponent<TextComponent>().setText(textFormatter.addSpaces("Next: " + std::to_string(playerStats.getDFvalue(true)), 15, false));
-	} else {
-		dfCost.getComponent<TextComponent>().setText(" ");
-		dfNext.getComponent<TextComponent>().setText(" ");
 	}
 }
 
