@@ -14,6 +14,9 @@ bool BobberGame::setup()
 	if (Game::setup()) {
 		ServiceManager::Instance()->addService<PlayerStatsService>();
 		ServiceManager::Instance()->getService<PlayerStatsService>().init();
+		if (ServiceManager::Instance()->getService<PlayerStatsService>().validateSaveMeta()) {
+			ServiceManager::Instance()->getService<PlayerStatsService>().loadMeta();
+		}
 		ServiceManager::Instance()->addService<HighscoreService>();
 		ServiceManager::Instance()->getService<HighscoreService>().init();
 

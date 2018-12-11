@@ -77,6 +77,7 @@ void SkillScreenState::makeStartGameButton() const
 	auto* playGameButtonComponent = new ButtonComponent([]()
 	{
 		StateFactory factory{};
+		ServiceManager::Instance()->getService<PlayerStatsService>().saveMeta();
 		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("Level1State"));
 	});
 
@@ -161,6 +162,7 @@ void SkillScreenState::makeExitButton()
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
 		readyForExit = true;
+		ServiceManager::Instance()->getService<PlayerStatsService>().saveMeta();
 		std::cout << "Exit button clicked" << std::endl;
 	});
 

@@ -9,6 +9,7 @@ void PlayerStatsService::init()
 	if (xp > 0)
 	{
 		xpTotal += xp;
+		saveMeta();
 	}
 	xp = 0;
 	shdActive = false;
@@ -590,10 +591,10 @@ void PlayerStatsService::saveMeta()
 	auto& save = ServiceManager::Instance()->getService<SaveService>();
 
 	save.keep<int>("xpTotal", getXPtotal());
-	save.keep<int>("hpLv", getHPmax());
-	save.keep<int>("atLv", getATmin());
-	save.keep<int>("shdTimeLv", shdTime);
-	save.keep<int>("shdRecovLv", getSHDrecov());
+	save.keep<int>("hpLv", getHPlevel());
+	save.keep<int>("atLv", getATlevel());
+	save.keep<int>("shdTimeLv", getSHDlevel());
+	save.keep<int>("shdRecovLv", getSHDrecovLevel());
 
 	save.flush();
 }
