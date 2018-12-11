@@ -5,7 +5,7 @@
 #include "../../bobberick-framework/src/entity/systems/InputSystem.h"
 #include "../systems/HudSystem.h"
 #include "../../bobberick-framework/src/entity/systems/GuiSystem.h"
-#include "../../bobberick-framework/src/entity/systems/CollisionSystem.h"
+#include "../systems/CollisionSystem.h"
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
 #include "../systems/AdvertisementSystem.h"
