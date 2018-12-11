@@ -139,6 +139,31 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 	{
 	}
 
+	if (colliderB.tag == "pit")
+	{
+		if (colliderA.entity->hasComponent<TransformComponent>())
+		{
+			auto& transform = colliderA.entity->getComponent<TransformComponent>();
+			if (colliderA.tag == "bird")
+			{
+				// birds don't fall into a pit
+			}
+			else if (colliderA.tag == "player")
+			{
+				auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+				stats.getHit(9999999, true); // kill the player
+			}
+			else
+			{
+				auto& enemyMovement = colliderA.entity->getComponent<EnemyMovementComponent>();
+				enemyMovement.collided = true;
+				transform.position.x += -transform.velocity.x * 5;
+				transform.position.y += -transform.velocity.y * 5;
+				transform.velocity.zero();
+			}
+		}
+	}
+
 
 	if (colliderB.tag == "aabb_rectangle")
 	{
@@ -164,11 +189,17 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 			}
 			else
 			{
-				auto& enemyMovement = colliderA.entity->getComponent<EnemyMovementComponent>();
-				enemyMovement.collided = true;
-				transform.position.x += -transform.velocity.x * 5;
-				transform.position.y += -transform.velocity.y * 5;
-				transform.velocity.zero();
+				if (colliderA.tag == "bird") {
+					//don't collide because you are a bired]
+				}
+				else {
+					auto& enemyMovement = colliderA.entity->getComponent<EnemyMovementComponent>();
+					enemyMovement.collided = true;
+					transform.position.x += -transform.velocity.x * 5;
+					transform.position.y += -transform.velocity.y * 5;
+					transform.velocity.zero();
+				}
+
 			}
 			
 		}
@@ -191,6 +222,16 @@ void CollisionSystem::handle_collision_aabb(CollisionComponent& colliderA, Colli
 		{
 			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
 			stats.getHit(0.1);
+		}
+	}
+
+	if (colliderB.tag == "bird")
+	{
+
+		if (colliderA.entity->hasComponent<PlayerComponent>())
+		{
+			auto& stats = ServiceManager::Instance()->getService<PlayerStatsService>();
+			stats.getHit(0.1, false);
 		}
 	}
 
@@ -254,7 +295,7 @@ void CollisionSystem::update()
 		               [](Entity* entity)
 		               {
 			               auto tag = entity->getComponent<CollisionComponent>().tag;
-			               return tag == "monster_projectile" || tag == "chicken" || tag == "zombie" || tag == "orc" ||
+			               return tag == "monster_projectile" || tag == "chicken" || tag == "zombie" || tag == "orc" || tag == "bird" ||
 				               tag == "fireWizard" || tag == "manufacturer";
 		               }), nonMonsterProjectileComponentEntities.end()
 	);
