@@ -15,6 +15,7 @@
 
 HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
                                                      hudBox(entityManager.addEntity()),
+													 compareBox(entityManager.addEntity()),
                                                      outerBox(entityManager.addEntity()),
                                                      innerBox(entityManager.addEntity()),
                                                      healthBox(entityManager.addEntity()),
@@ -24,8 +25,10 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
                                                      coinText(entityManager.addEntity()),
                                                      xpImage(entityManager.addEntity()),
                                                      xpText(entityManager.addEntity()),
+													 oldWeaponName(entityManager.addEntity()),
 													 oldWeaponText(entityManager.addEntity()),
 													 newWeaponText(entityManager.addEntity()),
+													 newWeaponName(entityManager.addEntity()),
                                                      inventory(entityManager.addEntity()),
                                                      inventorySlot1(entityManager.addEntity()),
                                                      inventorySlot2(entityManager.addEntity()),
@@ -96,10 +99,10 @@ void HudSystem::update()
 
 	if (fpsCounter.hasComponent<TextComponent>()) {
 		if (fpsOn) {
-				fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(fpsMiddlerResult), 6, false));
+				fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(fpsMiddlerResult), 3, true));
 			}
 		else {
-			fpsCounter.getComponent<TextComponent>().setText(textFormatter.addSpaces(" ", 6, false));
+			fpsCounter.getComponent<TextComponent>().setText(" ");
 		}
 	}
 
@@ -122,6 +125,9 @@ void HudSystem::init()
 
 	hudBox.addComponent<TransformComponent>(0, 0, 50, gameWidth, 1);
 	hudBox.addComponent<RectangleComponent>(51, 51, 204, true);
+
+	compareBox.addComponent<TransformComponent>(barWidth + 845, 50, 40, gameWidth - (barWidth + 345), 1); // Start off-screen.
+	compareBox.addComponent<RectangleComponent>(51, 51, 204, true);
 
 	outerBox.addComponent<TransformComponent>(9, 9, 32, barWidth + 2, 1);
 	outerBox.addComponent<RectangleComponent>(0, 0, 0, false);
@@ -150,10 +156,16 @@ void HudSystem::init()
 	xpText.addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
 	xpText.addComponent<TextComponent>("monoMedium", "xpText", " ");
 
-	oldWeaponText.addComponent<TransformComponent>(barWidth + 350, 7, 20, 300, 1);
+	oldWeaponName.addComponent<TransformComponent>(barWidth + 350, 7, 20, 300, 1);
+	oldWeaponName.addComponent<TextComponent>("monoSmall", "oldWeaponName", " ");
+
+	oldWeaponText.addComponent<TransformComponent>(barWidth + 350, 27, 20, 300, 1);
 	oldWeaponText.addComponent<TextComponent>("monoSmall", "oldWeaponText", " ");
 
-	newWeaponText.addComponent<TransformComponent>(barWidth + 350, 27, 20, 300, 1);
+	newWeaponName.addComponent<TransformComponent>(barWidth + 350, 47, 20, 300, 1);
+	newWeaponName.addComponent<TextComponent>("monoSmall", "newWeaponName", " ");
+
+	newWeaponText.addComponent<TransformComponent>(barWidth + 350, 67, 20, 300, 1);
 	newWeaponText.addComponent<TextComponent>("monoSmall", "newWeaponText", " ");
 
 	inventory.addComponent<TransformComponent>(10, gameHeight - 60, 60, 130, 1);
@@ -174,7 +186,7 @@ void HudSystem::init()
 	inventorySlot2.addComponent<RectangleComponent>(212, 154, 44, true);
 	inventorySlot2.addComponent<InventorySlotComponent>("magic");
 
-	fpsCounter.addComponent<TransformComponent>(gameWidth - 60, 0 + 65, 40, 55, 1);
+	fpsCounter.addComponent<TransformComponent>(gameWidth - 60, 10, 30, 52, 1);
 	fpsCounter.addComponent<TextComponent>("monoMedium", "fps", " ");
 
 	auto players = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<
@@ -185,6 +197,7 @@ void HudSystem::init()
 		{
 			auto& serviceManager = ServiceManager::Instance()->getService<EntityManager>();
 			serviceManager.addEntityToGroup(hudBox, group);
+			serviceManager.addEntityToGroup(compareBox, group);
 			serviceManager.addEntityToGroup(outerBox, group);
 			serviceManager.addEntityToGroup(innerBox, group);
 			serviceManager.addEntityToGroup(healthBox, group);
@@ -194,7 +207,9 @@ void HudSystem::init()
 			serviceManager.addEntityToGroup(healthText, group);
 			serviceManager.addEntityToGroup(coinText, group);
 			serviceManager.addEntityToGroup(xpText, group);
+			serviceManager.addEntityToGroup(oldWeaponName, group);
 			serviceManager.addEntityToGroup(oldWeaponText, group);
+			serviceManager.addEntityToGroup(newWeaponName, group);
 			serviceManager.addEntityToGroup(newWeaponText, group);
 			serviceManager.addEntityToGroup(inventory, group);
 			serviceManager.addEntityToGroup(inventorySlot1, group);
@@ -207,12 +222,20 @@ void HudSystem::init()
 void HudSystem::startCompare(WeaponComponent oldWeapon, WeaponComponent newWeapon) {
 	TextFormatter textFormatter = TextFormatter();
 	comparing = true;
+	
+	compareBox.getComponent<TransformComponent>().position.x -= 500; // Get on to the screen
+	oldWeaponName.getComponent<TextComponent>().setText(textFormatter.addSpaces(oldWeapon.name, 35, false));
 	oldWeaponText.getComponent<TextComponent>().setText(textFormatter.addSpaces("Old weapon: Power " + std::to_string(oldWeapon.power) + ", Delay " + std::to_string(oldWeapon.fireDelay), 35, false));
+	newWeaponName.getComponent<TextComponent>().setText(textFormatter.addSpaces(newWeapon.name, 35, false));
 	newWeaponText.getComponent<TextComponent>().setText(textFormatter.addSpaces("New weapon: Power " + std::to_string(newWeapon.power) + ", Delay " + std::to_string(newWeapon.fireDelay), 35, false));
 }
 
 void HudSystem::stopCompare() {
 	comparing = false;
+	
+	compareBox.getComponent<TransformComponent>().position.x += 500; // Go off the screen
+	oldWeaponName.getComponent<TextComponent>().setText(" ");
 	oldWeaponText.getComponent<TextComponent>().setText(" ");
+	newWeaponName.getComponent<TextComponent>().setText(" ");
 	newWeaponText.getComponent<TextComponent>().setText(" ");
 }
