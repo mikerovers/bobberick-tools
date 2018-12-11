@@ -14,6 +14,7 @@ BobberGame.cpp BobberGame.h
 systems/PlayerMovementSystem.cpp systems/PlayerMovementSystem.h 
 components/PlayerMovementComponent.cpp components/PlayerMovementComponent.h
 components/BulletMovementComponent.cpp components/BulletMovementComponent.h
+components/LimitedTimeComponent.cpp components/LimitedTimeComponent.h
 components/PlayerComponent.cpp components/PlayerComponent.h 
 components/SpawnComponent.cpp components/SpawnComponent.h 
 components/ShootComponent.cpp components/ShootComponent.h 

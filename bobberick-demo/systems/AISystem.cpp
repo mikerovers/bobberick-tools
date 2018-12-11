@@ -19,6 +19,7 @@
 #include "../../bobberick-demo/components/PlayerComponent.h"
 #include "../../bobberick-demo/components/DamageComponent.h"
 #include "../../bobberick-demo/components/StatsComponent.h"
+#include "../../bobberick-demo/components/LimitedTimeComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/ChaseComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
@@ -65,6 +66,10 @@ void AISystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<SprayComponent>())
 	{
 		executeSprayShoot(*entity);
+	}	
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<LimitedTimeComponent>())
+	{
+		executeLimitedTime(*entity);
 	}
 
 	int channelCounter = 2;
@@ -85,6 +90,7 @@ void AISystem::update()
 		applyHealthBar(*entity);
 		applyMovement(*entity);
 
+
 		//std::cout << transform.position.x << "\n";
 
 		transform.update();
@@ -95,6 +101,19 @@ void AISystem::update()
 			collisionComponent.collider.y = transform.position.y;
 			collisionComponent.collider.w = transform.width;
 			collisionComponent.collider.h = transform.height;
+		}
+	}
+}
+
+void AISystem::executeLimitedTime(Entity& entity)
+{
+	auto transformComponent = entity.getComponent<TransformComponent>();
+	if (entity.hasComponent<TimerComponent>() && entity.hasComponent<LimitedTimeComponent>())
+	{
+		auto& timer = entity.getComponent<TimerComponent>();
+		if (timer.isTimerFinished())
+		{
+			entity.destroy();
 		}
 	}
 }
@@ -212,6 +231,10 @@ void AISystem::executeSpell(Entity& entity)
 
 				const double enemyX = transform.position.x;
 				const double enemyY = transform.position.y;
+
+				const double enemyXCenter = enemyX + transform.width / 2;
+				const double enemyYCenter = enemyY + transform.height / 2;
+
 				EnemyFactory enemyFactory = EnemyFactory{};
 
 				std::string enemy_type;
@@ -242,14 +265,30 @@ void AISystem::executeSpell(Entity& entity)
 					return;
 				}
 
+				auto& spawnCircle = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+				spawnCircle.addComponent<TransformComponent>(enemyX, enemyY, 128, 128, 1);
+				auto& spawnCircleSpriteComponent = spawnCircle.addComponent<SpriteComponent>("spawnCircle", 4, 4, 6, 10);
+				spawnCircleSpriteComponent.moving = true;
+				auto& spawnCircleTimer = spawnCircle.addComponent<TimerComponent>();
+				spawnCircleTimer.setTimer(1000);
+				spawnCircle.addComponent<LimitedTimeComponent>();
+				spawnCircle.addComponent<EnemyMovementComponent>();
+
+				for (const auto& group : entity.getGroups())
+				{
+					ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(spawnCircle, group);
+				}
+
+
 				const int randomXPosition = RandomGenerator{}.getRandomNumber(0, 4);
+				const int randomBool = RandomGenerator{}.getRandomNumber(0, 1);
 
 				for (auto i = 0; i < 4; i++)
 				{
 					auto& enemy = enemyFactory.getEnemy(1, enemy_type);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
-					enemyTransform.position.x = enemyX - 3 * randomXPosition;
-					enemyTransform.position.y = enemyY - 2 + i * 2;
+					enemyTransform.position.x = (randomBool ? 25 : -25) + enemyXCenter;
+					enemyTransform.position.y = (randomBool ? -25 : 25) + enemyYCenter;
 
 					for (const auto& group : entity.getGroups())
 					{
