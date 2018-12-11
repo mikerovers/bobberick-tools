@@ -14,7 +14,8 @@ public:
     void init() override;
     void clean() override;
     bool load(const char *fileName, std::string id, SDL_RendererPointer renderer);
-	bool addTextureFromSurface(SDL_SurfacePointer surface, std::string id, SDL_RendererPointer renderer); // FontManager's SDL_TTF creates a surface from text.
+	// FontManager's SDL_TTF must create a surface from text, but TextureManager is responsible for creating textures (from surfaces), which is the only reason this method is neccessary.
+	bool addTextureFromSurface(SDL_SurfacePointer surface, std::string id, SDL_RendererPointer renderer);
     void draw(std::string id, SDL_Rect *sourceRect, SDL_Rect *destinationRect, SDL_RendererPointer renderer, bool flip,
 			  double nScale = 1);
 
