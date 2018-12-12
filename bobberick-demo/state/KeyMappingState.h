@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BOBBERICK_TOOLS_KEYMAPPINGSTATE_H
+#define BOBBERICK_TOOLS_KEYMAPPINGSTATE_H
+
 #include "../../bobberick-framework/src/entity/EntityManager.h"
 #include "../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../bobberick-framework/src/GameState.h"
@@ -16,10 +18,10 @@ public:
 
 private:
 	bool readyForExit = false;
-	bool waitingForKeyPress = false;
 
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	InputHandler& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
+	SettingsService& settings = ServiceManager::Instance()->getService<SettingsService>();
 
 	void makeHeaders() const;
 	void makeMovementKeysTexts() const;
@@ -31,3 +33,5 @@ private:
 	void makeTexts();
 	void makeButtons();
 };
+
+#endif //BOBBERICK_TOOLS_KEYMAPPINGSTATE_H

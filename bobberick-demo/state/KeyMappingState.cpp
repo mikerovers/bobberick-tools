@@ -14,7 +14,7 @@ void KeyMappingState::update()
 {
 	for (const auto& system : systems)
 	{
-		if (readyForExit)
+		if (exiting)
 			break;
 
 		system->update();
@@ -97,7 +97,7 @@ void KeyMappingState::makeMovementKeysTexts() const
 	std::string moveLeftKey1 = "Move left 1: ";
 	moveLeftText1.addComponent<TransformComponent>(50, 200, 17, 250, 1);
 	moveLeftText1.addComponent<TextComponent>("monoSmall", "moveLeft1Text",
-		moveLeftKey1.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().left1)));
+		moveLeftKey1.append(settings.getHumanReadableScancode(settings.left1)));
 	entityManager.addEntityToGroup(moveLeftText1, getStateID());
 
 	// Move right
@@ -105,7 +105,7 @@ void KeyMappingState::makeMovementKeysTexts() const
 	std::string moveRightKey1 = "Move right 1: ";
 	moveRightText1.addComponent<TransformComponent>(50, 225, 17, 250, 1);
 	moveRightText1.addComponent<TextComponent>("monoSmall", "moveRight1Text",
-		moveRightKey1.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().right1)));
+		moveRightKey1.append(settings.getHumanReadableScancode(settings.right1)));
 	entityManager.addEntityToGroup(moveRightText1, getStateID());
 
 	// Move up
@@ -113,7 +113,7 @@ void KeyMappingState::makeMovementKeysTexts() const
 	std::string moveUpKey1 = "Move up 1: ";
 	moveUpText1.addComponent<TransformComponent>(50, 250, 17, 250, 1);
 	moveUpText1.addComponent<TextComponent>("monoSmall", "moveUp1Text",
-		moveUpKey1.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().up1)));
+		moveUpKey1.append(settings.getHumanReadableScancode(settings.up1)));
 	entityManager.addEntityToGroup(moveUpText1, getStateID());
 
 	// Move down
@@ -121,7 +121,7 @@ void KeyMappingState::makeMovementKeysTexts() const
 	std::string moveDownKey1 = "Move down 1: ";
 	moveDownText1.addComponent<TransformComponent>(50, 275, 17, 250, 1);
 	moveDownText1.addComponent<TextComponent>("monoSmall", "moveDown1Text",
-		moveDownKey1.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().down1)));
+		moveDownKey1.append(settings.getHumanReadableScancode(settings.down1)));
 	entityManager.addEntityToGroup(moveDownText1, getStateID());
 
 	/*
@@ -132,7 +132,7 @@ void KeyMappingState::makeMovementKeysTexts() const
 	std::string moveLeftKey2 = "Move left 2: ";
 	moveLeftText2.addComponent<TransformComponent>(50, 300, 17, 250, 1);
 	moveLeftText2.addComponent<TextComponent>("monoSmall", "moveLeft2Text",
-		moveLeftKey2.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().left2)));
+		moveLeftKey2.append(settings.getHumanReadableScancode(settings.left2)));
 	entityManager.addEntityToGroup(moveLeftText2, getStateID());
 
 	// Move right
@@ -140,7 +140,7 @@ void KeyMappingState::makeMovementKeysTexts() const
 	std::string moveRightKey2 = "Move right 2: ";
 	moveRightText2.addComponent<TransformComponent>(50, 325, 17, 250, 1);
 	moveRightText2.addComponent<TextComponent>("monoSmall", "moveRight2Text",
-		moveRightKey2.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().right2)));
+		moveRightKey2.append(settings.getHumanReadableScancode(settings.right2)));
 	entityManager.addEntityToGroup(moveRightText2, getStateID());
 
 	// Move up
@@ -148,7 +148,7 @@ void KeyMappingState::makeMovementKeysTexts() const
 	std::string moveUpKey2 = "Move up 2: ";
 	moveUpText2.addComponent<TransformComponent>(50, 350, 17, 250, 1);
 	moveUpText2.addComponent<TextComponent>("monoSmall", "moveUp2Text",
-		moveUpKey2.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().up2)));
+		moveUpKey2.append(settings.getHumanReadableScancode(settings.up2)));
 	entityManager.addEntityToGroup(moveUpText2, getStateID());
 
 	// Move right
@@ -156,7 +156,7 @@ void KeyMappingState::makeMovementKeysTexts() const
 	std::string moveDownKey2 = "Move down 2: ";
 	moveDownText2.addComponent<TransformComponent>(50, 375, 17, 250, 1);
 	moveDownText2.addComponent<TextComponent>("monoSmall", "moveDown2Text",
-		moveDownKey2.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().down2)));
+		moveDownKey2.append(settings.getHumanReadableScancode(settings.down2)));
 	entityManager.addEntityToGroup(moveDownText2, getStateID());
 }
 
@@ -167,7 +167,7 @@ void KeyMappingState::makeFPSKeysTexts() const
 	std::string fpsUpKey = "FPS up: ";
 	fpsUpText.addComponent<TransformComponent>(50, 475, 17, 200, 1);
 	fpsUpText.addComponent<TextComponent>("monoSmall", "fpsUpText",
-		fpsUpKey.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().fpsSpdUp)));
+		fpsUpKey.append(settings.getHumanReadableScancode(settings.fpsSpdUp)));
 	entityManager.addEntityToGroup(fpsUpText, getStateID());
 
 	// FPS speed down
@@ -175,7 +175,7 @@ void KeyMappingState::makeFPSKeysTexts() const
 	std::string fpsDownKey = "FPS down: ";
 	fpsDownText.addComponent<TransformComponent>(50, 500, 17, 200, 1);
 	fpsDownText.addComponent<TextComponent>("monoSmall", "fpsDownText",
-		fpsDownKey.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().fpsSpdDown)));
+		fpsDownKey.append(settings.getHumanReadableScancode(settings.fpsSpdDown)));
 	entityManager.addEntityToGroup(fpsDownText, getStateID());
 
 	// FPS speed reset
@@ -183,24 +183,24 @@ void KeyMappingState::makeFPSKeysTexts() const
 	std::string fpsResetKey = "FPS reset: ";
 	fpsResetText.addComponent<TransformComponent>(50, 525, 17, 200, 1);
 	fpsResetText.addComponent<TextComponent>("monoSmall", "fpsResetText",
-		fpsResetKey.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().fpsSpdReset)));
+		fpsResetKey.append(settings.getHumanReadableScancode(settings.fpsSpdReset)));
 	entityManager.addEntityToGroup(fpsResetText, getStateID());
 
 	// Show FPS
-	// auto& fpsShowText = entityManager.addEntity();
-	// std::string fpsShowKey = "Show FPS: ";
-	// fpsShowText.addComponent<TransformComponent>(50, 550, 17, 200, 1);
-	// fpsShowText.addComponent<TextComponent>("monoSmall", "fpsShowText",
-	// 	fpsShowKey.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().fpsShow)));
-	// entityManager.addEntityToGroup(fpsShowText, getStateID());
+	auto& fpsShowText = entityManager.addEntity();
+	std::string fpsShowKey = "Show FPS: ";
+	fpsShowText.addComponent<TransformComponent>(50, 550, 17, 200, 1);
+	fpsShowText.addComponent<TextComponent>("monoSmall", "fpsShowText",
+		fpsShowKey.append(settings.getHumanReadableScancode(settings.fpsShow)));
+	entityManager.addEntityToGroup(fpsShowText, getStateID());
 	
 	// Hide FPS
-	// auto& fpsHideText = entityManager.addEntity();
-	// std::string fpsHideKey = "Hide FPS: ";
-	// fpsHideText.addComponent<TransformComponent>(50, 575, 17, 200, 1);
-	// fpsHideText.addComponent<TextComponent>("monoSmall", "fpsHideText",
-	// 	fpsHideKey.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().fpsHide)));
-	// entityManager.addEntityToGroup(fpsHideText, getStateID());
+	auto& fpsHideText = entityManager.addEntity();
+	std::string fpsHideKey = "Hide FPS: ";
+	fpsHideText.addComponent<TransformComponent>(50, 575, 17, 200, 1);
+	fpsHideText.addComponent<TextComponent>("monoSmall", "fpsHideText",
+		fpsHideKey.append(settings.getHumanReadableScancode(settings.fpsHide)));
+	entityManager.addEntityToGroup(fpsHideText, getStateID());
 }
 
 void KeyMappingState::makeEquipWeaponKeysTexts() const
@@ -210,7 +210,7 @@ void KeyMappingState::makeEquipWeaponKeysTexts() const
 	std::string equipWeaponKey1 = "Equip weapon key 1: ";
 	equipWeaponText1.addComponent<TransformComponent>(550, 200, 17, 300, 1);
 	equipWeaponText1.addComponent<TextComponent>("monoSmall", "equipWeaponText1",
-		equipWeaponKey1.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().equipWeapon1)));
+		equipWeaponKey1.append(settings.getHumanReadableScancode(settings.equipWeapon1)));
 	entityManager.addEntityToGroup(equipWeaponText1, getStateID());
 
 	// Equip weapon key 2
@@ -218,7 +218,7 @@ void KeyMappingState::makeEquipWeaponKeysTexts() const
 	std::string equipWeaponKey2 = "Equip weapon key 2: ";
 	equipWeaponText2.addComponent<TransformComponent>(550, 225, 17, 300, 1);
 	equipWeaponText2.addComponent<TextComponent>("monoSmall", "equipWeaponText2",
-		equipWeaponKey2.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().equipWeapon2)));
+		equipWeaponKey2.append(settings.getHumanReadableScancode(settings.equipWeapon2)));
 	entityManager.addEntityToGroup(equipWeaponText2, getStateID());
 }
 
@@ -229,7 +229,7 @@ void KeyMappingState::makeStopGameKeysTexts() const
 	std::string stopGameKey1 = "Stop game key 1: ";
 	stopGameText1.addComponent<TransformComponent>(550, 325, 17, 300, 1);
 	stopGameText1.addComponent<TextComponent>("monoSmall", "stopGameText1",
-		stopGameKey1.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().stopGame1)));
+		stopGameKey1.append(settings.getHumanReadableScancode(settings.stopGame1)));
 	entityManager.addEntityToGroup(stopGameText1, getStateID());
 
 	// Stop game key 2
@@ -237,7 +237,7 @@ void KeyMappingState::makeStopGameKeysTexts() const
 	std::string stopGameKey2 = "Stop game key 2: ";
 	stopGameText2.addComponent<TransformComponent>(550, 350, 17, 300, 1);
 	stopGameText2.addComponent<TextComponent>("monoSmall", "stopGameText2",
-		stopGameKey2.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().stopGame2)));
+		stopGameKey2.append(settings.getHumanReadableScancode(settings.stopGame2)));
 	entityManager.addEntityToGroup(stopGameText2, getStateID());
 }
 
@@ -248,39 +248,12 @@ void KeyMappingState::makePauseGameKeysTexts() const
 	std::string pauseGameKey1 = "Pause game key 1: ";
 	pauseGameText1.addComponent<TransformComponent>(550, 450, 17, 300, 1);
 	pauseGameText1.addComponent<TextComponent>("monoSmall", "pauseGameText1",
-		pauseGameKey1.append(ServiceManager::Instance()->getService<SettingsService>().getHumanReadableScancode(ServiceManager::Instance()->getService<SettingsService>().pauseGame1)));
+		pauseGameKey1.append(settings.getHumanReadableScancode(settings.pauseGame1)));
 	entityManager.addEntityToGroup(pauseGameText1, getStateID());
 }
 
 void KeyMappingState::makeButtons()
 {
-	auto& changeKeyButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	auto* changeKeyButtonComponent = new ButtonComponent([this]()
-	{
-		waitingForKeyPress = true;
-		if (waitingForKeyPress)
-		{
-			while (waitingForKeyPress)
-			{
-				ServiceManager::Instance()->getService<SettingsService>().left1 = inputHandler.pollEventForKeyMapping();
-				break;
-			}
-			waitingForKeyPress = false;
-		}
-	});
-	
-	changeKeyButton.addExistingComponent<ButtonComponent>(changeKeyButtonComponent);
-	changeKeyButton.addComponent<TransformComponent>(400, 275, 64, 128, 1);
-	changeKeyButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
-	
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(changeKeyButton, getStateID());
-
-
-
-
-
-
-
 	auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 
 	auto* exitButtonComponent = new ButtonComponent([this]()

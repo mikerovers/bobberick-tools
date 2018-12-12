@@ -17,6 +17,7 @@
 #include "../systems/AISystem.h"
 #include "MainMenuState.h"
 #include "GameOverState.h"
+#include "../systems/KeyMappingSystem.h"
 
 std::unique_ptr<GameState> StateFactory::createState(const std::string& type)
 {
@@ -292,6 +293,8 @@ std::unique_ptr<KeyMappingState> StateFactory::createKeyMappingState() const
 		std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	keyMappingState->addSystem(
 		std::make_unique<MenuSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	keyMappingState->addSystem(
+		std::make_unique<KeyMappingSystem>(/*ServiceManager::Instance()->getService<EntityManager>()*/));
 
 	return keyMappingState;
 }

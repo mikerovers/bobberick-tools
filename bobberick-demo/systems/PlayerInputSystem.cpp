@@ -53,10 +53,11 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	auto& settings = ServiceManager::Instance()->getService<SettingsService>();
 
 	double speedModifier = playerStats.getSHDactive() ? 0.5 : 1;
 
-	if (inputHandler.isKeyDown(SDL_SCANCODE_SPACE))
+	if (inputHandler.isKeyDown(settings.activateShield))
 	{
 		if (!playerStats.getSHDactive())
 		{
@@ -64,21 +65,21 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		}
 	}
 
-	bool left = inputHandler.isKeyDown(SDL_SCANCODE_LEFT) || inputHandler.isKeyDown(SDL_SCANCODE_A),
-	     right = inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D),
-	     up = inputHandler.isKeyDown(SDL_SCANCODE_UP) || inputHandler.isKeyDown(SDL_SCANCODE_W),
-	     down = inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S),
-	     z = inputHandler.isKeyDown(SDL_SCANCODE_Z),
-	     x = inputHandler.isKeyDown(SDL_SCANCODE_X),
-	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
-		 shift = inputHandler.isKeyDown(SDL_SCANCODE_LSHIFT) || inputHandler.isKeyDown(SDL_SCANCODE_RSHIFT),
-		 ret = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2),
-		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
+	bool left = inputHandler.isKeyDown(settings.left1) || inputHandler.isKeyDown(settings.left2),
+	     right = inputHandler.isKeyDown(settings.right1) || inputHandler.isKeyDown(settings.right2),
+	     up = inputHandler.isKeyDown(settings.up1) || inputHandler.isKeyDown(settings.up2),
+	     down = inputHandler.isKeyDown(settings.down1) || inputHandler.isKeyDown(settings.down2),
+	     z = inputHandler.isKeyDown(settings.fpsSpdDown),
+	     x = inputHandler.isKeyDown(settings.fpsSpdUp),
+	     c = inputHandler.isKeyDown(settings.fpsSpdReset),
+		 shift = inputHandler.isKeyDown(settings.equipWeapon1) || inputHandler.isKeyDown(settings.equipWeapon2),
+		 ret = inputHandler.isKeyDown(settings.stopGame1) || inputHandler.isKeyDown(settings.stopGame2),
+		 esc = inputHandler.isKeyDown(settings.pauseGame1);
 	
 	if (left || right || up || down)
 	{
-		const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
-		const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
+		const int gameWidth = settings.gameWidth;
+		const int gameHeight = settings.gameHeight;
 
 		if (transform.position.x < 0)
 		{

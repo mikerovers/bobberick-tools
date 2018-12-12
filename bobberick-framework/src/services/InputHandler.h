@@ -30,8 +30,6 @@ public:
 
 	void init() override;
 
-	static SDL_Scancode pollEventForKeyMapping();
-
 	/// Handling Mouse Event
 	void onMouseButtonDown(SDL_Event& event);
 	void onMouseMove(SDL_Event& event);
@@ -51,7 +49,7 @@ public:
 	void onKeyUp();
 	bool isKeyDown(SDL_Scancode key) const;
 	bool isWindowEvent(int windowEvent) const;
-
+	
 	void initialiseJoysticks();
 
 	bool joysticksInitialised()
