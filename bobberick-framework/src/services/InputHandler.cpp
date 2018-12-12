@@ -64,6 +64,18 @@ void InputHandler::update()
 	}
 }
 
+SDL_Scancode InputHandler::pollEventForKeyMapping()
+{
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_KEYDOWN)
+		{
+			return event.key.keysym.scancode;
+		}
+	}
+}
+
 bool InputHandler::isKeyDown(SDL_Scancode key) const
 {
 	if (m_keystates != nullptr)

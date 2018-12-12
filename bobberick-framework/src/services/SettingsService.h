@@ -35,6 +35,8 @@ public:
 	SDL_Scancode fpsSpdUp = SDL_SCANCODE_Z;
 	SDL_Scancode fpsSpdDown = SDL_SCANCODE_X;
 	SDL_Scancode fpsSpdReset = SDL_SCANCODE_C;
+	// SDL_Scancode fpsShow = SDL_SCANCODE_F11;
+	// SDL_Scancode fpsHide = SDL_SCANCODE_F12;
 
 	// Equip comparing weapon key-bindings
 	SDL_Scancode equipWeapon1 = SDL_SCANCODE_LSHIFT;
@@ -45,7 +47,7 @@ public:
 	SDL_Scancode stopGame2 = SDL_SCANCODE_RETURN2;
 
 	// Pause key-bindings
-	SDL_Scancode pauseGame = SDL_SCANCODE_ESCAPE;
+	SDL_Scancode pauseGame1 = SDL_SCANCODE_ESCAPE;
 };
 
 

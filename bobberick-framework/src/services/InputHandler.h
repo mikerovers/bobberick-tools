@@ -29,6 +29,9 @@ public:
 	void clean() override;
 
 	void init() override;
+
+	static SDL_Scancode pollEventForKeyMapping();
+
 	/// Handling Mouse Event
 	void onMouseButtonDown(SDL_Event& event);
 	void onMouseMove(SDL_Event& event);
