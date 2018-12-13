@@ -7,8 +7,11 @@
 class SpawnMinionsSpellComponent : public Component
 {
 public:
+	SpawnMinionsSpellComponent(int max) : max(max) {};
 	int phase = 0;
 	int minionCount = 0;
+	int current = 0;
+	int max = 0;
 };
 
 

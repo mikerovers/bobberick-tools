@@ -223,6 +223,9 @@ void AISystem::executeSpell(Entity& entity)
 			if (entity.hasComponent<SpawnMinionsSpellComponent>())
 			{
 				auto& spellComponent = entity.getComponent<SpawnMinionsSpellComponent>();
+				if (spellComponent.max <= spellComponent.current) {
+					return;
+				}
 				if (spellComponent.phase > 2)
 				{
 					// return;
@@ -299,6 +302,8 @@ void AISystem::executeSpell(Entity& entity)
 					spellComponent.minionCount++;
 				}
 
+				spellComponent.current++;
+
 				timer.setTimer(5000);
 			}
 		}
@@ -317,8 +322,7 @@ void AISystem::executeSpawner(Entity& entity)
 
 			bool isInRange = true;
 			bool isAttacked = spawnerStats.getHP() < spawnerStats.getHPmax();
-			for (auto& player : ServiceManager::Instance()
-			                    ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
+			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
 			{
 				if (!AISystem::isEntityInRange(entity, *player, 200))
 				{
@@ -335,14 +339,10 @@ void AISystem::executeSpawner(Entity& entity)
 			}
 			int spawnCounter = 0;
 
-			for (auto& spawnedEnemy : ServiceManager::Instance()
-			                          ->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>())
+			for (auto& spawnedEnemy : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>())
 			{
 				auto& spawnedComponent = spawnedEnemy->getComponent<SpawnedComponent>();
-				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy
-				                                                                              ->getComponent<
-					                                                                              CollisionComponent>().
-				                                                                              tag)
+				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy->getComponent<CollisionComponent>().tag)
 				{
 					spawnCounter++; // we found its spawn
 				}
