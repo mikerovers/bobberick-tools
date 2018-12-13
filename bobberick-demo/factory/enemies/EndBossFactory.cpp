@@ -26,7 +26,7 @@ Entity & EndBossFactory::getEnemy(const int level)
 	endBoss.addComponent<EnemyMovementComponent>();
 	endBoss.addComponent<AIComponent>();
 	endBoss.addComponent<TimerComponent>();
-	endBoss.addComponent<SpawnMinionsSpellComponent>();
+	endBoss.addComponent<SpawnMinionsSpellComponent>(level * 5);
 	//endBoss.addComponent<ShootComponent>();
 	endBoss.addComponent<CollisionComponent>("endBoss");
 	endBoss.addComponent<EndBossComponent>();
