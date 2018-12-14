@@ -29,16 +29,22 @@ void GuiSystem::update()
             spr.setCurrentFrame(1);
 
             if (inputHandler.getMouseButtonState(LEFT)) {
-                spr.setCurrentFrame(2);
-                if (bC.getReleased()) {
-                    bC.runCallback();
-                    bC.setReleased(false);
-                }
+				if (bC.getReleased()) {
+					spr.setCurrentFrame(2);
+					bC.setPressed(true);
+				}
             } else if (!inputHandler.getMouseButtonState(LEFT)) {
-                bC.setReleased(true);
+				bC.setReleased(true);
+				if (bC.getPressed()) {
+					bC.runCallback();
+					bC.setReleased(false);
+					bC.setPressed(false);
+				}
             }
         } else {
             spr.setCurrentFrame(0);
+			bC.setPressed(false);
+			bC.setReleased(false);
         }
 
         spr.update();
