@@ -80,6 +80,7 @@ public:
 
 	void saveMeta(); // Save skills and total XP
 	void loadMeta(); // Load skills and total XP
+	void wipeMeta();
 	bool validateSaveMeta() const;
 private:
 	// Private in-game stats

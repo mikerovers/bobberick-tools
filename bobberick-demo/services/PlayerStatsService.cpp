@@ -599,6 +599,17 @@ void PlayerStatsService::saveMeta()
 	save.flush();
 }
 
+void PlayerStatsService::wipeMeta()
+{
+	xpTotal = 0;
+	hpLv = 0;
+	atLv = 0;
+	shdTimeLv = 0;
+	shdRecovLv = 0;
+
+	saveMeta();
+}
+
 void PlayerStatsService::loadMeta()
 {
 	auto& save = ServiceManager::Instance()->getService<SaveService>();
