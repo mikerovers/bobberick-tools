@@ -28,8 +28,6 @@ private:
 	Entity& shieldBox; // The shield bar, inside the health bar.
 
 	Entity& healthText;
-	Entity& coinImage;
-	Entity& coinText;
 	Entity& xpImage;
 	Entity& xpText;
 

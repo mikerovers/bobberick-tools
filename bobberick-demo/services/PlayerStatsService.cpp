@@ -5,7 +5,6 @@
 
 void PlayerStatsService::init()
 {
-	gold = 0;
 	if (xp > 0)
 	{
 		xpTotal += xp;
@@ -27,7 +26,7 @@ void PlayerStatsService::init()
 }
 
 void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin, const int atMax,
-                                  const double shdTime, const double shdTimeMax, const double shdRecov, const int gold,
+                                  const double shdTime, const double shdTimeMax, const double shdRecov,
                                   const int xp)
 {
 	PlayerStatsService::hp = hp;
@@ -37,7 +36,6 @@ void PlayerStatsService::setStats(const int hp, const int hpMax, const int atMin
 	PlayerStatsService::shdTime = shdTime;
 	PlayerStatsService::shdTimeMax = shdTimeMax;
 	PlayerStatsService::shdRecov = shdRecov;
-	PlayerStatsService::gold = gold;
 	PlayerStatsService::xp = xp;
 }
 
@@ -81,10 +79,6 @@ void PlayerStatsService::setMetaStats(const int xpTotal, const int hpLv, const i
 
 void PlayerStatsService::update()
 {
-	if (gold > 999999)
-	{
-		gold = 999999;
-	}
 	if (xp > 999999)
 	{
 		xp = 999999;
@@ -496,7 +490,6 @@ void PlayerStatsService::save()
 	save.keep<int>("hpMax", getHPmax());
 	save.keep<int>("atMin", getATmin());
 	save.keep<int>("atMax", getATmax());
-	save.keep<int>("gold", gold);
 	save.keep<double>("shdTime", shdTime);
 	save.keep<double>("shdTimeMax", getSHDmax());
 	save.keep<double>("shdRecov", getSHDrecov());
@@ -534,7 +527,6 @@ void PlayerStatsService::load()
 		save.get<double>("shdTime"),
 		save.get<double>("shdTimeMax"),
 		save.get<double>("shdRecov"),
-		save.get<int>("gold"),
 		save.get<int>("xp")
 	);
 
@@ -569,7 +561,6 @@ bool PlayerStatsService::validateSave() const
 	&& save.has("atMax")
 	&& save.has("shdTimeMax")
 	&& save.has("shdRecov")
-	&& save.has("gold")
 	&& save.has("w1IsMagic")
 	&& save.has("w1IsMagic")
 	&& save.has("w1FireDelay")
