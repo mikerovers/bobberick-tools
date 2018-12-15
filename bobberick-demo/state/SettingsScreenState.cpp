@@ -45,6 +45,7 @@ bool SettingsScreenState::onEnter()
 	// createLoadButton();
 	createMusicToggleButton();
 	createFPSToggleButton();
+	createSkillWipeButton();
 	createExitButton();
 
     return true;
@@ -75,6 +76,12 @@ void SettingsScreenState::createTexts() const
 	fpsText.addComponent<TextComponent>("monoMedium", "fpsText", "FPS");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsText, getStateID());
+
+	auto& skillWipeText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	skillWipeText.addComponent<TransformComponent>(200, 380, 30, 300, 1);
+	skillWipeText.addComponent<TextComponent>("monoMedium", "skillWipeText", "Wipe all skills");
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(skillWipeText, getStateID());
 }
 
 void SettingsScreenState::createMusicToggleButton() const
@@ -122,6 +129,25 @@ void SettingsScreenState::createFPSToggleButton() const
 
 
 }
+
+void SettingsScreenState::createSkillWipeButton() const
+{
+	auto& skillWipeButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	auto* skillWipeButtonComponent = new ButtonComponent([this]()
+	{
+		ServiceManager::Instance()->getService<PlayerStatsService>().wipeMeta();
+	});
+
+	skillWipeButton.addExistingComponent<ButtonComponent>(skillWipeButtonComponent);
+	skillWipeButton.addComponent<TransformComponent>(560, 365, 64, 128, 1);
+	skillWipeButton.addComponent<ButtonSpriteComponent>("clearButton", 1, 3, 0, 1);
+	skillWipeButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(skillWipeButton, getStateID());
+
+
+}
+
 void SettingsScreenState::createExitButton()
 {
 	auto& exitButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
@@ -136,7 +162,7 @@ void SettingsScreenState::createExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(410, 420, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(410, 520, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
