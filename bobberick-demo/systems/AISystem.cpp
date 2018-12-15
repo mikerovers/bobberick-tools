@@ -20,6 +20,7 @@
 #include "../../bobberick-demo/components/DamageComponent.h"
 #include "../../bobberick-demo/components/StatsComponent.h"
 #include "../../bobberick-demo/components/LimitedTimeComponent.h"
+#include "../../bobberick-demo/components/PickUpComponent.h"
 #include "../../bobberick-demo/components/HealthBarComponent.h"
 #include "../../bobberick-demo/components/ChaseComponent.h"
 #include "../../bobberick-demo/components/EndBossComponent.h"
@@ -29,6 +30,7 @@
 #include "../../bobberick-demo/components/SpawnMinionsSpellComponent.h"
 #include "../../bobberick-demo/components/SprayComponent.h"
 #include "../../bobberick-demo/factory/enemies/EnemyFactory.h"
+#include "../../bobberick-demo/factory/WeaponFactory.h"
 
 #include <thread>
 #include <chrono>
@@ -478,8 +480,10 @@ void AISystem::initHealthBar(Entity& entity)
 
 void AISystem::kill(Entity& entity)
 {
+	int spawnChance = 0;
+	auto& killedTransform = entity.getComponent<TransformComponent>();
 	if (entity.hasComponent<SpawnComponent>()) {
-		auto& killedTransform = entity.getComponent<TransformComponent>();
+
 		EnemyFactory enemyFactory = EnemyFactory{};
 		auto& enemy = enemyFactory.getBoss(entity.getComponent<StatsComponent>().getLevel());
 		auto& enemyTransform = enemy.getComponent<TransformComponent>();
@@ -492,8 +496,9 @@ void AISystem::kill(Entity& entity)
 		}
 		ServiceManager::Instance()->getService<SoundManager>().playMusic("boss", -1);
 	}
-	if (entity.hasComponent<EndBossComponent>())
+	else if (entity.hasComponent<EndBossComponent>())
 	{
+		spawnChance = 100;
 		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
 		if (endBossEntities.size() < 2) { 
 			std::string state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
@@ -507,8 +512,45 @@ void AISystem::kill(Entity& entity)
 				ServiceManager::Instance()->getService<SoundManager>().playMusic("level3", -1);
 			}
 		}
+	}
+	else {
+		spawnChance = RandomGenerator{}.getRandomNumber(1, 100); 
+	}
 
-		// win
+	if (spawnChance > 98)// chance of 2%; 
+	{
+		// drop item
+		auto& weapon = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+		weapon.addComponent<TransformComponent>(killedTransform.position.x, killedTransform.position.y, 48, 32, 1);
+		weapon.addComponent<CollisionComponent>("weapon_spawn", killedTransform.position.x, killedTransform.position.y, 48, 32);
+
+		WeaponFactory wFactory{};
+		RandomGenerator generator = RandomGenerator{};
+		int const weaponDeterminator = generator.getRandomNumber(1, 10);
+		int const level = entity.getComponent<StatsComponent>().getLevel();
+
+		WeaponComponent wComponent = *wFactory.generateWeapon(weaponDeterminator < 6, level - 1, level + 2 <= 10 ? level + 2 : 10, -9, 9);
+		weapon.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture, wComponent.attackingTextureID);
+
+		weapon.addComponent<SpriteComponent>(weapon.getComponent<WeaponComponent>().textureID.c_str(), 5);
+		weapon.addComponent<PickUpComponent>();
+
+		for (const auto& group : entity.getGroups())
+		{
+			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(weapon, group);
+		}
+	}
+	else if (spawnChance > 95) { // chance of 3%
+		auto& potion = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+		potion.addComponent<TransformComponent>(killedTransform.position.x, killedTransform.position.y, 48, 32, 1);
+		potion.addComponent<SpriteComponent>("potion", 5);
+		potion.addComponent<CollisionComponent>("healthkit", killedTransform.position.x, killedTransform.position.y, 48,
+			32);
+		potion.addComponent<PickUpComponent>();
+		for (const auto& group : entity.getGroups())
+		{
+			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(potion, group);
+		}
 	}
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
 	playerStats.xp += entity.getComponent<StatsComponent>().getHPmax();
