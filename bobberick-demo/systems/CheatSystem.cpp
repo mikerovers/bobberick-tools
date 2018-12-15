@@ -24,12 +24,7 @@ void CheatSystem::handleKeyInput(Entity* entity)
 
 	if (inputHandler.isKeyDown(SDL_SCANCODE_GRAVE))
 	{
-		if (inputHandler.isKeyDown(SDL_SCANCODE_G))
-		{
-			// Get max gold
-			playerStats.gold = 999999;
-		}
-		else if (inputHandler.isKeyDown(SDL_SCANCODE_E))
+		if (inputHandler.isKeyDown(SDL_SCANCODE_E))
 		{
 			// Get max experience
 			playerStats.xp = 999999;

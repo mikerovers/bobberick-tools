@@ -8,7 +8,7 @@ class PlayerStatsService : public Service {
 public:
 	// Lifecycle events
 	void init() override; // Will reset the player based on the current skill levels, meant to be called more than once.
-	void setStats(const int hp, const int hpMax, const int atMin, const int atMax, const double shdTime, const double shdTimeMax, const double shdRecov, const int gold, const int xp); // Set stats when loading a in-progress game.
+	void setStats(const int hp, const int hpMax, const int atMin, const int atMax, const double shdTime, const double shdTimeMax, const double shdRecov, const int xp); // Set stats when loading a in-progress game.
 	void setWeapons(const WeaponComponent normal, const WeaponComponent magic); // Set initial weapons when loading a 'New Game +' save file(?)
 	void setMetaStats(const int totalXP, const int hpLv, const int atLv, const int shdTimeLv, const int shdRecovLv); // Initialize skills when loading the game.
 	void clean() override { };
@@ -71,7 +71,6 @@ public:
 	WeaponComponent comparingWeapon = WeaponComponent("", "", false, 0, 0, "", "");
 	int compareTime = 0; // When >0, the hud system should show the compared weapon. Depicts the amount of frames the compared weapon is valid.
 	bool compareConfirmed = false; // When true, this is a message to the collision system to destroy the colliding weapon and set this back to false when done.
-	int gold{};
 	int xp{}; // Earned in the current game.
 
 	void save(); // Save current game stats

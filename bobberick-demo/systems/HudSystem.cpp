@@ -21,8 +21,6 @@ HudSystem::HudSystem(EntityManager& entityManager) : System(entityManager),
                                                      healthBox(entityManager.addEntity()),
                                                      shieldBox(entityManager.addEntity()),
                                                      healthText(entityManager.addEntity()),
-                                                     coinImage(entityManager.addEntity()),
-                                                     coinText(entityManager.addEntity()),
                                                      xpImage(entityManager.addEntity()),
                                                      xpText(entityManager.addEntity()),
 													 oldWeaponName(entityManager.addEntity()),
@@ -94,7 +92,6 @@ void HudSystem::update()
 	healthText.getComponent<TextComponent>().setText(
 		textFormatter.addSpaces(std::to_string(playerStats.getHP()), 6, true) + " / " + TextFormatter{}.addSpaces(
 			std::to_string(playerStats.getHPmax()), 6, false));
-	coinText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.gold), 6, false));
 	xpText.getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(playerStats.xp), 6, false));
 
 	if (fpsCounter.hasComponent<TextComponent>()) {
@@ -126,7 +123,7 @@ void HudSystem::init()
 	hudBox.addComponent<TransformComponent>(0, 0, 50, gameWidth, 1);
 	hudBox.addComponent<RectangleComponent>(51, 51, 204, true);
 
-	compareBox.addComponent<TransformComponent>(barWidth + 845, 50, 40, gameWidth - (barWidth + 345), 1); // Start off-screen.
+	compareBox.addComponent<TransformComponent>(barWidth + 785, 50, 40, gameWidth - (barWidth + 285), 1); // Start off-screen.
 	compareBox.addComponent<RectangleComponent>(51, 51, 204, true);
 
 	outerBox.addComponent<TransformComponent>(9, 9, 32, barWidth + 2, 1);
@@ -141,31 +138,25 @@ void HudSystem::init()
 	shieldBox.addComponent<TransformComponent>(10, 35, 5, barWidth, 1);
 	shieldBox.addComponent<RectangleComponent>(0, 255, 255, true);
 
-	coinImage.addComponent<TransformComponent>(barWidth + 17, 1, 48, 48, 1);
-	coinImage.addComponent<SpriteComponent>("hudGold", 1);
-
-	xpImage.addComponent<TransformComponent>(barWidth + 177, 1, 48, 48, 1);
+	xpImage.addComponent<TransformComponent>(barWidth + 17, 1, 48, 48, 1);
 	xpImage.addComponent<SpriteComponent>("hudXp", 1);
 
 	healthText.addComponent<TransformComponent>(20, 10, 30, 280, 1);
 	healthText.addComponent<TextComponent>("monoMedium", "healthText", " ");
 
-	coinText.addComponent<TransformComponent>(barWidth + 67, 10, 30, 110, 1);
-	coinText.addComponent<TextComponent>("monoMedium", "coinText", " ");
-
-	xpText.addComponent<TransformComponent>(barWidth + 227, 10, 30, 110, 1);
+	xpText.addComponent<TransformComponent>(barWidth + 67, 10, 30, 110, 1);
 	xpText.addComponent<TextComponent>("monoMedium", "xpText", " ");
 
-	oldWeaponName.addComponent<TransformComponent>(barWidth + 350, 7, 20, 300, 1);
+	oldWeaponName.addComponent<TransformComponent>(barWidth + 290, 7, 20, 360, 1);
 	oldWeaponName.addComponent<TextComponent>("monoSmall", "oldWeaponName", " ");
 
-	oldWeaponText.addComponent<TransformComponent>(barWidth + 350, 27, 20, 300, 1);
+	oldWeaponText.addComponent<TransformComponent>(barWidth + 290, 27, 20, 360, 1);
 	oldWeaponText.addComponent<TextComponent>("monoSmall", "oldWeaponText", " ");
 
-	newWeaponName.addComponent<TransformComponent>(barWidth + 350, 47, 20, 300, 1);
+	newWeaponName.addComponent<TransformComponent>(barWidth + 290, 47, 20, 360, 1);
 	newWeaponName.addComponent<TextComponent>("monoSmall", "newWeaponName", " ");
 
-	newWeaponText.addComponent<TransformComponent>(barWidth + 350, 67, 20, 300, 1);
+	newWeaponText.addComponent<TransformComponent>(barWidth + 290, 67, 20, 360, 1);
 	newWeaponText.addComponent<TextComponent>("monoSmall", "newWeaponText", " ");
 
 	inventory.addComponent<TransformComponent>(10, gameHeight - 60, 60, 130, 1);
@@ -202,10 +193,8 @@ void HudSystem::init()
 			serviceManager.addEntityToGroup(innerBox, group);
 			serviceManager.addEntityToGroup(healthBox, group);
 			serviceManager.addEntityToGroup(shieldBox, group);
-			serviceManager.addEntityToGroup(coinImage, group);
 			serviceManager.addEntityToGroup(xpImage, group);
 			serviceManager.addEntityToGroup(healthText, group);
-			serviceManager.addEntityToGroup(coinText, group);
 			serviceManager.addEntityToGroup(xpText, group);
 			serviceManager.addEntityToGroup(oldWeaponName, group);
 			serviceManager.addEntityToGroup(oldWeaponText, group);
@@ -224,10 +213,10 @@ void HudSystem::startCompare(WeaponComponent oldWeapon, WeaponComponent newWeapo
 	comparing = true;
 	
 	compareBox.getComponent<TransformComponent>().position.x -= 500; // Get on to the screen
-	oldWeaponName.getComponent<TextComponent>().setText(textFormatter.addSpaces(oldWeapon.name, 35, false));
-	oldWeaponText.getComponent<TextComponent>().setText(textFormatter.addSpaces("Old weapon: Power " + std::to_string(oldWeapon.power) + ", Delay " + std::to_string(oldWeapon.fireDelay), 35, false));
-	newWeaponName.getComponent<TextComponent>().setText(textFormatter.addSpaces(newWeapon.name, 35, false));
-	newWeaponText.getComponent<TextComponent>().setText(textFormatter.addSpaces("New weapon: Power " + std::to_string(newWeapon.power) + ", Delay " + std::to_string(newWeapon.fireDelay), 35, false));
+	oldWeaponName.getComponent<TextComponent>().setText(textFormatter.addSpaces(oldWeapon.name, 40, false));
+	oldWeaponText.getComponent<TextComponent>().setText(textFormatter.addSpaces("Old weapon: Power " + std::to_string(oldWeapon.power) + ", Delay " + std::to_string(oldWeapon.fireDelay), 40, false));
+	newWeaponName.getComponent<TextComponent>().setText(textFormatter.addSpaces(newWeapon.name, 40, false));
+	newWeaponText.getComponent<TextComponent>().setText(textFormatter.addSpaces("New weapon: Power " + std::to_string(newWeapon.power) + ", Delay " + std::to_string(newWeapon.fireDelay), 40, false));
 }
 
 void HudSystem::stopCompare() {
