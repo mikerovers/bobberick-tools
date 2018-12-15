@@ -2,7 +2,7 @@
 
 #include "ButtonComponent.h"
 
-ButtonComponent::ButtonComponent(std::function<void()> callback): callback(std::move(callback)), released(true)
+ButtonComponent::ButtonComponent(std::function<void()> callback): callback(std::move(callback)), released(false), pressed(false)
 {
 
 }
@@ -20,6 +20,16 @@ bool ButtonComponent::getReleased() const
 void ButtonComponent::setReleased(const bool cl)
 {
     released = cl;
+}
+
+bool ButtonComponent::getPressed() const
+{
+	return pressed;
+}
+
+void ButtonComponent::setPressed(const bool cl)
+{
+	pressed = cl;
 }
 
 void ButtonComponent::runCallback()
