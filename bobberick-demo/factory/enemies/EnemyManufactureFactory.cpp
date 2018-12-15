@@ -34,8 +34,8 @@ Entity& EnemyManufactureFactory::getEnemy(const int level)
 	const double random = RandomGenerator{}.getRandomDouble(1, 50);
 	const double randMutator = (random + 50) / 100;
 
-	int hp = 1000 * level * (randMutator),
-	    maxHp = 1000 * level * (randMutator),
+	int hp = 700 * level * (randMutator),
+	    maxHp = 700 * level * (randMutator),
 	    atkMin = 0 * level * (randMutator),
 	    atkMax = 0 * level * (randMutator),
 	    df = 0;

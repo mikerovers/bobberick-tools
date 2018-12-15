@@ -89,7 +89,7 @@ Entity &Level3State::makeTileMap() const
 			spawnComponent.maxCount *= 6;
 		}
 		if (objEntity.hasComponent<SpawnComponent>()) {
-			objEntity.getComponent<StatsComponent>().changeLevel(5);
+			objEntity.getComponent<StatsComponent>().changeLevel(7);
 		}
     }
 

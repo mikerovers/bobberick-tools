@@ -15,7 +15,7 @@ void PlayerStatsService::init()
 	fireCooldown = 0;
 
 	normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 5, 30, "bullet", "characterShooting");
-	magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 10, 60, "bolt", "characterCasting");
+	magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 15, 60, "bolt", "characterCasting");
 	comparingWeapon = WeaponComponent("", "", false, 0, 0, "", "");
 
 	hp = hpMax = getHPvalue(false);
@@ -316,7 +316,7 @@ int PlayerStatsService::getATcost() const
 {
 	if (getATminValue(true) != -1)
 	{
-		return static_cast<int>(pow(getATminValue(true) * 1000, 1.1));
+		return static_cast<int>(pow(getATminValue(true), 3));
 	}
 	else
 	{
@@ -371,13 +371,13 @@ int PlayerStatsService::getATminValue(bool next) const
 {
 	if (!next)
 	{
-		return (int)std::min(pow(atLv + 1, 1.3), 400.0);
+		return (int)std::min(pow(atLv + 7, 1.3), 400.0);
 	}
 	else
 	{
 		if (getATminValue(false) < 400)
 		{
-			return (int)std::min(pow(atLv + 2, 1.3), 400.0);
+			return (int)std::min(pow(atLv + 8, 1.3), 400.0);
 		}
 		else
 		{

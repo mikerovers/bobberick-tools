@@ -358,7 +358,7 @@ void AISystem::executeSpawner(Entity& entity)
 			auto& statsComponent = entity.getComponent<StatsComponent>();
 			auto& transformComponent = entity.getComponent<TransformComponent>();
 
-			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 2, statsComponent.getLevel() + 2, spawnComponent.type, spawnComponent.id);
+			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 1, statsComponent.getLevel() + 2, spawnComponent.type, spawnComponent.id);
 			for (const auto& group : entity.getGroups())
 			{
 				ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
@@ -400,7 +400,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				const auto angleX = playerTransform.position.x - enemyXCenter;
 				const auto angleY = playerTransform.position.y - enemyYCenter;
 
-				bool isInRange = AISystem::isEntityInRange(*player, entity, (500 + (stats.getLevel() * 40)));
+				bool isInRange = AISystem::isEntityInRange(*player, entity, (240 + (stats.getLevel() * 40)));
 
 				if (isInRange)
 				{
