@@ -23,6 +23,13 @@ void ParticleSystem::update()
         auto& transform = entity->getComponent<TransformComponent>();
         transform.update();
         particle.liveLife();
+        if (transform.velocity.x > 0) {
+            transform.velocity.x -= particle.getVelocityCurve().x;
+        }
+
+        if (transform.velocity.y > 0) {
+            transform.velocity.y -= particle.getVelocityCurve().y;
+        }
 
         if (particle.getLifeLeft() <= 0) {
             entity->destroy();
