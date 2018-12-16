@@ -49,9 +49,11 @@ bool Level1State::onEnter()
 
 	auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	particleSystem.addComponent<TransformComponent>(100, 100, 32, 32, 1);
-	particleSystem.addComponent<ParticleSystemComponent>("blood3", 5000, 200, 5000);
-	particleSystem.addComponent<SpriteComponent>("bow_1", false);
-
+	particleSystem.addComponent<ParticleSystemComponent>("blood3", 40, 3000, 5000);
+	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood1");
+	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood2");
+	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood4");
+	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood5");
 	instantiateSystems();
 
 	return true;

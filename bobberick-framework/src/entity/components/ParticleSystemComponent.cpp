@@ -22,9 +22,11 @@ void ParticleSystemComponent::render()
 Entity &ParticleSystemComponent::createParticle(int x, int y) const
 {
     auto& particle = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    particle.addComponent<ParticleComponent>(lifeTime);
+    auto velocityDecrease = Vector2D{0.1, 0.1};
+    particle.addComponent<ParticleComponent>(lifeTime, velocityDecrease);
     auto& transform = particle.addComponent<TransformComponent>(x, y, 32, 32, 1);
-    particle.addComponent<SpriteComponent>(textureID.c_str(), 1);
+    auto t = RandomGenerator{}.getRandomNumber(0, textures.size() - 1);
+    particle.addComponent<SpriteComponent>(textures[t].c_str(), false);
 
     const int moveAngle = RandomGenerator{}.getRandomNumber(0, 360);
     const double xVel = transform.speed * cos(moveAngle);
@@ -52,4 +54,9 @@ void ParticleSystemComponent::spawnParticles(int x, int y)
 int ParticleSystemComponent::getParticlesToSpawn() const
 {
     return particlesToSpawn;
+}
+
+void ParticleSystemComponent::addTexture(std::string const textureID)
+{
+    textures.emplace_back(textureID);
 }
