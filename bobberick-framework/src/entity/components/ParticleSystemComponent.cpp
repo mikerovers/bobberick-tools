@@ -3,6 +3,7 @@
 #include "../EntityManager.h"
 #include "SpriteComponent.h"
 #include "../../util/RandomGenerator.h"
+#include "../../StateMachine.h"
 
 void ParticleSystemComponent::init()
 {
@@ -27,6 +28,7 @@ Entity &ParticleSystemComponent::createParticle(int x, int y) const
     auto& transform = particle.addComponent<TransformComponent>(x, y, 32, 32, 1);
     auto t = RandomGenerator{}.getRandomNumber(0, textures.size() - 1);
     particle.addComponent<SpriteComponent>(textures[t].c_str(), false);
+    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(particle, ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID());
 
     const int moveAngle = RandomGenerator{}.getRandomNumber(0, 360);
     const double xVel = transform.speed * cos(moveAngle);

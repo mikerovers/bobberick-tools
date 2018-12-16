@@ -48,12 +48,13 @@ bool Level1State::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
 
 	auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	particleSystem.addComponent<TransformComponent>(100, 100, 32, 32, 1);
-	particleSystem.addComponent<ParticleSystemComponent>("blood3", 40, 3000, 5000);
+	particleSystem.addComponent<TransformComponent>(500, 500, 32, 32, 1);
+	particleSystem.addComponent<ParticleSystemComponent>("blood3", 40, 200, 5000);
 	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood1");
 	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood2");
 	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood4");
 	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood5");
+
 	instantiateSystems();
 
 	return true;

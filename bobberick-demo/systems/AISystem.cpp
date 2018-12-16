@@ -10,6 +10,7 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
+#include "../../bobberick-framework/src/entity/components/ParticleSystemComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/util/RandomGenerator.h"
 
@@ -500,6 +501,7 @@ void AISystem::kill(Entity& entity)
 	{
 		spawnChance = 100;
 		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
+
 		if (endBossEntities.size() < 2) { 
 			std::string state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
 			if (state == "level_one") {
@@ -511,6 +513,17 @@ void AISystem::kill(Entity& entity)
 			else if (state == "level_three") {
 				ServiceManager::Instance()->getService<SoundManager>().playMusic("level3", -1);
 			}
+		} else {
+            auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+            particleSystem.addComponent<TransformComponent>(
+                    entity.getComponent<TransformComponent>().position.x,
+                    entity.getComponent<TransformComponent>().position.y,
+                    32, 32, 1);
+            particleSystem.addComponent<ParticleSystemComponent>("blood1", 40, 200, 5000);
+            particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood2");
+            particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood3");
+            particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood4");
+            particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood5");
 		}
 	}
 	else {
