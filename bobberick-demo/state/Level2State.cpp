@@ -22,6 +22,9 @@ void Level2State::update()
 {
     for (const auto& system : systems)
     {
+		if (exiting)
+			break;
+
         system->update();
     }
 }
