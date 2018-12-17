@@ -23,7 +23,7 @@ void ParticleSystemComponent::render()
 Entity &ParticleSystemComponent::createParticle(int x, int y) const
 {
     auto& particle = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    auto velocityDecrease = Vector2D{0.1, 0.1};
+    auto velocityDecrease = Vector2D{0.95, 0.95};
     particle.addComponent<ParticleComponent>(lifeTime, velocityDecrease);
     auto& transform = particle.addComponent<TransformComponent>(x, y, 32, 32, 1);
     auto t = RandomGenerator{}.getRandomNumber(0, textures.size() - 1);
