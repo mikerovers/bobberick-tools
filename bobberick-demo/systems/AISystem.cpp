@@ -240,6 +240,7 @@ void AISystem::executeSpell(Entity& entity)
 				const double enemyXCenter = enemyX + transform.width / 2;
 				const double enemyYCenter = enemyY + transform.height / 2;
 
+				const int enemyLevel = entity.getComponent<StatsComponent>().getLevel();
 				EnemyFactory enemyFactory = EnemyFactory{};
 
 				std::string enemy_type;
@@ -290,7 +291,13 @@ void AISystem::executeSpell(Entity& entity)
 
 				for (auto i = 0; i < 4; i++)
 				{
-					auto& enemy = enemyFactory.getEnemy(1, enemy_type);
+					if (enemyLevel > 3) {
+						if (i == 3) {
+							enemy_type = "bird";
+						}
+					}
+
+					auto& enemy = enemyFactory.getEnemy(entity.getComponent<StatsComponent>().getLevel(), enemy_type);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
 					enemyTransform.position.x = (randomBool ? 25 : -25) + enemyXCenter;
 					enemyTransform.position.y = (randomBool ? -25 : 25) + enemyYCenter;
@@ -303,6 +310,7 @@ void AISystem::executeSpell(Entity& entity)
 					initHealthBar(enemy);
 					spellComponent.minionCount++;
 				}
+
 
 				spellComponent.current++;
 
