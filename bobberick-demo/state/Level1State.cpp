@@ -26,7 +26,9 @@ void Level1State::update()
 {
 	for (const auto& system : systems)
 	{
-		system->update();
+		if (!exiting) {
+			system->update();
+		}
 	}
 }
 
@@ -46,14 +48,6 @@ bool Level1State::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_1.wav", "level1",
 	                                                            SOUND_MUSIC);
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
-
-	auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	particleSystem.addComponent<TransformComponent>(500, 500, 32, 32, 1);
-	particleSystem.addComponent<ParticleSystemComponent>("blood3", 40, 200, 5000);
-	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood1");
-	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood2");
-	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood4");
-	particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood5");
 
 	instantiateSystems();
 
