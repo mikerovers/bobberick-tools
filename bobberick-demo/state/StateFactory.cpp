@@ -294,7 +294,7 @@ std::unique_ptr<KeyMappingState> StateFactory::createKeyMappingState() const
 	keyMappingState->addSystem(
 		std::make_unique<MenuSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	keyMappingState->addSystem(
-		std::make_unique<KeyMappingSystem>(/*ServiceManager::Instance()->getService<EntityManager>()*/));
+		std::make_unique<KeyMappingSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return keyMappingState;
 }

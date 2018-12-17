@@ -29,11 +29,11 @@ void SettingsScreenState::update()
 {
     for (auto& system : systems)
     {
-        system->update();
+		if (exiting) {
+			break;
+		}
 
-        if (exiting) {
-            break;
-        }
+        system->update();
     }
 }
 
@@ -78,8 +78,8 @@ void SettingsScreenState::createTexts() const
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsText, getStateID());
 
 	auto& keyMappingText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	fpsText.addComponent<TransformComponent>(200, 380, 30, 200, 1);
-	fpsText.addComponent<TextComponent>("monoMedium", "keyMappingText", "Key Mapping");
+	keyMappingText.addComponent<TransformComponent>(200, 380, 30, 200, 1);
+	keyMappingText.addComponent<TextComponent>("monoMedium", "keyMappingText", "Key Mapping");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(keyMappingText, getStateID());
 }
@@ -149,7 +149,7 @@ void SettingsScreenState::createExitButton()
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
 }
 
-void SettingsScreenState::createKeyMappingButton()
+void SettingsScreenState::createKeyMappingButton() const
 {
 	auto& keyMappingButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 
@@ -161,7 +161,7 @@ void SettingsScreenState::createKeyMappingButton()
 
 	keyMappingButton.addExistingComponent<ButtonComponent>(keyMappingButtonComponent);
 	keyMappingButton.addComponent<TransformComponent>(560, 365, 64, 128, 1);
-	keyMappingButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
+	keyMappingButton.addComponent<ButtonSpriteComponent>("keyBindingButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(keyMappingButton, getStateID());
 }

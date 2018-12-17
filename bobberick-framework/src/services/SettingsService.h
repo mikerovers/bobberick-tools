@@ -13,6 +13,8 @@ public:
     void init() override;
     void clean() override;
 
+	bool isKeyTaken(SDL_Scancode key);
+
 	static const char* getHumanReadableScancode(SDL_Scancode scancode);
 
 	int gameWidth;
@@ -21,36 +23,40 @@ public:
 	bool music = true;
 	bool fps = false;
 
-	// Movement key-bindings
-	SDL_Scancode left1 = SDL_SCANCODE_LEFT;
-	SDL_Scancode right1 = SDL_SCANCODE_RIGHT;
-	SDL_Scancode up1 = SDL_SCANCODE_UP;
-	SDL_Scancode down1 = SDL_SCANCODE_DOWN;
-	SDL_Scancode left2 = SDL_SCANCODE_A;
-	SDL_Scancode right2 = SDL_SCANCODE_D;
-	SDL_Scancode up2 = SDL_SCANCODE_W;
-	SDL_Scancode down2 = SDL_SCANCODE_S;
+	SDL_Scancode keyToChange;
 
-	// Activate shield key-bindings
+	// Movement key-bindings
+	SDL_Scancode left1;
+	SDL_Scancode right1;
+	SDL_Scancode up1;
+	SDL_Scancode down1;
+	SDL_Scancode left2;
+	SDL_Scancode right2;
+	SDL_Scancode up2;
+	SDL_Scancode down2;
+
+	// Shield and shooting key-bindings
+	// SDL_Scancode shootNormal = ; // TODO: Add shooting to the key binding
+	// SDL_Scancode shootMagic = ; // TODO: Add shooting to the key binding
 	SDL_Scancode activateShield = SDL_SCANCODE_SPACE;
 
 	// FPS key-bindings
-	SDL_Scancode fpsSpdDown = SDL_SCANCODE_Z;
-	SDL_Scancode fpsSpdUp = SDL_SCANCODE_X;
-	SDL_Scancode fpsSpdReset = SDL_SCANCODE_C;
-	SDL_Scancode fpsShow = SDL_SCANCODE_F12;
-	SDL_Scancode fpsHide = SDL_SCANCODE_F11;
+	SDL_Scancode fpsSpdDown;
+	SDL_Scancode fpsSpdUp;
+	SDL_Scancode fpsSpdReset;
+	SDL_Scancode fpsShow;
+	SDL_Scancode fpsHide;
 
 	// Equip comparing weapon key-bindings
-	SDL_Scancode equipWeapon1 = SDL_SCANCODE_LSHIFT;
-	SDL_Scancode equipWeapon2 = SDL_SCANCODE_RSHIFT;
+	SDL_Scancode equipWeapon1;
+	SDL_Scancode equipWeapon2;
 
 	// Stop game key-bindings
-	SDL_Scancode stopGame1 = SDL_SCANCODE_RETURN;
-	SDL_Scancode stopGame2 = SDL_SCANCODE_RETURN2;
+	SDL_Scancode stopGame1;
+	SDL_Scancode stopGame2;
 
 	// Pause key-bindings
-	SDL_Scancode pauseGame1 = SDL_SCANCODE_ESCAPE;
+	SDL_Scancode pauseGame1;
 };
 
 

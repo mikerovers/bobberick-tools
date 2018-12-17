@@ -16,6 +16,7 @@ bool BobberGame::setup()
 		ServiceManager::Instance()->getService<PlayerStatsService>().init();
 		ServiceManager::Instance()->addService<HighscoreService>();
 		ServiceManager::Instance()->getService<HighscoreService>().init();
+		ServiceManager::Instance()->getService<SettingsService>().init();
 
 		preloadTextures();
 		preloadMusicAndSounds();
@@ -68,6 +69,8 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/button/togglemusicbutton.png", "toggleMusicButton", renderer);
 	t.load("assets/image/button/blank_green_button.png", "blankGreenButton", renderer);
 	t.load("assets/image/button/blank_red_button.png", "blankRedButton", renderer);
+	t.load("assets/image/button/changebutton.png", "changeButton", renderer);
+	t.load("assets/image/button/keybindingbutton.png", "keyBindingButton", renderer);
 
 	// character
 	t.load("assets/image/character/character.png", "character", renderer);

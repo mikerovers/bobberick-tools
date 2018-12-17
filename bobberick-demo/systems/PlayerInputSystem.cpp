@@ -196,7 +196,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	collisionComponent.collider.h = transform.height;
 }
 
-void PlayerInputSystem::handleMouseInput(Entity* entity)
+void PlayerInputSystem::handleMouseInput(Entity* entity) const
 {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();

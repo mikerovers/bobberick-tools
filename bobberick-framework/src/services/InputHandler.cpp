@@ -41,7 +41,7 @@ void InputHandler::update()
 			onMouseButtonUp(event);
 			break;
 		case SDL_KEYDOWN:
-			onKeyDown();
+			onKeyDown(&event);
 			break;
 		case SDL_KEYUP:
 			onKeyUp();
@@ -83,9 +83,24 @@ bool InputHandler::isWindowEvent(int windowEvent) const
 	return false;
 }
 
-void InputHandler::onKeyDown()
+void InputHandler::onKeyDown(SDL_Event* event)
 {
+	if (keyMapping)
+	{
+		newKey = event->key.keysym.scancode;
+	}
+
 	m_keystates = const_cast<Uint8*>(SDL_GetKeyboardState(nullptr));
+}
+
+void InputHandler::isMappingKey(bool isMappingKey)
+{
+	keyMapping = isMappingKey;
+}
+
+bool InputHandler::isMappingKey() const
+{
+	return keyMapping;
 }
 
 void InputHandler::onKeyUp()
