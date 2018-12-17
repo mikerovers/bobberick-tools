@@ -49,9 +49,6 @@ bool Level1State::onEnter()
 	                                                            SOUND_MUSIC);
 	ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
 
-	WeaponFactory().generateWeapon(false, 0, 10, -9, 9); // For testing purposes
-	WeaponFactory().generateWeapon(true, 0, 10, -9, 9); // For testing purposes
-
 	instantiateSystems();
 
 	return true;

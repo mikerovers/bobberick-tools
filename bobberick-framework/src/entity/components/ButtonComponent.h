@@ -19,9 +19,12 @@ public:
     void runCallback();
     bool getReleased() const;
     void setReleased(const bool cl);
+	bool getPressed() const;
+	void setPressed(const bool cl);
 private:
     std::function<void()> callback;
     bool released;
+	bool pressed;
 };
 
 

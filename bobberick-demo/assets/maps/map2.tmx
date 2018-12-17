@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="15" nextobjectid="61">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="15" nextobjectid="62">
  <tileset firstgid="1" name="grassland" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="grassland.png" width="512" height="512"/>
  </tileset>
@@ -4123,17 +4123,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="6" name="items">
-  <object id="1" name="healthkit" x="222" y="342">
-   <point/>
-  </object>
-  <object id="59" name="weapon_spawn" x="368" y="89">
-   <point/>
-  </object>
-  <object id="60" name="weapon_spawn" x="657" y="56">
-   <point/>
-  </object>
- </objectgroup>
+ <objectgroup id="6" name="items"/>
  <objectgroup id="7" name="player">
   <object id="29" name="player_spawn" x="193.34" y="127.7">
    <point/>
@@ -7243,5 +7233,6 @@
   <object id="25" name="aabb_rectangle" x="701.969" y="669.707" width="58.961" height="186.895"/>
   <object id="26" name="aabb_rectangle" x="574.035" y="798.754" width="135.721" height="60.0734"/>
   <object id="37" name="aabb_rectangle" x="706.528" y="310.3" width="322.234" height="57.2861"/>
+  <object id="61" name="aabb_rectangle" x="707.883" y="1.35695" width="29.234" height="309.286"/>
  </objectgroup>
 </map>

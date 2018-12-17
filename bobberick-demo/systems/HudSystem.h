@@ -21,17 +21,19 @@ private:
 	bool comparing = false;
 
 	Entity& hudBox; // The HUD background rectangle.
+	Entity& compareBox; // An extension of the HUD background rectangle for weapon comparisons.
 	Entity& outerBox; // The outline for the health bar.
 	Entity& innerBox; // The background for the health bar.
 	Entity& healthBox; // The remaining health bar itself.
 	Entity& shieldBox; // The shield bar, inside the health bar.
 
 	Entity& healthText;
-	Entity& coinImage;
-	Entity& coinText;
 	Entity& xpImage;
 	Entity& xpText;
+
+	Entity& oldWeaponName;
 	Entity& oldWeaponText;
+	Entity& newWeaponName;
 	Entity& newWeaponText;
 
 	Entity& inventory;

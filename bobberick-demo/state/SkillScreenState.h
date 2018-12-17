@@ -19,10 +19,6 @@ public:
 		atLevel(entityManager.addEntity()),
 		atValue(entityManager.addEntity()),
 		atNext(entityManager.addEntity()), 
-		dfCost(entityManager.addEntity()),
-		dfLevel(entityManager.addEntity()),
-		dfValue(entityManager.addEntity()),
-		dfNext(entityManager.addEntity()), 
 		shdTimeCost(entityManager.addEntity()),
 		shdTimeLevel(entityManager.addEntity()),
 		shdTimeValue(entityManager.addEntity()),
@@ -42,10 +38,6 @@ public:
 		entityManager.addEntityToGroup(atLevel, getStateID());
 		entityManager.addEntityToGroup(atValue, getStateID());
 		entityManager.addEntityToGroup(atNext, getStateID());
-		entityManager.addEntityToGroup(dfCost, getStateID());
-		entityManager.addEntityToGroup(dfLevel, getStateID());
-		entityManager.addEntityToGroup(dfValue, getStateID());
-		entityManager.addEntityToGroup(dfNext, getStateID());
 		entityManager.addEntityToGroup(shdTimeCost, getStateID());
 		entityManager.addEntityToGroup(shdTimeLevel, getStateID());
 		entityManager.addEntityToGroup(shdTimeValue, getStateID());
@@ -69,20 +61,17 @@ private:
 	void makeStartGameButton() const;
 	void makeHpButton();
 	void makeAtButton();
-	void makeDfButton();
 	void makeShdTimeButton();
 	void makeShdRecovButton();
 	void makeExitButton();
 
 	void makeHpText() const;
 	void makeAtText() const;
-	void makeDfText() const;
 	void makeShdTimeText() const;
 	void makeShdRecovText() const;
 
 	void updateHpText(PlayerStatsService& playerStats);
 	void updateAtText(PlayerStatsService& playerStats);
-	void updateDfText(PlayerStatsService& playerStats);
 	void updateShdTimeText(PlayerStatsService& playerStats);
 	void updateShdRecovText(PlayerStatsService& playerStats);
 
@@ -100,11 +89,6 @@ private:
 	Entity& atLevel;
 	Entity& atValue;
 	Entity& atNext;
-
-	Entity& dfCost;
-	Entity& dfLevel;
-	Entity& dfValue;
-	Entity& dfNext;
 
 	Entity& shdTimeCost;
 	Entity& shdTimeLevel;

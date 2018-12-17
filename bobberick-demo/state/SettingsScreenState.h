@@ -19,6 +19,7 @@ private:
 	void createTexts() const;
 	void createMusicToggleButton() const;
 	void createFPSToggleButton() const;
+	void createSkillWipeButton() const;
 	void createExitButton();
 	void createKeyMappingButton() const;
 };
