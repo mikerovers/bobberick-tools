@@ -502,6 +502,7 @@ void AISystem::kill(Entity& entity)
 		spawnChance = 100;
 		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
         auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(particleSystem, ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID());
         particleSystem.addComponent<TransformComponent>(
                 entity.getComponent<TransformComponent>().position.x,
                 entity.getComponent<TransformComponent>().position.y,

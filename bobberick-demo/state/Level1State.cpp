@@ -28,6 +28,8 @@ void Level1State::update()
 	{
 		if (!exiting) {
 			system->update();
+		} else {
+		    break;
 		}
 	}
 }
