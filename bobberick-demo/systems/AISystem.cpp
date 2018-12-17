@@ -240,6 +240,7 @@ void AISystem::executeSpell(Entity& entity)
 				const double enemyXCenter = enemyX + transform.width / 2;
 				const double enemyYCenter = enemyY + transform.height / 2;
 
+				const int enemyLevel = entity.getComponent<StatsComponent>().getLevel();
 				EnemyFactory enemyFactory = EnemyFactory{};
 
 				std::string enemy_type;
@@ -290,7 +291,13 @@ void AISystem::executeSpell(Entity& entity)
 
 				for (auto i = 0; i < 4; i++)
 				{
-					auto& enemy = enemyFactory.getEnemy(1, enemy_type);
+					if (enemyLevel > 3) {
+						if (i == 3) {
+							enemy_type = "bird";
+						}
+					}
+
+					auto& enemy = enemyFactory.getEnemy(entity.getComponent<StatsComponent>().getLevel(), enemy_type);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
 					enemyTransform.position.x = (randomBool ? 25 : -25) + enemyXCenter;
 					enemyTransform.position.y = (randomBool ? -25 : 25) + enemyYCenter;
@@ -303,6 +310,7 @@ void AISystem::executeSpell(Entity& entity)
 					initHealthBar(enemy);
 					spellComponent.minionCount++;
 				}
+
 
 				spellComponent.current++;
 
@@ -358,7 +366,7 @@ void AISystem::executeSpawner(Entity& entity)
 			auto& statsComponent = entity.getComponent<StatsComponent>();
 			auto& transformComponent = entity.getComponent<TransformComponent>();
 
-			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 2, statsComponent.getLevel() + 2, spawnComponent.type, spawnComponent.id);
+			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 1, statsComponent.getLevel() + 2, spawnComponent.type, spawnComponent.id);
 			for (const auto& group : entity.getGroups())
 			{
 				ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
@@ -400,7 +408,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				const auto angleX = playerTransform.position.x - enemyXCenter;
 				const auto angleY = playerTransform.position.y - enemyYCenter;
 
-				bool isInRange = AISystem::isEntityInRange(*player, entity, (500 + (stats.getLevel() * 40)));
+				bool isInRange = AISystem::isEntityInRange(*player, entity, (240 + (stats.getLevel() * 40)));
 
 				if (isInRange)
 				{

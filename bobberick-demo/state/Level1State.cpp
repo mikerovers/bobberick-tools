@@ -82,9 +82,9 @@ Entity& Level1State::makeTileMap() const
 	for (auto object : level.getComponent<TilesetComponent>().objects)
 	{
 		auto& objEntity = objectFactory.getObject(object);
-		if (objEntity.hasComponent<SpawnComponent>()) {
-			objEntity.getComponent<StatsComponent>().changeLevel(1);
-		}
+		//if (objEntity.hasComponent<SpawnComponent>()) {
+		//	objEntity.getComponent<StatsComponent>().changeLevel(1);
+		//}
 		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
 	}
 
