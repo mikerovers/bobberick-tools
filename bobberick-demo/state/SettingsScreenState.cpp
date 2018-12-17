@@ -85,7 +85,7 @@ void SettingsScreenState::createTexts() const
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(keyMappingText, getStateID());
 
 	auto& skillWipeText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	skillWipeText.addComponent<TransformComponent>(200, 380, 30, 300, 1);
+	skillWipeText.addComponent<TransformComponent>(200, 480, 30, 300, 1);
 	skillWipeText.addComponent<TextComponent>("monoMedium", "skillWipeText", "Wipe all skills");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(skillWipeText, getStateID());
@@ -146,7 +146,7 @@ void SettingsScreenState::createSkillWipeButton() const
 	});
 
 	skillWipeButton.addExistingComponent<ButtonComponent>(skillWipeButtonComponent);
-	skillWipeButton.addComponent<TransformComponent>(560, 365, 64, 128, 1);
+	skillWipeButton.addComponent<TransformComponent>(560, 465, 64, 128, 1);
 	skillWipeButton.addComponent<ButtonSpriteComponent>("clearButton", 1, 3, 0, 1);
 	skillWipeButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
@@ -169,7 +169,7 @@ void SettingsScreenState::createExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(410, 520, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(410, 565, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());

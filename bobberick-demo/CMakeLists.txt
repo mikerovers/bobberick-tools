@@ -72,8 +72,6 @@ state/Level3State.cpp state/Level3State.h
 state/PauseScreenState.cpp state/PauseScreenState.h
 state/GameOverState.cpp state/GameOverState.h
 systems/CollisionSystem.cpp systems/CollisionSystem.h
-
-        )
 state/KeyMappingState.cpp state/KeyMappingState.h
 )
 
