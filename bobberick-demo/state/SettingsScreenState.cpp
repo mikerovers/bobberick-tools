@@ -80,7 +80,7 @@ void SettingsScreenState::createTexts() const
 
 	auto& keyMappingText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	keyMappingText.addComponent<TransformComponent>(200, 380, 30, 200, 1);
-	keyMappingText.addComponent<TextComponent>("monoMedium", "keyMappingText", "Key Mapping");
+	keyMappingText.addComponent<TextComponent>("monoMedium", "keyMapping", "Key Mapping");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(keyMappingText, getStateID());
 

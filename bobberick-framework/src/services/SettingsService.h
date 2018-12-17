@@ -13,7 +13,7 @@ public:
     void init() override;
     void clean() override;
 
-	bool isKeyTaken(SDL_Scancode key);
+	bool isKeyTaken(SDL_Scancode key) const;
 
 	static const char* getHumanReadableScancode(SDL_Scancode scancode);
 
@@ -38,7 +38,7 @@ public:
 	// Shield and shooting key-bindings
 	// SDL_Scancode shootNormal = ; // TODO: Add shooting to the key binding
 	// SDL_Scancode shootMagic = ; // TODO: Add shooting to the key binding
-	SDL_Scancode activateShield = SDL_SCANCODE_SPACE;
+	SDL_Scancode activateShield/* = SDL_SCANCODE_SPACE*/;
 
 	// FPS key-bindings
 	SDL_Scancode fpsSpdDown;
@@ -49,11 +49,6 @@ public:
 
 	// Equip comparing weapon key-bindings
 	SDL_Scancode equipWeapon1;
-	SDL_Scancode equipWeapon2;
-
-	// Stop game key-bindings
-	SDL_Scancode stopGame1;
-	SDL_Scancode stopGame2;
 
 	// Pause key-bindings
 	SDL_Scancode pauseGame1;

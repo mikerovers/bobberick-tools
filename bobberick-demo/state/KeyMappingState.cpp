@@ -15,7 +15,6 @@ void KeyMappingState::update()
 	updateMovementKeysTexts();
 	updateFPSKeysTexts();
 	updateEquipWeaponKeysTexts();
-	updateStopGameKeysTexts();
 	updatePauseGameKeysTexts();
 	updateShieldAndShootingKeysTexts();
 
@@ -74,18 +73,13 @@ void KeyMappingState::makeHeaders() const
 	equipWeaponHeader.addComponent<TextComponent>("monoMedium", "equipWeaponText", "Equip Weapon:");
 	entityManager.addEntityToGroup(equipWeaponHeader, getStateID());
 	
-	auto& stopGameHeader = entityManager.addEntity();
-	stopGameHeader.addComponent<TransformComponent>(550, 275, 50, 250, 1);
-	stopGameHeader.addComponent<TextComponent>("monoMedium", "stopGameText", "Stop Game:");
-	entityManager.addEntityToGroup(stopGameHeader, getStateID());
-	
 	auto& pauseGameHeader = entityManager.addEntity();
-	pauseGameHeader.addComponent<TransformComponent>(550, 400, 50, 250, 1);
+	pauseGameHeader.addComponent<TransformComponent>(550, 250, 50, 250, 1);
 	pauseGameHeader.addComponent<TextComponent>("monoMedium", "pauseGameText", "Pause Game:");
 	entityManager.addEntityToGroup(pauseGameHeader, getStateID());
 	
 	auto& shootAndShieldHeader = entityManager.addEntity();
-	shootAndShieldHeader.addComponent<TransformComponent>(550, 500, 50, 250, 1);
+	shootAndShieldHeader.addComponent<TransformComponent>(550, 350, 50, 250, 1);
 	shootAndShieldHeader.addComponent<TextComponent>("monoMedium", "shootAndShieldText", "Shoot & Shield:");
 	entityManager.addEntityToGroup(shootAndShieldHeader, getStateID());
 }
@@ -95,7 +89,6 @@ void KeyMappingState::makeKeyTexts() const
 	makeMovementKeysTexts();
 	makeFPSKeysTexts();
 	makeEquipWeaponKeysTexts();
-	makeStopGameKeysTexts();
 	makePauseGameKeysTexts();
 	makeShieldAndShootKeysTexts();
 }
@@ -106,7 +99,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 	 * Movement key set 1
 	*/
 	// Move left
-	// auto& moveLeftText1 = entityManager.addEntity();
 	std::string moveLeftKey1 = "Move left 1: ";
 	moveLeftText1.addComponent<TransformComponent>(50, 200, 17, 250, 1);
 	moveLeftText1.addComponent<TextComponent>("monoSmall", "moveLeft1Text",
@@ -114,7 +106,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 	entityManager.addEntityToGroup(moveLeftText1, getStateID());
 
 	// Move right
-	// auto& moveRightText1 = entityManager.addEntity();
 	std::string moveRightKey1 = "Move right 1: ";
 	moveRightText1.addComponent<TransformComponent>(50, 225, 17, 250, 1);
 	moveRightText1.addComponent<TextComponent>("monoSmall", "moveRight1Text",
@@ -122,7 +113,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 	entityManager.addEntityToGroup(moveRightText1, getStateID());
 
 	// Move up
-	// auto& moveUpText1 = entityManager.addEntity();
 	std::string moveUpKey1 = "Move up 1: ";
 	moveUpText1.addComponent<TransformComponent>(50, 250, 17, 250, 1);
 	moveUpText1.addComponent<TextComponent>("monoSmall", "moveUp1Text",
@@ -130,7 +120,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 	entityManager.addEntityToGroup(moveUpText1, getStateID());
 
 	// Move down
-	// auto& moveDownText1 = entityManager.addEntity();
 	std::string moveDownKey1 = "Move down 1: ";
 	moveDownText1.addComponent<TransformComponent>(50, 275, 17, 250, 1);
 	moveDownText1.addComponent<TextComponent>("monoSmall", "moveDown1Text",
@@ -141,7 +130,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 	 * Movement key set 2
 	*/
 	// Move left
-	// auto& moveLeftText2 = entityManager.addEntity();
 	std::string moveLeftKey2 = "Move left 2: ";
 	moveLeftText2.addComponent<TransformComponent>(50, 300, 17, 250, 1);
 	moveLeftText2.addComponent<TextComponent>("monoSmall", "moveLeft2Text",
@@ -149,7 +137,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 	entityManager.addEntityToGroup(moveLeftText2, getStateID());
 
 	// Move right
-	// auto& moveRightText2 = entityManager.addEntity();
 	std::string moveRightKey2 = "Move right 2: ";
 	moveRightText2.addComponent<TransformComponent>(50, 325, 17, 250, 1);
 	moveRightText2.addComponent<TextComponent>("monoSmall", "moveRight2Text",
@@ -157,7 +144,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 	entityManager.addEntityToGroup(moveRightText2, getStateID());
 
 	// Move up
-	// auto& moveUpText2 = entityManager.addEntity();
 	std::string moveUpKey2 = "Move up 2: ";
 	moveUpText2.addComponent<TransformComponent>(50, 350, 17, 250, 1);
 	moveUpText2.addComponent<TextComponent>("monoSmall", "moveUp2Text",
@@ -165,7 +151,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 	entityManager.addEntityToGroup(moveUpText2, getStateID());
 
 	// Move right
-	// auto& moveDownText2 = entityManager.addEntity();
 	std::string moveDownKey2 = "Move down 2: ";
 	moveDownText2.addComponent<TransformComponent>(50, 375, 17, 250, 1);
 	moveDownText2.addComponent<TextComponent>("monoSmall", "moveDown2Text",
@@ -176,7 +161,6 @@ void KeyMappingState::makeMovementKeysTexts() const
 void KeyMappingState::makeFPSKeysTexts() const
 {
 	// FPS speed up
-	// auto& fpsUpText = entityManager.addEntity();
 	std::string fpsUpKey = "FPS up: ";
 	fpsUpText.addComponent<TransformComponent>(50, 475, 17, 200, 1);
 	fpsUpText.addComponent<TextComponent>("monoSmall", "fpsUpText",
@@ -184,7 +168,6 @@ void KeyMappingState::makeFPSKeysTexts() const
 	entityManager.addEntityToGroup(fpsUpText, getStateID());
 
 	// FPS speed down
-	// auto& fpsDownText = entityManager.addEntity();
 	std::string fpsDownKey = "FPS down: ";
 	fpsDownText.addComponent<TransformComponent>(50, 500, 17, 200, 1);
 	fpsDownText.addComponent<TextComponent>("monoSmall", "fpsDownText",
@@ -192,7 +175,6 @@ void KeyMappingState::makeFPSKeysTexts() const
 	entityManager.addEntityToGroup(fpsDownText, getStateID());
 
 	// FPS speed reset
-	// auto& fpsResetText = entityManager.addEntity();
 	std::string fpsResetKey = "FPS reset: ";
 	fpsResetText.addComponent<TransformComponent>(50, 525, 17, 200, 1);
 	fpsResetText.addComponent<TextComponent>("monoSmall", "fpsResetText",
@@ -200,7 +182,6 @@ void KeyMappingState::makeFPSKeysTexts() const
 	entityManager.addEntityToGroup(fpsResetText, getStateID());
 
 	// Show FPS
-	// auto& fpsShowText = entityManager.addEntity();
 	std::string fpsShowKey = "Show FPS: ";
 	fpsShowText.addComponent<TransformComponent>(50, 550, 17, 200, 1);
 	fpsShowText.addComponent<TextComponent>("monoSmall", "fpsShowText",
@@ -208,7 +189,6 @@ void KeyMappingState::makeFPSKeysTexts() const
 	entityManager.addEntityToGroup(fpsShowText, getStateID());
 	
 	// Hide FPS
-	// auto& fpsHideText = entityManager.addEntity();
 	std::string fpsHideKey = "Hide FPS: ";
 	fpsHideText.addComponent<TransformComponent>(50, 575, 17, 200, 1);
 	fpsHideText.addComponent<TextComponent>("monoSmall", "fpsHideText",
@@ -219,47 +199,18 @@ void KeyMappingState::makeFPSKeysTexts() const
 void KeyMappingState::makeEquipWeaponKeysTexts() const
 {
 	// Equip weapon key 1
-	// auto& equipWeaponText1 = entityManager.addEntity();
 	std::string equipWeaponKey1 = "Equip weapon key 1: ";
 	equipWeaponText1.addComponent<TransformComponent>(550, 200, 17, 300, 1);
 	equipWeaponText1.addComponent<TextComponent>("monoSmall", "equipWeaponText1",
 		equipWeaponKey1.append(settings.getHumanReadableScancode(settings.equipWeapon1)));
 	entityManager.addEntityToGroup(equipWeaponText1, getStateID());
-
-	// Equip weapon key 2
-	// auto& equipWeaponText2 = entityManager.addEntity();
-	std::string equipWeaponKey2 = "Equip weapon key 2: ";
-	equipWeaponText2.addComponent<TransformComponent>(550, 225, 17, 300, 1);
-	equipWeaponText2.addComponent<TextComponent>("monoSmall", "equipWeaponText2",
-		equipWeaponKey2.append(settings.getHumanReadableScancode(settings.equipWeapon2)));
-	entityManager.addEntityToGroup(equipWeaponText2, getStateID());
-}
-
-void KeyMappingState::makeStopGameKeysTexts() const
-{
-	// Stop game key 1
-	// auto& stopGameText1 = entityManager.addEntity();
-	std::string stopGameKey1 = "Stop game key 1: ";
-	stopGameText1.addComponent<TransformComponent>(550, 325, 17, 300, 1);
-	stopGameText1.addComponent<TextComponent>("monoSmall", "stopGameText1",
-		stopGameKey1.append(settings.getHumanReadableScancode(settings.stopGame1)));
-	entityManager.addEntityToGroup(stopGameText1, getStateID());
-
-	// Stop game key 2
-	// auto& stopGameText2 = entityManager.addEntity();
-	std::string stopGameKey2 = "Stop game key 2: ";
-	stopGameText2.addComponent<TransformComponent>(550, 350, 17, 300, 1);
-	stopGameText2.addComponent<TextComponent>("monoSmall", "stopGameText2",
-		stopGameKey2.append(settings.getHumanReadableScancode(settings.stopGame2)));
-	entityManager.addEntityToGroup(stopGameText2, getStateID());
 }
 
 void KeyMappingState::makePauseGameKeysTexts() const
 {
 	// Pause game key 1
-	// auto& pauseGameText1 = entityManager.addEntity();
 	std::string pauseGameKey1 = "Pause game key 1: ";
-	pauseGameText1.addComponent<TransformComponent>(550, 450, 17, 300, 1);
+	pauseGameText1.addComponent<TransformComponent>(550, 300, 17, 300, 1);
 	pauseGameText1.addComponent<TextComponent>("monoSmall", "pauseGameText1",
 		pauseGameKey1.append(settings.getHumanReadableScancode(settings.pauseGame1)));
 	entityManager.addEntityToGroup(pauseGameText1, getStateID());
@@ -268,21 +219,21 @@ void KeyMappingState::makePauseGameKeysTexts() const
 void KeyMappingState::makeShieldAndShootKeysTexts() const
 {
 	std::string activateShieldKey = "Activate shield: ";
-	activateShieldText.addComponent<TransformComponent>(550, 550, 17, 300, 1);
+	activateShieldText.addComponent<TransformComponent>(550, 400, 17, 300, 1);
 	activateShieldText.addComponent<TextComponent>("monoSmall", "activateShieldText",
 		activateShieldKey.append(settings.getHumanReadableScancode(settings.activateShield)));
 	entityManager.addEntityToGroup(activateShieldText, getStateID());
 
 	// TODO: Add shooting to the key binding
 	// std::string shootNormalKey = "Shoot normal: ";
-	// shootNormalText.addComponent<TransformComponent>(550, 575, 17, 300, 1);
+	// shootNormalText.addComponent<TransformComponent>(550, 425, 17, 300, 1);
 	// shootNormalText.addComponent<TextComponent>("monoSmall", "shootNormalText",
 	// 	shootNormalKey.append(settings.getHumanReadableScancode(settings.shootNormal)));
 	// entityManager.addEntityToGroup(shootNormalText, getStateID());
 
 	// TODO: Add shooting to the key binding
 	// std::string shootMagicKey = "Shoot magic: ";
-	// shootMagicText.addComponent<TransformComponent>(550, 600, 17, 300, 1);
+	// shootMagicText.addComponent<TransformComponent>(550, 450, 17, 300, 1);
 	// shootMagicText.addComponent<TextComponent>("monoSmall", "shootMagicText",
 	// 	shootMagicKey.append(settings.getHumanReadableScancode(settings.shootMagic)));
 	// entityManager.addEntityToGroup(shootMagicText, getStateID());
@@ -293,7 +244,6 @@ void KeyMappingState::makeButtons()
 	makeChangeMovementKeyButtons();
 	makeChangeFPSKeyButtons();
 	makeChangeEquipWeaponKeyButtons();
-	makeChangeStopGameKeyButtons();
 	makeChangePauseKeyButtons();
 	makeChangeShieldAndShootingKeyButtons();
 	makeExitButton();
@@ -516,54 +466,6 @@ void KeyMappingState::makeChangeEquipWeaponKeyButtons()
 	equipWeapon1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(equipWeapon1Button, getStateID());
-
-	auto& equipWeapon2Button = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-
-	auto* equipWeapon2ButtonComponent = new ButtonComponent([this]()
-	{
-		inputHandler.newKey = settings.equipWeapon2;
-		inputHandler.isMappingKey(true);
-		settings.keyToChange = settings.equipWeapon2;
-	});
-
-	equipWeapon2Button.addExistingComponent<ButtonComponent>(equipWeapon2ButtonComponent);
-	equipWeapon2Button.addComponent<TransformComponent>(860, 218, 22, 44, 1);
-	equipWeapon2Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
-
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(equipWeapon2Button, getStateID());
-}
-
-void KeyMappingState::makeChangeStopGameKeyButtons()
-{
-	auto& stopGame1Button = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-
-	auto* stopGame1ButtonComponent = new ButtonComponent([this]()
-	{
-		inputHandler.newKey = settings.stopGame1;
-		inputHandler.isMappingKey(true);
-		settings.keyToChange = settings.stopGame1;
-	});
-
-	stopGame1Button.addExistingComponent<ButtonComponent>(stopGame1ButtonComponent);
-	stopGame1Button.addComponent<TransformComponent>(860, 318, 22, 44, 1);
-	stopGame1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
-
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(stopGame1Button, getStateID());
-
-	auto& stopGame2Button = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-
-	auto* stopGame2ButtonComponent = new ButtonComponent([this]()
-	{
-		inputHandler.newKey = settings.stopGame2;
-		inputHandler.isMappingKey(true);
-		settings.keyToChange = settings.stopGame2;
-	});
-
-	stopGame2Button.addExistingComponent<ButtonComponent>(stopGame2ButtonComponent);
-	stopGame2Button.addComponent<TransformComponent>(860, 343, 22, 44, 1);
-	stopGame2Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
-
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(stopGame2Button, getStateID());
 }
 
 void KeyMappingState::makeChangePauseKeyButtons()
@@ -578,7 +480,7 @@ void KeyMappingState::makeChangePauseKeyButtons()
 	});
 
 	pauseGame1Button.addExistingComponent<ButtonComponent>(pauseGame1ButtonComponent);
-	pauseGame1Button.addComponent<TransformComponent>(860, 443, 22, 44, 1);
+	pauseGame1Button.addComponent<TransformComponent>(860, 293, 22, 44, 1);
 	pauseGame1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseGame1Button, getStateID());
@@ -588,7 +490,7 @@ void KeyMappingState::makeChangeShieldAndShootingKeyButtons()
 {
 	auto& activateShieldButton = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 
-	auto* activateShieldButtonComponent = new ButtonComponent([this]()
+	auto* activateShieldButtonComponent = new ButtonComponent([this, activateShieldButton]()
 	{
 		inputHandler.newKey = settings.activateShield;
 		inputHandler.isMappingKey(true);
@@ -596,7 +498,7 @@ void KeyMappingState::makeChangeShieldAndShootingKeyButtons()
 	});
 
 	activateShieldButton.addExistingComponent<ButtonComponent>(activateShieldButtonComponent);
-	activateShieldButton.addComponent<TransformComponent>(860, 543, 22, 44, 1);
+	activateShieldButton.addComponent<TransformComponent>(860, 393, 22, 44, 1);
 	activateShieldButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(activateShieldButton, getStateID());
@@ -609,12 +511,10 @@ void KeyMappingState::makeChangeShieldAndShootingKeyButtons()
 	// 	inputHandler.newKey = settings.shootNormal;
 	// 	inputHandler.isMappingKey(true);
 	// 	settings.keyToChange = settings.shootNormal;
-	//
-	// 	// save.keep("shootNormal", settings.shootNormal);
 	// });
 	//
 	// shootNormalButton.addExistingComponent<ButtonComponent>(shootNormalButtonComponent);
-	// shootNormalButton.addComponent<TransformComponent>(860, 568, 22, 44, 1);
+	// shootNormalButton.addComponent<TransformComponent>(860, 418, 22, 44, 1);
 	// shootNormalButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 	//
 	// ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shootNormalButton, getStateID());
@@ -627,12 +527,10 @@ void KeyMappingState::makeChangeShieldAndShootingKeyButtons()
 	// 	inputHandler.newKey = settings.shootMagic;
 	// 	inputHandler.isMappingKey(true);
 	// 	settings.keyToChange = settings.shootMagic;
-	//
-	// 	// save.keep("shootMagic", settings.shootMagic);
 	// });
 	//
 	// shootMagicButton.addExistingComponent<ButtonComponent>(shootMagicButtonComponent);
-	// shootMagicButton.addComponent<TransformComponent>(860, 593, 22, 44, 1);
+	// shootMagicButton.addComponent<TransformComponent>(860, 443, 22, 44, 1);
 	// shootMagicButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 	//
 	// ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shootMagicButton, getStateID());
@@ -704,18 +602,6 @@ void KeyMappingState::updateEquipWeaponKeysTexts() const
 {
 	std::string updatedText = "Equip weapon key 1: ";
 	equipWeaponText1.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.equipWeapon1)));
-
-	updatedText = "Equip weapon key 2: ";
-	equipWeaponText2.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.equipWeapon2)));
-}
-
-void KeyMappingState::updateStopGameKeysTexts() const
-{
-	std::string updatedText = "Stop game key 1: ";
-	stopGameText1.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.stopGame1)));
-
-	updatedText = "Stop game key 2: ";
-	stopGameText2.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.stopGame2)));
 }
 
 void KeyMappingState::updatePauseGameKeysTexts() const

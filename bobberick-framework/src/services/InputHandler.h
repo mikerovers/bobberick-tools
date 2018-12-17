@@ -45,7 +45,7 @@ public:
 	std::vector<std::pair<Vector2D*, Vector2D*>> getJoystickValues();
 
 	///Handling Keyboard Event
-	void onKeyDown(/*bool keyMapping = false, */SDL_Event* event = nullptr);
+	void onKeyDown(SDL_Event* event = nullptr);
 	void onKeyUp();
 	bool isKeyDown(SDL_Scancode key) const;
 	bool isWindowEvent(int windowEvent) const;

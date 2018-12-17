@@ -41,10 +41,6 @@ private:
 	Entity& fpsHideText = entityManager.addEntity();
 
 	Entity& equipWeaponText1 = entityManager.addEntity();
-	Entity& equipWeaponText2 = entityManager.addEntity();
-
-	Entity& stopGameText1 = entityManager.addEntity();
-	Entity& stopGameText2 = entityManager.addEntity();
 
 	Entity& pauseGameText1 = entityManager.addEntity();
 
@@ -58,16 +54,13 @@ private:
 	void makeMovementKeysTexts() const;
 	void makeFPSKeysTexts() const;
 	void makeEquipWeaponKeysTexts() const;
-	void makeStopGameKeysTexts() const;
 	void makePauseGameKeysTexts() const;
 	void makeExitButton();
 	void makeChangePauseKeyButtons();
-	void makeChangeStopGameKeyButtons();
 	void makeChangeEquipWeaponKeyButtons();
 	void makeChangeFPSKeyButtons();
 	void makeChangeMovementKeyButtons();
 	void updatePauseGameKeysTexts() const;
-	void updateStopGameKeysTexts() const;
 	void updateEquipWeaponKeysTexts() const;
 	void updateFPSKeysTexts() const;
 	void updateMovementKeysTexts() const;

@@ -191,45 +191,6 @@ void KeyMappingSystem::update()
 			}
 		}
 
-		if (settings.keyToChange == settings.equipWeapon2)
-		{
-			if (settings.keyToChange != settings.equipWeapon2)
-			{
-				inputHandler.isMappingKey(false);
-			}
-			if (!settings.isKeyTaken(inputHandler.newKey))
-			{
-				settings.equipWeapon2 = inputHandler.newKey;
-				save.keep("equipWeapon2", settings.equipWeapon2);
-			}
-		}
-
-		if (settings.keyToChange == settings.stopGame1)
-		{
-			if (settings.keyToChange != settings.stopGame1)
-			{
-				inputHandler.isMappingKey(false);
-			}
-			if (!settings.isKeyTaken(inputHandler.newKey))
-			{
-				settings.stopGame1 = inputHandler.newKey;
-				save.keep("stopGame1", settings.stopGame1);
-			}
-		}
-
-		if (settings.keyToChange == settings.stopGame2)
-		{
-			if (settings.keyToChange != settings.stopGame2)
-			{
-				inputHandler.isMappingKey(false);
-			}
-			if (!settings.isKeyTaken(inputHandler.newKey))
-			{
-				settings.stopGame2 = inputHandler.newKey;
-				save.keep("stopGame2", settings.stopGame2);
-			}
-		}
-
 		if (settings.keyToChange == settings.pauseGame1)
 		{
 			if (settings.keyToChange != settings.pauseGame1)
