@@ -10,11 +10,12 @@
 class ObjectFactory
 {
 public:
-    ObjectFactory();
+	ObjectFactory(int const level) : level(level), enemyFactory(std::make_unique<EnemyFactory>()) {};
     Entity& getObject(const TileObject* object);
 
 private:
     std::unique_ptr<EnemyFactory> enemyFactory;
+	int const level;
 };
 
 

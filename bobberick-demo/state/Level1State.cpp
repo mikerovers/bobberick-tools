@@ -82,7 +82,7 @@ Entity& Level1State::makeTileMap() const
 	                                                ->getService<RenderService>().getRenderer());
 	level.addExistingComponent<TilesetComponent>(tilesetComponent);
 
-	ObjectFactory objectFactory;
+	ObjectFactory objectFactory(1);
 	for (auto object : level.getComponent<TilesetComponent>().objects)
 	{
 		auto& objEntity = objectFactory.getObject(object);
