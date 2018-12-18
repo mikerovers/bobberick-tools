@@ -50,7 +50,7 @@ void PauseScreenState::createPauseText() const
 {
 	auto& pauseText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	pauseText.addComponent<TransformComponent>(300, 30, 80, 360, 1);
-	pauseText.addComponent<TextComponent>("defaultLarge", "pauseText", "Game paused");
+	pauseText.addComponent<TextComponent>("defaultLarge", "pausedText", "Game paused");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseText, getStateID());
 }
