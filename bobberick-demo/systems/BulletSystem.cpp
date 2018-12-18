@@ -17,7 +17,6 @@ void BulletSystem::update()
 
 		const int maxWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
 		const int maxHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
-		//std::cout << transform.position.getX() << "\n";
 		if (transform.position.x > maxWidth || transform.position.y > maxHeight || transform.position.x < 0 || transform.position.y < 0) {
 
 			entity->destroy();

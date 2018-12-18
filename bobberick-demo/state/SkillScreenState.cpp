@@ -31,8 +31,6 @@ bool SkillScreenState::onEnter()
 		system->init();
 	}
 
-	std::cout << "Entered SkillScreenState" << std::endl;
-
 	makeStartGameButton();
 	makeHpButton();
 	makeAtButton();
@@ -62,7 +60,6 @@ bool SkillScreenState::onEnter()
 
 bool SkillScreenState::onExit()
 {
-	std::cout << "Exited SkillScreenState" << std::endl;
 	return true;
 }
 
@@ -163,7 +160,6 @@ void SkillScreenState::makeExitButton()
 	{
 		readyForExit = true;
 		ServiceManager::Instance()->getService<PlayerStatsService>().saveMeta();
-		std::cout << "Exit button clicked" << std::endl;
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);

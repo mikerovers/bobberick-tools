@@ -23,7 +23,6 @@ void PauseScreenState::update()
 
 bool PauseScreenState::onExit()
 {
-	std::cout << "Exited PauseScreenState" << std::endl;
 	ServiceManager::Instance()->getService<SoundManager>().resumeAllChannels();
 	return true;
 }

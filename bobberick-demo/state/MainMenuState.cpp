@@ -49,7 +49,6 @@ bool MainMenuState::onEnter()
 		system->init();
 	}
 
-	std::cout << "Entered MainMenuState" << std::endl;
 
 	makeStartGameButton();
 	makeOptionsButton();
@@ -69,7 +68,6 @@ bool MainMenuState::onEnter()
 
 bool MainMenuState::onExit()
 {
-	std::cout << "Exited MainMenuState" << std::endl;
 	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
 	return true;
 }
@@ -180,7 +178,6 @@ void MainMenuState::makeExitButton()
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
 		readyForExit = true;
-		std::cout << "Exit button clicked" << std::endl;
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
