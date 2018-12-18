@@ -155,7 +155,6 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 																	 4, 5, 3);
 		player.addComponent<PlayerMovementComponent>();
 
-		// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
 		player.addComponent<PlayerComponent>();
 
 		player.addComponent<TimerComponent>();
