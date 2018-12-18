@@ -66,8 +66,8 @@ public:
 	double getSHDrecovValue(bool next) const;
 
 	// Public in-game stats
-	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 5, 30, "bullet", "characterShooting");
-	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 15, 60, "bolt", "characterCasting");
+	WeaponComponent normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 10, 30, "bullet", "characterShooting");
+	WeaponComponent magicWeapon = WeaponComponent("", "Training Staff of Nothing", true, 30, 60, "bolt", "characterCasting");
 	WeaponComponent comparingWeapon = WeaponComponent("", "", false, 0, 0, "", "");
 	int compareTime = 0; // When >0, the hud system should show the compared weapon. Depicts the amount of frames the compared weapon is valid.
 	bool compareConfirmed = false; // When true, this is a message to the collision system to destroy the colliding weapon and set this back to false when done.

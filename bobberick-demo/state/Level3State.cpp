@@ -79,18 +79,11 @@ Entity &Level3State::makeTileMap() const
                                                             ->getService<RenderService>().getRenderer());
     level.addExistingComponent<TilesetComponent>(tilesetComponent);
 
-    ObjectFactory objectFactory;
+    ObjectFactory objectFactory(3);
     for (auto object : level.getComponent<TilesetComponent>().objects)
     {
         auto& objEntity = objectFactory.getObject(object);
         ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
-		if (objEntity.hasComponent<SpawnComponent>()) {
-			auto& spawnComponent = objEntity.getComponent<SpawnComponent>();
-			spawnComponent.maxCount *= 6;
-		}
-		if (objEntity.hasComponent<SpawnComponent>()) {
-			objEntity.getComponent<StatsComponent>().changeLevel(7);
-		}
     }
 
     return level;

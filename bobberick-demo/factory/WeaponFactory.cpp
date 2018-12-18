@@ -31,10 +31,10 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic,
 		int power;
 		int fireDelay;
 		if (magic) {
-			power = 10 * std::pow(1.5, rank);
+			power = 30 * std::pow(1.5, rank);
 			fireDelay = 60 - (2 * rank);
 		} else {
-			power = 5 * std::pow(1.5, rank);
+			power = 10 * std::pow(1.5, rank);
 			fireDelay = 30 - (1 * rank);
 		}
 

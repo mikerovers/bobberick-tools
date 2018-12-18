@@ -93,7 +93,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
 	if (object->name == "orc_spawner")
 	{
-		auto& manufacturer = enemyFactory->getEnemy(2, "manufacturer");
+		auto& manufacturer = enemyFactory->getEnemy(2 * level, "manufacturer");
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "orc";
@@ -107,7 +107,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
 	if (object->name == "bird_spawner")
 	{
-		auto& manufacturer = enemyFactory->getEnemy(2, "manufacturer");
+		auto& manufacturer = enemyFactory->getEnemy(2 * level, "manufacturer");
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "bird";
@@ -121,7 +121,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
     if (object->name == "firewizard_spawner")
     {
-        auto& manufacturer = enemyFactory->getEnemy(2, "manufacturer");
+        auto& manufacturer = enemyFactory->getEnemy(2 * level, "manufacturer");
         auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
         auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
         manufacturerSpawn.type = "fireWizard";
@@ -135,7 +135,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
 	if (object->name == "chicken_spawner")
 	{
-		auto& manufacturer = enemyFactory->getEnemy(1, "manufacturer");
+		auto& manufacturer = enemyFactory->getEnemy(2 * level, "manufacturer");
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "chicken";
@@ -166,9 +166,4 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 	}
 
 	return *new Entity();
-}
-
-ObjectFactory::ObjectFactory()
-{
-	enemyFactory = std::make_unique<EnemyFactory>();
 }

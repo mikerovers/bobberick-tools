@@ -540,7 +540,7 @@ void AISystem::kill(Entity& entity)
 		spawnChance = RandomGenerator{}.getRandomNumber(1, 100); 
 	}
 
-	if (spawnChance > 98)// chance of 2%; 
+	if (spawnChance > 96)// chance of 4%; 
 	{
 		// drop item
 		auto& weapon = ServiceManager::Instance()->getService<EntityManager>().addEntity();
@@ -563,7 +563,7 @@ void AISystem::kill(Entity& entity)
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(weapon, group);
 		}
 	}
-	else if (spawnChance > 95) { // chance of 3%
+	else if (spawnChance > 93) { // chance of 4%
 		auto& potion = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 		potion.addComponent<TransformComponent>(killedTransform.position.x, killedTransform.position.y, 48, 32, 1);
 		potion.addComponent<SpriteComponent>("potion", 5);
