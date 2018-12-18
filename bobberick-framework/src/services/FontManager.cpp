@@ -46,6 +46,9 @@ void FontManager::init()
 	if (!loadFont("assets/font/mono.ttf", "monoSmall", 15)) {
 		std::cout << SDL_GetError();
 	}
+	if (!loadFont("assets/font/font.ttf", "defaultMedium", 30)) {
+		std::cout << SDL_GetError();
+	}
 	if (!loadFont("assets/font/font.ttf", "defaultLarge", 56)) {
 		std::cout << SDL_GetError();
 	}

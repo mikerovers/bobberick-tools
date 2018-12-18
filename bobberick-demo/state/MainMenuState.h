@@ -24,6 +24,7 @@ private:
 	void makeAdvertisements() const;
 	void makeLoadButton() const;
 	void makeScoresButton() const;
+	void makeCreditsButton() const;
 	void makeExitButton();
 	void makeHelpButton() const;
 };
