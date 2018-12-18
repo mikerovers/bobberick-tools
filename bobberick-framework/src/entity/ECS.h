@@ -11,8 +11,8 @@
 
 using ComponentID = std::size_t;
 
-constexpr std::size_t maxComponents = 32;
-constexpr std::size_t maxGroups = 32;
+constexpr std::size_t maxComponents = 64;
+constexpr std::size_t maxGroups = 64;
 using ComponentBitSet = std::bitset<maxComponents>;
 using ComponentArray = std::array<Component*, maxComponents>;
 using GroupSet = std::vector<int>;

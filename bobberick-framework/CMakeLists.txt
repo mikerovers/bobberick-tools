@@ -52,12 +52,13 @@ set(
 	src/entity/components/TilesetComponent.cpp src/entity/components/TilesetComponent.h 
 	src/entity/components/Tile.cpp src/entity/components/Tile.h 
 	src/entity/components/TileObject.cpp src/entity/components/TileObject.h 
-	src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h 
+	src/entity/components/ButtonComponent.cpp src/entity/components/ButtonComponent.h
 	src/entity/systems/GuiSystem.cpp src/entity/systems/GuiSystem.h
 	src/entity/components/CollisionComponent.cpp src/entity/components/CollisionComponent.h
 	src/entity/CollisionHelper.cpp src/entity/CollisionHelper.h
 	src/services/SaveService.cpp src/services/SaveService.h
-	externals/json/json.hpp)
+	externals/json/json.hpp
+	src/entity/components/ParticleSystemComponent.cpp src/entity/components/ParticleSystemComponent.h src/entity/components/ParticleComponent.cpp src/entity/components/ParticleComponent.h src/entity/systems/ParticleSystem.cpp src/entity/systems/ParticleSystem.h)
 
 add_library(bobberick-framework ${SOURCE_FILES})
 target_link_libraries(bobberick-framework tmxlite)

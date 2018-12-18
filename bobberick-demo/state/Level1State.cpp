@@ -15,6 +15,7 @@
 #include "../factory/enemies/EnemyFactory.h"
 #include "../factory/WeaponFactory.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
+#include "../../bobberick-framework/src/entity/components/ParticleSystemComponent.h"
 
 std::string Level1State::getStateID() const
 {
@@ -25,7 +26,11 @@ void Level1State::update()
 {
 	for (const auto& system : systems)
 	{
-		system->update();
+		if (!exiting) {
+			system->update();
+		} else {
+		    break;
+		}
 	}
 }
 
