@@ -152,12 +152,14 @@ void HelpScreenState::makeActivateShieldText() const
 
 void HelpScreenState::makeShootTexts() const
 {
+	// Shoot normal
 	auto& shootNormalText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	shootNormalText.addComponent<TransformComponent>(10, 450, 17, 280, 1);
 	shootNormalText.addComponent<TextComponent>("monoSmall", "shootNormalText", "Shoot normal: Left Mouse Button");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shootNormalText, getStateID());
 
+	// Shoot magic
 	auto& shootMagicText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	shootMagicText.addComponent<TransformComponent>(10, 470, 17, 280, 1);
 	shootMagicText.addComponent<TextComponent>("monoSmall", "shootMagicText", "Shoot magic: Right Mouse Button");
