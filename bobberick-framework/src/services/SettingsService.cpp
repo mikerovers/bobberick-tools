@@ -68,20 +68,6 @@ void SettingsService::init()
 		equipWeapon1 = save.get<SDL_Scancode>("equipWeapon1");
 	else
 		equipWeapon1 = SDL_SCANCODE_LSHIFT;
-	if (save.has("equipWeapon2"))
-		equipWeapon2 = save.get<SDL_Scancode>("equipWeapon2");
-	else
-		equipWeapon2 = SDL_SCANCODE_RSHIFT;
-
-	// Stop game keys
-	if (save.has("stopGame1"))
-		stopGame1 = save.get<SDL_Scancode>("stopGame1");
-	else
-		stopGame1 = SDL_SCANCODE_RETURN;
-	if (save.has("stopGame2"))
-		stopGame2 = save.get<SDL_Scancode>("stopGame2");
-	else
-		stopGame2 = SDL_SCANCODE_RETURN2;
 
 	// Pause game keys
 	if (save.has("pauseGame1"))
@@ -100,17 +86,11 @@ const char* SettingsService::getHumanReadableScancode(SDL_Scancode scancode)
 	return SDL_GetScancodeName(scancode);
 }
 
-bool SettingsService::isKeyTaken(SDL_Scancode key)
+bool SettingsService::isKeyTaken(SDL_Scancode key) const
 {
-	// auto& settings = ServiceManager::Instance()->getService<SettingsService>();
-	// return key == settings.left1 || key == settings.right1 || key == settings.up1 || key == settings.down1 ||
-	// 	key == settings.left2 || key == settings.right2 || key == settings.up2 || key == settings.down2 ||
-	// 	key == settings.fpsSpdUp || key == settings.fpsSpdDown || key == settings.fpsSpdReset ||
-	// 	key == settings.fpsShow || key == settings.fpsHide || key == settings.equipWeapon1 || key == settings.equipWeapon2 ||
-	// 	key == settings.stopGame1 || key == settings.stopGame2 || key == settings.pauseGame1 || key == settings.activateShield;
 	return key == left1 || key == right1 || key == up1 || key == down1 ||
 		key == left2 || key == right2 || key == up2 || key == down2 ||
 		key == fpsSpdUp || key == fpsSpdDown || key == fpsSpdReset ||
-		key == fpsShow || key == fpsHide || key == equipWeapon1 || key == equipWeapon2 ||
-		key == stopGame1 || key == stopGame2 || key == pauseGame1 || key == activateShield;
+		key == fpsShow || key == fpsHide || key == equipWeapon1 ||
+		key == pauseGame1 || key == activateShield;
 }

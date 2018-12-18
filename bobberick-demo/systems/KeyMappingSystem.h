@@ -13,8 +13,6 @@ public:
 	explicit KeyMappingSystem(EntityManager& entityManager);
 	void update() override;
 	~KeyMappingSystem() = default;
-	
-	bool isKeyTaken(SDL_Scancode key);
 
 private:
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();

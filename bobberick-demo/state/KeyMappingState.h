@@ -20,6 +20,8 @@ public:
 private:
 	bool readyForExit = false;
 
+	std::string changingKeyString = "";
+
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	InputHandler& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 	SettingsService& settings = ServiceManager::Instance()->getService<SettingsService>();
@@ -41,16 +43,12 @@ private:
 	Entity& fpsHideText = entityManager.addEntity();
 
 	Entity& equipWeaponText1 = entityManager.addEntity();
-	Entity& equipWeaponText2 = entityManager.addEntity();
-
-	Entity& stopGameText1 = entityManager.addEntity();
-	Entity& stopGameText2 = entityManager.addEntity();
 
 	Entity& pauseGameText1 = entityManager.addEntity();
 
-	Entity& shootMagicText = entityManager.addEntity();
-	Entity& shootNormalText = entityManager.addEntity();
 	Entity& activateShieldText = entityManager.addEntity();
+
+	Entity& changingKeyText = entityManager.addEntity();
 
 	void makeHeaders() const;
 	void makeShieldAndShootKeysTexts() const;
@@ -58,20 +56,18 @@ private:
 	void makeMovementKeysTexts() const;
 	void makeFPSKeysTexts() const;
 	void makeEquipWeaponKeysTexts() const;
-	void makeStopGameKeysTexts() const;
 	void makePauseGameKeysTexts() const;
 	void makeExitButton();
 	void makeChangePauseKeyButtons();
-	void makeChangeStopGameKeyButtons();
 	void makeChangeEquipWeaponKeyButtons();
 	void makeChangeFPSKeyButtons();
 	void makeChangeMovementKeyButtons();
 	void updatePauseGameKeysTexts() const;
-	void updateStopGameKeysTexts() const;
 	void updateEquipWeaponKeysTexts() const;
 	void updateFPSKeysTexts() const;
 	void updateMovementKeysTexts() const;
 	void updateShieldAndShootingKeysTexts() const;
+	void updateChangingKeyText() const;
 	void makeKeyTexts() const;
 	void makeTexts();
 	void makeButtons();
