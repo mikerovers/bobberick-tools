@@ -57,7 +57,7 @@ void SettingsService::init()
 	if (save.has("fpsShow"))
 		fpsShow = save.get<SDL_Scancode>("fpsShow");
 	else
-		fpsShow = SDL_SCANCODE_F12;
+		fpsShow = SDL_SCANCODE_F10;
 	if (save.has("fpsHide"))
 		fpsHide = save.get<SDL_Scancode>("fpsHide");
 	else

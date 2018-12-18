@@ -73,6 +73,7 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/button/blank_green_button.png", "blankGreenButton", renderer);
 	t.load("assets/image/button/blank_red_button.png", "blankRedButton", renderer);
 	t.load("assets/image/button/changebutton.png", "changeButton", renderer);
+	t.load("assets/image/button/changebutton_selected.png", "changeButtonSelected", renderer);
 	t.load("assets/image/button/keybindingbutton.png", "keyBindingButton", renderer);
 
 	// character
