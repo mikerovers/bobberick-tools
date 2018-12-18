@@ -503,7 +503,10 @@ void AISystem::kill(Entity& entity)
 		{
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
 		}
-		ServiceManager::Instance()->getService<SoundManager>().playMusic("boss", -1);
+		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
+		if (endBossEntities.size() <= 1) {
+			ServiceManager::Instance()->getService<SoundManager>().playMusic("boss", -1);
+		}
 	}
 	else if (entity.hasComponent<EndBossComponent>())
 	{
