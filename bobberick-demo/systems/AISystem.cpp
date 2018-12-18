@@ -498,11 +498,11 @@ void AISystem::kill(Entity& entity)
 		auto& enemyTransform = enemy.getComponent<TransformComponent>();
 		enemyTransform.position.x = killedTransform.position.x;
 		enemyTransform.position.y = killedTransform.position.y + 50;
-		initHealthBar(enemy);
 		for (const auto& group : entity.getGroups())
 		{
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
 		}
+		initHealthBar(enemy);
 		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
 		if (endBossEntities.size() <= 1) {
 			ServiceManager::Instance()->getService<SoundManager>().playMusic("boss", -1);
