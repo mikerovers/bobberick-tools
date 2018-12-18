@@ -101,6 +101,7 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/Enemies/orc_piratess.png", "orc", renderer);
 	t.load("assets/image/Enemies/bird.png", "bird", renderer);
 	t.load("assets/image/Enemies/zombie.png", "zombie", renderer);
+	t.load("assets/image/Enemies/ghost.png", "ghost", renderer);
 	t.load("assets/image/teleportCircle.png", "spawnCircle", renderer);
 	t.load("assets/image/Enemies/blood/blood1.png", "blood1", renderer);
 	t.load("assets/image/Enemies/blood/blood2.png", "blood2", renderer);

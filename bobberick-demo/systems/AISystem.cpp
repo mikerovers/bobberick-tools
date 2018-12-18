@@ -326,7 +326,7 @@ void AISystem::executeSpawner(Entity& entity)
 	if (entity.hasComponent<TimerComponent>())
 	{
 		auto& timer = entity.getComponent<TimerComponent>();
-		if (timer.isTimerFinished())
+		if (timer.isTimerFinished() && entity.hasComponent<SpawnComponent>())
 		{
 			auto& spawnComponent = entity.getComponent<SpawnComponent>();
 			auto& spawnerStats = entity.getComponent<StatsComponent>();
