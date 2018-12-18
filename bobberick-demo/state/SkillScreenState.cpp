@@ -52,10 +52,10 @@ bool SkillScreenState::onEnter()
 	updateShdTimeText(playerStats);
 	updateShdRecovText(playerStats);
 
-	xpImage.addComponent<TransformComponent>(10, 1, 48, 48, 1);
+	xpImage.addComponent<TransformComponent>(750, 1, 48, 48, 1);
 	xpImage.addComponent<SpriteComponent>("hudXp", 1);
-	xpText.addComponent<TransformComponent>(60, 10, 30, 270, 1);
-	xpText.addComponent<TextComponent>("monoMedium", "xpText", textFormatter.addSpaces(std::to_string(playerStats.getXPtotal()), 15, false));
+	xpText.addComponent<TransformComponent>(800, 10, 30, 145, 1);
+	xpText.addComponent<TextComponent>("monoMedium", "xpText", textFormatter.addSpaces(std::to_string(playerStats.getXPtotal()), 8, false));
 
 	return true;
 }
@@ -82,7 +82,7 @@ void SkillScreenState::makeStartGameButton() const
 	});
 
 	playGameButton.addExistingComponent<ButtonComponent>(playGameButtonComponent);
-	playGameButton.addComponent<TransformComponent>(550, 60, 64, 128, 1);
+	playGameButton.addComponent<TransformComponent>(420, 60, 64, 128, 1);
 	playGameButton.addComponent<ButtonSpriteComponent>("startGameButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	entityManager.addEntityToGroup(playGameButton, getStateID());
@@ -167,7 +167,7 @@ void SkillScreenState::makeExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(290, 60, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(10, 10, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	entityManager.addEntityToGroup(exitButton, getStateID());

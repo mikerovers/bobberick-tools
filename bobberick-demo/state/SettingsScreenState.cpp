@@ -60,26 +60,26 @@ bool SettingsScreenState::onExit()
 void SettingsScreenState::createTexts() const
 {
 	auto& headerText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	headerText.addComponent<TransformComponent>(235, 50, 80, 450, 1);
+	headerText.addComponent<TransformComponent>(360, 50, 80, 220, 1);
 	headerText.addComponent<TextComponent>("defaultLarge", "settingsText", "Settings");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(headerText, getStateID());
 
 	auto& musicText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	musicText.addComponent<TransformComponent>(200, 180, 30, 100, 1);
-	musicText.addComponent<TextComponent>("monoMedium", "musicText", "Music");
+	musicText.addComponent<TransformComponent>(200, 160, 30, 200, 1);
+	musicText.addComponent<TextComponent>("monoMedium", "musicText", "      Music");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(musicText, getStateID());
 
 	auto& fpsText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	fpsText.addComponent<TransformComponent>(200, 280, 30, 100, 1);
-	fpsText.addComponent<TextComponent>("monoMedium", "fpsText", "FPS");
+	fpsText.addComponent<TransformComponent>(200, 240, 30, 200, 1);
+	fpsText.addComponent<TextComponent>("monoMedium", "fpsText", "        FPS");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsText, getStateID());
 
 	auto& skillWipeText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	skillWipeText.addComponent<TransformComponent>(200, 380, 30, 300, 1);
-	skillWipeText.addComponent<TextComponent>("monoMedium", "skillWipeText", "Wipe all skills");
+	skillWipeText.addComponent<TransformComponent>(200, 320, 30, 200, 1);
+	skillWipeText.addComponent<TextComponent>("monoMedium", "skillWipeText", "Wipe skills");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(skillWipeText, getStateID());
 }
@@ -102,7 +102,7 @@ void SettingsScreenState::createMusicToggleButton() const
 	});
 
 	musicToggleButton.addExistingComponent<ButtonComponent>(musicToggleButtonComponent);
-	musicToggleButton.addComponent<TransformComponent>(560, 165, 64, 128, 1);
+	musicToggleButton.addComponent<TransformComponent>(420, 140, 64, 128, 1);
 	musicToggleButton.addComponent<ButtonSpriteComponent>("blank_green_button", 1, 3, 0, 1).setStaticAnimation(true);
 	musicToggleButton.addComponent<ButtonSettingComponent>("music");
 
@@ -120,7 +120,7 @@ void SettingsScreenState::createFPSToggleButton() const
 	});
 
 	fpsToggleButton.addExistingComponent<ButtonComponent>(fpsToggleButtonComponent);
-	fpsToggleButton.addComponent<TransformComponent>(560, 265, 64, 128, 1);
+	fpsToggleButton.addComponent<TransformComponent>(420, 220, 64, 128, 1);
 	fpsToggleButton.addComponent<ButtonSpriteComponent>("blank_green_button", 1, 3, 0);
 	fpsToggleButton.addComponent<ButtonSettingComponent>("fps");
 	fpsToggleButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
@@ -139,7 +139,7 @@ void SettingsScreenState::createSkillWipeButton() const
 	});
 
 	skillWipeButton.addExistingComponent<ButtonComponent>(skillWipeButtonComponent);
-	skillWipeButton.addComponent<TransformComponent>(560, 365, 64, 128, 1);
+	skillWipeButton.addComponent<TransformComponent>(420, 300, 64, 128, 1);
 	skillWipeButton.addComponent<ButtonSpriteComponent>("clearButton", 1, 3, 0, 1);
 	skillWipeButton.getComponent<ButtonSpriteComponent>().setStaticAnimation(true);
 
@@ -162,7 +162,7 @@ void SettingsScreenState::createExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(410, 520, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(10, 10, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());
