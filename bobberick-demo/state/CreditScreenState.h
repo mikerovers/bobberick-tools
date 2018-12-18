@@ -11,6 +11,8 @@ public:
 	bool shouldExit() override;
 
 	std::string getStateID() const override;
-
-	std::vector<Entity*> fadeEntities;
+private:
+	bool readyForExit = false;
+	void createText();
+	void createExitButton();
 };

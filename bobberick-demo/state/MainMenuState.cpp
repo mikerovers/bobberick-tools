@@ -19,6 +19,7 @@
 #include "../components/SpawnMinionsSpellComponent.h"
 #include "../components/AdvertisementComponent.h"
 #include "../components/SprayComponent.h"
+#include "../../bobberick-framework/src/entity/components/ParticleSystemComponent.h"
 
 std::string MainMenuState::getStateID() const
 {
@@ -52,10 +53,12 @@ bool MainMenuState::onEnter()
 
 	makeStartGameButton();
 	makeOptionsButton();
-	makeScoresButton();
-	makeExitButton();
 	makeHelpButton();
+	makeScoresButton();
+	makeCreditsButton();
+	makeExitButton();
 	makeAdvertisements();
+
 
 	if (ServiceManager::Instance()->getService<PlayerStatsService>().validateSave()) {
 		makeLoadButton();
@@ -134,6 +137,22 @@ void MainMenuState::makeOptionsButton() const
 	optionsButton.addComponent<CollisionComponent>("button");
 	entityManager.addEntityToGroup(optionsButton, getStateID());
 }
+	
+void MainMenuState::makeCreditsButton() const
+{
+	auto& creditsButton = entityManager.addEntity();
+	auto* creditsButtonComponent = new ButtonComponent([]()
+	{
+		StateFactory factory{};
+		ServiceManager::Instance()->getService<StateMachine>().pushState(factory.createState("CreditScreenState"));
+	});
+
+	creditsButton.addExistingComponent<ButtonComponent>(creditsButtonComponent);
+	creditsButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
+	creditsButton.addComponent<ButtonSpriteComponent>("creditsButton", 1, 3, 0, 1).setStaticAnimation(true);
+	creditsButton.addComponent<CollisionComponent>("button");
+	entityManager.addEntityToGroup(creditsButton, getStateID());
+}
 
 void MainMenuState::makeAdvertisements() const
 {
@@ -165,7 +184,7 @@ void MainMenuState::makeExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(420, 460, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(420, 540, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("button");
 
@@ -214,7 +233,7 @@ void MainMenuState::makeLoadButton() const
 	});
 
 	loadGameButton.addExistingComponent<ButtonComponent>(loadGameButtonComponent);
-	loadGameButton.addComponent<TransformComponent>(420, 380, 64, 128, 1);
+	loadGameButton.addComponent<TransformComponent>(420, 460, 64, 128, 1);
 	loadGameButton.addComponent<ButtonSpriteComponent>("loadGameButton", 1, 3, 0, 1).setStaticAnimation(true);
 	loadGameButton.addComponent<CollisionComponent>("loadButton");
 

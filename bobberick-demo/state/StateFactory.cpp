@@ -6,6 +6,7 @@
 #include "../systems/HudSystem.h"
 #include "../../bobberick-framework/src/entity/systems/GuiSystem.h"
 #include "../systems/CollisionSystem.h"
+#include "../../bobberick-framework/src/entity/systems/ParticleSystem.h"
 #include "../systems/PlayerInputSystem.h"
 #include "../systems/BulletSystem.h"
 #include "../systems/AdvertisementSystem.h"
@@ -139,6 +140,8 @@ std::unique_ptr<CreditScreenState> StateFactory::createCreditScreenState() const
 		std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	creditScreen->addSystem(
 		std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	creditScreen->addSystem(
+		std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return creditScreen;
 }
@@ -217,6 +220,7 @@ std::unique_ptr<Level1State> StateFactory::createPlayState()
 	playState->addSystem(std::make_unique<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<ParticleSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
@@ -235,6 +239,7 @@ std::unique_ptr<Level2State> StateFactory::createLevel2State() const
 	playState->addSystem(std::make_unique<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<ParticleSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
@@ -253,6 +258,7 @@ std::unique_ptr<Level3State> StateFactory::createLevel3State() const
 	playState->addSystem(std::make_unique<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<ParticleSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 

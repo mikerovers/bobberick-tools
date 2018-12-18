@@ -10,6 +10,7 @@
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
+#include "../../bobberick-framework/src/entity/components/ParticleSystemComponent.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/util/RandomGenerator.h"
 
@@ -240,6 +241,7 @@ void AISystem::executeSpell(Entity& entity)
 				const double enemyXCenter = enemyX + transform.width / 2;
 				const double enemyYCenter = enemyY + transform.height / 2;
 
+				const int enemyLevel = entity.getComponent<StatsComponent>().getLevel();
 				EnemyFactory enemyFactory = EnemyFactory{};
 
 				std::string enemy_type;
@@ -290,7 +292,13 @@ void AISystem::executeSpell(Entity& entity)
 
 				for (auto i = 0; i < 4; i++)
 				{
-					auto& enemy = enemyFactory.getEnemy(1, enemy_type);
+					if (enemyLevel > 3) {
+						if (i == 3) {
+							enemy_type = "bird";
+						}
+					}
+
+					auto& enemy = enemyFactory.getEnemy(entity.getComponent<StatsComponent>().getLevel(), enemy_type);
 					auto& enemyTransform = enemy.getComponent<TransformComponent>();
 					enemyTransform.position.x = (randomBool ? 25 : -25) + enemyXCenter;
 					enemyTransform.position.y = (randomBool ? -25 : 25) + enemyYCenter;
@@ -303,6 +311,7 @@ void AISystem::executeSpell(Entity& entity)
 					initHealthBar(enemy);
 					spellComponent.minionCount++;
 				}
+
 
 				spellComponent.current++;
 
@@ -358,7 +367,7 @@ void AISystem::executeSpawner(Entity& entity)
 			auto& statsComponent = entity.getComponent<StatsComponent>();
 			auto& transformComponent = entity.getComponent<TransformComponent>();
 
-			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 2, statsComponent.getLevel() + 2, spawnComponent.type, spawnComponent.id);
+			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 1, statsComponent.getLevel() + 2, spawnComponent.type, spawnComponent.id);
 			for (const auto& group : entity.getGroups())
 			{
 				ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
@@ -400,7 +409,7 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				const auto angleX = playerTransform.position.x - enemyXCenter;
 				const auto angleY = playerTransform.position.y - enemyYCenter;
 
-				bool isInRange = AISystem::isEntityInRange(*player, entity, (500 + (stats.getLevel() * 40)));
+				bool isInRange = AISystem::isEntityInRange(*player, entity, (240 + (stats.getLevel() * 40)));
 
 				if (isInRange)
 				{
@@ -489,17 +498,31 @@ void AISystem::kill(Entity& entity)
 		auto& enemyTransform = enemy.getComponent<TransformComponent>();
 		enemyTransform.position.x = killedTransform.position.x;
 		enemyTransform.position.y = killedTransform.position.y + 50;
-		initHealthBar(enemy);
 		for (const auto& group : entity.getGroups())
 		{
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
 		}
-		ServiceManager::Instance()->getService<SoundManager>().playMusic("boss", -1);
+		initHealthBar(enemy);
+		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
+		if (endBossEntities.size() <= 1) {
+			ServiceManager::Instance()->getService<SoundManager>().playMusic("boss", -1);
+		}
 	}
 	else if (entity.hasComponent<EndBossComponent>())
 	{
 		spawnChance = 100;
 		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
+        auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(particleSystem, ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID());
+        particleSystem.addComponent<TransformComponent>(
+                entity.getComponent<TransformComponent>().position.x,
+                entity.getComponent<TransformComponent>().position.y,
+                32, 32, 1);
+        particleSystem.addComponent<ParticleSystemComponent>("blood1", 40, 200, 5000);
+        particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood2");
+        particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood3");
+        particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood4");
+        particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood5");
 		if (endBossEntities.size() < 2) { 
 			std::string state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
 			if (state == "level_one") {

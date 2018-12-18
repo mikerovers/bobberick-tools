@@ -15,6 +15,7 @@
 #include "../factory/enemies/EnemyFactory.h"
 #include "../factory/WeaponFactory.h"
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
+#include "../../bobberick-framework/src/entity/components/ParticleSystemComponent.h"
 
 std::string Level1State::getStateID() const
 {
@@ -85,9 +86,9 @@ Entity& Level1State::makeTileMap() const
 	for (auto object : level.getComponent<TilesetComponent>().objects)
 	{
 		auto& objEntity = objectFactory.getObject(object);
-		if (objEntity.hasComponent<SpawnComponent>()) {
-			objEntity.getComponent<StatsComponent>().changeLevel(1);
-		}
+		//if (objEntity.hasComponent<SpawnComponent>()) {
+		//	objEntity.getComponent<StatsComponent>().changeLevel(1);
+		//}
 		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
 	}
 

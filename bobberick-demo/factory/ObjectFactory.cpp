@@ -93,11 +93,11 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
 	if (object->name == "orc_spawner")
 	{
-		auto& manufacturer = enemyFactory->getEnemy(3, "manufacturer");
+		auto& manufacturer = enemyFactory->getEnemy(2, "manufacturer");
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "orc";
-		manufacturerSpawn.spawnTimer = 100;
+		manufacturerSpawn.spawnTimer = 750;
 		manufacturerSpawn.maxCount = 10;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
@@ -107,11 +107,11 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
 	if (object->name == "bird_spawner")
 	{
-		auto& manufacturer = enemyFactory->getEnemy(3, "manufacturer");
+		auto& manufacturer = enemyFactory->getEnemy(2, "manufacturer");
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "bird";
-		manufacturerSpawn.spawnTimer = 100;
+		manufacturerSpawn.spawnTimer = 500;
 		manufacturerSpawn.maxCount = 10;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
@@ -121,11 +121,11 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
     if (object->name == "firewizard_spawner")
     {
-        auto& manufacturer = enemyFactory->getEnemy(3, "manufacturer");
+        auto& manufacturer = enemyFactory->getEnemy(2, "manufacturer");
         auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
         auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
         manufacturerSpawn.type = "fireWizard";
-        manufacturerSpawn.spawnTimer = 200;
+        manufacturerSpawn.spawnTimer = 1000;
         manufacturerSpawn.maxCount = 10;
         manufacturerTransform.position.x = object->position->x;
         manufacturerTransform.position.y = object->position->y;
@@ -135,11 +135,11 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 
 	if (object->name == "chicken_spawner")
 	{
-		auto& manufacturer = enemyFactory->getEnemy(3, "manufacturer");
+		auto& manufacturer = enemyFactory->getEnemy(1, "manufacturer");
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "chicken";
-		manufacturerSpawn.spawnTimer = 60;
+		manufacturerSpawn.spawnTimer = 250;
 		manufacturerSpawn.maxCount = 20;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
@@ -155,7 +155,6 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 																	 4, 5, 3);
 		player.addComponent<PlayerMovementComponent>();
 
-		// 3 seconds (180 ticks) of shield mode, 3/10ths of a second recovered per second.
 		player.addComponent<PlayerComponent>();
 
 		player.addComponent<TimerComponent>();

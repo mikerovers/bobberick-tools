@@ -54,7 +54,7 @@ void EndScreenState::makeExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(420, 400, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(10, 10, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 	exitButton.addComponent<CollisionComponent>("button");
 
@@ -69,7 +69,7 @@ bool EndScreenState::shouldExit()
 void EndScreenState::makeText() const
 {
 	auto& hurrayText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	hurrayText.addComponent<TransformComponent>(100, 50, 80, 450, 1);
+	hurrayText.addComponent<TransformComponent>(250, 50, 80, 450, 1);
 	hurrayText.addComponent<TextComponent>("defaultLarge", "hurrayText", "Congratulations!");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(hurrayText, getStateID());
