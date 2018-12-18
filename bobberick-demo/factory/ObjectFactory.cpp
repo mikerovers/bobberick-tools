@@ -97,7 +97,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "orc";
-		manufacturerSpawn.spawnTimer = 100;
+		manufacturerSpawn.spawnTimer = 750;
 		manufacturerSpawn.maxCount = 10;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
@@ -111,7 +111,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "bird";
-		manufacturerSpawn.spawnTimer = 100;
+		manufacturerSpawn.spawnTimer = 500;
 		manufacturerSpawn.maxCount = 10;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
@@ -125,7 +125,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
         auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
         auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
         manufacturerSpawn.type = "fireWizard";
-        manufacturerSpawn.spawnTimer = 200;
+        manufacturerSpawn.spawnTimer = 1000;
         manufacturerSpawn.maxCount = 10;
         manufacturerTransform.position.x = object->position->x;
         manufacturerTransform.position.y = object->position->y;
@@ -139,7 +139,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		auto& manufacturerTransform = manufacturer.getComponent<TransformComponent>();
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "chicken";
-		manufacturerSpawn.spawnTimer = 60;
+		manufacturerSpawn.spawnTimer = 250;
 		manufacturerSpawn.maxCount = 20;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
