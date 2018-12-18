@@ -135,6 +135,8 @@ std::unique_ptr<CreditScreenState> StateFactory::createCreditScreenState() const
 		std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	creditScreen->addSystem(
 		std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	creditScreen->addSystem(
+		std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 
 	return creditScreen;
 }
