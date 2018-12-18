@@ -58,7 +58,7 @@ void HelpScreenState::makeGui()
     });
 
     exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(10, 60, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(10, 10, 64, 128, 1);
     exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
     ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(exitButton, getStateID());

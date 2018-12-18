@@ -11,8 +11,6 @@ public:
 	void update() override;
 	std::string getStateID() const override;
 	bool shouldExit() override;
-	void createSaveButton() const;
-	void createLoadButton() const;
 
 private:
 	bool readyForExit = false;
@@ -20,8 +18,9 @@ private:
 	
 	void createPauseText() const;
 	void createResumeButton() const;
-	void makeOptionsButton() const;
 	void createHelpButton() const;
+	void makeOptionsButton() const;
+	void createSaveButton() const;
 	void createExitButton();
 };
 
