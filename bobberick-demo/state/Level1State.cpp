@@ -25,7 +25,7 @@ std::string Level1State::getStateID() const
 void Level1State::update()
 {
     for (const auto &system : systems) {
-        if (exiting || system == nullptr)
+        if (exiting)
             break;
 
         system->update();

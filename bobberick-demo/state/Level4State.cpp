@@ -37,11 +37,11 @@ void Level4State::update()
 	}
 
     for (const auto &system : systems) {
-        if (exiting && system == nullptr) {
+        if (exiting) {
             break;
+        } else {
+            system->update();
         }
-        system->update();
-
     }
 }
 
