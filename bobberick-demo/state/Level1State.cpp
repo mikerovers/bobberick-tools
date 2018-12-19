@@ -57,7 +57,6 @@ bool Level1State::onEnter()
 
 bool Level1State::onExit()
 {
-	std::cout << "Exited playstate" << std::endl;
 	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
 	ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
 
@@ -145,7 +144,6 @@ void Level1State::makeGui()
 
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
-		std::cout << "Exit button clicked." << std::endl;
 		_exitPressed = true;
 	});
 

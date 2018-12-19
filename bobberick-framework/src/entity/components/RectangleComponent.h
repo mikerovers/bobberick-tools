@@ -19,6 +19,7 @@ public:
 	int green;
 	int blue;
 	bool filled;
+	bool overlay; // For transitions, will be drawn over everything else.
 private:
     TransformComponent* transform;
     SDL_Rect destinationRect{};

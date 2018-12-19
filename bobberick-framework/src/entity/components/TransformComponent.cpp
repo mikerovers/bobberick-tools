@@ -12,8 +12,8 @@ TransformComponent::TransformComponent(int sc)
 
 TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, double sc)
 {
-	if (xPos >= 0) position.x  = xPos;
-	if (yPos >= 0) position.y = yPos;
+	position.x = xPos;
+	position.y = yPos;
 	height = h;
 	width = w;
 	scale = sc;

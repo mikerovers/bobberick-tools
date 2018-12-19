@@ -69,6 +69,7 @@ state/HelpScreenState.cpp state/HelpScreenState.h
 state/EndScreenState.cpp state/EndScreenState.h 
 state/Level2State.cpp state/Level2State.h
 state/Level3State.cpp state/Level3State.h
+state/Level4State.cpp state/Level4State.h
 state/PauseScreenState.cpp state/PauseScreenState.h
 state/GameOverState.cpp state/GameOverState.h
 systems/CollisionSystem.cpp systems/CollisionSystem.h

@@ -78,7 +78,6 @@ void CreditScreenState::createExitButton() {
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
 		readyForExit = true;
-		std::cout << "Exit button clicked" << std::endl;
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);

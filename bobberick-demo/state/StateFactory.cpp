@@ -46,6 +46,10 @@ std::unique_ptr<GameState> StateFactory::createState(const std::string& type)
 	{
 		return createLevel3State();
 	}
+	else if (type == "Level4State")
+	{
+		return createLevel4State();
+	}
 	else if (type == "TestState")
 	{
 		return std::make_unique<TestState>();
@@ -249,6 +253,25 @@ std::unique_ptr<Level2State> StateFactory::createLevel2State() const
 std::unique_ptr<Level3State> StateFactory::createLevel3State() const
 {
 	auto playState = std::make_unique<Level3State>();
+	playState->addSystem(std::make_unique<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<BulletSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<ShieldSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<DrawSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<HudSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<GuiSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<AISystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<ParticleSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<CheatSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+	playState->addSystem(std::make_unique<LevelSystem>(ServiceManager::Instance()->getService<EntityManager>()));
+
+	return playState;
+}
+
+std::unique_ptr<Level4State> StateFactory::createLevel4State() const
+{
+	auto playState = std::make_unique<Level4State>();
 	playState->addSystem(std::make_unique<CollisionSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<InputSystem>(ServiceManager::Instance()->getService<EntityManager>()));
 	playState->addSystem(std::make_unique<PlayerInputSystem>(ServiceManager::Instance()->getService<EntityManager>()));

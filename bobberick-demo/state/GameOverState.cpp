@@ -40,8 +40,6 @@ void GameOverState::update()
 
 bool GameOverState::onExit()
 {
-	std::cout << "Exited GameOverState" << std::endl;
-
 	return true;
 }
 

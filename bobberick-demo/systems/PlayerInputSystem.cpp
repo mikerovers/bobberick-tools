@@ -241,7 +241,6 @@ void PlayerInputSystem::handleMouseInput(Entity* entity) const
 			if (inputHandler.getMouseButtonState(LEFT))
 			{
 				auto& weapon = playerStats.normalWeapon;
-				std::cout << weapon.power << "\n";
 				sprite.setTexture(weapon.attackingTextureID.c_str());
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				projectile.addComponent<SpriteComponent>("bullet", 4);

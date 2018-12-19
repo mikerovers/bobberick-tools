@@ -29,8 +29,6 @@ bool HighscoreState::onEnter()
 		system->init();
 	}
 
-	std::cout << "Entered HighscoreState" << std::endl;
-
 	makeClearButton();
 	makeExitButton();
 	makeTitleText();
@@ -43,7 +41,6 @@ bool HighscoreState::onEnter()
 
 bool HighscoreState::onExit()
 {
-	std::cout << "Exited HighscoreState" << std::endl;
 	return true;
 }
 
@@ -75,7 +72,6 @@ void HighscoreState::makeExitButton()
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
 		readyForExit = true;
-		std::cout << "Exit button clicked" << std::endl;
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
