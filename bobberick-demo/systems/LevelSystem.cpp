@@ -9,11 +9,18 @@
 #include "../../bobberick-framework/src/entity/components/TimerComponent.h"
 #include "../../bobberick-framework/src/StateMachine.h"
 #include "../../bobberick-framework/src/entity/components/SpriteComponent.h"
+#include "../../bobberick-framework/src/entity/components/RectangleComponent.h"
 #include <sstream>
 
-LevelSystem::LevelSystem(EntityManager &entityManager) : System(entityManager)
+LevelSystem::LevelSystem(EntityManager &entityManager) : System(entityManager), transition(entityManager.addEntity()), oldTransition(entityManager.addEntity())
 {
+	oldTransition.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	oldTransition.addComponent<RectangleComponent>(255, 255, 255, true);
+	oldTransition.getComponent<RectangleComponent>().overlay = true;
 
+	transition.addComponent<TransformComponent>(960, 0, 704, 960, 1);
+	transition.addComponent<RectangleComponent>(255, 255, 255, true);
+	transition.getComponent<RectangleComponent>().overlay = true;
 }
 
 void LevelSystem::handleLevelFinished() const {
@@ -31,6 +38,7 @@ void LevelSystem::handleLevelFinished() const {
 	}
 	if (newStateId != "") {
 		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState(newStateId));
+
 	}
 }
 
@@ -44,8 +52,27 @@ bool LevelSystem::checkIfLevelFinished() const {
 
 void LevelSystem::update()
 {
+	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
+	auto& transitionPos = transition.getComponent<TransformComponent>();
+	auto& oldTransitionPos = oldTransition.getComponent<TransformComponent>();
+
+	if (transition.getGroups().size() == 0) {
+		entityManager.addEntityToGroup(transition, stateId);
+		entityManager.addEntityToGroup(oldTransition, stateId);
+		if (stateId == "level_one") {
+			oldTransitionPos.position.x = -960;
+		}
+	}
+
+	if (oldTransitionPos.position.x > -960) {
+		oldTransitionPos.position.x -= 10;
+	}
+
 	if (checkIfLevelFinished()) {
-		handleLevelFinished();
+		transitionPos.position.x -= 10;
+		if (transitionPos.position.x < -10) {
+			handleLevelFinished();
+		}
 	}
 	else if (checkIfPlayerDied()) {
 		handlePlayerDied();

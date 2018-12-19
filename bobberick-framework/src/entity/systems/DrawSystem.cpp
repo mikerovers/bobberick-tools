@@ -39,9 +39,10 @@ void DrawSystem::update()
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
 		auto & spr = entity->getComponent<RectangleComponent>();
-
-		spr.update();
-		spr.render();
+		if (!spr.overlay) {
+			spr.update();
+			spr.render();
+		}
 	}
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
@@ -101,5 +102,13 @@ void DrawSystem::update()
 
 		spr.update();
 		spr.render();
+	}
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
+		auto & spr = entity->getComponent<RectangleComponent>();
+		if (spr.overlay) {
+			spr.update();
+			spr.render();
+		}
 	}
 }

@@ -1,8 +1,8 @@
 #ifndef BOBBERICK_TOOLS_LEVELSYSTEM_H
 #define BOBBERICK_TOOLS_LEVELSYSTEM_H
 
-
 #include "../../bobberick-framework/src/entity/systems/System.h"
+#include "../../bobberick-framework/src/entity/Entity.h"
 
 class LevelSystem : public System
 {
@@ -15,6 +15,9 @@ private:
 
 	bool checkIfPlayerDied() const;
 	void handlePlayerDied() const;
+
+	Entity& transition;
+	Entity& oldTransition;
 };
 
 
