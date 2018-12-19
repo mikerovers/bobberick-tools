@@ -33,6 +33,8 @@ bool KeyMappingState::onEnter()
 	changingKeyText.addComponent<TransformComponent>(350, 140, 17, 275, 1);
 	changingKeyText.addComponent<TextComponent>("monoSmall", "changingKeyText", changingKeyString);
 
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(changingKeyText, getStateID());
+		
 	makeBackground();
 	makeTexts();
 	makeButtons();
@@ -42,6 +44,8 @@ bool KeyMappingState::onEnter()
 
 bool KeyMappingState::onExit()
 {
+	changingKeyString = "";
+	changingKeyText.getComponent<TextComponent>().setText(changingKeyString);
 	return true;
 }
 
@@ -59,7 +63,7 @@ void KeyMappingState::makeBackground() const
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }
 
-void KeyMappingState::makeTexts()
+void KeyMappingState::makeTexts() const
 {
 	makeHeaders();
 	makeKeyTexts();

@@ -20,7 +20,7 @@ public:
 private:
 	bool readyForExit = false;
 
-	std::string changingKeyString = "";
+	std::string changingKeyString;
 
 	EntityManager& entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	InputHandler& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
@@ -70,7 +70,7 @@ private:
 	void updateShieldAndShootingKeysTexts() const;
 	void updateChangingKeyText() const;
 	void makeKeyTexts() const;
-	void makeTexts();
+	void makeTexts() const;
 	void makeButtons();
 };
 
