@@ -14,11 +14,11 @@
 
 LevelSystem::LevelSystem(EntityManager &entityManager) : System(entityManager), transition(entityManager.addEntity()), oldTransition(entityManager.addEntity())
 {
-	oldTransition.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	oldTransition.addComponent<TransformComponent>(-960, 0, 704, 960, 1);
 	oldTransition.addComponent<RectangleComponent>(255, 255, 255, true);
 	oldTransition.getComponent<RectangleComponent>().overlay = true;
 
-	transition.addComponent<TransformComponent>(960, 0, 704, 960, 1);
+	transition.addComponent<TransformComponent>(970, 0, 704, 960, 1);
 	transition.addComponent<RectangleComponent>(255, 255, 255, true);
 	transition.getComponent<RectangleComponent>().overlay = true;
 }
@@ -59,8 +59,8 @@ void LevelSystem::update()
 	if (transition.getGroups().size() == 0) {
 		entityManager.addEntityToGroup(transition, stateId);
 		entityManager.addEntityToGroup(oldTransition, stateId);
-		if (stateId == "level_one") {
-			oldTransitionPos.position.x = -960;
+		if (stateId != "level_one") {
+			oldTransitionPos.position.x = 0;
 		}
 	}
 
@@ -76,6 +76,8 @@ void LevelSystem::update()
 	}
 	else if (checkIfPlayerDied()) {
 		handlePlayerDied();
+	} else {
+		transitionPos.position.x = 970;
 	}
 }
 
