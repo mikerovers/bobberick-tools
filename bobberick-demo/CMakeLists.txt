@@ -57,6 +57,7 @@ factory/enemies/EnemyFactory.cpp factory/enemies/EnemyFactory.h
 factory/enemies/BaseEnemyFactory.h
 factory/enemies/OrcFactory.cpp factory/enemies/OrcFactory.h
 factory/enemies/ChickenFactory.cpp factory/enemies/ChickenFactory.h
+factory/enemies/DevilFactory.cpp factory/enemies/DevilFactory.h
 factory/enemies/ZombieFactory.cpp factory/enemies/ZombieFactory.h
 factory/enemies/BirdFactory.cpp factory/enemies/BirdFactory.h
 factory/enemies/FireWizardFactory.cpp factory/enemies/FireWizardFactory.h
