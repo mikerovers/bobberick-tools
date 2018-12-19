@@ -73,7 +73,7 @@ void LevelSystem::update()
 
 	if (checkIfLevelFinished()) {
 		transitionPos.position.x -= 10;
-		if (transitionPos.position.x < -10) {
+		if (transitionPos.position.x < 0) {
 			handleLevelFinished();
 		}
 	}

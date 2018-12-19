@@ -21,7 +21,11 @@ void Level3State::update()
 {
     for (const auto& system : systems)
     {
-        system->update();
+		if (!exiting) {
+			system->update();
+		} else {
+			break;
+		}
     }
 }
 
