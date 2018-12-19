@@ -13,6 +13,7 @@ public:
 	void makeXPText() const;
 	void makeHighscoreText() const;
 	void makeGameOverText() const;
+	void makeBackground() const;
 
 	std::string getStateID() const override;
 private:

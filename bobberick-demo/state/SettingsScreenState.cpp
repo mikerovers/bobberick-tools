@@ -48,6 +48,7 @@ bool SettingsScreenState::onEnter()
 	createSkillWipeButton();
 	createExitButton();
 	createKeyMappingButton();
+	createBackground();
 
     return true;
 }
@@ -190,4 +191,13 @@ void SettingsScreenState::createKeyMappingButton() const
 	keyMappingButton.addComponent<ButtonSpriteComponent>("keyBindingButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(keyMappingButton, getStateID());
+}
+
+void SettingsScreenState::createBackground() const
+{
+	auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	background.addComponent<SpriteComponent>("menuBackground", 0);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }

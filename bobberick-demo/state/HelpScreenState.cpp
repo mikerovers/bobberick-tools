@@ -38,6 +38,7 @@ bool HelpScreenState::onEnter()
 {
     makeGui();
     makeText();
+    makeBackground();
 
     return true;
 }
@@ -176,4 +177,13 @@ void HelpScreenState::makePauseText() const
 	pauseText.addComponent<TextComponent>("monoSmall", "pauseText", pauseString);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseText, getStateID());
+}
+
+void HelpScreenState::makeBackground() const
+{
+    auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+    background.addComponent<SpriteComponent>("menuBackground", 0);
+
+    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }

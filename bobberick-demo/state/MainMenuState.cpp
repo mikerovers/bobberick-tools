@@ -51,6 +51,7 @@ bool MainMenuState::onEnter()
 
 	std::cout << "Entered MainMenuState" << std::endl;
 
+	makeBackground();
 	makeStartGameButton();
 	makeOptionsButton();
 	makeHelpButton();
@@ -238,4 +239,13 @@ void MainMenuState::makeLoadButton() const
 	loadGameButton.addComponent<CollisionComponent>("loadButton");
 
 	entityManager.addEntityToGroup(loadGameButton, getStateID());
+}
+
+void MainMenuState::makeBackground() const
+{
+	auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	background.addComponent<SpriteComponent>("menuBackground", 0);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }

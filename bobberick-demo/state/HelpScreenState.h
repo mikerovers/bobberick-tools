@@ -20,6 +20,8 @@ private:
     bool hasPressedBack;
 	SettingsService settings = ServiceManager::Instance()->getService<SettingsService>();
     void makeGui();
+    void makeText() const;
+    void makeBackground() const;
 	void makeGoalText() const;
 	void makeHeaderTexts() const;
 	void makeMoveTexts() const;

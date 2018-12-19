@@ -27,6 +27,7 @@ private:
 	void makeCreditsButton() const;
 	void makeExitButton();
 	void makeHelpButton() const;
+	void makeBackground() const;
 };
 
 #endif // BOBBERICK_TOOLS_MAINMENUSTATE_H
