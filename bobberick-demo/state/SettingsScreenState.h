@@ -22,6 +22,7 @@ private:
 	void createSkillWipeButton() const;
 	void createExitButton();
 	void createBackground() const;
+	void createKeyMappingButton() const;
 };
 
 
