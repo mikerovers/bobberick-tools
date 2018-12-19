@@ -64,6 +64,7 @@ private:
 	void makeShdTimeButton();
 	void makeShdRecovButton();
 	void makeExitButton();
+	void makeBackground() const;
 
 	void makeHpText() const;
 	void makeAtText() const;
