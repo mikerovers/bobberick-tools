@@ -64,14 +64,18 @@ void LevelSystem::update()
 		entityManager.addEntityToGroup(oldTransition, stateId);
 		if (stateId != "level_one") {
 			oldTransitionPos.position.x = 0;
+			ServiceManager::Instance()->getService<PlayerStatsService>().invincible = true;
 		}
 	}
 
 	if (oldTransitionPos.position.x > -960) {
 		oldTransitionPos.position.x -= 10;
+	} else {
+		ServiceManager::Instance()->getService<PlayerStatsService>().invincible = false;
 	}
 
 	if (checkIfLevelFinished()) {
+		ServiceManager::Instance()->getService<PlayerStatsService>().invincible = true;
 		transitionPos.position.x -= 10;
 		if (transitionPos.position.x < 0) {
 			handleLevelFinished();
