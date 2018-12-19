@@ -23,18 +23,15 @@
 #include "../components/SprayComponent.h"
 #include "../../bobberick-framework/src/services/FrameHandler.h"
 
-void Level4State::update()
-{
-	for (auto& boss : ServiceManager::Instance()
-	                  ->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>())
-	{
-		if (boss->hasComponent<TimerComponent>() && boss->getComponent<TimerComponent>().isTimerFinished())
-		{
-			boss->getComponent<TransformComponent>().position = spawnPoints[random.getRandomNumber(
-				0, spawnPoints.size() -1)];
+void Level4State::update() {
+    for (auto &boss : ServiceManager::Instance()
+            ->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>()) {
+        if (boss->hasComponent<TimerComponent>() && boss->getComponent<TimerComponent>().isTimerFinished()) {
+            boss->getComponent<TransformComponent>().position = spawnPoints[random.getRandomNumber(
+                    0, spawnPoints.size() - 1)];
 
-		}
-	}
+        }
+    }
 
     for (const auto &system : systems) {
         if (exiting && system == nullptr) {
@@ -45,91 +42,82 @@ void Level4State::update()
     }
 }
 
-bool Level4State::onEnter()
-{
-	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "arrow",
-	                                                            SOUND_SFX);
-	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg",
-	                                                            "footsteps", SOUND_SFX);
-	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
-	                                                            SOUND_SFX);
+bool Level4State::onEnter() {
+    ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "arrow",
+                                                                SOUND_SFX);
+    ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg",
+                                                                "footsteps", SOUND_SFX);
+    ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
+                                                                SOUND_SFX);
 
-	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_4.wav", "level4",
-	                                                            SOUND_MUSIC);
-	ServiceManager::Instance()->getService<SoundManager>().playMusic("level4", -1);
+    ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_4.wav", "level4",
+                                                                SOUND_MUSIC);
+    ServiceManager::Instance()->getService<SoundManager>().playMusic("level4", -1);
 
-	spawnPoints.emplace_back(200, 200);
-	spawnPoints.emplace_back(200, 600);
-	spawnPoints.emplace_back(600, 600);
-	spawnPoints.emplace_back(600, 200);
+    spawnPoints.emplace_back(200, 200);
+    spawnPoints.emplace_back(200, 600);
+    spawnPoints.emplace_back(600, 600);
+    spawnPoints.emplace_back(600, 200);
 
-	auto& level = makeTileMap();
-	makePlayer();
+    auto &level = makeTileMap();
+    makePlayer();
 
-	EnemyFactory enemyFactory{};
+    EnemyFactory enemyFactory{};
 
-	auto& boss = enemyFactory.getEnemy(5, "devil");
+    auto &boss = enemyFactory.getEnemy(5, "devil");
 
-	boss.getComponent<TransformComponent>().position = Vector2D{600, 600};
-	boss.addComponent<EndBossComponent>();
-	boss.addComponent<SprayComponent>();
-	boss.addComponent<TimerComponent>();
-	boss.getComponent<SprayComponent>().sprayTimer = 1000;
+    boss.getComponent<TransformComponent>().position = Vector2D{600, 600};
+    boss.addComponent<EndBossComponent>();
+    boss.addComponent<SprayComponent>();
+    boss.addComponent<TimerComponent>();
+    boss.getComponent<SprayComponent>().sprayTimer = 1000;
 
-	for (const auto& system : systems)
-	{
-		system->init();
-	}
+    for (const auto &system : systems) {
+        system->init();
+    }
 
-	return true;
+    return true;
 }
 
-bool Level4State::onExit()
-{
-	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
-	ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
-	return true;
+bool Level4State::onExit() {
+    ServiceManager::Instance()->getService<SoundManager>().stopMusic();
+    ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
+    return true;
 }
 
-bool Level4State::shouldExit()
-{
-	return false;
+bool Level4State::shouldExit() {
+    return false;
 }
 
-std::string Level4State::getStateID() const
-{
-	return "level_four";
+std::string Level4State::getStateID() const {
+    return "level_four";
 }
 
-Entity& Level4State::makeTileMap() const
-{
-	auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(level, getStateID());
+Entity &Level4State::makeTileMap() const {
+    auto &level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(level, getStateID());
 
 
-	// Use LevelFactory to load and create tilemap components.
-	LevelFactory levelFactory;
-	const auto tilesetComponent = levelFactory.Load("assets/maps/map5.tmx",
-	                                                ServiceManager::Instance()
-	                                                ->getService<RenderService>().getRenderer());
-	level.addExistingComponent<TilesetComponent>(tilesetComponent);
+    // Use LevelFactory to load and create tilemap components.
+    LevelFactory levelFactory;
+    const auto tilesetComponent = levelFactory.Load("assets/maps/map5.tmx",
+                                                    ServiceManager::Instance()
+                                                            ->getService<RenderService>().getRenderer());
+    level.addExistingComponent<TilesetComponent>(tilesetComponent);
 
-	ObjectFactory objectFactory(2);
-	for (auto object : level.getComponent<TilesetComponent>().objects)
-	{
-		auto& objEntity = objectFactory.getObject(object);
-		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
-	}
+    ObjectFactory objectFactory(2);
+    for (auto object : level.getComponent<TilesetComponent>().objects) {
+        auto &objEntity = objectFactory.getObject(object);
+        ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
+    }
 
 
-	return level;
+    return level;
 }
 
-void Level4State::makePlayer() const
-{
-	for (auto& p : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent
-	     >())
-	{
-		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(*p, getStateID());
-	}
+void Level4State::makePlayer() const {
+    for (auto &p : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent
+    >()) {
+        ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(*p, getStateID());
+    }
 }
