@@ -12,8 +12,6 @@ bool TestState::shouldExit()
 
 bool TestState::onEnter()
 {
-    std::cout << "Entered TestState" << std::endl;
-
     return true;
 }
 

@@ -69,7 +69,7 @@ void AISystem::update()
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<SprayComponent>())
 	{
 		executeSprayShoot(*entity);
-	}	
+	}
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<LimitedTimeComponent>())
 	{
 		executeLimitedTime(*entity);
@@ -92,9 +92,6 @@ void AISystem::update()
 		executeSpell(*entity);
 		applyHealthBar(*entity);
 		applyMovement(*entity);
-
-
-		//std::cout << transform.position.x << "\n";
 
 		transform.update();
 		if (entity->hasComponent<CollisionComponent>())
@@ -139,14 +136,15 @@ void AISystem::executeChase(Entity& entity)
 			double enemyX = transform.position.x;
 			double enemyY = transform.position.y;
 
-			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
+			for (auto& player : ServiceManager::Instance()
+			                    ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
 			{
 				auto& playerTransform = player->getComponent<TransformComponent>();
 				RandomGenerator random = RandomGenerator{};
 				bool isInCloseRange = AISystem::isEntityInRange(entity, *player, 200);
 				bool isInFarRange = AISystem::isEntityInRange(entity, *player, 350);
 				int rangeModifier = isInCloseRange ? 50 : isInFarRange ? 250 : 400;
-			//	int rangeModifier = !isInFarRange ? !isInCloseRange ? 350 : 250 : 50;
+				//	int rangeModifier = !isInFarRange ? !isInCloseRange ? 350 : 250 : 50;
 
 				int deviationX = random.getRandomNumber(0, 1 * rangeModifier);
 				int deviationY = random.getRandomNumber(0, 1 * rangeModifier);
@@ -176,7 +174,6 @@ void AISystem::executeChase(Entity& entity)
 			}
 			timer.setTimer(100);
 		}
-		
 	}
 }
 
@@ -226,7 +223,8 @@ void AISystem::executeSpell(Entity& entity)
 			if (entity.hasComponent<SpawnMinionsSpellComponent>())
 			{
 				auto& spellComponent = entity.getComponent<SpawnMinionsSpellComponent>();
-				if (spellComponent.max <= spellComponent.current) {
+				if (spellComponent.max <= spellComponent.current)
+				{
 					return;
 				}
 				if (spellComponent.phase > 2)
@@ -274,7 +272,8 @@ void AISystem::executeSpell(Entity& entity)
 
 				auto& spawnCircle = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 				spawnCircle.addComponent<TransformComponent>(enemyX, enemyY, 128, 128, 1);
-				auto& spawnCircleSpriteComponent = spawnCircle.addComponent<SpriteComponent>("spawnCircle", 4, 4, 6, 10);
+				auto& spawnCircleSpriteComponent = spawnCircle.addComponent<SpriteComponent
+				>("spawnCircle", 4, 4, 6, 10);
 				spawnCircleSpriteComponent.moving = true;
 				auto& spawnCircleTimer = spawnCircle.addComponent<TimerComponent>();
 				spawnCircleTimer.setTimer(1000);
@@ -292,8 +291,10 @@ void AISystem::executeSpell(Entity& entity)
 
 				for (auto i = 0; i < 4; i++)
 				{
-					if (enemyLevel > 3) {
-						if (i == 3) {
+					if (enemyLevel > 3)
+					{
+						if (i == 3)
+						{
 							enemy_type = "bird";
 						}
 					}
@@ -326,14 +327,15 @@ void AISystem::executeSpawner(Entity& entity)
 	if (entity.hasComponent<TimerComponent>())
 	{
 		auto& timer = entity.getComponent<TimerComponent>();
-		if (timer.isTimerFinished())
+		if (timer.isTimerFinished() && entity.hasComponent<SpawnComponent>())
 		{
 			auto& spawnComponent = entity.getComponent<SpawnComponent>();
 			auto& spawnerStats = entity.getComponent<StatsComponent>();
 
 			bool isInRange = true;
 			bool isAttacked = spawnerStats.getHP() < spawnerStats.getHPmax();
-			for (auto& player : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
+			for (auto& player : ServiceManager::Instance()
+			                    ->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>())
 			{
 				if (!AISystem::isEntityInRange(entity, *player, 200))
 				{
@@ -350,10 +352,14 @@ void AISystem::executeSpawner(Entity& entity)
 			}
 			int spawnCounter = 0;
 
-			for (auto& spawnedEnemy : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>())
+			for (auto& spawnedEnemy : ServiceManager::Instance()
+			                          ->getService<EntityManager>().getAllEntitiesWithComponent<SpawnedComponent>())
 			{
 				auto& spawnedComponent = spawnedEnemy->getComponent<SpawnedComponent>();
-				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy->getComponent<CollisionComponent>().tag)
+				if (spawnedComponent.spawnerId == spawnComponent.id && spawnComponent.type == spawnedEnemy
+				                                                                              ->getComponent<
+					                                                                              CollisionComponent>().
+				                                                                              tag)
 				{
 					spawnCounter++; // we found its spawn
 				}
@@ -367,7 +373,8 @@ void AISystem::executeSpawner(Entity& entity)
 			auto& statsComponent = entity.getComponent<StatsComponent>();
 			auto& transformComponent = entity.getComponent<TransformComponent>();
 
-			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 1, statsComponent.getLevel() + 2, spawnComponent.type, spawnComponent.id);
+			auto& enemy = EnemyFactory{}.spawnEnemy(statsComponent.getLevel() - 1, statsComponent.getLevel() + 2,
+			                                        spawnComponent.type, spawnComponent.id);
 			for (const auto& group : entity.getGroups())
 			{
 				ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
@@ -433,7 +440,11 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 					projectileTransform.velocity.x = dx;
 					projectileTransform.velocity.y = dy;
 
-					stats.getLevel() < 6 ? sprite.setTexture("fireWizardCasting") : stats.getLevel() < 9 ? sprite.setTexture("iceWizardCasting") : sprite.setTexture("metalWizardCasting");
+					stats.getLevel() < 6
+						? sprite.setTexture("fireWizardCasting")
+						: stats.getLevel() < 9
+						? sprite.setTexture("iceWizardCasting")
+						: sprite.setTexture("metalWizardCasting");
 					// change to set entity to casting state (and change sprite accordingly)
 
 					transform.velocity.x = 0;
@@ -452,8 +463,11 @@ void AISystem::executeShoot(Entity& entity, int& channelCounter)
 				}
 				else
 				{
-					stats.getLevel() < 6 ? sprite.setTexture("fireWizard") : stats.getLevel() < 9 ? sprite.setTexture("iceWizard") : sprite.setTexture("metalWizard");
-
+					stats.getLevel() < 6
+						? sprite.setTexture("fireWizard")
+						: stats.getLevel() < 9
+						? sprite.setTexture("iceWizard")
+						: sprite.setTexture("metalWizard");
 				}
 			}
 		}
@@ -491,8 +505,8 @@ void AISystem::kill(Entity& entity)
 {
 	int spawnChance = 0;
 	auto& killedTransform = entity.getComponent<TransformComponent>();
-	if (entity.hasComponent<SpawnComponent>()) {
-
+	if (entity.hasComponent<SpawnComponent>())
+	{
 		EnemyFactory enemyFactory = EnemyFactory{};
 		auto& enemy = enemyFactory.getBoss(entity.getComponent<StatsComponent>().getLevel());
 		auto& enemyTransform = enemy.getComponent<TransformComponent>();
@@ -503,57 +517,77 @@ void AISystem::kill(Entity& entity)
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, group);
 		}
 		initHealthBar(enemy);
-		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
-		if (endBossEntities.size() <= 1) {
+		auto endBossEntities = ServiceManager::Instance()
+		                       ->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
+		if (endBossEntities.size() <= 1)
+		{
 			ServiceManager::Instance()->getService<SoundManager>().playMusic("boss", -1);
 		}
 	}
 	else if (entity.hasComponent<EndBossComponent>())
 	{
-		spawnChance = 100;
-		auto endBossEntities = ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
-        auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(particleSystem, ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID());
-        particleSystem.addComponent<TransformComponent>(
-                entity.getComponent<TransformComponent>().position.x,
-                entity.getComponent<TransformComponent>().position.y,
-                32, 32, 1);
-        particleSystem.addComponent<ParticleSystemComponent>("blood1", 40, 200, 5000);
-        particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood2");
-        particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood3");
-        particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood4");
-        particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood5");
-		if (endBossEntities.size() < 2) { 
-			std::string state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
-			if (state == "level_one") {
+		spawnChance = 0;
+		auto endBossEntities = ServiceManager::Instance()
+		                       ->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
+		auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+		ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(
+			particleSystem,
+			ServiceManager::Instance()
+			->getService<StateMachine>().peekState().getStateID());
+		particleSystem.addComponent<TransformComponent>(
+			entity.getComponent<TransformComponent>().position.x,
+			entity.getComponent<TransformComponent>().position.y,
+			32, 32, 1);
+		particleSystem.addComponent<ParticleSystemComponent>("blood1", 40, 200, 5000);
+		particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood2");
+		particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood3");
+		particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood4");
+		particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood5");
+		if (endBossEntities.size() < 2)
+		{
+			const auto state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
+
+			if (state == "level_one")
+			{
 				ServiceManager::Instance()->getService<SoundManager>().playMusic("level1", -1);
 			}
-			else if (state == "level_two") {
+			else if (state == "level_two")
+			{
 				ServiceManager::Instance()->getService<SoundManager>().playMusic("level2", -1);
 			}
-			else if (state == "level_three") {
+			else if (state == "level_three")
+			{
 				ServiceManager::Instance()->getService<SoundManager>().playMusic("level3", -1);
 			}
 		}
 	}
-	else {
-		spawnChance = RandomGenerator{}.getRandomNumber(1, 100); 
+	else
+	{
+		const auto state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
+		if (state != "level_four")
+		{
+			spawnChance = RandomGenerator{}.getRandomNumber(1, 100);
+		}
 	}
 
-	if (spawnChance > 96)// chance of 4%; 
+	if (spawnChance > 96) // chance of 4%; 
 	{
 		// drop item
 		auto& weapon = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 		weapon.addComponent<TransformComponent>(killedTransform.position.x, killedTransform.position.y, 48, 32, 1);
-		weapon.addComponent<CollisionComponent>("weapon_spawn", killedTransform.position.x, killedTransform.position.y, 48, 32);
+		weapon.addComponent<CollisionComponent>("weapon_spawn", killedTransform.position.x, killedTransform.position.y,
+		                                        48, 32);
 
 		WeaponFactory wFactory{};
 		RandomGenerator generator = RandomGenerator{};
 		int const weaponDeterminator = generator.getRandomNumber(1, 10);
 		int const level = entity.getComponent<StatsComponent>().getLevel();
 
-		WeaponComponent wComponent = *wFactory.generateWeapon(weaponDeterminator < 6, level - 1, level + 2 <= 10 ? level + 2 : 10, -9, 9);
-		weapon.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic, wComponent.power, wComponent.fireDelay, wComponent.bulletTexture, wComponent.attackingTextureID);
+		WeaponComponent wComponent = *wFactory.generateWeapon(weaponDeterminator < 6, level - 1,
+		                                                      level + 2 <= 10 ? level + 2 : 10, -9, 9);
+		weapon.addComponent<WeaponComponent>(wComponent.textureID, wComponent.name, wComponent.isMagic,
+		                                     wComponent.power, wComponent.fireDelay, wComponent.bulletTexture,
+		                                     wComponent.attackingTextureID);
 
 		weapon.addComponent<SpriteComponent>(weapon.getComponent<WeaponComponent>().textureID.c_str(), 5);
 		weapon.addComponent<PickUpComponent>();
@@ -563,12 +597,14 @@ void AISystem::kill(Entity& entity)
 			ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(weapon, group);
 		}
 	}
-	else if (spawnChance > 93) { // chance of 4%
+	else if (spawnChance > 93)
+	{
+		// chance of 4%
 		auto& potion = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 		potion.addComponent<TransformComponent>(killedTransform.position.x, killedTransform.position.y, 48, 32, 1);
 		potion.addComponent<SpriteComponent>("potion", 5);
 		potion.addComponent<CollisionComponent>("healthkit", killedTransform.position.x, killedTransform.position.y, 48,
-			32);
+		                                        32);
 		potion.addComponent<PickUpComponent>();
 		for (const auto& group : entity.getGroups())
 		{
@@ -719,5 +755,4 @@ void AISystem::applyMovement(Entity& entity)
 	}
 
 	sprite.moving = !(transform.velocity.x == 0 && transform.velocity.y == 0);
-
 }

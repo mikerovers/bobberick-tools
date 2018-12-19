@@ -26,7 +26,7 @@ LevelSystem::LevelSystem(EntityManager &entityManager) : System(entityManager), 
 void LevelSystem::handleLevelFinished() const {
 	StateFactory factory{};
 	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
-	std::string newStateId = "";
+	std::string newStateId;
 	if (stateId == "level_one") {
 		newStateId = "Level2State";
 	}
@@ -34,9 +34,12 @@ void LevelSystem::handleLevelFinished() const {
 		newStateId = "Level3State";
 	}
 	else if (stateId == "level_three") {
+		newStateId = "Level4State";
+	}
+	else if (stateId == "level_four") {
 		newStateId = "EndScreen";
 	}
-	if (newStateId != "") {
+	if (!newStateId.empty()) {
 		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState(newStateId));
 
 	}
@@ -47,7 +50,7 @@ bool LevelSystem::checkIfLevelFinished() const {
 	auto spawnEntities = entityManager.getAllEntitiesWithComponent<SpawnComponent>();
 	endBossEntities.insert(std::end(endBossEntities), std::begin(spawnEntities),
 		std::end(spawnEntities));
-	return endBossEntities.size() < 1;
+	return endBossEntities.empty();
 }
 
 void LevelSystem::update()
