@@ -50,6 +50,7 @@ private:
 
 	Entity& changingKeyText = entityManager.addEntity();
 
+	void makeBackground() const;
 	void makeHeaders() const;
 	void makeShieldAndShootKeysTexts() const;
 	void makeChangeShieldAndShootingKeyButtons();

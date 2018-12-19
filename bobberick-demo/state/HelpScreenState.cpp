@@ -79,14 +79,14 @@ void HelpScreenState::makeHeaderTexts() const
 {
 	// Game goal header
 	auto& goalText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	goalText.addComponent<TransformComponent>(10, 120, 50, 250, 1);
+	goalText.addComponent<TransformComponent>(100, 220, 50, 250, 1);
 	goalText.addComponent<TextComponent>("monoMedium", "goalHeaderText", "Game goal:");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(goalText, getStateID());
 
 	// Controls header
 	auto& controlsText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	controlsText.addComponent<TransformComponent>(10, 280, 50, 250, 1);
+	controlsText.addComponent<TransformComponent>(550, 220, 50, 250, 1);
 	controlsText.addComponent<TextComponent>("monoMedium", "controlsHeaderText", "Controls:");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(controlsText, getStateID());
@@ -94,11 +94,23 @@ void HelpScreenState::makeHeaderTexts() const
 
 void HelpScreenState::makeGoalText() const
 {
-	auto& goalText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	goalText.addComponent<TransformComponent>(10, 190, 17, 750, 1);
-	goalText.addComponent<TextComponent>("monoSmall", "goalText", "To win the game, you will have to destroy all the Wells and the Bosses they spawn.");
+	auto& goalTextPt1 = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	goalTextPt1.addComponent<TransformComponent>(100, 290, 17, 350, 1);
+	goalTextPt1.addComponent<TextComponent>("monoSmall", "goalTextPt1", "To win the game, you will have to");
 
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(goalText, getStateID());
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(goalTextPt1, getStateID());
+
+	auto& goalTextPt2 = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	goalTextPt2.addComponent<TransformComponent>(100, 310, 17, 350, 1);
+	goalTextPt2.addComponent<TextComponent>("monoSmall", "goalTextPt2", "destroy all the Wells and the Bosses");
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(goalTextPt2, getStateID());
+
+	auto& goalTextPt3 = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	goalTextPt3.addComponent<TransformComponent>(100, 330, 17, 100, 1);
+	goalTextPt3.addComponent<TextComponent>("monoSmall", "goalTextPt3", "they spawn.");
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(goalTextPt3, getStateID());
 }
 
 void HelpScreenState::makeMoveTexts() const
@@ -107,7 +119,7 @@ void HelpScreenState::makeMoveTexts() const
 	std::string moveLeftString = "Move left: ";
 	moveLeftString = moveLeftString.append(settings.getHumanReadableScancode(settings.left1)).append(" or ").append(settings.getHumanReadableScancode(settings.left2));
 	auto& moveLeftText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	moveLeftText.addComponent<TransformComponent>(10, 350, 17, 200, 1);
+	moveLeftText.addComponent<TransformComponent>(550, 290, 17, 200, 1);
 	moveLeftText.addComponent<TextComponent>("monoSmall", "moveLeftText", moveLeftString);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(moveLeftText, getStateID());
@@ -116,7 +128,7 @@ void HelpScreenState::makeMoveTexts() const
 	std::string moveRightString = "Move right: ";
 	moveRightString = moveRightString.append(settings.getHumanReadableScancode(settings.right1)).append(" or ").append(settings.getHumanReadableScancode(settings.right2));
 	auto& moveRightText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	moveRightText.addComponent<TransformComponent>(10, 370, 17, 200, 1);
+	moveRightText.addComponent<TransformComponent>(550, 310, 17, 200, 1);
 	moveRightText.addComponent<TextComponent>("monoSmall", "moveRightText", moveRightString);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(moveRightText, getStateID());
@@ -125,7 +137,7 @@ void HelpScreenState::makeMoveTexts() const
 	std::string moveUpString = "Move up: ";
 	moveUpString = moveUpString.append(settings.getHumanReadableScancode(settings.up1)).append(" or ").append(settings.getHumanReadableScancode(settings.up2));
 	auto& moveUpText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	moveUpText.addComponent<TransformComponent>(10, 390, 17, 160, 1);
+	moveUpText.addComponent<TransformComponent>(550, 330, 17, 160, 1);
 	moveUpText.addComponent<TextComponent>("monoSmall", "moveUpText", moveUpString);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(moveUpText, getStateID());
@@ -134,7 +146,7 @@ void HelpScreenState::makeMoveTexts() const
 	std::string moveDownString = "Move down: ";
 	moveDownString = moveDownString.append(settings.getHumanReadableScancode(settings.down1)).append(" or ").append(settings.getHumanReadableScancode(settings.down2));
 	auto& moveDownText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	moveDownText.addComponent<TransformComponent>(10, 410, 17, 200, 1);
+	moveDownText.addComponent<TransformComponent>(550, 350, 17, 200, 1);
 	moveDownText.addComponent<TextComponent>("monoSmall", "moveDownText", moveDownString);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(moveDownText, getStateID());
@@ -145,7 +157,7 @@ void HelpScreenState::makeActivateShieldText() const
 	std::string activateShieldString = "Activate shield: ";
 	activateShieldString.append(settings.getHumanReadableScancode(settings.activateShield));
 	auto& shieldText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	shieldText.addComponent<TransformComponent>(10, 430, 17, 200, 1);
+	shieldText.addComponent<TransformComponent>(550, 370, 17, 200, 1);
 	shieldText.addComponent<TextComponent>("monoSmall", "shieldText", activateShieldString);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shieldText, getStateID());
@@ -155,14 +167,14 @@ void HelpScreenState::makeShootTexts() const
 {
 	// Shoot normal
 	auto& shootNormalText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	shootNormalText.addComponent<TransformComponent>(10, 450, 17, 280, 1);
+	shootNormalText.addComponent<TransformComponent>(550, 390, 17, 280, 1);
 	shootNormalText.addComponent<TextComponent>("monoSmall", "shootNormalText", "Shoot normal: Left Mouse Button");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shootNormalText, getStateID());
 
 	// Shoot magic
 	auto& shootMagicText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	shootMagicText.addComponent<TransformComponent>(10, 470, 17, 280, 1);
+	shootMagicText.addComponent<TransformComponent>(550, 410, 17, 280, 1);
 	shootMagicText.addComponent<TextComponent>("monoSmall", "shootMagicText", "Shoot magic: Right Mouse Button");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shootMagicText, getStateID());
@@ -173,7 +185,7 @@ void HelpScreenState::makePauseText() const
 	std::string pauseString = "Pause: ";
 	pauseString.append(settings.getHumanReadableScancode(settings.pauseGame1));
 	auto& pauseText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	pauseText.addComponent<TransformComponent>(10, 490, 17, 115, 1);
+	pauseText.addComponent<TransformComponent>(550, 430, 17, 115, 1);
 	pauseText.addComponent<TextComponent>("monoSmall", "pauseText", pauseString);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseText, getStateID());

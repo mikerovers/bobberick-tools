@@ -33,7 +33,9 @@ bool KeyMappingState::onEnter()
 	changingKeyText.addComponent<TransformComponent>(350, 140, 17, 275, 1);
 	changingKeyText.addComponent<TextComponent>("monoSmall", "changingKeyText", changingKeyString);
 
+	makeBackground();
 	makeTexts();
+	makeButtons();
 
 	return true;
 }
@@ -48,11 +50,19 @@ bool KeyMappingState::shouldExit()
 	return readyForExit;
 }
 
+void KeyMappingState::makeBackground() const
+{
+	auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	background.addComponent<SpriteComponent>("menuBackground", 0);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
+}
+
 void KeyMappingState::makeTexts()
 {
 	makeHeaders();
 	makeKeyTexts();
-	makeButtons();
 }
 
 void KeyMappingState::makeHeaders() const
@@ -63,27 +73,27 @@ void KeyMappingState::makeHeaders() const
 	entityManager.addEntityToGroup(headerText, getStateID());
 
 	auto& movementHeader = entityManager.addEntity();
-	movementHeader.addComponent<TransformComponent>(50, 175, 50, 250, 1);
+	movementHeader.addComponent<TransformComponent>(100, 175, 50, 250, 1);
 	movementHeader.addComponent<TextComponent>("monoMedium", "movementText", "Movement:");
 	entityManager.addEntityToGroup(movementHeader, getStateID());
 	
 	auto& fpsHeader = entityManager.addEntity();
-	fpsHeader.addComponent<TransformComponent>(50, 450, 50, 100, 1);
+	fpsHeader.addComponent<TransformComponent>(100, 450, 50, 100, 1);
 	fpsHeader.addComponent<TextComponent>("monoMedium", "fpstText", "FPS:");
 	entityManager.addEntityToGroup(fpsHeader, getStateID());
 	
 	auto& equipWeaponHeader = entityManager.addEntity();
-	equipWeaponHeader.addComponent<TransformComponent>(550, 175, 50, 250, 1);
+	equipWeaponHeader.addComponent<TransformComponent>(500, 175, 50, 250, 1);
 	equipWeaponHeader.addComponent<TextComponent>("monoMedium", "equipWeaponText", "Equip Weapon:");
 	entityManager.addEntityToGroup(equipWeaponHeader, getStateID());
 	
 	auto& pauseGameHeader = entityManager.addEntity();
-	pauseGameHeader.addComponent<TransformComponent>(550, 275, 50, 250, 1);
+	pauseGameHeader.addComponent<TransformComponent>(500, 275, 50, 250, 1);
 	pauseGameHeader.addComponent<TextComponent>("monoMedium", "pauseGameText", "Pause Game:");
 	entityManager.addEntityToGroup(pauseGameHeader, getStateID());
 	
 	auto& shootAndShieldHeader = entityManager.addEntity();
-	shootAndShieldHeader.addComponent<TransformComponent>(550, 375, 50, 250, 1);
+	shootAndShieldHeader.addComponent<TransformComponent>(500, 375, 50, 250, 1);
 	shootAndShieldHeader.addComponent<TextComponent>("monoMedium", "shootAndShieldText", "Shield:");
 	entityManager.addEntityToGroup(shootAndShieldHeader, getStateID());
 }
@@ -104,28 +114,28 @@ void KeyMappingState::makeMovementKeysTexts() const
 	*/
 	// Move left
 	std::string moveLeftKey1 = "Move left 1: ";
-	moveLeftText1.addComponent<TransformComponent>(50, 225, 17, 250, 1);
+	moveLeftText1.addComponent<TransformComponent>(100, 225, 17, 250, 1);
 	moveLeftText1.addComponent<TextComponent>("monoSmall", "moveLeft1Text",
 		moveLeftKey1.append(settings.getHumanReadableScancode(settings.left1)));
 	entityManager.addEntityToGroup(moveLeftText1, getStateID());
 
 	// Move right
 	std::string moveRightKey1 = "Move right 1: ";
-	moveRightText1.addComponent<TransformComponent>(50, 250, 17, 250, 1);
+	moveRightText1.addComponent<TransformComponent>(100, 250, 17, 250, 1);
 	moveRightText1.addComponent<TextComponent>("monoSmall", "moveRight1Text",
 		moveRightKey1.append(settings.getHumanReadableScancode(settings.right1)));
 	entityManager.addEntityToGroup(moveRightText1, getStateID());
 
 	// Move up
 	std::string moveUpKey1 = "Move up 1: ";
-	moveUpText1.addComponent<TransformComponent>(50, 275, 17, 250, 1);
+	moveUpText1.addComponent<TransformComponent>(100, 275, 17, 250, 1);
 	moveUpText1.addComponent<TextComponent>("monoSmall", "moveUp1Text",
 		moveUpKey1.append(settings.getHumanReadableScancode(settings.up1)));
 	entityManager.addEntityToGroup(moveUpText1, getStateID());
 
 	// Move down
 	std::string moveDownKey1 = "Move down 1: ";
-	moveDownText1.addComponent<TransformComponent>(50, 300, 17, 250, 1);
+	moveDownText1.addComponent<TransformComponent>(100, 300, 17, 250, 1);
 	moveDownText1.addComponent<TextComponent>("monoSmall", "moveDown1Text",
 		moveDownKey1.append(settings.getHumanReadableScancode(settings.down1)));
 	entityManager.addEntityToGroup(moveDownText1, getStateID());
@@ -135,28 +145,28 @@ void KeyMappingState::makeMovementKeysTexts() const
 	*/
 	// Move left
 	std::string moveLeftKey2 = "Move left 2: ";
-	moveLeftText2.addComponent<TransformComponent>(50, 325, 17, 250, 1);
+	moveLeftText2.addComponent<TransformComponent>(100, 325, 17, 250, 1);
 	moveLeftText2.addComponent<TextComponent>("monoSmall", "moveLeft2Text",
 		moveLeftKey2.append(settings.getHumanReadableScancode(settings.left2)));
 	entityManager.addEntityToGroup(moveLeftText2, getStateID());
 
 	// Move right
 	std::string moveRightKey2 = "Move right 2: ";
-	moveRightText2.addComponent<TransformComponent>(50, 350, 17, 250, 1);
+	moveRightText2.addComponent<TransformComponent>(100, 350, 17, 250, 1);
 	moveRightText2.addComponent<TextComponent>("monoSmall", "moveRight2Text",
 		moveRightKey2.append(settings.getHumanReadableScancode(settings.right2)));
 	entityManager.addEntityToGroup(moveRightText2, getStateID());
 
 	// Move up
 	std::string moveUpKey2 = "Move up 2: ";
-	moveUpText2.addComponent<TransformComponent>(50, 375, 17, 250, 1);
+	moveUpText2.addComponent<TransformComponent>(100, 375, 17, 250, 1);
 	moveUpText2.addComponent<TextComponent>("monoSmall", "moveUp2Text",
 		moveUpKey2.append(settings.getHumanReadableScancode(settings.up2)));
 	entityManager.addEntityToGroup(moveUpText2, getStateID());
 
 	// Move right
 	std::string moveDownKey2 = "Move down 2: ";
-	moveDownText2.addComponent<TransformComponent>(50, 400, 17, 250, 1);
+	moveDownText2.addComponent<TransformComponent>(100, 400, 17, 250, 1);
 	moveDownText2.addComponent<TextComponent>("monoSmall", "moveDown2Text",
 		moveDownKey2.append(settings.getHumanReadableScancode(settings.down2)));
 	entityManager.addEntityToGroup(moveDownText2, getStateID());
@@ -166,35 +176,35 @@ void KeyMappingState::makeFPSKeysTexts() const
 {
 	// FPS speed up
 	std::string fpsUpKey = "FPS up: ";
-	fpsUpText.addComponent<TransformComponent>(50, 500, 17, 200, 1);
+	fpsUpText.addComponent<TransformComponent>(100, 500, 17, 200, 1);
 	fpsUpText.addComponent<TextComponent>("monoSmall", "fpsUpText",
 		fpsUpKey.append(settings.getHumanReadableScancode(settings.fpsSpdUp)));
 	entityManager.addEntityToGroup(fpsUpText, getStateID());
 
 	// FPS speed down
 	std::string fpsDownKey = "FPS down: ";
-	fpsDownText.addComponent<TransformComponent>(50, 525, 17, 200, 1);
+	fpsDownText.addComponent<TransformComponent>(100, 525, 17, 200, 1);
 	fpsDownText.addComponent<TextComponent>("monoSmall", "fpsDownText",
 		fpsDownKey.append(settings.getHumanReadableScancode(settings.fpsSpdDown)));
 	entityManager.addEntityToGroup(fpsDownText, getStateID());
 
 	// FPS speed reset
 	std::string fpsResetKey = "FPS reset: ";
-	fpsResetText.addComponent<TransformComponent>(50, 550, 17, 200, 1);
+	fpsResetText.addComponent<TransformComponent>(100, 550, 17, 200, 1);
 	fpsResetText.addComponent<TextComponent>("monoSmall", "fpsResetText",
 		fpsResetKey.append(settings.getHumanReadableScancode(settings.fpsSpdReset)));
 	entityManager.addEntityToGroup(fpsResetText, getStateID());
 
 	// Show FPS
 	std::string fpsShowKey = "Show FPS: ";
-	fpsShowText.addComponent<TransformComponent>(50, 575, 17, 200, 1);
+	fpsShowText.addComponent<TransformComponent>(100, 575, 17, 200, 1);
 	fpsShowText.addComponent<TextComponent>("monoSmall", "fpsShowText",
 		fpsShowKey.append(settings.getHumanReadableScancode(settings.fpsShow)));
 	entityManager.addEntityToGroup(fpsShowText, getStateID());
 	
 	// Hide FPS
 	std::string fpsHideKey = "Hide FPS: ";
-	fpsHideText.addComponent<TransformComponent>(50, 600, 17, 200, 1);
+	fpsHideText.addComponent<TransformComponent>(100, 600, 17, 200, 1);
 	fpsHideText.addComponent<TextComponent>("monoSmall", "fpsHideText",
 		fpsHideKey.append(settings.getHumanReadableScancode(settings.fpsHide)));
 	entityManager.addEntityToGroup(fpsHideText, getStateID());
@@ -204,7 +214,7 @@ void KeyMappingState::makeEquipWeaponKeysTexts() const
 {
 	// Equip weapon key 1
 	std::string equipWeaponKey1 = "Equip weapon key: ";
-	equipWeaponText1.addComponent<TransformComponent>(550, 225, 17, 300, 1);
+	equipWeaponText1.addComponent<TransformComponent>(500, 225, 17, 300, 1);
 	equipWeaponText1.addComponent<TextComponent>("monoSmall", "equipWeaponText1",
 		equipWeaponKey1.append(settings.getHumanReadableScancode(settings.equipWeapon1)));
 	entityManager.addEntityToGroup(equipWeaponText1, getStateID());
@@ -214,7 +224,7 @@ void KeyMappingState::makePauseGameKeysTexts() const
 {
 	// Pause game key 1
 	std::string pauseGameKey1 = "Pause game key 1: ";
-	pauseGameText1.addComponent<TransformComponent>(550, 325, 17, 300, 1);
+	pauseGameText1.addComponent<TransformComponent>(500, 325, 17, 300, 1);
 	pauseGameText1.addComponent<TextComponent>("monoSmall", "pauseGameText1",
 		pauseGameKey1.append(settings.getHumanReadableScancode(settings.pauseGame1)));
 	entityManager.addEntityToGroup(pauseGameText1, getStateID());
@@ -223,7 +233,7 @@ void KeyMappingState::makePauseGameKeysTexts() const
 void KeyMappingState::makeShieldAndShootKeysTexts() const
 {
 	std::string activateShieldKey = "Activate shield: ";
-	activateShieldText.addComponent<TransformComponent>(550, 425, 17, 300, 1);
+	activateShieldText.addComponent<TransformComponent>(500, 425, 17, 300, 1);
 	activateShieldText.addComponent<TextComponent>("monoSmall", "activateShieldText",
 		activateShieldKey.append(settings.getHumanReadableScancode(settings.activateShield)));
 	entityManager.addEntityToGroup(activateShieldText, getStateID());
@@ -253,7 +263,7 @@ void KeyMappingState::makeChangeMovementKeyButtons()
 	});
 
 	left1Button.addExistingComponent<ButtonComponent>(left1ButtonComponent);
-	left1Button.addComponent<TransformComponent>(310, 218, 22, 44, 1);
+	left1Button.addComponent<TransformComponent>(360, 218, 22, 44, 1);
 	left1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(left1Button, getStateID());
@@ -270,7 +280,7 @@ void KeyMappingState::makeChangeMovementKeyButtons()
 	});
 
 	right1Button.addExistingComponent<ButtonComponent>(right1ButtonComponent);
-	right1Button.addComponent<TransformComponent>(310, 243, 22, 44, 1);
+	right1Button.addComponent<TransformComponent>(360, 243, 22, 44, 1);
 	right1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(right1Button, getStateID());
@@ -287,7 +297,7 @@ void KeyMappingState::makeChangeMovementKeyButtons()
 	});
 
 	up1Button.addExistingComponent<ButtonComponent>(up1ButtonComponent);
-	up1Button.addComponent<TransformComponent>(310, 268, 22, 44, 1);
+	up1Button.addComponent<TransformComponent>(360, 268, 22, 44, 1);
 	up1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(up1Button, getStateID());
@@ -304,7 +314,7 @@ void KeyMappingState::makeChangeMovementKeyButtons()
 	});
 
 	down1Button.addExistingComponent<ButtonComponent>(down1ButtonComponent);
-	down1Button.addComponent<TransformComponent>(310, 293, 22, 44, 1);
+	down1Button.addComponent<TransformComponent>(360, 293, 22, 44, 1);
 	down1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(down1Button, getStateID());
@@ -321,7 +331,7 @@ void KeyMappingState::makeChangeMovementKeyButtons()
 	});
 
 	left2Button.addExistingComponent<ButtonComponent>(left2ButtonComponent);
-	left2Button.addComponent<TransformComponent>(310, 318, 22, 44, 1);
+	left2Button.addComponent<TransformComponent>(360, 318, 22, 44, 1);
 	left2Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(left2Button, getStateID());
@@ -338,7 +348,7 @@ void KeyMappingState::makeChangeMovementKeyButtons()
 	});
 
 	right2Button.addExistingComponent<ButtonComponent>(right2ButtonComponent);
-	right2Button.addComponent<TransformComponent>(310, 343, 22, 44, 1);
+	right2Button.addComponent<TransformComponent>(360, 343, 22, 44, 1);
 	right2Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(right2Button, getStateID());
@@ -355,7 +365,7 @@ void KeyMappingState::makeChangeMovementKeyButtons()
 	});
 
 	up2Button.addExistingComponent<ButtonComponent>(up2ButtonComponent);
-	up2Button.addComponent<TransformComponent>(310, 368, 22, 44, 1);
+	up2Button.addComponent<TransformComponent>(360, 368, 22, 44, 1);
 	up2Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(up2Button, getStateID());
@@ -372,7 +382,7 @@ void KeyMappingState::makeChangeMovementKeyButtons()
 	});
 
 	down2Button.addExistingComponent<ButtonComponent>(down2ButtonComponent);
-	down2Button.addComponent<TransformComponent>(310, 393, 22, 44, 1);
+	down2Button.addComponent<TransformComponent>(360, 393, 22, 44, 1);
 	down2Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(down2Button, getStateID());
@@ -392,7 +402,7 @@ void KeyMappingState::makeChangeFPSKeyButtons()
 	});
 
 	fpsSpdUpButton.addExistingComponent<ButtonComponent>(fpsSpdUpButtonComponent);
-	fpsSpdUpButton.addComponent<TransformComponent>(260, 493, 22, 44, 1);
+	fpsSpdUpButton.addComponent<TransformComponent>(310, 493, 22, 44, 1);
 	fpsSpdUpButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsSpdUpButton, getStateID());
@@ -409,7 +419,7 @@ void KeyMappingState::makeChangeFPSKeyButtons()
 	});
 
 	fpsSpdDownButton.addExistingComponent<ButtonComponent>(fpsSpdDownButtonComponent);
-	fpsSpdDownButton.addComponent<TransformComponent>(260, 518, 22, 44, 1);
+	fpsSpdDownButton.addComponent<TransformComponent>(310, 518, 22, 44, 1);
 	fpsSpdDownButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsSpdDownButton, getStateID());
@@ -426,7 +436,7 @@ void KeyMappingState::makeChangeFPSKeyButtons()
 	});
 
 	fpsResetButton.addExistingComponent<ButtonComponent>(fpsResetButtonComponent);
-	fpsResetButton.addComponent<TransformComponent>(260, 543, 22, 44, 1);
+	fpsResetButton.addComponent<TransformComponent>(310, 543, 22, 44, 1);
 	fpsResetButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsResetButton, getStateID());
@@ -443,7 +453,7 @@ void KeyMappingState::makeChangeFPSKeyButtons()
 	});
 
 	fpsShowButton.addExistingComponent<ButtonComponent>(fpsShowButtonComponent);
-	fpsShowButton.addComponent<TransformComponent>(260, 568, 22, 44, 1);
+	fpsShowButton.addComponent<TransformComponent>(310, 568, 22, 44, 1);
 	fpsShowButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsShowButton, getStateID());
@@ -460,7 +470,7 @@ void KeyMappingState::makeChangeFPSKeyButtons()
 	});
 
 	fpsHideButton.addExistingComponent<ButtonComponent>(fpsHideButtonComponent);
-	fpsHideButton.addComponent<TransformComponent>(260, 593, 22, 44, 1);
+	fpsHideButton.addComponent<TransformComponent>(310, 593, 22, 44, 1);
 	fpsHideButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(fpsHideButton, getStateID());
@@ -480,7 +490,7 @@ void KeyMappingState::makeChangeEquipWeaponKeyButtons()
 	});
 
 	equipWeapon1Button.addExistingComponent<ButtonComponent>(equipWeapon1ButtonComponent);
-	equipWeapon1Button.addComponent<TransformComponent>(860, 218, 22, 44, 1);
+	equipWeapon1Button.addComponent<TransformComponent>(810, 218, 22, 44, 1);
 	equipWeapon1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(equipWeapon1Button, getStateID());
@@ -500,7 +510,7 @@ void KeyMappingState::makeChangePauseKeyButtons()
 	});
 
 	pauseGame1Button.addExistingComponent<ButtonComponent>(pauseGame1ButtonComponent);
-	pauseGame1Button.addComponent<TransformComponent>(860, 318, 22, 44, 1);
+	pauseGame1Button.addComponent<TransformComponent>(810, 318, 22, 44, 1);
 	pauseGame1Button.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseGame1Button, getStateID());
@@ -520,7 +530,7 @@ void KeyMappingState::makeChangeShieldAndShootingKeyButtons()
 	});
 
 	activateShieldButton.addExistingComponent<ButtonComponent>(activateShieldButtonComponent);
-	activateShieldButton.addComponent<TransformComponent>(860, 418, 22, 44, 1);
+	activateShieldButton.addComponent<TransformComponent>(810, 418, 22, 44, 1);
 	activateShieldButton.addComponent<ButtonSpriteComponent>("changeButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(activateShieldButton, getStateID());

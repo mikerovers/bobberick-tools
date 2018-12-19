@@ -28,7 +28,6 @@ private:
 	void makeActivateShieldText() const;
 	void makeShootTexts() const;
 	void makePauseText() const;
-	void makeText() const;
 };
 
 
