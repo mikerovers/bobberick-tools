@@ -112,6 +112,7 @@ void BobberGame::preloadTextures()
 	t.load("assets/image/gui/hud_gold.png", "hudGold", renderer);
 	t.load("assets/image/gui/hud_xp.png", "hudXp", renderer);
 	t.load("assets/image/gui/playbutton.bmp", "playButton", renderer);
+	t.load("assets/image/background.bmp", "menuBackground", renderer);
 
 	// items
 	t.load("assets/image/items/potion.png", "potion", renderer);

@@ -22,6 +22,7 @@ private:
 	void makeOptionsButton() const;
 	void createSaveButton() const;
 	void createExitButton();
+	void createBackground() const;
 };
 
 #endif //BOBBERICK_TOOLS_PAUSESCREENTATE_H

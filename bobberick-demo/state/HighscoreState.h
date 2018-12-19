@@ -30,6 +30,7 @@ private:
 
 	void makeClearButton();
 	void makeExitButton();
+	void makeBackground();
 
 	void makeTitleText();
 	void makeHighscoreText();

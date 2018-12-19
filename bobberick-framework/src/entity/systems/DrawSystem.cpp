@@ -21,7 +21,7 @@ void DrawSystem::update()
 	auto& tx = ServiceManager::Instance()->getService<TextureManager>();
 	auto& rs = ServiceManager::Instance()->getService<RenderService>();
 
-	for (auto& entity: entityManager.getAllEntitiesWithComponent<TilesetComponent>()) {
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<TilesetComponent>()) {
 		auto& tileSetComponent = entity->getComponent<TilesetComponent>();
 
 		for (auto& tile : tileSetComponent.tiles) {
@@ -43,13 +43,6 @@ void DrawSystem::update()
 			spr.update();
 			spr.render();
 		}
-	}
-
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
-		auto & spr = entity->getComponent<TextComponent>();
-
-		spr.update();
-		spr.render();
 	}
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>()) {
@@ -82,7 +75,7 @@ void DrawSystem::update()
 	{
 		auto &spr = entity->getComponent<SpriteComponent>();
 		auto &transform = entity->getComponent<TransformComponent>();
-	
+
 		spr.update();
 		ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
 		spr.render();
@@ -99,6 +92,13 @@ void DrawSystem::update()
 	for (auto& entity : sortedEntitiesWithButtonSpriteComponent)
 	{
 		auto &spr = entity->getComponent<ButtonSpriteComponent>();
+
+		spr.update();
+		spr.render();
+	}
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
+		auto & spr = entity->getComponent<TextComponent>();
 
 		spr.update();
 		spr.render();

@@ -18,6 +18,7 @@ private:
     bool hasPressedBack;
     void makeGui();
     void makeText() const;
+    void makeBackground() const;
 };
 
 
