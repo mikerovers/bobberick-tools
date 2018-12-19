@@ -26,7 +26,7 @@ void Level1State::update()
 {
 	for (const auto& system : systems)
 	{
-		if (exiting)
+		if (exiting || system == nullptr)
 			break;
 
 		system->update();

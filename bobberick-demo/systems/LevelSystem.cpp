@@ -41,7 +41,6 @@ void LevelSystem::handleLevelFinished() const {
 	}
 	if (!newStateId.empty()) {
 		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState(newStateId));
-
 	}
 }
 
