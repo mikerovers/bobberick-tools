@@ -21,7 +21,7 @@ void DrawSystem::update()
 	auto& tx = ServiceManager::Instance()->getService<TextureManager>();
 	auto& rs = ServiceManager::Instance()->getService<RenderService>();
 
-	for (auto& entity: entityManager.getAllEntitiesWithComponent<TilesetComponent>()) {
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<TilesetComponent>()) {
 		auto& tileSetComponent = entity->getComponent<TilesetComponent>();
 
 		for (auto& tile : tileSetComponent.tiles) {
@@ -39,9 +39,10 @@ void DrawSystem::update()
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
 		auto & spr = entity->getComponent<RectangleComponent>();
-
-		spr.update();
-		spr.render();
+		if (!spr.overlay) {
+			spr.update();
+			spr.render();
+		}
 	}
 
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>()) {
@@ -74,7 +75,7 @@ void DrawSystem::update()
 	{
 		auto &spr = entity->getComponent<SpriteComponent>();
 		auto &transform = entity->getComponent<TransformComponent>();
-	
+
 		spr.update();
 		ServiceManager::Instance()->getService<TextureManager>().draw(spr.getTexture(), &spr.getSourceRect(), &spr.getDestinationRect(), ServiceManager::Instance()->getService<RenderService>().getRenderer(), spr.flip, transform.getScale());
 		spr.render();
@@ -96,11 +97,18 @@ void DrawSystem::update()
 		spr.render();
 	}
 
-
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
 		auto & spr = entity->getComponent<TextComponent>();
 
 		spr.update();
 		spr.render();
+	}
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<RectangleComponent>()) {
+		auto & spr = entity->getComponent<RectangleComponent>();
+		if (spr.overlay) {
+			spr.update();
+			spr.render();
+		}
 	}
 }
