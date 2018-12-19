@@ -36,6 +36,7 @@ bool HighscoreState::onEnter()
 	makeTitleText();
 	makeHighscoreText();
 	updateHighscoreText();
+	makeBackground();
 
 	return true;
 }
@@ -87,13 +88,13 @@ void HighscoreState::makeExitButton()
 void HighscoreState::makeTitleText() {
 	auto& title = entityManager.addEntity();
 	entityManager.addEntityToGroup(title, getStateID());
-	title.addComponent<TransformComponent>(300, 10, 64, 360, 1);
+	title.addComponent<TransformComponent>(300, 100, 64, 360, 1);
 	title.addComponent<TextComponent>("defaultLarge", "scoresTitle", "Hall of Fame");
 }
 
 void HighscoreState::makeHighscoreText() {
 	for (int i = 0; i < highscoreTexts.size(); i++) {
-		highscoreTexts[i]->addComponent<TransformComponent>(320, 80 + (30 * i), 30, 320, 1);
+		highscoreTexts[i]->addComponent<TransformComponent>(320, 180 + (30 * i), 30, 320, 1);
 		highscoreTexts[i]->addComponent<TextComponent>("monoMedium", ("highscore" + std::to_string(i + 1)).c_str(), " ");
 	}
 }
@@ -103,4 +104,13 @@ void HighscoreState::updateHighscoreText() {
 	for (int i = 0; i < highscoreTexts.size(); i++) {
 		highscoreTexts[i]->getComponent<TextComponent>().setText(textFormatter.addSpaces(std::to_string(i + 1), 2, true) + ". " + textFormatter.addSpaces(std::to_string(highscores[i]), 10, true) + " XP");
 	}
+}
+
+void HighscoreState::makeBackground()
+{
+	auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	background.addComponent<SpriteComponent>("menuBackground", 0);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }

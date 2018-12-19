@@ -44,13 +44,6 @@ void DrawSystem::update()
 		spr.render();
 	}
 
-	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
-		auto & spr = entity->getComponent<TextComponent>();
-
-		spr.update();
-		spr.render();
-	}
-
 	for (auto& entity : entityManager.getAllEntitiesWithComponent<CollisionComponent>()) {
 		auto& comp = entity->getComponent<CollisionComponent>();
 
@@ -98,6 +91,14 @@ void DrawSystem::update()
 	for (auto& entity : sortedEntitiesWithButtonSpriteComponent)
 	{
 		auto &spr = entity->getComponent<ButtonSpriteComponent>();
+
+		spr.update();
+		spr.render();
+	}
+
+
+	for (auto& entity : entityManager.getAllEntitiesWithComponent<TextComponent>()) {
+		auto & spr = entity->getComponent<TextComponent>();
 
 		spr.update();
 		spr.render();

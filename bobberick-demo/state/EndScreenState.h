@@ -16,6 +16,7 @@ private:
     bool readyForExit = false;
     void makeExitButton();
     void makeText() const;
+    void makeBackground() const;
 };
 
 

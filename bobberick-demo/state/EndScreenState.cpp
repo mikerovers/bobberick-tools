@@ -18,6 +18,7 @@ bool EndScreenState::onEnter()
 
     makeExitButton();
     makeText();
+    makeBackground();
 
 	return true;
 }
@@ -69,8 +70,17 @@ bool EndScreenState::shouldExit()
 void EndScreenState::makeText() const
 {
 	auto& hurrayText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	hurrayText.addComponent<TransformComponent>(250, 50, 80, 450, 1);
+	hurrayText.addComponent<TransformComponent>(250, 90, 80, 450, 1);
 	hurrayText.addComponent<TextComponent>("defaultLarge", "hurrayText", "Congratulations!");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(hurrayText, getStateID());
+}
+
+void EndScreenState::makeBackground() const
+{
+	auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	background.addComponent<SpriteComponent>("menuBackground", 0);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }

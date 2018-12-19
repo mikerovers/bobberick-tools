@@ -38,6 +38,7 @@ bool HelpScreenState::onEnter()
 {
     makeGui();
     makeText();
+    makeBackground();
 
     return true;
 }
@@ -67,32 +68,41 @@ void HelpScreenState::makeGui()
 void HelpScreenState::makeText() const
 {
     auto& walkText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    walkText.addComponent<TransformComponent>(10, 120, 80, 400, 1);
+    walkText.addComponent<TransformComponent>(100, 120, 80, 400, 1);
     walkText.addComponent<TextComponent>("defaultLarge", "walkText", "WASD : Walk");
 
     ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(walkText, getStateID());
 
     auto& shieldText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    shieldText.addComponent<TransformComponent>(10, 220, 80, 400, 1);
+    shieldText.addComponent<TransformComponent>(100, 220, 80, 400, 1);
     shieldText.addComponent<TextComponent>("defaultLarge", "shieldText", "SPACE : Shield");
 
     ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shieldText, getStateID());
 
     auto& mouseText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-    mouseText.addComponent<TransformComponent>(10, 320, 80, 400, 1);
+    mouseText.addComponent<TransformComponent>(100, 320, 80, 400, 1);
     mouseText.addComponent<TextComponent>("defaultLarge", "shootText", "Mouse : Shoot");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(mouseText, getStateID());
 
 	auto& pauseText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	pauseText.addComponent<TransformComponent>(10, 420, 80, 450, 1);
+	pauseText.addComponent<TransformComponent>(100, 420, 80, 450, 1);
 	pauseText.addComponent<TextComponent>("defaultLarge", "pauseText", "ESCAPE : Pause");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(pauseText, getStateID());
 
 	auto& musicToggleText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	musicToggleText.addComponent<TransformComponent>(10, 520, 80, 450, 1);
+	musicToggleText.addComponent<TransformComponent>(100, 520, 80, 450, 1);
 	musicToggleText.addComponent<TextComponent>("defaultLarge", "musicToggleText", "V : Toggle music");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(musicToggleText, getStateID());
+}
+
+void HelpScreenState::makeBackground() const
+{
+    auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+    background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+    background.addComponent<SpriteComponent>("menuBackground", 0);
+
+    ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }
