@@ -6,6 +6,7 @@
 #include "../../bobberick-framework/src/entity/components/TextComponent.h"
 #include "../../bobberick-framework/src/entity/components/FadeComponent.h"
 #include "../../bobberick-framework/src/StateMachine.h"
+#include "../../bobberick-framework/src/util/TextFormatter.h"
 
 bool HelpScreenState::shouldExit()
 {
@@ -115,9 +116,11 @@ void HelpScreenState::makeGoalText() const
 
 void HelpScreenState::makeMoveTexts() const
 {
+	TextFormatter textFormatter = TextFormatter{};
+
 	// Move left
 	std::string moveLeftString = "Move left: ";
-	moveLeftString = moveLeftString.append(settings.getHumanReadableScancode(settings.left1)).append(" or ").append(settings.getHumanReadableScancode(settings.left2));
+	moveLeftString = textFormatter.addSpaces(moveLeftString.append(settings.getHumanReadableScancode(settings.left1)).append(" or ").append(settings.getHumanReadableScancode(settings.left2)), 30, true);
 	auto& moveLeftText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	moveLeftText.addComponent<TransformComponent>(550, 290, 17, 280, 1);
 	moveLeftText.addComponent<TextComponent>("monoSmall", "moveLeftText", moveLeftString);
@@ -126,7 +129,7 @@ void HelpScreenState::makeMoveTexts() const
 
 	// Move right
 	std::string moveRightString = "Move right: ";
-	moveRightString = moveRightString.append(settings.getHumanReadableScancode(settings.right1)).append(" or ").append(settings.getHumanReadableScancode(settings.right2));
+	moveRightString = textFormatter.addSpaces(moveRightString.append(settings.getHumanReadableScancode(settings.right1)).append(" or ").append(settings.getHumanReadableScancode(settings.right2)), 30, true);
 	auto& moveRightText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	moveRightText.addComponent<TransformComponent>(550, 310, 17, 280, 1);
 	moveRightText.addComponent<TextComponent>("monoSmall", "moveRightText", moveRightString);
@@ -135,7 +138,7 @@ void HelpScreenState::makeMoveTexts() const
 
 	// Move up
 	std::string moveUpString = "Move up: ";
-	moveUpString = moveUpString.append(settings.getHumanReadableScancode(settings.up1)).append(" or ").append(settings.getHumanReadableScancode(settings.up2));
+	moveUpString = textFormatter.addSpaces(moveUpString.append(settings.getHumanReadableScancode(settings.up1)).append(" or ").append(settings.getHumanReadableScancode(settings.up2)), 30, true);
 	auto& moveUpText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	moveUpText.addComponent<TransformComponent>(550, 330, 17, 280, 1);
 	moveUpText.addComponent<TextComponent>("monoSmall", "moveUpText", moveUpString);
@@ -144,7 +147,7 @@ void HelpScreenState::makeMoveTexts() const
 
 	// Move down
 	std::string moveDownString = "Move down: ";
-	moveDownString = moveDownString.append(settings.getHumanReadableScancode(settings.down1)).append(" or ").append(settings.getHumanReadableScancode(settings.down2));
+	moveDownString = textFormatter.addSpaces(moveDownString.append(settings.getHumanReadableScancode(settings.down1)).append(" or ").append(settings.getHumanReadableScancode(settings.down2)), 30, true);
 	auto& moveDownText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	moveDownText.addComponent<TransformComponent>(550, 350, 17, 280, 1);
 	moveDownText.addComponent<TextComponent>("monoSmall", "moveDownText", moveDownString);
@@ -153,8 +156,10 @@ void HelpScreenState::makeMoveTexts() const
 
 void HelpScreenState::makeActivateShieldText() const
 {
+	TextFormatter textFormatter = TextFormatter{};
+
 	std::string activateShieldString = "Activate shield: ";
-	activateShieldString.append(settings.getHumanReadableScancode(settings.activateShield));
+	activateShieldString = textFormatter.addSpaces(activateShieldString.append(settings.getHumanReadableScancode(settings.activateShield)), 30, true);
 	auto& shieldText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	shieldText.addComponent<TransformComponent>(550, 370, 17, 280, 1);
 	shieldText.addComponent<TextComponent>("monoSmall", "shieldText", activateShieldString);
@@ -164,25 +169,29 @@ void HelpScreenState::makeActivateShieldText() const
 
 void HelpScreenState::makeShootTexts() const
 {
+	TextFormatter textFormatter = TextFormatter{};
+
 	// Shoot normal
 	auto& shootNormalText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	shootNormalText.addComponent<TransformComponent>(550, 390, 17, 280, 1);
-	shootNormalText.addComponent<TextComponent>("monoSmall", "shootNormalText", "Shoot normal: Left Mouse Button");
+	shootNormalText.addComponent<TextComponent>("monoSmall", "shootNormalText", textFormatter.addSpaces("Shoot normal: Left Mouse Button", 30, true));
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shootNormalText, getStateID());
 
 	// Shoot magic
 	auto& shootMagicText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	shootMagicText.addComponent<TransformComponent>(550, 410, 17, 280, 1);
-	shootMagicText.addComponent<TextComponent>("monoSmall", "shootMagicText", "Shoot magic: Right Mouse Button");
+	shootMagicText.addComponent<TextComponent>("monoSmall", "shootMagicText", textFormatter.addSpaces("Shoot magic: Right Mouse Button", 30, true));
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(shootMagicText, getStateID());
 }
 
 void HelpScreenState::makePauseText() const
 {
+	TextFormatter textFormatter = TextFormatter{};
+
 	std::string pauseString = "Pause: ";
-	pauseString.append(settings.getHumanReadableScancode(settings.pauseGame1));
+	pauseString = textFormatter.addSpaces(pauseString.append(settings.getHumanReadableScancode(settings.pauseGame1)), 30, true);
 	auto& pauseText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	pauseText.addComponent<TransformComponent>(550, 430, 17, 280, 1);
 	pauseText.addComponent<TextComponent>("monoSmall", "pauseText", pauseString);

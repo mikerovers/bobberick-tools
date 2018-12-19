@@ -4,6 +4,7 @@
 #include "../../bobberick-framework/src/entity/components/ButtonSpriteComponent.h"
 #include "../../bobberick-framework/src/entity/components/ButtonComponent.h"
 #include "../../bobberick-framework/src/StateMachine.h"
+#include "../../bobberick-framework/src/util/TextFormatter.h"
 
 std::string KeyMappingState::getStateID() const
 {
@@ -559,83 +560,103 @@ void KeyMappingState::makeExitButton()
 
 void KeyMappingState::updateMovementKeysTexts() const
 {
+	TextFormatter textFormatter = TextFormatter{};
+
 	std::string updatedText = "Move left 1: ";
-	moveLeftText1.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.left1)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.left1)), 30, false);
+	moveLeftText1.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Move right 1: ";
-	moveRightText1.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.right1)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.right1)), 30, false);
+	moveRightText1.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Move up 1: ";
-	moveUpText1.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.up1)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.up1)), 30, false);
+	moveUpText1.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Move down 1: ";
-	moveDownText1.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.down1)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.down1)), 30, false);
+	moveDownText1.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Move left 2: ";
-	moveLeftText2.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.left2)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.left2)), 30, false);
+	moveLeftText2.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Move right 2: ";
-	moveRightText2.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.right2)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.right2)), 30, false);
+	moveRightText2.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Move up 2: ";
-	moveUpText2.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.up2)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.up2)), 30, false);
+	moveUpText2.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Move down 2: ";
-	moveDownText2.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.down2)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.down2)), 30, false);
+	moveDownText2.getComponent<TextComponent>().setText(updatedText);
 }
 
 void KeyMappingState::updateFPSKeysTexts() const
 {
+	TextFormatter textFormatter = TextFormatter{};
+
 	std::string updatedText = "FPS up: ";
-	fpsUpText.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.fpsSpdUp)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.fpsSpdUp)), 30, false);
+	fpsUpText.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "FPS down: ";
-	fpsDownText.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.fpsSpdDown)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.fpsSpdDown)), 30, false);
+	fpsDownText.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "FPS reset: ";
-	fpsResetText.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.fpsSpdReset)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.fpsSpdReset)), 30, false);
+	fpsResetText.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Show FPS: ";
-	fpsShowText.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.fpsShow)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.fpsShow)), 30, false);
+	fpsShowText.getComponent<TextComponent>().setText(updatedText);
 
 	updatedText = "Hide FPS: ";
-	fpsHideText.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.fpsHide)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.fpsHide)), 30, false);
+	fpsHideText.getComponent<TextComponent>().setText(updatedText);
 }
 
 void KeyMappingState::updateEquipWeaponKeysTexts() const
 {
-	std::string updatedText = "Equip weapon key 1: ";
-	equipWeaponText1.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.equipWeapon1)));
+	TextFormatter textFormatter = TextFormatter{};
+
+	std::string updatedText = "Equip weapon: ";
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.equipWeapon1)), 30, false);
+	equipWeaponText1.getComponent<TextComponent>().setText(updatedText);
 }
 
 void KeyMappingState::updatePauseGameKeysTexts() const
 {
-	std::string updatedText = "Pause game key 1: ";
-	pauseGameText1.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.pauseGame1)));
+	TextFormatter textFormatter = TextFormatter{};
+
+	std::string updatedText = "Pause game: ";
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.pauseGame1)), 30, false);
+	pauseGameText1.getComponent<TextComponent>().setText(updatedText);
 }
 
 void KeyMappingState::updateShieldAndShootingKeysTexts() const
 {
+	TextFormatter textFormatter = TextFormatter{};
+
 	std::string updatedText = "Activate shield: ";
-	activateShieldText.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.activateShield)));
-
-	// TODO: Add shooting to the key binding
-	// updatedText = "Shoot normal: ";
-	// shootNormalText.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.shootNormal)));
-
-	// TODO: Add shooting to the key binding
-	// updatedText = "Shoot magic: ";
-	// shootMagicText.getComponent<TextComponent>().setText(updatedText.append(settings.getHumanReadableScancode(settings.shootMagic)));
+	updatedText = textFormatter.addSpaces(updatedText.append(settings.getHumanReadableScancode(settings.activateShield)), 30, false);
+	activateShieldText.getComponent<TextComponent>().setText(updatedText);
 }
 
 void KeyMappingState::updateChangingKeyText() const
 {
+	TextFormatter textFormatter = TextFormatter{};
+
 	if (inputHandler.isMappingKey())
 	{
-		changingKeyText.getComponent<TextComponent>().setText(changingKeyString);
+		changingKeyText.getComponent<TextComponent>().setText(textFormatter.addSpaces(changingKeyString, 30, false));
 	}
 	else
 	{
-		changingKeyText.getComponent<TextComponent>().setText(" ");
+		changingKeyText.getComponent<TextComponent>().setText("");
 	}
 }
