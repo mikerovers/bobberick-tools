@@ -16,9 +16,9 @@
 Entity& DevilFactory::getEnemy(const int level)
 {
 	Entity& chicken = ServiceManager::Instance()->getService<EntityManager>().addEntity();	
-	auto& transformComponent = chicken.addComponent<TransformComponent>(-1, -1, 92, 107, 1);
+	auto& transformComponent = chicken.addComponent<TransformComponent>(0, 0, 92, 86, 1);
 
-	chicken.addComponent<SpriteComponent>("devil", 3, 2, 9, 6);
+	chicken.addComponent<SpriteComponent>("devil", 3, 3, 9, 6);
 
 
 	chicken.addComponent<SprayComponent>();
