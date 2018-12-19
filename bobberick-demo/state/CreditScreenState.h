@@ -15,4 +15,5 @@ private:
 	bool readyForExit = false;
 	void createText();
 	void createExitButton();
+	void createBackground();
 };

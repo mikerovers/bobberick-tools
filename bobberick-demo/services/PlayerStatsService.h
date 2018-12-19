@@ -71,6 +71,7 @@ public:
 	WeaponComponent comparingWeapon = WeaponComponent("", "", false, 0, 0, "", "");
 	int compareTime = 0; // When >0, the hud system should show the compared weapon. Depicts the amount of frames the compared weapon is valid.
 	bool compareConfirmed = false; // When true, this is a message to the collision system to destroy the colliding weapon and set this back to false when done.
+	bool invincible = false; // When true, the player cannot be hurt at all. Used to give the player breathing room during transitions.
 	int xp{}; // Earned in the current game.
 
 	void save(); // Save current game stats

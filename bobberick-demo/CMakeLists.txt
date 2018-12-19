@@ -41,7 +41,8 @@ systems/HudSystem.cpp systems/HudSystem.h
 systems/MenuSystem.cpp systems/MenuSystem.h 
 state/Level1State.cpp state/Level1State.h
 systems/AISystem.cpp systems/AISystem.h 
-systems/AdvertisementSystem.cpp systems/AdvertisementSystem.h 
+systems/AdvertisementSystem.cpp systems/AdvertisementSystem.h
+systems/KeyMappingSystem.cpp systems/KeyMappingSystem.h 
 state/StateFactory.cpp state/StateFactory.h
 state/SplashScreenState.cpp state/SplashScreenState.h
 state/SkillScreenState.cpp state/SkillScreenState.h
@@ -68,11 +69,12 @@ state/HelpScreenState.cpp state/HelpScreenState.h
 state/EndScreenState.cpp state/EndScreenState.h 
 state/Level2State.cpp state/Level2State.h
 state/Level3State.cpp state/Level3State.h
+state/Level4State.cpp state/Level4State.h
 state/PauseScreenState.cpp state/PauseScreenState.h
 state/GameOverState.cpp state/GameOverState.h
 systems/CollisionSystem.cpp systems/CollisionSystem.h
-
-        )
+state/KeyMappingState.cpp state/KeyMappingState.h
+)
 
 add_executable(bobberick-demo ${SOURCE_FILES})
 

@@ -35,6 +35,7 @@ RectangleComponent::RectangleComponent()
 	green = 0;
 	blue = 0;
 	filled = true;
+	overlay = false;
 }
 
 RectangleComponent::RectangleComponent(const int red, const int green, const int blue, const bool filled)
@@ -43,4 +44,5 @@ RectangleComponent::RectangleComponent(const int red, const int green, const int
 	RectangleComponent::green = green;
 	RectangleComponent::blue = blue;
 	RectangleComponent::filled = filled;
+	overlay = false;
 }

@@ -11,7 +11,7 @@ public:
 	void update() override;
 private:
 	void handleKeyInput(Entity* entity);
-	void handleMouseInput(Entity* entity);
+	void handleMouseInput(Entity* entity) const;
 	int skipForRepeat = 0;
 };
 

@@ -20,6 +20,7 @@ bool GameOverState::onEnter()
 
 	makeText();
 	makeGui();
+	makeBackground();
 
 	playerStats.init();
 
@@ -39,8 +40,6 @@ void GameOverState::update()
 
 bool GameOverState::onExit()
 {
-	std::cout << "Exited GameOverState" << std::endl;
-
 	return true;
 }
 
@@ -59,7 +58,7 @@ void GameOverState::makeText() const
 void GameOverState::makeGameOverText() const
 {
 	auto& gameOverText = ServiceManager::Instance()->getService<EntityManager>().addEntity();
-	gameOverText.addComponent<TransformComponent>(250, 50, 80, 450, 1);
+	gameOverText.addComponent<TransformComponent>(250, 70, 80, 450, 1);
 	gameOverText.addComponent<TextComponent>("defaultLarge", "gameOverText", "Game Over...");
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(gameOverText, getStateID());
@@ -101,4 +100,13 @@ void GameOverState::makeGui()
 	exitButton.addComponent<CollisionComponent>("button");
 
 	entityManager.addEntityToGroup(exitButton, getStateID());
+}
+
+void GameOverState::makeBackground() const
+{
+	auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	background.addComponent<SpriteComponent>("menuBackground", 0);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }

@@ -26,11 +26,10 @@ void Level1State::update()
 {
 	for (const auto& system : systems)
 	{
-		if (!exiting) {
-			system->update();
-		} else {
-		    break;
-		}
+		if (exiting)
+			break;
+
+		system->update();
 	}
 }
 
@@ -58,7 +57,6 @@ bool Level1State::onEnter()
 
 bool Level1State::onExit()
 {
-	std::cout << "Exited playstate" << std::endl;
 	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
 	ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
 
@@ -129,13 +127,6 @@ void Level1State::makeEnemies() const
 			enemyTransform.position.y = 350 + 25 * y;
 		}
 	}
-	auto& enemy = enemyFactory.getEnemy(10, "chicken");
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());
-	enemy.addComponent<SprayComponent>();
-	enemy.addComponent<TimerComponent>();
-	auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	enemyTransform.position.x = 50 + 25;
-	enemyTransform.position.y = 350 + 25;
 }
 
 void Level1State::makeGui()
@@ -146,7 +137,6 @@ void Level1State::makeGui()
 
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
-		std::cout << "Exit button clicked." << std::endl;
 		_exitPressed = true;
 	});
 

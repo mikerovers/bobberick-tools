@@ -18,6 +18,7 @@ void CreditScreenState::update()
 
 bool CreditScreenState::onEnter()
 {
+	createBackground();
 	createText();
 	createExitButton();
 	return true;
@@ -26,7 +27,7 @@ bool CreditScreenState::onEnter()
 void CreditScreenState::createText() {
 	auto &entityManager = ServiceManager::Instance()->getService<EntityManager>();
 	auto& titleText = entityManager.addEntity();
-	titleText.addComponent<TransformComponent>(390, 10, 80, 180, 1);
+	titleText.addComponent<TransformComponent>(390, 50, 80, 180, 1);
 	titleText.addComponent<TextComponent>("defaultLarge", "creditsTitle", "Credits");
 	entityManager.addEntityToGroup(titleText, getStateID());
 
@@ -77,7 +78,6 @@ void CreditScreenState::createExitButton() {
 	auto* exitButtonComponent = new ButtonComponent([this]()
 	{
 		readyForExit = true;
-		std::cout << "Exit button clicked" << std::endl;
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
@@ -100,4 +100,13 @@ bool CreditScreenState::shouldExit()
 std::string CreditScreenState::getStateID() const
 {
 	return "creditsScreen";
+}
+
+void CreditScreenState::createBackground()
+{
+	auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+	background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	background.addComponent<SpriteComponent>("menuBackground", 0);
+
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }

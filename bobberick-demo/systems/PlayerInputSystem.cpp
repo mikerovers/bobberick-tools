@@ -53,10 +53,11 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	auto& sprite = entity->getComponent<SpriteComponent>();
 	auto& inputHandler = ServiceManager::Instance()->getService<InputHandler>();
 	auto& playerStats = ServiceManager::Instance()->getService<PlayerStatsService>();
+	auto& settings = ServiceManager::Instance()->getService<SettingsService>();
 
 	double speedModifier = playerStats.getSHDactive() ? 0.5 : 1;
 
-	if (inputHandler.isKeyDown(SDL_SCANCODE_SPACE))
+	if (inputHandler.isKeyDown(settings.activateShield))
 	{
 		if (!playerStats.getSHDactive())
 		{
@@ -64,21 +65,22 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		}
 	}
 
-	bool left = inputHandler.isKeyDown(SDL_SCANCODE_LEFT) || inputHandler.isKeyDown(SDL_SCANCODE_A),
-	     right = inputHandler.isKeyDown(SDL_SCANCODE_RIGHT) || inputHandler.isKeyDown(SDL_SCANCODE_D),
-	     up = inputHandler.isKeyDown(SDL_SCANCODE_UP) || inputHandler.isKeyDown(SDL_SCANCODE_W),
-	     down = inputHandler.isKeyDown(SDL_SCANCODE_DOWN) || inputHandler.isKeyDown(SDL_SCANCODE_S),
-	     z = inputHandler.isKeyDown(SDL_SCANCODE_Z),
-	     x = inputHandler.isKeyDown(SDL_SCANCODE_X),
-	     c = inputHandler.isKeyDown(SDL_SCANCODE_C),
-		 shift = inputHandler.isKeyDown(SDL_SCANCODE_LSHIFT) || inputHandler.isKeyDown(SDL_SCANCODE_RSHIFT),
-		 ret = inputHandler.isKeyDown(SDL_SCANCODE_RETURN) || inputHandler.isKeyDown(SDL_SCANCODE_RETURN2),
-		 esc = inputHandler.isKeyDown(SDL_SCANCODE_ESCAPE);
+	bool left = inputHandler.isKeyDown(settings.left1) || inputHandler.isKeyDown(settings.left2),
+	     right = inputHandler.isKeyDown(settings.right1) || inputHandler.isKeyDown(settings.right2),
+	     up = inputHandler.isKeyDown(settings.up1) || inputHandler.isKeyDown(settings.up2),
+	     down = inputHandler.isKeyDown(settings.down1) || inputHandler.isKeyDown(settings.down2),
+	     z = inputHandler.isKeyDown(settings.fpsSpdDown),
+	     x = inputHandler.isKeyDown(settings.fpsSpdUp),
+	     c = inputHandler.isKeyDown(settings.fpsSpdReset),
+		 shift = inputHandler.isKeyDown(settings.equipWeapon1),
+		 esc = inputHandler.isKeyDown(settings.pauseGame1),
+		 fpsShow = inputHandler.isKeyDown(settings.fpsShow),
+		 fpsHide = inputHandler.isKeyDown(settings.fpsHide);
 	
 	if (left || right || up || down)
 	{
-		const int gameWidth = ServiceManager::Instance()->getService<SettingsService>().gameWidth;
-		const int gameHeight = ServiceManager::Instance()->getService<SettingsService>().gameHeight;
+		const int gameWidth = settings.gameWidth;
+		const int gameHeight = settings.gameHeight;
 
 		if (transform.position.x < 0)
 		{
@@ -156,22 +158,6 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		ServiceManager::Instance()->getService<PlayerStatsService>().equipComparingWeapon();
 	}
 
-	if (ret)
-	{
-		std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
-		ServiceManager::Instance()->getService<StateMachine>().popState();
-		ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("EndScreen"));
-		// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
-		// {
-		// 	std::unique_ptr<StateFactory> sFactory = std::make_unique<StateFactory>();
-		// 	ServiceManager::Instance()->getService<StateMachine>().pushState(sFactory->createState("PauseScreenState"));
-		// }
-		// else
-		// {
-		// 	ServiceManager::Instance()->getService<StateMachine>().popState();
-		// }
-	}
-
 	if (esc)
 	{
 		// if (ServiceManager::Instance()->getService<StateMachine>().peekState()->getStateID() == "playing")
@@ -185,6 +171,16 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 		// 	ServiceManager::Instance()->getService<StateMachine>().popState();
 		// }
 	}
+	
+	if (fpsHide)
+	{
+		settings.fps = false;
+	}
+
+	if (fpsShow)
+	{
+		settings.fps = true;
+	}
 
 	sprite.flip = inputHandler.getMousePosition()->x < transform.position.x;
 
@@ -195,7 +191,7 @@ void PlayerInputSystem::handleKeyInput(Entity* entity)
 	collisionComponent.collider.h = transform.height;
 }
 
-void PlayerInputSystem::handleMouseInput(Entity* entity)
+void PlayerInputSystem::handleMouseInput(Entity* entity) const
 {
 	auto& transform = entity->getComponent<TransformComponent>();
 	auto& sprite = entity->getComponent<SpriteComponent>();
@@ -245,7 +241,6 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 			if (inputHandler.getMouseButtonState(LEFT))
 			{
 				auto& weapon = playerStats.normalWeapon;
-				std::cout << weapon.power << "\n";
 				sprite.setTexture(weapon.attackingTextureID.c_str());
 				ServiceManager::Instance()->getService<SoundManager>().playSound(2, "arrow", 0);
 				projectile.addComponent<SpriteComponent>("bullet", 4);
@@ -271,17 +266,5 @@ void PlayerInputSystem::handleMouseInput(Entity* entity)
 	else
 	{
 		sprite.setTexture("character");
-	}
-
-	if (inputHandler.isKeyDown(SDL_SCANCODE_F11))
-	{
-		auto& settings = ServiceManager::Instance()->getService<SettingsService>();
-		settings.fps = false;
-	}
-
-	if (inputHandler.isKeyDown(SDL_SCANCODE_F12))
-	{
-		auto& settings = ServiceManager::Instance()->getService<SettingsService>();
-		settings.fps = true;
 	}
 }
