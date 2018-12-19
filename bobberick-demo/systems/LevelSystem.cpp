@@ -14,7 +14,17 @@
 
 LevelSystem::LevelSystem(EntityManager &entityManager) : System(entityManager), transition(entityManager.addEntity()), oldTransition(entityManager.addEntity())
 {
-	oldTransition.addComponent<TransformComponent>(-960, 0, 704, 960, 1);
+	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
+
+	// During construction, we're still in the old state, but this is the only oppurtunity to correctly place the rectangle before it gets drawn.
+	// We have to list all possible states our level might have been pushed in from: loading from the main menu or starting from the skill screen.
+	if (stateId != "mainmenu" && stateId != "skillscreen") {
+		oldTransition.addComponent<TransformComponent>(0, 0, 704, 960, 1);
+	}
+	else {
+		oldTransition.addComponent<TransformComponent>(-960, 0, 704, 960, 1);
+	}
+
 	oldTransition.addComponent<RectangleComponent>(255, 255, 255, true);
 	oldTransition.getComponent<RectangleComponent>().overlay = true;
 
@@ -41,7 +51,6 @@ void LevelSystem::handleLevelFinished() const {
 	}
 	if (!newStateId.empty()) {
 		ServiceManager::Instance()->getService<StateMachine>().changeState(factory.createState(newStateId));
-
 	}
 }
 
@@ -56,17 +65,18 @@ bool LevelSystem::checkIfLevelFinished() const {
 void LevelSystem::update()
 {
 	std::string const stateId = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
-	auto& transitionPos = transition.getComponent<TransformComponent>();
-	auto& oldTransitionPos = oldTransition.getComponent<TransformComponent>();
 
 	if (transition.getGroups().size() == 0) {
 		entityManager.addEntityToGroup(transition, stateId);
 		entityManager.addEntityToGroup(oldTransition, stateId);
+
 		if (stateId != "level_one") {
-			oldTransitionPos.position.x = 0;
 			ServiceManager::Instance()->getService<PlayerStatsService>().invincible = true;
 		}
 	}
+
+	auto& transitionPos = transition.getComponent<TransformComponent>();
+	auto& oldTransitionPos = oldTransition.getComponent<TransformComponent>();
 
 	if (oldTransitionPos.position.x > -960) {
 		oldTransitionPos.position.x -= 10;
@@ -77,7 +87,7 @@ void LevelSystem::update()
 	if (checkIfLevelFinished()) {
 		ServiceManager::Instance()->getService<PlayerStatsService>().invincible = true;
 		transitionPos.position.x -= 10;
-		if (transitionPos.position.x < 0) {
+		if (transitionPos.position.x < -10) {
 			handleLevelFinished();
 		}
 	}
