@@ -12,6 +12,7 @@ void PlayerStatsService::init()
 	}
 	xp = 0;
 	shdActive = false;
+	invincible = false;
 	fireCooldown = 0;
 
 	normalWeapon = WeaponComponent("", "Training Bow of Nothing", false, 10, 30, "bullet", "characterShooting");
@@ -121,7 +122,7 @@ void PlayerStatsService::update()
 
 void PlayerStatsService::getHit(double attack)
 {
-	if (!shdActive)
+	if (!shdActive && !invincible)
 	{
 		hp -= attack;
 		if (hp < 0)
