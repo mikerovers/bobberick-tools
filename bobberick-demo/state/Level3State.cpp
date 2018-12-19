@@ -17,19 +17,16 @@
 #include "../components/InventoryComponent.h"
 #include "../../bobberick-framework/src/entity/components/CollisionComponent.h"
 
-void Level3State::update()
-{
-    for (const auto& system : systems)
-    {
-      if (exiting)
-        break;
+void Level3State::update() {
+    for (const auto &system : systems) {
+        if (exiting)
+            break;
 
-      system->update();
+        system->update();
     }
 }
 
-bool Level3State::onEnter()
-{
+bool Level3State::onEnter() {
     ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/arrow-swoosh-2.ogg", "arrow",
                                                                 SOUND_SFX);
     ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/footsteps_on_gravel.ogg",
@@ -39,39 +36,34 @@ bool Level3State::onEnter()
 
     ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_3.wav", "level3",
                                                                 SOUND_MUSIC);
-	ServiceManager::Instance()->getService<SoundManager>().playMusic("level3", -1);
+    ServiceManager::Instance()->getService<SoundManager>().playMusic("level3", -1);
 
-    auto& level = makeTileMap();
+    auto &level = makeTileMap();
     makePlayer();
 
-    for (const auto& system : systems)
-    {
+    for (const auto &system : systems) {
         system->init();
     }
 
     return true;
 }
 
-bool Level3State::onExit()
-{
-	ServiceManager::Instance()->getService<SoundManager>().stopMusic();
-	ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
+bool Level3State::onExit() {
+    ServiceManager::Instance()->getService<SoundManager>().stopMusic();
+    ServiceManager::Instance()->getService<SoundManager>().stopAllSounds();
     return true;
 }
 
-bool Level3State::shouldExit()
-{
+bool Level3State::shouldExit() {
     return false;
 }
 
-std::string Level3State::getStateID() const
-{
+std::string Level3State::getStateID() const {
     return "level_three";
 }
 
-Entity &Level3State::makeTileMap() const
-{
-    auto& level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
+Entity &Level3State::makeTileMap() const {
+    auto &level = ServiceManager::Instance()->getService<EntityManager>().addEntity();
     ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(level, getStateID());
 
 
@@ -83,18 +75,16 @@ Entity &Level3State::makeTileMap() const
     level.addExistingComponent<TilesetComponent>(tilesetComponent);
 
     ObjectFactory objectFactory(3);
-    for (auto object : level.getComponent<TilesetComponent>().objects)
-    {
-        auto& objEntity = objectFactory.getObject(object);
+    for (auto object : level.getComponent<TilesetComponent>().objects) {
+        auto &objEntity = objectFactory.getObject(object);
         ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(objEntity, getStateID());
     }
 
     return level;
 }
 
-void Level3State::makePlayer() const
-{
-    for(auto& p : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>()) {
+void Level3State::makePlayer() const {
+    for (auto &p : ServiceManager::Instance()->getService<EntityManager>().getAllEntitiesWithComponent<PlayerComponent>()) {
         ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(*p, getStateID());
     }
 }

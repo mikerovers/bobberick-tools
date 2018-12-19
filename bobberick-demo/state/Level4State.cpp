@@ -36,17 +36,13 @@ void Level4State::update()
 		}
 	}
 
-	for (const auto& system : systems)
-	{
-		if (!exiting)
-		{
-			system->update();
-		}
-		else
-		{
-			break;
-		}
-	}
+    for (const auto &system : systems) {
+        if (exiting) {
+            break;
+        } else {
+            system->update();
+        }
+    }
 }
 
 bool Level4State::onEnter()
