@@ -45,7 +45,7 @@ bool KeyMappingState::onEnter()
 
 bool KeyMappingState::onExit()
 {
-	changingKeyString = "";
+	changingKeyString = " ";
 	changingKeyText.getComponent<TextComponent>().setText(changingKeyString);
 	return true;
 }
@@ -657,6 +657,6 @@ void KeyMappingState::updateChangingKeyText() const
 	}
 	else
 	{
-		changingKeyText.getComponent<TextComponent>().setText("");
+		changingKeyText.getComponent<TextComponent>().setText(" ");
 	}
 }
