@@ -24,13 +24,12 @@ std::string Level1State::getStateID() const
 
 void Level1State::update()
 {
-	for (const auto& system : systems)
-	{
-		if (exiting || system == nullptr)
-			break;
+    for (const auto &system : systems) {
+        if (exiting || system == nullptr)
+            break;
 
-		system->update();
-	}
+        system->update();
+    }
 }
 
 bool Level1State::onEnter()
