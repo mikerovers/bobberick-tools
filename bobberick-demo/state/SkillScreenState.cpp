@@ -53,10 +53,10 @@ bool SkillScreenState::onEnter()
 	updateShdTimeText(playerStats);
 	updateShdRecovText(playerStats);
 
-	xpImage.addComponent<TransformComponent>(750, 1, 48, 48, 1);
+	xpImage.addComponent<TransformComponent>(375, 545, 48, 48, 1);
 	xpImage.addComponent<SpriteComponent>("hudXp", 1);
-	xpText.addComponent<TransformComponent>(800, 10, 30, 145, 1);
-	xpText.addComponent<TextComponent>("monoMedium", "xpText", textFormatter.addSpaces(std::to_string(playerStats.getXPtotal()), 8, false));
+	xpText.addComponent<TransformComponent>(425, 555, 30, 145, 1);
+	xpText.addComponent<TextComponent>("monoMedium", "xpText", textFormatter.addSpaces(std::to_string(playerStats.getXPtotal()), 8, true));
 
 	return true;
 }
@@ -168,7 +168,7 @@ void SkillScreenState::makeExitButton()
 	});
 
 	exitButton.addExistingComponent<ButtonComponent>(exitButtonComponent);
-	exitButton.addComponent<TransformComponent>(10, 60, 64, 128, 1);
+	exitButton.addComponent<TransformComponent>(10, 10, 64, 128, 1);
 	exitButton.addComponent<ButtonSpriteComponent>("exitButton", 1, 3, 0, 1).setStaticAnimation(true);
 
 	entityManager.addEntityToGroup(exitButton, getStateID());
@@ -214,9 +214,9 @@ void SkillScreenState::makeShdRecovText() const
 {
 	shdRecovCost.addComponent<TransformComponent>(145, 460, 30, 270, 1);
 	shdRecovCost.addComponent<TextComponent>("monoMedium", "shdRecovCost", " ");
-	shdRecovLevel.addComponent<TransformComponent>(145, 420, 30, 270, 1);
+	shdRecovLevel.addComponent<TransformComponent>(145, 430, 30, 270, 1);
 	shdRecovLevel.addComponent<TextComponent>("monoMedium", "shdRecovLevel", " ");
-	shdRecovValue.addComponent<TransformComponent>(555, 420, 30, 270, 1);
+	shdRecovValue.addComponent<TransformComponent>(555, 430, 30, 270, 1);
 	shdRecovValue.addComponent<TextComponent>("monoMedium", "shdRecovValue", " ");
 	shdRecovNext.addComponent<TransformComponent>(555, 460, 30, 270, 1);
 	shdRecovNext.addComponent<TextComponent>("monoMedium", "shdRecovNext", " ");
@@ -275,7 +275,7 @@ void SkillScreenState::makeBackground() const
 {
 	auto& background = ServiceManager::Instance()->getService<EntityManager>().addEntity();
 	background.addComponent<TransformComponent>(0, 0, 704, 960, 1);
-	background.addComponent<SpriteComponent>("menuBackground", 0);
+	background.addComponent<SpriteComponent>("menuBackground", 2);
 
 	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(background, getStateID());
 }
