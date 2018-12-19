@@ -526,7 +526,9 @@ void AISystem::kill(Entity& entity)
 	}
 	else if (entity.hasComponent<EndBossComponent>())
 	{
-		spawnChance = 0;
+		const auto state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
+
+		spawnChance = state != "level_four" ? 100 : 0;
 		auto endBossEntities = ServiceManager::Instance()
 		                       ->getService<EntityManager>().getAllEntitiesWithComponent<EndBossComponent>();
 		auto& particleSystem = ServiceManager::Instance()->getService<EntityManager>().addEntity();
@@ -545,7 +547,6 @@ void AISystem::kill(Entity& entity)
 		particleSystem.getComponent<ParticleSystemComponent>().addTexture("blood5");
 		if (endBossEntities.size() < 2)
 		{
-			const auto state = ServiceManager::Instance()->getService<StateMachine>().peekState().getStateID();
 
 			if (state == "level_one")
 			{
@@ -559,7 +560,12 @@ void AISystem::kill(Entity& entity)
 			{
 				ServiceManager::Instance()->getService<SoundManager>().playMusic("level3", -1);
 			}
+			else if (state == "level_four")
+			{
+				ServiceManager::Instance()->getService<SoundManager>().playMusic("level4", -1);
+			}
 		}
+
 	}
 	else
 	{

@@ -128,13 +128,6 @@ void Level1State::makeEnemies() const
 			enemyTransform.position.y = 350 + 25 * y;
 		}
 	}
-	auto& enemy = enemyFactory.getEnemy(10, "chicken");
-	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(enemy, getStateID());
-	enemy.addComponent<SprayComponent>();
-	enemy.addComponent<TimerComponent>();
-	auto& enemyTransform = enemy.getComponent<TransformComponent>();
-	enemyTransform.position.x = 50 + 25;
-	enemyTransform.position.y = 350 + 25;
 }
 
 void Level1State::makeGui()

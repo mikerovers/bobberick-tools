@@ -58,9 +58,9 @@ bool Level4State::onEnter()
 	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/effects/magical_zap.ogg", "bolt",
 	                                                            SOUND_SFX);
 
-	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_2.wav", "level2",
+	ServiceManager::Instance()->getService<SoundManager>().load("assets/music/soundtrack/level_4.wav", "level4",
 	                                                            SOUND_MUSIC);
-	ServiceManager::Instance()->getService<SoundManager>().playMusic("level2", -1);
+	ServiceManager::Instance()->getService<SoundManager>().playMusic("level4", -1);
 
 	spawnPoints.emplace_back(200, 200);
 	spawnPoints.emplace_back(200, 600);
