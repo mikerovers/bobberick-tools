@@ -72,8 +72,8 @@ bool Level4State::onEnter()
 
 	EnemyFactory enemyFactory{};
 
-	auto& boss = enemyFactory.getEnemy(100, "chicken");
-	boss.getComponent<TransformComponent>().setScale(1);
+	auto& boss = enemyFactory.getEnemy(5, "devil");
+
 	boss.getComponent<TransformComponent>().position = Vector2D{600, 600};
 	boss.addComponent<EndBossComponent>();
 	boss.addComponent<SprayComponent>();

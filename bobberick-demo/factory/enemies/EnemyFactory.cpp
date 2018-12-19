@@ -4,6 +4,7 @@
 #include "FireWizardFactory.h"
 #include "EndBossFactory.h"
 #include "BirdFactory.h"
+#include "DevilFactory.h"
 #include "NullFactory.h"
 #include "../../../bobberick-framework/src/services/ServiceManager.h"
 #include "../../../bobberick-framework/src/entity/EntityManager.h"
@@ -81,6 +82,11 @@ std::unique_ptr<BaseEnemyFactory> EnemyFactory::getFactory(std::string type) con
 	if (type == "bird")
 	{
 		return std::make_unique<BirdFactory>();
+	}
+
+	if (type == "devil")
+	{
+		return std::make_unique<DevilFactory>();
 	}
 
 	if (type == "manufacturer")
