@@ -29,6 +29,7 @@ public:
 	void clean() override;
 
 	void init() override;
+
 	/// Handling Mouse Event
 	void onMouseButtonDown(SDL_Event& event);
 	void onMouseMove(SDL_Event& event);
@@ -44,11 +45,11 @@ public:
 	std::vector<std::pair<Vector2D*, Vector2D*>> getJoystickValues();
 
 	///Handling Keyboard Event
-	void onKeyDown();
+	void onKeyDown(SDL_Event* event = nullptr);
 	void onKeyUp();
 	bool isKeyDown(SDL_Scancode key) const;
 	bool isWindowEvent(int windowEvent) const;
-
+	
 	void initialiseJoysticks();
 
 	bool joysticksInitialised()
@@ -58,8 +59,13 @@ public:
 
 	bool getButtonState(int joy, int buttonNumber);
 
+	void isMappingKey(bool isMappingKey);
+	bool isMappingKey() const;
+
 	int xvalue(int joy, int stick);
 	int yvalue(int joy, int stick);
+
+	SDL_Scancode newKey;
 
 private:
 	std::vector<bool> m_mouseButtonStates;
@@ -75,6 +81,8 @@ private:
 	// std::vector<bool> windowStates;
 	
 	bool windowClosed;
+
+	bool keyMapping = false;
 };
 
 #endif /* defined(__SDL__InputHandler__) */
