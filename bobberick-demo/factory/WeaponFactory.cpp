@@ -51,14 +51,6 @@ std::unique_ptr<WeaponComponent> WeaponFactory::generateWeapon(const bool magic,
 		power += powerUnit * balance;
 		fireDelay += fireDelayUnit * balance;
 
-		// Debug: test calculation and randomness.
-		//std::cout << "Magic: " << magic << std::endl;
-		//std::cout << "Rank: " << rank << std::endl;
-		//std::cout << "Balance: " << balance << std::endl;
-		//std::cout << "Name: " << name.c_str() << std::endl;
-		//std::cout << "Power: " << power << std::endl;
-		//std::cout << "Fire Delay: " << fireDelay << std::endl;
-
 		// Assign sprites: these might vary depending on weapon type and weapon rank.
 		std::string spriteID;
 		std::string attackingTextureID;
