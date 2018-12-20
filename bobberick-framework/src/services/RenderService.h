@@ -3,7 +3,9 @@
 
 
 #include <SDL_system.h>
+#include <memory>
 #include "Service.h"
+#include "../util/SDL_Deleter.h"
 
 class RenderService : public Service
 {
@@ -11,9 +13,10 @@ public:
     RenderService();
 
     void init() override;
-    bool createRenderer(SDL_Window* window);
-    SDL_Renderer* getRenderer();
-    SDL_Renderer* renderer;
+    void clean() override;
+    bool createRenderer(SDL_WindowPointer window);
+    SDL_RendererPointer getRenderer();
+    SDL_RendererPointer renderer;
 private:
 };
 

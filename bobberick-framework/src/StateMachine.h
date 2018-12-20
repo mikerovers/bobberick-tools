@@ -1,20 +1,23 @@
 #ifndef BOBBERICK_TOOLS_STATEMACHINE_H
 #define BOBBERICK_TOOLS_STATEMACHINE_H
 
-
 #include <vector>
 #include "GameState.h"
 
-class StateMachine {
+class StateMachine : public Service
+{
 public:
-    void pushState(GameState* pState);
-    void changeState(GameState* pState);
+    void init() override;
+    void clean() override;
+    void pushState(std::unique_ptr<GameState> pState);
+    void changeState(std::unique_ptr<GameState> pState);
     void popState();
+    GameState& peekState();
+	bool isEmpty() const;
 
     void update();
-    void render();
 private:
-    std::vector<GameState*> gameStates;
+    std::vector<std::unique_ptr<GameState>> gameStates;
 };
 
 

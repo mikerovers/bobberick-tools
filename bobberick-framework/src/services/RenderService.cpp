@@ -1,6 +1,6 @@
 #include "RenderService.h"
 
-SDL_Renderer *RenderService::getRenderer()
+SDL_RendererPointer RenderService::getRenderer()
 {
     return renderer;
 }
@@ -9,14 +9,19 @@ void RenderService::init()
 {
 }
 
-bool RenderService::createRenderer(SDL_Window* window)
+bool RenderService::createRenderer(SDL_WindowPointer window)
 {
-    renderer = SDL_CreateRenderer(window, -1, 0);
+    renderer = SDL_RendererPointer(SDL_CreateRenderer(window.get(), -1, 0));
 
     return renderer != nullptr;
 }
 
 RenderService::RenderService()
+{
+
+}
+
+void RenderService::clean()
 {
 
 }

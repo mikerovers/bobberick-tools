@@ -1,6 +1,8 @@
 #ifndef BOBBERICK_TOOLS_COMPONENT_H
 #define BOBBERICK_TOOLS_COMPONENT_H
 
+#include <iostream>
+
 class Entity;
 
 class Component
@@ -12,7 +14,7 @@ public:
     virtual void update() {};
     virtual void render() {};
 
-    virtual ~Component() {};
+    virtual ~Component() = default;
 };
 
 

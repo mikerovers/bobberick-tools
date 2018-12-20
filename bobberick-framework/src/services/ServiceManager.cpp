@@ -10,3 +10,8 @@ ServiceManager *ServiceManager::Instance()
 
     return instance;
 }
+
+void ServiceManager::clean()
+{
+    // TODO implement if needed.
+}

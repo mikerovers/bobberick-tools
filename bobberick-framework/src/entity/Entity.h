@@ -6,8 +6,16 @@
 class Entity
 {
 public:
+    Entity();
     bool isActive() const;
+    void setActive(const bool isActive);
+    bool isDeleted() const;
     void destroy();
+
+    void addGroup(const Group group);
+    bool hasGroup(const Group group) const;
+    void removeGroup(const Group group);
+	std::vector<Group> getGroups() const;
 
     template <typename T> bool hasComponent() const
     {
@@ -19,6 +27,14 @@ public:
         T *c(new T(std::forward<TArgs>(mArgs)...));
         c->entity = this;
         std::unique_ptr<Component> uPtr{c};
+
+        if (components.size() < getComponentTypeID<T>()) {
+            unsigned int difference = getComponentTypeID<T>() - components.size();
+            for (int i = 0 ; i < difference; i++) {
+//                components.push_back(nullptr);
+            }
+        }
+
         components.emplace_back(std::move(uPtr));
 
         componentArray[getComponentTypeID<T>()] = c;
@@ -29,6 +45,30 @@ public:
         return *c;
     }
 
+    template <typename T, typename... TArgs> void addExistingComponent(Component* component)
+    {
+        component->entity = this;
+        std::unique_ptr<Component> uPtr{component};
+        if (components.size() < getComponentTypeID<T>()) {
+            unsigned int difference = getComponentTypeID<T>() - components.size();
+            for (int i = 0 ; i < difference; i++) {
+                components.push_back(nullptr);
+            }
+        }
+        components.emplace_back(std::move(uPtr));
+        componentArray[getComponentTypeID<T>()] = component;
+        componentBitSet[getComponentTypeID<T>()] = true;
+    }
+
+    template <typename T> bool removeComponent()
+    {
+        auto typeID = getComponentTypeID<T>();
+        components[getComponentTypeID<T>()] = nullptr;
+        componentBitSet[typeID] = false;
+
+        return true;
+    };
+
     template <typename T> T& getComponent() const
     {
         auto ptr(componentArray[getComponentTypeID<T>()]);
@@ -37,8 +77,10 @@ public:
     }
 
 private:
-    bool active = true;
-    std::vector<std::shared_ptr<Component>> components;
+    bool active;
+    bool deleted;
+    std::vector<Group> groups;
+    std::vector<std::unique_ptr<Component>> components;
 
     ComponentArray componentArray;
     ComponentBitSet componentBitSet;

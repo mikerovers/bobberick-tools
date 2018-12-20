@@ -1,32 +1,41 @@
 #include "TransformComponent.h"
 
-TransformComponent::TransformComponent()
+TransformComponent::TransformComponent(): scale(1)
 {
-}
 
-TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, int sc)
-{
-    position.setX(xPos);
-    position.setY(yPos);
-    height = h;
-    width = w;
-    scale = sc;
 }
-
 
 TransformComponent::TransformComponent(int sc)
 {
-    scale = sc;
+	scale = sc;
 }
 
+TransformComponent::TransformComponent(float xPos, float yPos, int h, int w, double sc)
+{
+	position.x = xPos;
+	position.y = yPos;
+	height = h;
+	width = w;
+	scale = sc;
+}
 
 void TransformComponent::update()
 {
-    position.setX(velocity.getX() * speed);
-    position.setY(velocity.getY() * speed);
+    position.x = position.x + velocity.x * speed;
+    position.y = position.y + velocity.y * speed;
 }
 
 void TransformComponent::init()
 {
-    velocity.Zero();
+    velocity.zero();
+}
+
+double TransformComponent::getScale() const
+{
+	return scale;
+}
+
+void TransformComponent::setScale(const double nScale)
+{
+	scale = nScale;
 }

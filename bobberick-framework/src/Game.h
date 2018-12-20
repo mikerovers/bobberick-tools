@@ -5,35 +5,35 @@
 #include "StateMachine.h"
 #include "services/ServiceManager.h"
 #include "entity/systems/DrawSystem.h"
+#include "entity/systems/InputSystem.h"
+#include "util/SDL_Deleter.h"
+#include "services/FrameHandler.h"
 
 class Game
 {
 public:
+	virtual ~Game() = default;
+	Game();
     bool init(const char* title, int xPos, int yPos, int height, int width, int flags);
-    void render();
-    void handleEvents();
-    void clean();
-    void update();
+    virtual bool setup();
+    virtual void start();
+    virtual void clean();
+    virtual void update();
 
-    bool running();
-
-    StateMachine* getStateMachine();
-    SDL_Renderer* getRenderer() const;
+    bool running() const;
 
     int getGameWidth() const;
     int getGameHeight() const;
 
-private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+protected:
+    SDL_WindowPointer window;
+    SDL_RendererPointer renderer;
 
     int gameHeight;
     int gameWidth;
 
     bool isRunning;
-
-    StateMachine* stateMachine;
-    DrawSystem* drawSystem;
+    //TODO Make a interface for system registring. Maybe in the statemachine?
 };
 
 
