@@ -27,7 +27,7 @@ bool BobberGame::setup()
 		stateFactory = std::make_unique<StateFactory>();
 
 		ServiceManager::Instance()->getService<StateMachine>().pushState(stateFactory->createState("MainMenuState"));
-		//ServiceManager::Instance()->getService<StateMachine>().pushState(stateFactory->createState("SplashScreenState"));
+		ServiceManager::Instance()->getService<StateMachine>().pushState(stateFactory->createState("SplashScreenState"));
 
 		return true;
 	}
