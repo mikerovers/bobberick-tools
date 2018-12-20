@@ -69,6 +69,7 @@ bool Level4State::onEnter()
 	EnemyFactory enemyFactory{};
 
 	auto& boss = enemyFactory.getEnemy(5, "devil");
+	ServiceManager::Instance()->getService<EntityManager>().addEntityToGroup(boss, getStateID());
 
 	boss.getComponent<TransformComponent>().position = Vector2D{600, 600};
 	boss.addComponent<EndBossComponent>();
