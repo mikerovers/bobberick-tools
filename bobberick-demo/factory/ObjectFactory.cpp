@@ -98,7 +98,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "orc";
 		manufacturerSpawn.spawnTimer = 750;
-		manufacturerSpawn.maxCount = 10;
+		manufacturerSpawn.maxCount = 10 * level;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
 
@@ -112,7 +112,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "bird";
 		manufacturerSpawn.spawnTimer = 500;
-		manufacturerSpawn.maxCount = 10;
+		manufacturerSpawn.maxCount = 10 * level;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
 
@@ -126,7 +126,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
         auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
         manufacturerSpawn.type = "fireWizard";
         manufacturerSpawn.spawnTimer = 1000;
-        manufacturerSpawn.maxCount = 10;
+        manufacturerSpawn.maxCount = 10 * level;
         manufacturerTransform.position.x = object->position->x;
         manufacturerTransform.position.y = object->position->y;
 
@@ -140,7 +140,7 @@ Entity& ObjectFactory::getObject(const TileObject* object)
 		auto& manufacturerSpawn = manufacturer.getComponent<SpawnComponent>();
 		manufacturerSpawn.type = "chicken";
 		manufacturerSpawn.spawnTimer = 250;
-		manufacturerSpawn.maxCount = 20;
+		manufacturerSpawn.maxCount = 20 * level;
 		manufacturerTransform.position.x = object->position->x;
 		manufacturerTransform.position.y = object->position->y;
 
